@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+./bin/composer install --prefer-dist --no-interaction --no-dev
