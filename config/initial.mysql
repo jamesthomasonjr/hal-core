@@ -1,0 +1,234 @@
+-- Users Table
+-- Keep track of known users accounts
+CREATE TABLE Users (
+    UserId                  INT UNSIGNED    NOT NULL,
+    UserHandle              CHAR(32)        NOT NULL,
+    UserName                CHAR(128)       NOT NULL,
+    UserEmail               CHAR(128)       NOT NULL,
+    UserPictureUrl          CHAR(128)       NOT NULL,
+    PRIMARY KEY             (UserId),
+    UNIQUE                  (UserName)
+)
+    ENGINE                  InnoDB
+    CHARACTER SET           utf8;
+
+-- Consumer
+-- Keep track of api consumers
+CREATE TABLE Consumers (
+  ConsumerId                INT UNSIGNED    NOT NULL AUTO_INCREMENT,
+  ConsumerKey               CHAR(24)        NOT NULL,
+  ConsumerName              CHAR(48)        NOT NULL,
+  ConsumerSecret            CHAR(128)       NOT NULL,
+  PRIMARY KEY               (ConsumerId)
+)
+  ENGINE                    InnoDB
+  CHARACTER SET             utf8;
+
+-- Environments Tables
+-- Keep track of deployment environments.
+CREATE TABLE Environments (
+    EnvironmentId           INT UNSIGNED    NOT NULL AUTO_INCREMENT,
+    EnvironmentKey          CHAR(24)        CHARACTER SET ascii NOT NULL,
+    EnvironmentOrder        INT UNSIGNED    NOT NULL,
+    PRIMARY KEY             (EnvironmentId),
+    UNIQUE                  (EnvironmentKey)
+)
+    ENGINE                  InnoDB
+    CHARACTER SET           utf8;
+
+-- Servers Table
+-- Keep track of deployment servers.
+CREATE TABLE Servers (
+    ServerId                INT UNSIGNED    NOT NULL AUTO_INCREMENT,
+    ServerName              CHAR(24)        CHARACTER SET ascii NOT NULL,
+    EnvironmentId           INT UNSIGNED    NOT NULL,
+    PRIMARY KEY             (ServerId),
+    UNIQUE                  (ServerName),
+    CONSTRAINT              ServerToEnvironment
+      FOREIGN KEY (EnvironmentId) REFERENCES Environments (EnvironmentId)
+      ON UPDATE CASCADE,
+    INDEX                   (EnvironmentId)                     -- WHERE EnvironmentId = ?
+)
+    ENGINE                  InnoDB
+    CHARACTER SET           utf8;
+
+-- Server Properties
+-- Keep track of server properties (software versions, package versions, etc.)
+CREATE TABLE ServerProperties (
+    ServerPropertyId        INT UNSIGNED    NOT NULL AUTO_INCREMENT,
+    ServerPropertyName      CHAR(24)        CHARACTER SET ascii NOT NULL,
+    ServerPropertyVersion   CHAR(16)        CHARACTER SET ascii NOT NULL,
+    ServerId                INT UNSIGNED    NOT NULL,
+    CONSTRAINT              ServerPropertyToServer
+      FOREIGN KEY (ServerId) REFERENCES Servers (ServerId)
+      ON UPDATE CASCADE
+      ON DELETE CASCADE,
+    PRIMARY KEY             (ServerPropertyId)
+)
+    ENGINE                  InnoDB
+    CHARACTER SET           utf8;
+
+-- [NEW] Groups Table [replaces Arrangements table]
+-- Keep track of repository groups.
+CREATE TABLE Groups (
+    GroupId                 INT UNSIGNED    NOT NULL AUTO_INCREMENT,
+    GroupKey                CHAR(24)        CHARACTER SET ascii NOT NULL,
+    GroupName               CHAR(48)        NOT NULL,
+    PRIMARY KEY             (GroupId),
+    UNIQUE                  (GroupKey)
+)
+    ENGINE                  InnoDB
+    CHARACTER SET           utf8;
+
+-- Repositories Table
+-- Keep track of application repositories
+CREATE TABLE Repositories (
+    RepositoryId            INT UNSIGNED    NOT NULL AUTO_INCREMENT,
+    RepositoryKey           CHAR(24)        CHARACTER SET ascii NOT NULL,
+    RepositoryDescription   CHAR(255)       NOT NULL DEFAULT '',
+    RepositoryGithubUser    CHAR(48)        NOT NULL,
+    RepositoryGithubRepo    CHAR(48)        NOT NULL,
+    RepositoryEmail         CHAR(128)       NOT NULL,
+    RepositoryBuildCmd      CHAR(128)       NOT NULL DEFAULT '',
+    RepositoryPrePushCmd    CHAR(128)       NOT NULL DEFAULT '',
+    RepositoryPostPushCmd   CHAR(128)       NOT NULL DEFAULT '',
+    GroupId                 INT UNSIGNED    NOT NULL,
+    PRIMARY KEY             (RepositoryId),
+    UNIQUE                  (RepositoryKey),
+    CONSTRAINT              RepositoryToGroup
+      FOREIGN KEY (GroupId) REFERENCES Groups (GroupId)
+      ON UPDATE CASCADE,
+    INDEX                   (GroupId)                           -- WHERE GroupId = ?
+)
+    ENGINE                  InnoDB
+    CHARACTER SET           utf8;
+
+-- Deployments Table
+-- Keep track of repository to server deployment relationships.
+CREATE TABLE Deployments (
+    DeploymentId            INT UNSIGNED    NOT NULL AUTO_INCREMENT,
+    DeploymentPath          CHAR(255)       NOT NULL,
+    RepositoryId            INT UNSIGNED    NOT NULL,
+    ServerId                INT UNSIGNED    NOT NULL,
+    PRIMARY KEY             (DeploymentId),
+    UNIQUE                  (RepositoryId, ServerId),
+    CONSTRAINT              DeploymentToRepository
+      FOREIGN KEY (RepositoryId) REFERENCES Repositories (RepositoryId)
+      ON UPDATE CASCADE,
+    CONSTRAINT              DeploymentToServer
+      FOREIGN KEY (ServerId) REFERENCES Servers (ServerId)
+      ON UPDATE CASCADE
+)
+    ENGINE                  InnoDB
+    CHARACTER SET           utf8;
+
+-- [NEW] Builds Table
+-- Keep track of queued, running, finished, and removed builds.
+CREATE TABLE Builds (
+    BuildId                 CHAR(128)       NOT NULL,
+    BuildStart              DATETIME,
+    BuildEnd                DATETIME,
+    BuildStatus             ENUM('Waiting', 'Building', 'Success', 'Error', 'Removed') NOT NULL DEFAULT 'Waiting',
+    BuildBranch             CHAR(64)        NOT NULL,
+    BuildCommit             CHAR(40)        NOT NULL,
+    UserId                  INT UNSIGNED,
+    ConsumerId              INT UNSIGNED,
+    RepositoryId            INT UNSIGNED    NOT NULL,
+    EnvironmentId           INT UNSIGNED    NOT NULL,
+    PRIMARY KEY             (BuildId),
+    CONSTRAINT              BuiltToUser
+      FOREIGN KEY (UserId) REFERENCES Users (UserId)
+      ON UPDATE CASCADE,
+    CONSTRAINT              BuildToConsumer
+      FOREIGN KEY (ConsumerId) REFERENCES Consumers (ConsumerId)
+      ON UPDATE CASCADE,
+    CONSTRAINT              BuildToRepository
+      FOREIGN KEY (RepositoryId) REFERENCES Repositories (RepositoryId)
+      ON UPDATE CASCADE,
+    CONSTRAINT              BuildToEnvironment
+      FOREIGN KEY (EnvironmentId) REFERENCES Environments (EnvironmentId)
+      ON UPDATE CASCADE,
+    INDEX                   (RepositoryId, EnvironmentId),      -- WHERE RepositoryId = ? AND EnvironmentId = ?
+    INDEX                   (BuildStart)                        -- WHERE BuildStart > ?
+)
+    ENGINE          InnoDB
+    CHARACTER SET   utf8;
+
+-- [NEW] Pushes Table
+-- Keep track of queued, running, and finished pushes.
+CREATE TABLE Pushes (
+    PushId                  BIGINT          NOT NULL AUTO_INCREMENT,
+    PushStart               DATETIME,
+    PushEnd                 DATETIME,
+    PushStatus              ENUM('Waiting', 'Pushing', 'Error', 'Success') NOT NULL DEFAULT 'Waiting',
+    UserId                  INT UNSIGNED,
+    ConsumerId              INT UNSIGNED,
+    BuildId                 CHAR(128)       NOT NULL,
+    DeploymentId            INT UNSIGNED    NOT NULL,
+    PRIMARY KEY             (PushId),
+    CONSTRAINT              PushToUser
+      FOREIGN KEY (UserId) REFERENCES Users (UserId)
+      ON UPDATE CASCADE,
+    CONSTRAINT              PushToConsumer
+      FOREIGN KEY (ConsumerId) REFERENCES Consumers (ConsumerId)
+      ON UPDATE CASCADE,
+    CONSTRAINT              PushToBuild
+      FOREIGN KEY (BuildId) REFERENCES Builds (BuildId)
+      ON UPDATE CASCADE,
+    CONSTRAINT              PushToDeployment
+      FOREIGN KEY (DeploymentId) REFERENCES Deployments (DeploymentId)
+      ON UPDATE CASCADE,
+    INDEX                   (BuildId),                        -- WHERE BuildId = ?
+    INDEX                   (DeploymentId),                   -- WHERE DeploymentId = ?
+    INDEX                   (PushStart)                       -- WHERE PushStart > 0
+)
+    ENGINE          InnoDB
+    CHARACTER SET   utf8;
+
+-- Sessions Table
+-- Keep track of sessions across machines.
+CREATE TABLE Sessions (
+    SessionId               CHAR(255)       NOT NULL,
+    SessionData             MEDIUMTEXT      NOT NULL,
+    SessionLastAccess       DATETIME        NOT NULL,
+    PRIMARY KEY             (SessionId)
+)
+    ENGINE                  InnoDB
+    CHARACTER SET           utf8;
+
+-- Subscriptions Table
+-- Keep track of consumer subscriptions
+CREATE TABLE Subscriptions (
+    SubscriptionId          INT UNSIGNED    NOT NULL,
+    SubscriptionUrl         CHAR(255)       NOT NULL,
+    SubscriptionEvent       CHAR(24)        NOT NULL,
+    ConsumerId              INT UNSIGNED    NOT NULL,
+    RepositoryId            INT UNSIGNED    DEFAULT NULL,
+    EnvironmentId           INT UNSIGNED    DEFAULT NULL,
+    ServerId                INT UNSIGNED    DEFAULT NULL,
+    GroupId                 INT UNSIGNED    DEFAULT NULL,
+    CONSTRAINT              SubscriptionToConsumer
+      FOREIGN KEY (ConsumerId) REFERENCES Consumers (ConsumerId)
+      ON UPDATE CASCADE
+      ON DELETE CASCADE,
+    CONSTRAINT              SubscriptionToRepository
+      FOREIGN KEY (RepositoryId) REFERENCES Repositories (RepositoryId)
+      ON UPDATE CASCADE
+      ON DELETE CASCADE,
+    CONSTRAINT              SubscriptionToEnvironment
+      FOREIGN KEY (EnvironmentId) REFERENCES Environments (EnvironmentId)
+      ON UPDATE CASCADE
+      ON DELETE CASCADE,
+    CONSTRAINT              SubscriptionToServer
+      FOREIGN KEY (ServerId) REFERENCES Servers (ServerId)
+      ON UPDATE CASCADE
+      ON DELETE CASCADE,
+    CONSTRAINT              SubscriptionToGroup
+      FOREIGN KEY (GroupId) REFERENCES Groups (GroupId)
+      ON UPDATE CASCADE
+      ON DELETE CASCADE,
+    PRIMARY KEY             (SubscriptionId),
+    UNIQUE                  (SubscriptionEvent, ConsumerId, RepositoryId, EnvironmentId, ServerId, GroupId)
+)
+    ENGINE                  InnoDB
+    CHARACTER SET           utf8;

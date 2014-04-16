@@ -1,0 +1,19 @@
+services:
+  # Doctrine Configuration
+  doctrine.config:
+    class:          "Doctrine\ORM\Configuration"
+    factory_class:  "Doctrine\ORM\Tools\Setup"
+    factory_method: createAnnotationMetadataConfiguration
+    arguments:
+      - %doctrine.mappings%
+      - %doctrine.devmode%
+
+  # Doctrine Entity Manager
+  doctrine.em:
+    class:          "Doctrine\ORM\EntityManager"
+    factory_class:  "Doctrine\ORM\EntityManager"
+    factory_method: create
+    arguments:
+      - %doctrine.connection%
+      - @doctrine.config
+

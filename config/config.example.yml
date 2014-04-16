@@ -1,0 +1,11 @@
+parameters:
+  doctrine.mappings:
+    - "%root%/src/QL/Hal/Core/Entity"
+  doctrine.devmode:   true
+  doctrine.connection:
+    driver:     pdo_mysql
+    host:       localhost
+    user:       root
+    password:
+    dbname:     hal
+
