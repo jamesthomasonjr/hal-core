@@ -57,7 +57,7 @@ CREATE TABLE Servers (
 CREATE TABLE ServerProperties (
     ServerPropertyId        INT UNSIGNED    NOT NULL AUTO_INCREMENT,
     ServerPropertyName      CHAR(24)        CHARACTER SET ascii NOT NULL,
-    ServerPropertyVersion   CHAR(16)        CHARACTER SET ascii NOT NULL,
+    ServerPropertyValue     CHAR(16)        CHARACTER SET ascii NOT NULL,
     ServerId                INT UNSIGNED    NOT NULL,
     CONSTRAINT              ServerPropertyToServer
       FOREIGN KEY (ServerId) REFERENCES Servers (ServerId)
@@ -89,9 +89,9 @@ CREATE TABLE Repositories (
     RepositoryGithubUser    CHAR(48)        NOT NULL,
     RepositoryGithubRepo    CHAR(48)        NOT NULL,
     RepositoryEmail         CHAR(128)       NOT NULL,
-    RepositoryBuildCmd      CHAR(128)       NOT NULL DEFAULT '',
-    RepositoryPrePushCmd    CHAR(128)       NOT NULL DEFAULT '',
-    RepositoryPostPushCmd   CHAR(128)       NOT NULL DEFAULT '',
+    RepositoryBuildCmd      CHAR(128),
+    RepositoryPrePushCmd    CHAR(128),
+    RepositoryPostPushCmd   CHAR(128),
     GroupId                 INT UNSIGNED    NOT NULL,
     PRIMARY KEY             (RepositoryId),
     UNIQUE                  (RepositoryKey),

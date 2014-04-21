@@ -35,7 +35,7 @@ class Repository
      *  The repository description
      *
      *  @var string
-     *  @Column(name="RepositoryDescription", type="string", length="255")
+     *  @Column(name="RepositoryDescription", type="string", length=255)
      */
     private $description;
 
@@ -66,24 +66,24 @@ class Repository
     /**
      *  The repository build command
      *
-     *  @var string
-     *  @Column(name="RepositoryBuildCmd", type="string", length=128)
+     *  @var null|string
+     *  @Column(name="RepositoryBuildCmd", type="string", length=128, nullable=true)
      */
     private $buildCmd;
 
     /**
      *  The repository pre push command
      *
-     *  @var string
-     *  @Column(name="RepositoryPrePushCmd", type="string", length=128)
+     *  @var null|string
+     *  @Column(name="RepositoryPrePushCmd", type="string", length=128, nullable = true)
      */
     private $prePushCmd;
 
     /**
      *  The repository post push command
      *
-     *  @var string
-     *  @Column(name="RepositoryPostPushCommand", type="string", length=128)
+     *  @var null|string
+     *  @Column(name="RepositoryPostPushCmd", type="string", length=128, nullable=true)
      */
     private $postPushCmd;
 
@@ -125,9 +125,9 @@ class Repository
     /**
      *  Set the repository build command
      *
-     *  @param string $buildCmd
+     *  @param null|string $buildCmd
      */
-    public function setBuildCmd($buildCmd)
+    public function setBuildCmd($buildCmd = null)
     {
         $this->buildCmd = $buildCmd;
     }
@@ -135,7 +135,7 @@ class Repository
     /**
      *  Get the repository build command
      *
-     *  @return string
+     *  @return null|string
      */
     public function getBuildCmd()
     {
@@ -225,9 +225,9 @@ class Repository
     /**
      *  Set the repository group
      *
-     *  @param \QL\Hal\Core\Entity\Group $group
+     *  @param Group $group
      */
-    public function setGroup($group)
+    public function setGroup(Group $group)
     {
         $this->group = $group;
     }
@@ -235,7 +235,7 @@ class Repository
     /**
      *  Get the repository group
      *
-     *  @return \QL\Hal\Core\Entity\Group
+     *  @return Group
      */
     public function getGroup()
     {
@@ -285,9 +285,9 @@ class Repository
     /**
      *  Set the repository post push command
      *
-     *  @param string $postPushCmd
+     *  @param null|string $postPushCmd
      */
-    public function setPostPushCmd($postPushCmd)
+    public function setPostPushCmd($postPushCmd = null)
     {
         $this->postPushCmd = $postPushCmd;
     }
@@ -295,7 +295,7 @@ class Repository
     /**
      *  Get the repository post push command
      *
-     *  @return string
+     *  @return null|string
      */
     public function getPostPushCmd()
     {
@@ -305,9 +305,9 @@ class Repository
     /**
      *  Set the repository pre push command
      *
-     * @param string $prePushCmd
+     * @param null|string $prePushCmd
      */
-    public function setPrePushCmd($prePushCmd)
+    public function setPrePushCmd($prePushCmd = null)
     {
         $this->prePushCmd = $prePushCmd;
     }
@@ -315,7 +315,7 @@ class Repository
     /**
      *  Get the repository pre push command
      *
-     *  @return string
+     *  @return null|string
      */
     public function getPrePushCmd()
     {

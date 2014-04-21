@@ -30,12 +30,12 @@ class ServerProperty
     private $name;
 
     /**
-     *  The server property version
+     *  The server property value
      *
      *  @var string
-     *  @Column(name="ServerPropertyVersion", type="string", length=16)
+     *  @Column(name="ServerPropertyValue", type="string", length=16)
      */
-    private $version;
+    private $value;
 
     /**
      *  @var Server
@@ -96,23 +96,23 @@ class ServerProperty
     }
 
     /**
-     *  Set the server property version
+     *  Set the server property value
      *
-     *  @param string $version
+     *  @param string $value
      */
-    public function setVersion($version)
+    public function setValue($value)
     {
-        $this->version = $version;
+        $this->value = $value;
     }
 
     /**
-     *  Get the server property version
+     *  Get the server property value
      *
      *  @return string
      */
-    public function getVersion()
+    public function getValue()
     {
-        return $this->version;
+        return $this->value;
     }
 
     /**
