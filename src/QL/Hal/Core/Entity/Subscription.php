@@ -3,11 +3,13 @@
 
 namespace QL\Hal\Core\Entity;
 
+use MCP\DataType\HttpUrl;
+
 /**
  *  Subscription Entity
  *
  *  @author Matt Colf <matthewcolf@quickenloans.com>
- *  @Entity
+ *  @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\SubscriptionRepository")
  *  @Table(name="Subscriptions")
  */
 class Subscription
@@ -24,8 +26,8 @@ class Subscription
     /**
      *  The subscription notification URL
      *
-     *  @var string
-     *  @Column(name="SubscriptionUrl", type="string", length=255)
+     *  @var null|HttpUrl
+     *  @Column(name="SubscriptionUrl", type="url")
      */
     private $url;
 
@@ -120,9 +122,9 @@ class Subscription
     /**
      *  Set the subscription notification url
      *
-     *  @param string $url
+     *  @param HttpUrl $url
      */
-    public function setUrl($url)
+    public function setUrl(HttpUrl $url)
     {
         $this->url = $url;
     }
@@ -130,7 +132,7 @@ class Subscription
     /**
      *  Get the subscription notification url
      *
-     *  @return string
+     *  @return null|HttpUrl
      */
     public function getUrl()
     {

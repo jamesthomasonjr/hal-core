@@ -7,7 +7,7 @@ namespace QL\Hal\Core\Entity;
  *  Consumer Entity
  *
  *  @author Matt Colf <matthewcolf@quickenloans.com>
- *  @Entity
+ *  @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\ConsumerRepository")
  *  @Table(name="Consumers")
  */
 class Consumer

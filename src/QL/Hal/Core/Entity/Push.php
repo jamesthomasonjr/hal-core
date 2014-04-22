@@ -3,13 +3,13 @@
 
 namespace QL\Hal\Core\Entity;
 
-use Datetime;
+use MCP\DataType\Time\TimePoint;
 
 /**
  *  Push Entity
  *
  *  @author Matt Colf <matthewcolf@quickenloans.com>
- *  @Entity
+ *  @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\PushRepository")
  *  @Table(name="Pushes")
  */
 class Push
@@ -26,16 +26,16 @@ class Push
     /**
      *  The push start time
      *
-     *  @var Datetime;
-     *  @Column(name="PushStart", type="datetime", nullable=true)
+     *  @var TimePoint|null;
+     *  @Column(name="PushStart", type="timepoint", nullable=true)
      */
     private $start;
 
     /**
      *  The push end time
      *
-     *  @var Datetime;
-     *  @Column(name="PushEnd", type="datetime", nullable=true)
+     *  @var TimePoint;
+     *  @Column(name="PushEnd", type="timepoint", nullable=true)
      */
     private $end;
 
@@ -121,9 +121,9 @@ class Push
     /**
      *  Set the push start time
      *
-     *  @param null|Datetime $start
+     *  @param null|TimePoint $start
      */
-    public function setStart(Datetime $start = null)
+    public function setStart(TimePoint $start = null)
     {
         $this->start = $start;
     }
@@ -131,7 +131,7 @@ class Push
     /**
      *  Get the push start time
      *
-     *  @return null|Datetime
+     *  @return null|TimePoint
      */
     public function getStart()
     {
@@ -141,9 +141,9 @@ class Push
     /**
      *  Set the push end time
      *
-     * @param null|Datetime $end
+     * @param null|TimePoint $end
      */
-    public function setEnd(Datetime $end = null)
+    public function setEnd(TimePoint $end = null)
     {
         $this->end = $end;
     }
@@ -151,7 +151,7 @@ class Push
     /**
      *  Get the push end time
      *
-     *  @return null|Datetime
+     *  @return null|TimePoint
      */
     public function getEnd()
     {

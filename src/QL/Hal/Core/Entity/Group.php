@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *  Group Entity
  *
  *  @author Matt Colf <matthewcolf@quickenloans.com>
- *  @Entity
+ *  @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\GroupRepository")
  *  @Table(name="Groups")
  */
 class Group

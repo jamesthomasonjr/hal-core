@@ -3,13 +3,13 @@
 
 namespace QL\Hal\Core\Entity;
 
-use Datetime;
+use MCP\DataType\Time\TimePoint;
 
 /**
  *  Session Entity
  *
  *  @author Matt Colf <matthewcolf@quickenloans.com>
- *  @Entity
+ *  @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\SessionRepository")
  *  @Table(name="Sessions")
  */
 class Session
@@ -33,8 +33,8 @@ class Session
     /**
      *  The session last access time
      *
-     *  @var Datetime
-     *  @Column(name="SessionLastAccess", type="datetime")
+     *  @var TimePoint
+     *  @Column(name="SessionLastAccess", type="timepoint")
      */
     private $lastAccess;
 
@@ -91,9 +91,9 @@ class Session
     /**
      *  Set the last access time
      *
-     *  @param \Datetime $lastAccess
+     *  @param TimePoint $lastAccess
      */
-    public function setLastAccess($lastAccess)
+    public function setLastAccess(TimePoint $lastAccess)
     {
         $this->lastAccess = $lastAccess;
     }
@@ -101,7 +101,7 @@ class Session
     /**
      *  Get the last access time
      *
-     *  @return \Datetime
+     *  @return TimePoint
      */
     public function getLastAccess()
     {

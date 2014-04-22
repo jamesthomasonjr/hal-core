@@ -7,7 +7,7 @@ namespace QL\Hal\Core\Entity;
  *  Deployment Entity
  *
  *  @author Matt Colf <matthewcolf@quickenloans.com>
- *  @Entity
+ *  @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\DeploymentRepository")
  *  @Table(name="Deployments")
  */
 class Deployment

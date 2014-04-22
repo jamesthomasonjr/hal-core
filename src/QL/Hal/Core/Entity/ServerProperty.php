@@ -7,7 +7,7 @@ namespace QL\Hal\Core\Entity;
  *  Server Property Entity
  *
  *  @author Matt Colf <matthewcolf@quickenloans.com>
- *  @Entity
+ *  @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\ServerPropertyRepository")
  *  @Table(name="ServerProperties")
  */
 class ServerProperty

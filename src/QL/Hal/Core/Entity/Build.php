@@ -3,13 +3,13 @@
 
 namespace QL\Hal\Core\Entity;
 
-use Datetime;
+use MCP\DataType\Time\TimePoint;
 
 /**
  *  Build Entity
  *
  *  @author Matt Colf <matthewcolf@quickenloans.com>
- *  @Entity
+ *  @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\BuildRepository")
  *  @Table(name="Builds")
  */
 class Build
@@ -25,16 +25,16 @@ class Build
     /**
      *  The build start time
      *
-     *  @var null|Datetime
-     *  @Column(name="BuildStart", type="datetime", nullable=true)
+     *  @var null|TimePoint
+     *  @Column(name="BuildStart", type="timepoint", nullable=true)
      */
     private $start;
 
     /**
      *  The build end time
      *
-     *  @var null|Datetime
-     *  @Column(name="BuildEnd", type="datetime", nullable=true)
+     *  @var null|TimePoint
+     *  @Column(name="BuildEnd", type="timepoint", nullable=true)
      */
     private $end;
 
@@ -138,9 +138,9 @@ class Build
     /**
      *  Set the build start time
      *
-     *  @param Datetime|null $start
+     *  @param TimePoint|null $start
      */
-    public function setStart(Datetime $start = null)
+    public function setStart(TimePoint $start = null)
     {
         $this->start = $start;
     }
@@ -148,7 +148,7 @@ class Build
     /**
      *  Get the build start time
      *
-     *  @return Datetime|null
+     *  @return TimePoint|null
      */
     public function getStart()
     {
@@ -158,9 +158,9 @@ class Build
     /**
      *  Set the build end time
      *
-     * @param Datetime|null $end
+     * @param TimePoint|null $end
      */
-    public function setEnd(Datetime $end = null)
+    public function setEnd(TimePoint $end = null)
     {
         $this->end = $end;
     }
@@ -168,7 +168,7 @@ class Build
     /**
      *  Get the build end time
      *
-     *  @return Datetime|null
+     *  @return TimePoint|null
      */
     public function getEnd()
     {

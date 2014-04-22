@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *  Repository Entity
  *
  *  @author Matt Colf <matthewcolf@quickenloans.com>
- *  @Entity
+ *  @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\RepositoryRepository")
  *  @Table(name="Repositories")
  */
 class Repository

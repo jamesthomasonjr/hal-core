@@ -2,11 +2,13 @@
 
 namespace QL\Hal\Core\Entity;
 
+use MCP\DataType\HttpUrl;
+
 /**
  *  User Entity
  *
  *  @author Matt Colf <matthewcolf@quickenloans.com>
- *  @Entity
+ *  @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\UserRepository")
  *  @Table(name="Users")
  */
 class User
@@ -46,8 +48,8 @@ class User
     /**
      *  The URL of the user picture.
      *
-     *  @var string
-     *  @Column(name="UserPictureUrl", type="string", length=128)
+     *  @var null|HttpUrl
+     *  @Column(name="UserPictureUrl", type="url")
      */
     private $pictureUrl;
 
@@ -146,9 +148,9 @@ class User
     /**
      *  Set the user picture url
      *
-     *  @param string $pictureUrl
+     *  @param HttpUrl $pictureUrl
      */
-    public function setPictureUrl($pictureUrl)
+    public function setPictureUrl(HttpUrl $pictureUrl)
     {
         $this->pictureUrl = $pictureUrl;
     }
@@ -156,7 +158,7 @@ class User
     /**
      *  Get the user picture url
      *
-     *  @return string
+     *  @return null|HttpUrl
      */
     public function getPictureUrl()
     {

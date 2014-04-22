@@ -7,7 +7,7 @@ namespace QL\Hal\Core\Entity;
  *  Environment Entity
  *
  *  @author Matt Colf <matthewcolf@quickenloans.com>
- *  @Entity
+ *  @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\EnvironmentRepository")
  *  @Table(name="Environments")
  */
 class Environment
