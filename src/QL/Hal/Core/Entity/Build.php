@@ -42,7 +42,7 @@ class Build
      *  The build status
      *
      *  @var string
-     *  @Column(name="BuildStatus", type="string")
+     *  @Column(name="BuildStatus", type="buildstatusenum")
      */
     private $status;
 

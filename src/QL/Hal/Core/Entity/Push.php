@@ -43,7 +43,7 @@ class Push
      *  The push status
      *
      *  @var string
-     *  @Column(name="PushStatus", type="string")
+     *  @Column(name="PushStatus", type="pushstatusenum")
      */
     private $status;
 
