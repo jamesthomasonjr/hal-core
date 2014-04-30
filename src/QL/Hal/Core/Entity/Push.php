@@ -78,7 +78,7 @@ class Push
      *  The push deployment
      *
      *  @var Deployment
-     *  @OneToOne(targetEntity="Deployment")
+     *  @ManyToOne(targetEntity="Deployment", inversedBy="pushes")
      *  @JoinColumn(name="DeploymentId", referencedColumnName="DeploymentId")
      */
     private $deployment;

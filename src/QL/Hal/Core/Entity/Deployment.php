@@ -3,6 +3,8 @@
 
 namespace QL\Hal\Core\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  *  Deployment Entity
  *
@@ -44,6 +46,13 @@ class Deployment
     private $server;
 
     /**
+     *  @var ArrayCollection
+     *  @OneToMany(targetEntity="Push", mappedBy="deployment")
+     *  @OrderBy({"start" = "DESC"})
+     */
+    private $pushes;
+
+    /**
      *  Constructor
      */
     public function __construct()
@@ -52,6 +61,7 @@ class Deployment
         $this->path = null;
         $this->repository = null;
         $this->server = null;
+        $this->pushes = new ArrayCollection();
     }
 
     /**
