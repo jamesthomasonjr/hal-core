@@ -48,7 +48,7 @@ class TimePointType extends BaseType
             return null;
         }
 
-        if (!$date = DateTime::createFromFormat('', $value, new DateTimeZone('UTC'))) {
+        if (!$date = DateTime::createFromFormat('Y-m-d H:i:s', $value, new DateTimeZone('UTC'))) {
             return null;
         }
 
