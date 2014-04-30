@@ -144,4 +144,24 @@ class Deployment
         return $this->server;
     }
 
+    /**
+     *  Set the deployment pushes
+     *
+     *  @param ArrayCollection $pushes
+     */
+    public function setPushes($pushes)
+    {
+        $this->pushes = $pushes;
+    }
+
+    /**
+     *  Get the deployment pushes
+     *
+     *  @return ArrayCollection
+     */
+    public function getPushes()
+    {
+        return $this->pushes;
+    }
+
 }
