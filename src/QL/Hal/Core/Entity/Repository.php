@@ -67,7 +67,7 @@ class Repository
      *  The repository build command
      *
      *  @var null|string
-     *  @Column(name="RepositoryBuildCmd", type="string", length=128, nullable=true)
+     *  @Column(name="RepositoryBuildCmd", type="string", length=255, nullable=true)
      */
     private $buildCmd;
 

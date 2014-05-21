@@ -4,8 +4,8 @@ parameters:
   doctrine.devmode:   true
   doctrine.connection:
     driver:     pdo_mysql
-    host:       localhost
-    user:       root
-    password:
-    dbname:     hal
+    host:       $DB_SERVER_NAME
+    user:       $DB_USER_NAME
+    password:   $DB_PASSWORD
+    dbname:     $DB_NAME
 
