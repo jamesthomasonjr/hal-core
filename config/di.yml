@@ -6,8 +6,14 @@ services:
     factory_class:    "Doctrine\ORM\Tools\Setup"
     factory_method:   createAnnotationMetadataConfiguration
     arguments:
-      - %doctrine.mappings%
+      -
+        - @doctrine.mapping
       - %doctrine.devmode%
+
+  doctrine.mapping:
+    class: 'DOES_NOT_MATTER'
+    factory_class: 'QL\Hal\Core\EntityMapping'
+    factory_method: 'path'
 
   # Doctrine Entity Manager Configurator
   doctrine.em.config:
