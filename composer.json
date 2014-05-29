@@ -25,17 +25,15 @@
     ],
     "require": {
         "php-64bit":                        ">=5.4.0",
+        "ql/mcp-core":                      "*",
         "ql/mcp-corp-account":              "*@RC",
-        "knplabs/github-api":               "*",
-        "monolog/monolog":                  "~1.7@dev",
-        "swiftmailer/swiftmailer":          "*",
         "doctrine/orm":                     "~2.4",
         "symfony/yaml":                     "*"
     },
     "require-dev": {
         "symfony/dependency-injection":     "*",
         "symfony/config":                   "*",
-        "phpmd/phpmd":                      "*",
+        "phpmd/phpmd":                      "1.5.*",
         "phpunit/phpunit":                  "*",
         "squizlabs/php_codesniffer":        "*"
     },
