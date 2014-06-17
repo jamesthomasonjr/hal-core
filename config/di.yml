@@ -19,6 +19,10 @@ services:
   doctrine.em.config:
     class:            "QL\Hal\Core\Entity\Configurator\EntityManagerConfigurator"
 
+  # Doctrine Event Manager
+  doctrine.events:
+    class:            "Doctrine\Common\EventManager"
+
   # Doctrine Entity Manager
   doctrine.em:
     class:            "Doctrine\ORM\EntityManager"
@@ -27,6 +31,7 @@ services:
     arguments:
       - %doctrine.connection%
       - @doctrine.config
+      - @doctrine.events
     configurator:
       - @doctrine.em.config
       - configure
