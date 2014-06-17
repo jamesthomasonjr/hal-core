@@ -232,3 +232,21 @@ CREATE TABLE Subscriptions (
 )
     ENGINE                  InnoDB
     CHARACTER SET           utf8;
+
+-- Audit Logs Table
+-- Keep track of entity changes by users.
+CREATE TABLE Logs (
+    LogId                   BIGINT          NOT NULL AUTO_INCREMENT,
+    UserId                  INT UNSIGNED    NOT NULL,
+    Recorded                DATETIME        NOT NULL,
+    Entity                  CHAR(255)       NOT NULL,
+    Action                  CHAR(24)        NOT NULL,
+    Data                    TEXT            DEFAULT NULL,
+    CONSTRAINT              LogToUser
+      FOREIGN KEY (UserId) REFERENCES Users (UserId)
+      ON UPDATE CASCADE,
+    PRIMARY KEY             (LogId),
+    INDEX                   (UserId)                -- WHERE UserId = ?
+)
+    ENGINE                  InnoDB
+    CHARACTER SET           utf8;

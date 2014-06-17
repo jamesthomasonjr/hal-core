@@ -126,3 +126,11 @@ services:
     factory_method:   getRepository
     arguments:
       - "QL\\Hal\\Core\\Entity\\User"
+
+  # Log Repository
+  log.repo:
+    class:            "QL\Hal\Core\Entity\Repository\LogRepository"
+    factory_service:  doctrine.em
+    factory_method:   getRepository
+    arguments:
+      - "QL\\Hal\\Core\\Entity\\Log"

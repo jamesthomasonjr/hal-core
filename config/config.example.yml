@@ -6,4 +6,3 @@ parameters:
     user:       $DB_USER_NAME
     password:   $DB_PASSWORD
     dbname:     $DB_NAME
-
