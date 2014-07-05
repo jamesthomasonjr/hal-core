@@ -36,4 +36,18 @@ class PushRepository extends EntityRepository
                           ->setParameter('buildstatus', 'Success');
         return $query->getResult();
     }
+
+    /**
+     * Get all pushes for a repository
+     *
+     * @param Repository $repository
+     * @return array
+     */
+    public function getForRepository(Repository $repository)
+    {
+        $dql = 'SELECT p FROM QL\Hal\Core\Entity\Push p JOIN p.deployment d WHERE d.repository = :repo ORDER BY p.end DESC';
+        $query = $this->_em->createQuery($dql)
+            ->setParameter('repo', $repository);
+        return $query->getResult();
+    }
 }
