@@ -3,6 +3,7 @@
 namespace QL\Hal\Core\Entity;
 
 use MCP\DataType\HttpUrl;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  *  User Entity
@@ -54,6 +55,24 @@ class User
     private $pictureUrl;
 
     /**
+     * All pushes done by the user.
+     *
+     * @var ArrayCollection
+     * @OneToMany(targetEntity="Push", mappedBy="user")
+     * @OrderBy({"end" = "DESC"})
+     */
+    private $pushes;
+
+    /**
+     * All builds done by the user.
+     *
+     * @var ArrayCollection
+     * @OneToMany(targetEntity="Build", mappedBy="user")
+     * @OrderBy({"end" = "DESC"})
+     */
+    private $builds;
+
+    /**
      *  Constructor
      */
     public function __construct()
@@ -63,6 +82,8 @@ class User
         $this->name = null;
         $this->email = null;
         $this->pictureUrl = null;
+        $this->pushes = new ArrayCollection();
+        $this->builds = new ArrayCollection();
     }
 
     /**
@@ -164,5 +185,46 @@ class User
     {
         return $this->pictureUrl;
     }
+
+    /**
+     * Set the the user builds
+     *
+     * @param ArrayCollection $builds
+     */
+    public function setBuilds(ArrayCollection $builds)
+    {
+        $this->builds = $builds;
+    }
+
+    /**
+     * Get the user builds
+     *
+     * @return ArrayCollection
+     */
+    public function getBuilds()
+    {
+        return $this->builds;
+    }
+
+    /**
+     * Set the user pushes
+     *
+     * @param ArrayCollection $pushes
+     */
+    public function setPushes(ArrayCollection $pushes)
+    {
+        $this->pushes = $pushes;
+    }
+
+    /**
+     * Get the user pushes
+     *
+     * @return ArrayCollection
+     */
+    public function getPushes()
+    {
+        return $this->pushes;
+    }
+
 
 }

@@ -48,7 +48,7 @@ class Deployment
     /**
      *  @var ArrayCollection
      *  @OneToMany(targetEntity="Push", mappedBy="deployment")
-     *  @OrderBy({"start" = "DESC"})
+     *  @OrderBy({"id" = "DESC"})
      */
     private $pushes;
 
