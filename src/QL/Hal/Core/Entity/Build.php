@@ -23,6 +23,14 @@ class Build
     private $id;
 
     /**
+     *  The build created time
+     *
+     *  @var null|TimePoint
+     *  @Column(name="BuildCreated", type="timepoint", nullable=true)
+     */
+    private $created;
+
+    /**
      *  The build start time
      *
      *  @var null|TimePoint
@@ -104,6 +112,7 @@ class Build
     public function __construct()
     {
         $this->id = null;
+        $this->created = null;
         $this->start = null;
         $this->end = null;
         $this->status = null;
@@ -133,6 +142,26 @@ class Build
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     *  Set the push created time
+     *
+     *  @param null|TimePoint $created
+     */
+    public function setCreated(TimePoint $created = null)
+    {
+        $this->created = $created;
+    }
+
+    /**
+     *  Get the push created time
+     *
+     *  @return null|TimePoint
+     */
+    public function getCreated()
+    {
+        return $this->created;
     }
 
     /**

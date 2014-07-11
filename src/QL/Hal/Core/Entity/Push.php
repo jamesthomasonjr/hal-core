@@ -24,6 +24,14 @@ class Push
     private $id;
 
     /**
+     *  The push created time
+     *
+     *  @var TimePoint|null;
+     *  @Column(name="PushCreated", type="timepoint", nullable=true)
+     */
+    private $created;
+
+    /**
      *  The push start time
      *
      *  @var TimePoint|null;
@@ -89,6 +97,7 @@ class Push
     public function __construct()
     {
         $this->id = null;
+        $this->created = null;
         $this->start = null;
         $this->end = null;
         $this->status = null;
@@ -116,6 +125,26 @@ class Push
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     *  Set the push created time
+     *
+     *  @param null|TimePoint $created
+     */
+    public function setCreated(TimePoint $created = null)
+    {
+        $this->created = $created;
+    }
+
+    /**
+     *  Get the push created time
+     *
+     *  @return null|TimePoint
+     */
+    public function getCreated()
+    {
+        return $this->created;
     }
 
     /**
@@ -257,6 +286,4 @@ class Push
     {
         return $this->deployment;
     }
-
-
 }
