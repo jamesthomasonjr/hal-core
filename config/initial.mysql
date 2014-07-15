@@ -126,6 +126,7 @@ CREATE TABLE Deployments (
 -- Keep track of queued, running, finished, and removed builds.
 CREATE TABLE Builds (
     BuildId                 CHAR(128)       NOT NULL,
+    BuildCreated            DATETIME,
     BuildStart              DATETIME,
     BuildEnd                DATETIME,
     BuildStatus             ENUM('Waiting', 'Building', 'Success', 'Error', 'Removed') NOT NULL DEFAULT 'Waiting',
@@ -158,6 +159,7 @@ CREATE TABLE Builds (
 -- Keep track of queued, running, and finished pushes.
 CREATE TABLE Pushes (
     PushId                  BIGINT          NOT NULL AUTO_INCREMENT,
+    PushCreated             DATETIME,
     PushStart               DATETIME,
     PushEnd                 DATETIME,
     PushStatus              ENUM('Waiting', 'Pushing', 'Error', 'Success') NOT NULL DEFAULT 'Waiting',
