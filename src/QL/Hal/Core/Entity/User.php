@@ -92,6 +92,7 @@ class User
         $this->pictureUrl = null;
         $this->pushes = new ArrayCollection();
         $this->builds = new ArrayCollection();
+        $this->isActive = false;
     }
 
     /**
