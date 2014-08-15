@@ -73,6 +73,14 @@ class User
     private $builds;
 
     /**
+     *  The current user status
+     *
+     *  @var boolean
+     *  @Column(name="UserIsActive", type="boolean")
+     */
+    private $isActive;
+
+    /**
      *  Constructor
      */
     public function __construct()
@@ -226,5 +234,23 @@ class User
         return $this->pushes;
     }
 
+    /**
+     *  Set the user status
+     *
+     *  @param bool $isActive
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+    }
 
+    /**
+     *  Get the user status
+     *
+     *  @return boolean
+     */
+    public function isActive()
+    {
+        return $this->isActive;
+    }
 }

@@ -6,6 +6,7 @@ CREATE TABLE Users (
     UserName                CHAR(128)       NOT NULL,
     UserEmail               CHAR(128)       NOT NULL,
     UserPictureUrl          CHAR(128)       NOT NULL,
+    UserIsActive            TINYINT(1)      NOT NULL,
     PRIMARY KEY             (UserId),
     UNIQUE                  (UserName)
 )
