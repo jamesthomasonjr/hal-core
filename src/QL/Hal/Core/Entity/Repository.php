@@ -72,6 +72,14 @@ class Repository
     private $buildCmd;
 
     /**
+     *  The repository build transform command to be run before push
+     *
+     *  @var null|string
+     *  @Column(name="RepositoryBuildTransformCmd", type="string", length=255, nullable=true)
+     */
+    private $buildTransformCmd;
+
+    /**
      *  The repository pre push command
      *
      *  @var null|string
@@ -116,6 +124,7 @@ class Repository
         $this->githubRepo = null;
         $this->email = null;
         $this->buildCmd = null;
+        $this->buildTransformCmd = null;
         $this->prePushCmd = null;
         $this->postPushCmd = null;
         $this->group = null;
@@ -140,6 +149,26 @@ class Repository
     public function getBuildCmd()
     {
         return $this->buildCmd;
+    }
+
+    /**
+     *  Set the repository build transform command
+     *
+     *  @param null|string $buildTransformCmd
+     */
+    public function setBuildTransformCmd($buildTransformCmd = null)
+    {
+        $this->buildTransformCmd = $buildTransformCmd;
+    }
+
+    /**
+     *  Get the repository build transform command
+     *
+     *  @return null|string
+     */
+    public function getBuildTransformCmd()
+    {
+        return $this->buildTransformCmd;
     }
 
     /**
