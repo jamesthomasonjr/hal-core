@@ -84,25 +84,26 @@ CREATE TABLE Groups (
 -- Repositories Table
 -- Keep track of application repositories
 CREATE TABLE Repositories (
-    RepositoryId            INT UNSIGNED    NOT NULL AUTO_INCREMENT,
-    RepositoryKey           CHAR(24)        CHARACTER SET ascii NOT NULL,
-    RepositoryDescription   CHAR(255)       NOT NULL DEFAULT '',
-    RepositoryGithubUser    CHAR(48)        NOT NULL,
-    RepositoryGithubRepo    CHAR(48)        NOT NULL,
-    RepositoryEmail         CHAR(128)       NOT NULL,
-    RepositoryBuildCmd      CHAR(255),
-    RepositoryPrePushCmd    CHAR(128),
-    RepositoryPostPushCmd   CHAR(128),
-    GroupId                 INT UNSIGNED    NOT NULL,
-    PRIMARY KEY             (RepositoryId),
-    UNIQUE                  (RepositoryKey),
-    CONSTRAINT              RepositoryToGroup
-      FOREIGN KEY (GroupId) REFERENCES Groups (GroupId)
+    RepositoryId                    INT UNSIGNED    NOT NULL AUTO_INCREMENT,
+    RepositoryKey                   CHAR(24)        CHARACTER SET ascii NOT NULL,
+    RepositoryDescription           CHAR(255)       NOT NULL DEFAULT '',
+    RepositoryGithubUser            CHAR(48)        NOT NULL,
+    RepositoryGithubRepo            CHAR(48)        NOT NULL,
+    RepositoryEmail                 CHAR(128)       NOT NULL,
+    RepositoryBuildCmd              CHAR(255),
+    RepositoryBuildTransformCmd     CHAR(255),
+    RepositoryPrePushCmd            CHAR(128),
+    RepositoryPostPushCmd           CHAR(128),
+    GroupId                         INT UNSIGNED    NOT NULL,
+    PRIMARY KEY                     (RepositoryId),
+    UNIQUE                          (RepositoryKey),
+    CONSTRAINT                      RepositoryToGroup
+      FOREIGN KEY (GroupId)         REFERENCES Groups (GroupId)
       ON UPDATE CASCADE,
-    INDEX                   (GroupId)                           -- WHERE GroupId = ?
+    INDEX                           (GroupId)                   -- WHERE GroupId = ?
 )
-    ENGINE                  InnoDB
-    CHARACTER SET           utf8;
+    ENGINE                          InnoDB
+    CHARACTER SET                   utf8;
 
 -- Deployments Table
 -- Keep track of repository to server deployment relationships.
