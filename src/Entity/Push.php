@@ -97,6 +97,14 @@ class Push
     private $deployment;
 
     /**
+     *  The event logs for this job
+     *
+     *  @var ArrayCollection
+     *  @OneToMany(targetEntity="EventLog", mappedBy="push")
+     */
+    private $logs;
+
+    /**
      *  Constructor
      */
     public function __construct()
@@ -110,6 +118,7 @@ class Push
         $this->consumer = null;
         $this->build = null;
         $this->deployment = null;
+        $this->logs = null;
     }
 
     /**

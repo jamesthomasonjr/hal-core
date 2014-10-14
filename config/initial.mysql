@@ -254,3 +254,25 @@ CREATE TABLE AuditLogs (
 )
     ENGINE                  InnoDB
     CHARACTER SET           utf8;
+
+-- Event Logs Table
+-- Keep track of entity changes by users.
+CREATE TABLE EventLogs (
+    EventLogId              BIGINT          NOT NULL AUTO_INCREMENT,
+    Event                   ENUM('build.created', 'build.start', 'build.end', 'build.success', 'build.failure', 'push.created', 'push.start', 'push.end', 'push.success', 'push.failure', 'unknown') NOT NULL DEFAULT 'unknown',
+    Recorded                DATETIME        NOT NULL,
+    BuildId                 CHAR(128)       NOT NULL,
+    PushId                  CHAR(128)       NOT NULL,
+    Context                 MEDIUMBLOB      DEFAULT NULL,
+    CONSTRAINT              EventToBuild
+      FOREIGN KEY (BuildId) REFERENCES Builds (BuildId)
+      ON UPDATE CASCADE,
+    CONSTRAINT              EventToPush
+      FOREIGN KEY (PushId) REFERENCES Pushes (PushId)
+      ON UPDATE CASCADE,
+    PRIMARY KEY             (EventLogId),
+    INDEX                   (BuildId),                        -- WHERE BuildId = ?
+    INDEX                   (PushId)                          -- WHERE PushId = ?
+)
+    ENGINE                  InnoDB
+    CHARACTER SET           utf8;

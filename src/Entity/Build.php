@@ -112,6 +112,14 @@ class Build
     private $environment;
 
     /**
+     *  The event logs for this job
+     *
+     *  @var ArrayCollection
+     *  @OneToMany(targetEntity="EventLog", mappedBy="build")
+     */
+    private $logs;
+
+    /**
      *  Constructor
      */
     public function __construct()
@@ -127,6 +135,7 @@ class Build
         $this->consumer = null;
         $this->repository = null;
         $this->environment = null;
+        $this->logs = null;
     }
 
     /**
