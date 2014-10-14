@@ -239,8 +239,8 @@ CREATE TABLE Subscriptions (
 
 -- Audit Logs Table
 -- Keep track of entity changes by users.
-CREATE TABLE Logs (
-    LogId                   BIGINT          NOT NULL AUTO_INCREMENT,
+CREATE TABLE AuditLogs (
+    AuditLogId              BIGINT          NOT NULL AUTO_INCREMENT,
     UserId                  INT UNSIGNED    NOT NULL,
     Recorded                DATETIME        NOT NULL,
     Entity                  CHAR(255)       NOT NULL,
@@ -249,7 +249,7 @@ CREATE TABLE Logs (
     CONSTRAINT              LogToUser
       FOREIGN KEY (UserId) REFERENCES Users (UserId)
       ON UPDATE CASCADE,
-    PRIMARY KEY             (LogId),
+    PRIMARY KEY             (AuditLogId),
     INDEX                   (UserId)                -- WHERE UserId = ?
 )
     ENGINE                  InnoDB

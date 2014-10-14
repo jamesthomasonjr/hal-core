@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityRepository;
  *
  * @author Matt Colf <matthewcolf@quickenloans.com>
  */
-class LogRepository extends EntityRepository
+class AuditLogRepository extends EntityRepository
 {
 
 }

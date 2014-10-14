@@ -6,19 +6,19 @@ namespace QL\Hal\Core\Entity;
 use MCP\DataType\Time\TimePoint;
 
 /**
- * Log Entity
+ * Audit Log Entity
  *
  * @author Matt Colf <matthewcolf@quickenloans.com>
- * @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\LogRepository")
- * @Table(name="Logs")
+ * @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\AuditLogRepository")
+ * @Table(name="AuditLogs")
  */
-class Log
+class AuditLog
 {
     /**
      * The log id
      *
      * @var int
-     * @Id @Column(name="LogId", type="integer", unique=true)
+     * @Id @Column(name="AuditLogId", type="integer", unique=true)
      * @GeneratedValue(strategy="AUTO")
      */
     private $id;
