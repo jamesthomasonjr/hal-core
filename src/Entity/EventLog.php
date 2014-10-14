@@ -35,12 +35,12 @@ class EventLog
     private $event;
 
     /**
-     * When the log was recorded
+     * When the log was created
      *
      * @var Timepoint
-     * @Column(name="Recorded", type="timepoint")
+     * @Column(name="EventLogCreated", type="timepoint")
      */
-    private $recorded;
+    private $created;
 
     /**
      * The build for this event, optional.
@@ -64,9 +64,9 @@ class EventLog
      * The data associated with the event
      *
      * @var string
-     * @Column(name="Context", type="blob", length=10485760)
+     * @Column(name="EventLogData", type="blob", length=10485760)
      */
-    private $context;
+    private $data;
 
     public function __construct()
     {
@@ -77,6 +77,6 @@ class EventLog
         $this->build = null;
         $this->push = null;
 
-        $this->context = null;
+        $this->data = null;
     }
 }
