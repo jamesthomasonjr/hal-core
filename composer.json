@@ -19,7 +19,6 @@
     "require-dev": {
         "symfony/dependency-injection":     "*",
         "symfony/config":                   "*",
-        "phpmd/phpmd":                      "1.5.*",
         "phpunit/phpunit":                  "*",
         "squizlabs/php_codesniffer":        "*"
     },
