@@ -1,9 +1,14 @@
 <?php
+/**
+ * @copyright ©2014 Quicken Loans Inc. All rights reserved. Trade Secret,
+ *    Confidential and Proprietary. Any dissemination outside of Quicken Loans
+ *    is strictly prohibited.
+ */
 
 namespace QL\Hal\Core\Entity;
 
-use MCP\DataType\HttpUrl;
 use Doctrine\Common\Collections\ArrayCollection;
+use MCP\DataType\HttpUrl;
 
 /**
  *  User Entity
@@ -59,7 +64,7 @@ class User
      *
      * @var ArrayCollection
      * @OneToMany(targetEntity="Push", mappedBy="user")
-     * @OrderBy({"end" = "DESC"})
+     * @OrderBy({"created" = "DESC"})
      */
     private $pushes;
 
@@ -68,7 +73,7 @@ class User
      *
      * @var ArrayCollection
      * @OneToMany(targetEntity="Build", mappedBy="user")
-     * @OrderBy({"end" = "DESC"})
+     * @OrderBy({"created" = "DESC"})
      */
     private $builds;
 
