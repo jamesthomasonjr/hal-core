@@ -47,7 +47,7 @@ class Subscription
      *  The subscription consumer (owner)
      *
      *  @var Consumer
-     *  @OneToOne(targetEntity="Consumer")
+     *  @ManyToOne(targetEntity="Consumer")
      *  @JoinColumn(name="ConsumerId", referencedColumnName="ConsumerId")
      */
     private $consumer;
@@ -56,7 +56,7 @@ class Subscription
      *  The subscription repository filter (optional)
      *
      *  @var null|Repository
-     *  @OneToOne(targetEntity="Repository")
+     *  @ManyToOne(targetEntity="Repository")
      *  @JoinColumn(name="RepositoryId", referencedColumnName="RepositoryId", nullable=true)
      */
     private $repository;
@@ -65,7 +65,7 @@ class Subscription
      *  The subscription environment filter (optional)
      *
      *  @var null|Environment
-     *  @OneToOne(targetEntity="Environment")
+     *  @ManyToOne(targetEntity="Environment")
      *  @JoinColumn(name="EnvironmentId", referencedColumnName="EnvironmentId", nullable=true)
      */
     private $environment;
@@ -74,7 +74,7 @@ class Subscription
      *  The subscription server filter (optional)
      *
      *  @var null|Server
-     *  @OneToOne(targetEntity="Server")
+     *  @ManyToOne(targetEntity="Server")
      *  @JoinColumn(name="ServerId", referencedColumnName="ServerId", nullable=true)
      */
     private $server;
@@ -83,7 +83,7 @@ class Subscription
      *  The subscription group filter (optional)
      *
      *  @var null|Group
-     *  @OneToOne(targetEntity="Group")
+     *  @ManyToOne(targetEntity="Group")
      *  @JoinColumn(name="GroupId", referencedColumnName="GroupId", nullable=true)
      */
     private $group;

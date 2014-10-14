@@ -73,7 +73,7 @@ class Push
      *  The push initiating consumer (if a consumer)
      *
      *  @var null|Consumer
-     *  @OneToOne(targetEntity="Consumer")
+     *  @ManyToOne(targetEntity="Consumer")
      *  @JoinColumn(name="ConsumerId", referencedColumnName="ConsumerId", nullable=true)
      */
     private $consumer;
@@ -82,7 +82,7 @@ class Push
      *  The push build
      *
      *  @var Build
-     *  @OneToOne(targetEntity="Build")
+     *  @ManyToOne(targetEntity="Build")
      *  @JoinColumn(name="BuildId", referencedColumnName="BuildId")
      */
     private $build;

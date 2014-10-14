@@ -39,7 +39,7 @@ class Server
      *  The environment
      *
      *  @var Environment
-     *  @OneToOne(targetEntity="Environment")
+     *  @ManyToOne(targetEntity="Environment")
      *  @JoinColumn(name="EnvironmentId", referencedColumnName="EnvironmentId")
      */
     private $environment;

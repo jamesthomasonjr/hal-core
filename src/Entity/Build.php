@@ -88,7 +88,7 @@ class Build
      *  The build initiating consumer(if a consumer)
      *
      *  @var null|Consumer
-     *  @OneToOne(targetEntity="Consumer")
+     *  @ManyToOne(targetEntity="Consumer")
      *  @JoinColumn(name="ConsumerId", referencedColumnName="ConsumerId", nullable=true)
      */
     private $consumer;
@@ -97,7 +97,7 @@ class Build
      *  The build repository
      *
      *  @var Repository
-     *  @OneToOne(targetEntity="Repository")
+     *  @ManyToOne(targetEntity="Repository")
      *  @JoinColumn(name="RepositoryId", referencedColumnName="RepositoryId")
      */
     private $repository;
@@ -106,7 +106,7 @@ class Build
      *  The build environment
      *
      *  @var Environment
-     *  @OneToOne(targetEntity="Environment")
+     *  @ManyToOne(targetEntity="Environment")
      *  @JoinColumn(name="EnvironmentId", referencedColumnName="EnvironmentId")
      */
     private $environment;

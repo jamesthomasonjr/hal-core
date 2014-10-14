@@ -31,7 +31,7 @@ class AuditLog
      * The user that initiated the action
      *
      * @var User
-     * @OneToOne(targetEntity="User")
+     * @ManyToOne(targetEntity="User")
      * @JoinColumn(name="UserId", referencedColumnName="UserId")
      */
     private $user;
