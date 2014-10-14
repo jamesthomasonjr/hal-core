@@ -151,6 +151,7 @@ CREATE TABLE Builds (
     CONSTRAINT              BuildToEnvironment
       FOREIGN KEY (EnvironmentId) REFERENCES Environments (EnvironmentId)
       ON UPDATE CASCADE,
+    INDEX                   (UserId),                           -- WHERE UserId = ?
     INDEX                   (RepositoryId, EnvironmentId),      -- WHERE RepositoryId = ? AND EnvironmentId = ?
     INDEX                   (BuildStart)                        -- WHERE BuildStart > ?
 )
@@ -182,6 +183,7 @@ CREATE TABLE Pushes (
     CONSTRAINT              PushToDeployment
       FOREIGN KEY (DeploymentId) REFERENCES Deployments (DeploymentId)
       ON UPDATE CASCADE,
+    INDEX                   (UserId),                         -- WHERE UserId = ?
     INDEX                   (BuildId),                        -- WHERE BuildId = ?
     INDEX                   (DeploymentId),                   -- WHERE DeploymentId = ?
     INDEX                   (PushStart)                       -- WHERE PushStart > 0
