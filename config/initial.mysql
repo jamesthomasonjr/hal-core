@@ -270,7 +270,7 @@ CREATE TABLE AuditLogs (
     Entity                  CHAR(255)       NOT NULL,
     Action                  CHAR(24)        NOT NULL,
     Data                    TEXT            DEFAULT NULL,
-    CONSTRAINT              LogToUser
+    CONSTRAINT              AuditLogToUser
       FOREIGN KEY (UserId) REFERENCES Users (UserId)
       ON UPDATE CASCADE,
     PRIMARY KEY             (AuditLogId),
