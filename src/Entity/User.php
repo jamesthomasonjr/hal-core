@@ -86,6 +86,15 @@ class User
     private $isActive;
 
     /**
+     * All tokens for the user.
+     *
+     * @var ArrayCollection
+     * @OneToMany(targetEntity="Token", mappedBy="user")
+     * @OrderBy({"id" = "DESC"})
+     */
+    private $tokens;
+
+    /**
      *  Constructor
      */
     public function __construct()
@@ -258,5 +267,25 @@ class User
     public function isActive()
     {
         return $this->isActive;
+    }
+
+    /**
+     * Set the user tokens
+     *
+     * @param ArrayCollection $tokens
+     */
+    public function setTokens(ArrayCollection $tokens)
+    {
+        $this->tokens = $tokens;
+    }
+
+    /**
+     * Get the user tokens
+     *
+     * @return ArrayCollection
+     */
+    public function getTokens()
+    {
+        return $this->tokens;
     }
 }

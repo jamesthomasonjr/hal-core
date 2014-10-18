@@ -3,6 +3,8 @@
 
 namespace QL\Hal\Core\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  *  Consumer Entity
  *
@@ -44,6 +46,23 @@ class Consumer
      *  @Column(name="ConsumerSecret", type="string", length=128)
      */
     private $secret;
+
+    /**
+     *  The consumer status
+     *
+     *  @var boolean
+     *  @Column(name="ConsumerIsActive", type="boolean")
+     */
+    private $isActive;
+
+    /**
+     * All tokens for the user.
+     *
+     * @var ArrayCollection
+     * @OneToMany(targetEntity="Token", mappedBy="user")
+     * @OrderBy({"id" = "DESC"})
+     */
+    private $tokens;
 
     /**
      *  Set the consumer id
@@ -123,5 +142,45 @@ class Consumer
     public function getSecret()
     {
         return $this->secret;
+    }
+
+    /**
+     *  Set the consumer status
+     *
+     *  @param bool $isActive
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+    }
+
+    /**
+     *  Get the consumer status
+     *
+     *  @return boolean
+     */
+    public function isActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * Set the consumer tokens
+     *
+     * @param ArrayCollection $tokens
+     */
+    public function setTokens(ArrayCollection $tokens)
+    {
+        $this->tokens = $tokens;
+    }
+
+    /**
+     * Get the consumer tokens
+     *
+     * @return ArrayCollection
+     */
+    public function getTokens()
+    {
+        return $this->tokens;
     }
 }

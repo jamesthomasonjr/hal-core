@@ -17,10 +17,31 @@ CREATE TABLE Users (
 -- Keep track of api consumers
 CREATE TABLE Consumers (
   ConsumerId                INT UNSIGNED    NOT NULL AUTO_INCREMENT,
-  ConsumerKey               CHAR(24)        NOT NULL,
   ConsumerName              CHAR(48)        NOT NULL,
-  ConsumerSecret            CHAR(128)       NOT NULL,
+  ConsumerIsActive          TINYINT(1)      NOT NULL,
   PRIMARY KEY               (ConsumerId)
+)
+  ENGINE                    InnoDB
+  CHARACTER SET             utf8;
+
+-- Tokens
+-- Keep track of User and Consumer API keys
+CREATE TABLE Tokens (
+    TokenId                 INT UNSIGNED    NOT NULL AUTO_INCREMENT,
+    TokenValue              CHAR(64)        NOT NULL,
+    TokenLabel              CHAR(128)       NOT NULL,
+    UserId                  INT UNSIGNED,
+    ConsumerId              INT UNSIGNED,
+    PRIMARY KEY             (TokenId),
+    CONSTRAINT              TokenToUser
+      FOREIGN KEY (UserId) REFERENCES Users (UserId)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    CONSTRAINT              TokenToConsumer
+      FOREIGN KEY (ConsumerId) REFERENCES Consumers (ConsumerId)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+    INDEX                   (TokenValue)                        -- WHERE TokenValue = ?
 )
   ENGINE                    InnoDB
   CHARACTER SET             utf8;
