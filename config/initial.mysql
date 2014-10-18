@@ -33,6 +33,7 @@ CREATE TABLE Tokens (
     UserId                  INT UNSIGNED,
     ConsumerId              INT UNSIGNED,
     PRIMARY KEY             (TokenId),
+    UNIQUE                  (TokenValue),
     CONSTRAINT              TokenToUser
       FOREIGN KEY (UserId) REFERENCES Users (UserId)
       ON DELETE CASCADE
