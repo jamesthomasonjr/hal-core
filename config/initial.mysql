@@ -280,13 +280,13 @@ CREATE TABLE AuditLogs (
     CHARACTER SET           utf8;
 
 -- Event Logs Table
--- Keep track of entity changes by users.
+-- Keep track of events on builds and pushes.
 CREATE TABLE EventLogs (
     EventLogId              BIGINT          NOT NULL AUTO_INCREMENT,
     Event                   ENUM('build.created', 'build.start', 'build.end', 'build.success', 'build.failure', 'push.created', 'push.start', 'push.end', 'push.success', 'push.failure', 'unknown') NOT NULL DEFAULT 'unknown',
     EventLogCreated         DATETIME        NOT NULL,
-    BuildId                 CHAR(128)       NOT NULL,
-    PushId                  CHAR(128)       NOT NULL,
+    BuildId                 CHAR(128)       NULL,
+    PushId                  CHAR(128)       NULL,
     EventLogData            MEDIUMBLOB      DEFAULT NULL,
     CONSTRAINT              EventToBuild
       FOREIGN KEY (BuildId) REFERENCES Builds (BuildId)
