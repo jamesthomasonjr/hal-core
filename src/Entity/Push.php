@@ -26,7 +26,7 @@ class Push
      *  @Id @Column(name="PushId", type="integer", unique=true)
      *  @GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      *  The push created time
@@ -34,7 +34,7 @@ class Push
      *  @var TimePoint|null;
      *  @Column(name="PushCreated", type="timepoint", nullable=true)
      */
-    private $created;
+    protected $created;
 
     /**
      *  The push start time
@@ -42,7 +42,7 @@ class Push
      *  @var TimePoint|null;
      *  @Column(name="PushStart", type="timepoint", nullable=true)
      */
-    private $start;
+    protected $start;
 
     /**
      *  The push end time
@@ -50,7 +50,7 @@ class Push
      *  @var TimePoint;
      *  @Column(name="PushEnd", type="timepoint", nullable=true)
      */
-    private $end;
+    protected $end;
 
     /**
      *  The push status
@@ -58,7 +58,7 @@ class Push
      *  @var string
      *  @Column(name="PushStatus", type="pushstatusenum")
      */
-    private $status;
+    protected $status;
 
     /**
      *  The push initiating user (if a user)
@@ -67,7 +67,7 @@ class Push
      *  @ManyToOne(targetEntity="User", inversedBy="pushes")
      *  @JoinColumn(name="UserId", referencedColumnName="UserId", nullable=true)
      */
-    private $user;
+    protected $user;
 
     /**
      *  The push initiating consumer (if a consumer)
@@ -76,7 +76,7 @@ class Push
      *  @ManyToOne(targetEntity="Consumer")
      *  @JoinColumn(name="ConsumerId", referencedColumnName="ConsumerId", nullable=true)
      */
-    private $consumer;
+    protected $consumer;
 
     /**
      *  The push build
@@ -85,7 +85,7 @@ class Push
      *  @ManyToOne(targetEntity="Build")
      *  @JoinColumn(name="BuildId", referencedColumnName="BuildId")
      */
-    private $build;
+    protected $build;
 
     /**
      *  The push deployment
@@ -94,7 +94,7 @@ class Push
      *  @ManyToOne(targetEntity="Deployment", inversedBy="pushes")
      *  @JoinColumn(name="DeploymentId", referencedColumnName="DeploymentId")
      */
-    private $deployment;
+    protected $deployment;
 
     /**
      *  The event logs for this job
@@ -102,7 +102,7 @@ class Push
      *  @var ArrayCollection
      *  @OneToMany(targetEntity="EventLog", mappedBy="push")
      */
-    private $logs;
+    protected $logs;
 
     /**
      *  Constructor

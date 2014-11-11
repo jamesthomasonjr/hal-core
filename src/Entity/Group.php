@@ -25,7 +25,7 @@ class Group
      *  @Id @Column(name="GroupId", type="integer", unique=true)
      *  @GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      *  The group key
@@ -33,7 +33,7 @@ class Group
      *  @var string
      *  @Column(name="GroupKey", type="string", length=24, unique=true)
      */
-    private $key;
+    protected $key;
 
     /**
      *  The group name
@@ -41,7 +41,7 @@ class Group
      *  @var string
      *  @Column(name="GroupName", type="string", length=48)
      */
-    private $name;
+    protected $name;
 
     /**
      *  The group repositories
@@ -49,7 +49,7 @@ class Group
      *  @var ArrayCollection
      *  @OneToMany(targetEntity="Repository", mappedBy="group")
      */
-    private $repositories;
+    protected $repositories;
 
     /**
      *  Constructor

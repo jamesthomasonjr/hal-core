@@ -18,7 +18,7 @@ class Token
      * @Id @Column(name="TokenId", type="integer", unique=true)
      * @GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      *  The token value
@@ -26,7 +26,7 @@ class Token
      *  @var string
      *  @Column(name="TokenValue", type="string", length=64)
      */
-    private $value;
+    protected $value;
 
     /**
      *  The token label
@@ -34,7 +34,7 @@ class Token
      *  @var string
      *  @Column(name="TokenLabel", type="string", length=128)
      */
-    private $label;
+    protected $label;
 
     /**
      *  The token user owner (if a user)
@@ -43,7 +43,7 @@ class Token
      *  @ManyToOne(targetEntity="User", inversedBy="tokens")
      *  @JoinColumn(name="UserId", referencedColumnName="UserId", nullable=true)
      */
-    private $user;
+    protected $user;
 
     /**
      *  The token consumer owner (if a consumer)
@@ -52,7 +52,7 @@ class Token
      *  @ManyToOne(targetEntity="Consumer", inversedBy="tokens")
      *  @JoinColumn(name="ConsumerId", referencedColumnName="ConsumerId", nullable=true)
      */
-    private $consumer;
+    protected $consumer;
 
     /**
      * @return null|Consumer

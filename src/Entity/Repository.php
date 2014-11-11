@@ -25,7 +25,7 @@ class Repository
      *  @Id @Column(name="RepositoryId", type="integer", unique=true)
      *  @GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      *  The repository key
@@ -33,7 +33,7 @@ class Repository
      *  @var string
      *  @Column(name="RepositoryKey", type="string", length=24, unique=true)
      */
-    private $key;
+    protected $key;
 
     /**
      *  The repository description
@@ -41,7 +41,7 @@ class Repository
      *  @var string
      *  @Column(name="RepositoryDescription", type="string", length=255)
      */
-    private $description;
+    protected $description;
 
     /**
      *  The repository Github user
@@ -49,7 +49,7 @@ class Repository
      *  @var string
      *  @Column(name="RepositoryGithubUser", type="string", length=48)
      */
-    private $githubUser;
+    protected $githubUser;
 
     /**
      *  The repository Github repository
@@ -57,7 +57,7 @@ class Repository
      *  @var string
      *  @Column(name="RepositoryGithubRepo", type="string", length=48)
      */
-    private $githubRepo;
+    protected $githubRepo;
 
     /**
      *  The repository email address
@@ -65,7 +65,7 @@ class Repository
      *  @var string
      *  @Column(name="RepositoryEmail", type="string", length=128)
      */
-    private $email;
+    protected $email;
 
     /**
      *  The repository build command
@@ -73,7 +73,7 @@ class Repository
      *  @var null|string
      *  @Column(name="RepositoryBuildCmd", type="string", length=255, nullable=true)
      */
-    private $buildCmd;
+    protected $buildCmd;
 
     /**
      *  The repository build transform command to be run before push
@@ -81,7 +81,7 @@ class Repository
      *  @var null|string
      *  @Column(name="RepositoryBuildTransformCmd", type="string", length=255, nullable=true)
      */
-    private $buildTransformCmd;
+    protected $buildTransformCmd;
 
     /**
      *  The repository pre push command
@@ -89,7 +89,7 @@ class Repository
      *  @var null|string
      *  @Column(name="RepositoryPrePushCmd", type="string", length=128, nullable = true)
      */
-    private $prePushCmd;
+    protected $prePushCmd;
 
     /**
      *  The repository post push command
@@ -97,7 +97,7 @@ class Repository
      *  @var null|string
      *  @Column(name="RepositoryPostPushCmd", type="string", length=128, nullable=true)
      */
-    private $postPushCmd;
+    protected $postPushCmd;
 
     /**
      *  The repository group
@@ -106,7 +106,7 @@ class Repository
      *  @ManyToOne(targetEntity="Group", inversedBy="repositories")
      *  @JoinColumn(name="GroupId", referencedColumnName="GroupId")
      */
-    private $group;
+    protected $group;
 
     /**
      *  The repository deployments
@@ -114,7 +114,7 @@ class Repository
      *  @var ArrayCollection
      *  @OneToMany(targetEntity="Deployment", mappedBy="repository")
      */
-    private $deployments;
+    protected $deployments;
 
     /**
      *  Constructor

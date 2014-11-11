@@ -24,7 +24,7 @@ class EventLog
      * @Id @Column(name="EventLogId", type="integer", unique=true)
      * @GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      *  The event name
@@ -32,7 +32,7 @@ class EventLog
      *  @var string
      *  @Column(name="Event", type="eventenum")
      */
-    private $event;
+    protected $event;
 
     /**
      * When the log was created
@@ -40,7 +40,7 @@ class EventLog
      * @var Timepoint
      * @Column(name="EventLogCreated", type="timepoint")
      */
-    private $created;
+    protected $created;
 
     /**
      * The build for this event, optional.
@@ -49,7 +49,7 @@ class EventLog
      * @ManyToOne(targetEntity="Build", inversedBy="logs")
      * @JoinColumn(name="BuildId", referencedColumnName="BuildId")
      */
-    private $build;
+    protected $build;
 
     /**
      * The push for this event, optional.
@@ -58,7 +58,7 @@ class EventLog
      * @ManyToOne(targetEntity="Push", inversedBy="logs")
      * @JoinColumn(name="PushId", referencedColumnName="PushId")
      */
-    private $push;
+    protected $push;
 
     /**
      * The data associated with the event
@@ -66,7 +66,7 @@ class EventLog
      * @var string
      * @Column(name="EventLogData", type="blob", length=10485760)
      */
-    private $data;
+    protected $data;
 
     public function __construct()
     {

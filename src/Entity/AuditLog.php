@@ -25,7 +25,7 @@ class AuditLog
      * @Id @Column(name="AuditLogId", type="integer", unique=true)
      * @GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * The user that initiated the action
@@ -34,7 +34,7 @@ class AuditLog
      * @ManyToOne(targetEntity="User")
      * @JoinColumn(name="UserId", referencedColumnName="UserId")
      */
-    private $user;
+    protected $user;
 
     /**
      * When the log entry was recorded
@@ -42,7 +42,7 @@ class AuditLog
      * @var Timepoint
      * @Column(name="Recorded", type="timepoint")
      */
-    private $recorded;
+    protected $recorded;
 
     /**
      * The entity type the action was taken on
@@ -50,7 +50,7 @@ class AuditLog
      * @var string
      * @Column(name="Entity", type="string", length=255)
      */
-    private $entity;
+    protected $entity;
 
     /**
      * The action that was taken
@@ -58,7 +58,7 @@ class AuditLog
      * @var string
      * @Column(name="Action", type="string", length=24)
      */
-    private $action;
+    protected $action;
 
     /**
      * The data associated with this action
@@ -66,7 +66,7 @@ class AuditLog
      * @var string
      * @Column(name="Data", type="string")
      */
-    private $data;
+    protected $data;
 
     /**
      * Constructor

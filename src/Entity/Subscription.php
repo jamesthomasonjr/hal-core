@@ -25,7 +25,7 @@ class Subscription
      *  @Id @Column(name="SubscriptionId", type="integer", unique=true)
      *  @GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      *  The subscription notification URL
@@ -33,7 +33,7 @@ class Subscription
      *  @var null|HttpUrl
      *  @Column(name="SubscriptionUrl", type="url")
      */
-    private $url;
+    protected $url;
 
     /**
      *  The subscription event name
@@ -41,7 +41,7 @@ class Subscription
      *  @var string
      *  @Column(name="SubscriptionEvent", type="string", length=24)
      */
-    private $event;
+    protected $event;
 
     /**
      *  The subscription consumer (owner)
@@ -50,7 +50,7 @@ class Subscription
      *  @ManyToOne(targetEntity="Consumer")
      *  @JoinColumn(name="ConsumerId", referencedColumnName="ConsumerId")
      */
-    private $consumer;
+    protected $consumer;
 
     /**
      *  The subscription repository filter (optional)
@@ -59,7 +59,7 @@ class Subscription
      *  @ManyToOne(targetEntity="Repository")
      *  @JoinColumn(name="RepositoryId", referencedColumnName="RepositoryId", nullable=true)
      */
-    private $repository;
+    protected $repository;
 
     /**
      *  The subscription environment filter (optional)
@@ -68,7 +68,7 @@ class Subscription
      *  @ManyToOne(targetEntity="Environment")
      *  @JoinColumn(name="EnvironmentId", referencedColumnName="EnvironmentId", nullable=true)
      */
-    private $environment;
+    protected $environment;
 
     /**
      *  The subscription server filter (optional)
@@ -77,7 +77,7 @@ class Subscription
      *  @ManyToOne(targetEntity="Server")
      *  @JoinColumn(name="ServerId", referencedColumnName="ServerId", nullable=true)
      */
-    private $server;
+    protected $server;
 
     /**
      *  The subscription group filter (optional)
@@ -86,7 +86,7 @@ class Subscription
      *  @ManyToOne(targetEntity="Group")
      *  @JoinColumn(name="GroupId", referencedColumnName="GroupId", nullable=true)
      */
-    private $group;
+    protected $group;
 
     /**
      *  Constructor

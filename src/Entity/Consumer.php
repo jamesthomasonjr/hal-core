@@ -21,7 +21,7 @@ class Consumer
      *  @Id @Column(name="ConsumerId", type="integer", unique=true)
      *  @GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      *  The consumer key
@@ -29,7 +29,7 @@ class Consumer
      *  @var string
      *  @Column(name="ConsumerKey", type="string", length=24)
      */
-    private $key;
+    protected $key;
 
     /**
      *  The consumer name
@@ -37,7 +37,7 @@ class Consumer
      *  @var string
      *  @Column(name="ConsumerName", type="string", length=48)
      */
-    private $name;
+    protected $name;
 
     /**
      *  The consumer secret
@@ -45,7 +45,7 @@ class Consumer
      *  @var string
      *  @Column(name="ConsumerSecret", type="string", length=128)
      */
-    private $secret;
+    protected $secret;
 
     /**
      *  The consumer status
@@ -53,7 +53,7 @@ class Consumer
      *  @var boolean
      *  @Column(name="ConsumerIsActive", type="boolean")
      */
-    private $isActive;
+    protected $isActive;
 
     /**
      * All tokens for the user.
@@ -62,7 +62,7 @@ class Consumer
      * @OneToMany(targetEntity="Token", mappedBy="user")
      * @OrderBy({"id" = "DESC"})
      */
-    private $tokens;
+    protected $tokens;
 
     /**
      *  Set the consumer id

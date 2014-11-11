@@ -24,7 +24,7 @@ class Session
      *  @var string
      *  @Id @Column(name="SessionId", type="string", length=255, unique=true)
      */
-    private $id;
+    protected $id;
 
     /**
      *  The session data
@@ -32,7 +32,7 @@ class Session
      *  @var string
      *  @Column(name="SessionData", type="string")
      */
-    private $data;
+    protected $data;
 
     /**
      *  The session last access time
@@ -40,7 +40,7 @@ class Session
      *  @var TimePoint
      *  @Column(name="SessionLastAccess", type="timepoint")
      */
-    private $lastAccess;
+    protected $lastAccess;
 
     /**
      *  Constructor

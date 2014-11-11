@@ -23,7 +23,7 @@ class ServerProperty
      *  @Id @Column(name="ServerPropertyId", type="integer", unique=true)
      *  @GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      *  The server property name
@@ -31,7 +31,7 @@ class ServerProperty
      *  @var string
      *  @Column(name="ServerPropertyName", type="string", length=24)
      */
-    private $name;
+    protected $name;
 
     /**
      *  The server property value
@@ -39,14 +39,14 @@ class ServerProperty
      *  @var string
      *  @Column(name="ServerPropertyValue", type="string", length=16)
      */
-    private $value;
+    protected $value;
 
     /**
      *  @var Server
      *  @ManyToOne(targetEntity="Server", inversedBy="properties")
      *  @JoinColumn(name="ServerId", referencedColumnName="ServerId")
      */
-    private $server;
+    protected $server;
 
     /**
      *  Constructor

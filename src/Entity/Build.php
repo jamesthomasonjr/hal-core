@@ -25,7 +25,7 @@ class Build
      *  @var string
      *  @Id @Column(name="BuildId", type="string", length=128, unique=true)
      */
-    private $id;
+    protected $id;
 
     /**
      *  The build created time
@@ -33,7 +33,7 @@ class Build
      *  @var null|TimePoint
      *  @Column(name="BuildCreated", type="timepoint", nullable=true)
      */
-    private $created;
+    protected $created;
 
     /**
      *  The build start time
@@ -41,7 +41,7 @@ class Build
      *  @var null|TimePoint
      *  @Column(name="BuildStart", type="timepoint", nullable=true)
      */
-    private $start;
+    protected $start;
 
     /**
      *  The build end time
@@ -49,7 +49,7 @@ class Build
      *  @var null|TimePoint
      *  @Column(name="BuildEnd", type="timepoint", nullable=true)
      */
-    private $end;
+    protected $end;
 
     /**
      *  The build status
@@ -57,7 +57,7 @@ class Build
      *  @var string
      *  @Column(name="BuildStatus", type="buildstatusenum")
      */
-    private $status;
+    protected $status;
 
     /**
      *  The build branch name
@@ -65,7 +65,7 @@ class Build
      *  @var string
      *  @Column(name="BuildBranch", type="string", length=64)
      */
-    private $branch;
+    protected $branch;
 
     /**
      *  The build commit hash
@@ -73,7 +73,7 @@ class Build
      *  @var string
      *  @Column(name="BuildCommit", type="string", length=40)
      */
-    private $commit;
+    protected $commit;
 
     /**
      *  The build initiating user (if a user)
@@ -82,7 +82,7 @@ class Build
      *  @ManyToOne(targetEntity="User", inversedBy="builds")
      *  @JoinColumn(name="UserId", referencedColumnName="UserId", nullable=true)
      */
-    private $user;
+    protected $user;
 
     /**
      *  The build initiating consumer(if a consumer)
@@ -91,7 +91,7 @@ class Build
      *  @ManyToOne(targetEntity="Consumer")
      *  @JoinColumn(name="ConsumerId", referencedColumnName="ConsumerId", nullable=true)
      */
-    private $consumer;
+    protected $consumer;
 
     /**
      *  The build repository
@@ -100,7 +100,7 @@ class Build
      *  @ManyToOne(targetEntity="Repository")
      *  @JoinColumn(name="RepositoryId", referencedColumnName="RepositoryId")
      */
-    private $repository;
+    protected $repository;
 
     /**
      *  The build environment
@@ -109,7 +109,7 @@ class Build
      *  @ManyToOne(targetEntity="Environment")
      *  @JoinColumn(name="EnvironmentId", referencedColumnName="EnvironmentId")
      */
-    private $environment;
+    protected $environment;
 
     /**
      *  The event logs for this job
@@ -117,7 +117,7 @@ class Build
      *  @var ArrayCollection
      *  @OneToMany(targetEntity="EventLog", mappedBy="build")
      */
-    private $logs;
+    protected $logs;
 
     /**
      *  Constructor

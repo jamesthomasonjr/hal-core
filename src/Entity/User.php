@@ -25,7 +25,7 @@ class User
      *  @var integer
      *  @Id @Column(name="UserId", type="integer", unique=true)
      */
-    private $id;
+    protected $id;
 
     /**
      *  The handle (username) of the user.
@@ -33,7 +33,7 @@ class User
      *  @var string
      *  @Column(name="UserHandle", type="string", length=32, unique=true)
      */
-    private $handle;
+    protected $handle;
 
     /**
      *  The display name of the user.
@@ -41,7 +41,7 @@ class User
      *  @var string
      *  @Column(name="UserName", type="string", length=128)
      */
-    private $name;
+    protected $name;
 
     /**
      *  The email address of the user.
@@ -49,7 +49,7 @@ class User
      *  @var string
      *  @Column(name="UserEmail", type="string", length=128)
      */
-    private $email;
+    protected $email;
 
     /**
      *  The URL of the user picture.
@@ -57,7 +57,7 @@ class User
      *  @var null|HttpUrl
      *  @Column(name="UserPictureUrl", type="url")
      */
-    private $pictureUrl;
+    protected $pictureUrl;
 
     /**
      * All pushes done by the user.
@@ -66,7 +66,7 @@ class User
      * @OneToMany(targetEntity="Push", mappedBy="user")
      * @OrderBy({"created" = "DESC"})
      */
-    private $pushes;
+    protected $pushes;
 
     /**
      * All builds done by the user.
@@ -75,7 +75,7 @@ class User
      * @OneToMany(targetEntity="Build", mappedBy="user")
      * @OrderBy({"created" = "DESC"})
      */
-    private $builds;
+    protected $builds;
 
     /**
      *  The current user status
@@ -83,7 +83,7 @@ class User
      *  @var boolean
      *  @Column(name="UserIsActive", type="boolean")
      */
-    private $isActive;
+    protected $isActive;
 
     /**
      * All tokens for the user.
@@ -92,7 +92,7 @@ class User
      * @OneToMany(targetEntity="Token", mappedBy="user")
      * @OrderBy({"id" = "DESC"})
      */
-    private $tokens;
+    protected $tokens;
 
     /**
      *  Constructor

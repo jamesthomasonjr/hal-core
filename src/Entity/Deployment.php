@@ -25,7 +25,7 @@ class Deployment
      *  @Id @Column(name="DeploymentId", type="integer", unique=true)
      *  @GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      *  The deployment path
@@ -33,28 +33,28 @@ class Deployment
      *  @var string
      *  @Column(name="DeploymentPath", type="string", length=255)
      */
-    private $path;
+    protected $path;
 
     /**
      *  @var Repository
      *  @ManyToOne(targetEntity="Repository", inversedBy="deployments")
      *  @JoinColumn(name="RepositoryId", referencedColumnName="RepositoryId")
      */
-    private $repository;
+    protected $repository;
 
     /**
      *  @var Server
      *  @ManyToOne(targetEntity="Server", inversedBy="deployments")
      *  @JoinColumn(name="ServerId", referencedColumnName="ServerId")
      */
-    private $server;
+    protected $server;
 
     /**
      *  @var ArrayCollection
      *  @OneToMany(targetEntity="Push", mappedBy="deployment")
      *  @OrderBy({"id" = "DESC"})
      */
-    private $pushes;
+    protected $pushes;
 
     /**
      *  Constructor

@@ -23,7 +23,7 @@ class Environment
      *  @Id @Column(name="EnvironmentId", type="integer", unique=true)
      *  @GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      *  The environment key
@@ -31,7 +31,7 @@ class Environment
      *  @var string
      *  @Column(name="EnvironmentKey", type="string", length=24, unique=true)
      */
-    private $key;
+    protected $key;
 
     /**
      *  The environment display order
@@ -39,7 +39,7 @@ class Environment
      *  @var integer
      *  @Column(name="EnvironmentOrder", type="integer")
      */
-    private $order;
+    protected $order;
 
     /**
      *  Set the environment id
