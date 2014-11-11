@@ -91,7 +91,7 @@ CREATE TABLE ServerProperties (
     ENGINE                  InnoDB
     CHARACTER SET           utf8;
 
--- [NEW] Groups Table [replaces Arrangements table]
+-- Groups Table
 -- Keep track of repository groups.
 CREATE TABLE Groups (
     GroupId                 INT UNSIGNED    NOT NULL AUTO_INCREMENT,
@@ -146,10 +146,10 @@ CREATE TABLE Deployments (
     ENGINE                  InnoDB
     CHARACTER SET           utf8;
 
--- [NEW] Builds Table
+-- Builds Table
 -- Keep track of queued, running, finished, and removed builds.
 CREATE TABLE Builds (
-    BuildId                 CHAR(128)       NOT NULL,
+    BuildId                 CHAR(40)        NOT NULL,
     BuildCreated            DATETIME,
     BuildStart              DATETIME,
     BuildEnd                DATETIME,
@@ -180,17 +180,17 @@ CREATE TABLE Builds (
     ENGINE          InnoDB
     CHARACTER SET   utf8;
 
--- [NEW] Pushes Table
+-- Pushes Table
 -- Keep track of queued, running, and finished pushes.
 CREATE TABLE Pushes (
-    PushId                  BIGINT          NOT NULL AUTO_INCREMENT,
+    PushId                  CHAR(40)        NOT NULL,
     PushCreated             DATETIME,
     PushStart               DATETIME,
     PushEnd                 DATETIME,
     PushStatus              ENUM('Waiting', 'Pushing', 'Error', 'Success') NOT NULL DEFAULT 'Waiting',
     UserId                  INT UNSIGNED,
     ConsumerId              INT UNSIGNED,
-    BuildId                 CHAR(128)       NOT NULL,
+    BuildId                 CHAR(40)        NOT NULL,
     DeploymentId            INT UNSIGNED    NOT NULL,
     PRIMARY KEY             (PushId),
     CONSTRAINT              PushToUser
@@ -274,8 +274,8 @@ CREATE TABLE EventLogs (
     EventLogId              BIGINT          NOT NULL AUTO_INCREMENT,
     Event                   ENUM('build.created', 'build.start', 'build.end', 'build.success', 'build.failure', 'push.created', 'push.start', 'push.end', 'push.success', 'push.failure', 'unknown') NOT NULL DEFAULT 'unknown',
     EventLogCreated         DATETIME        NOT NULL,
-    BuildId                 CHAR(128)       NULL,
-    PushId                  CHAR(128)       NULL,
+    BuildId                 CHAR(40)        NULL,
+    PushId                  CHAR(40)        NULL,
     EventLogData            MEDIUMBLOB      DEFAULT NULL,
     CONSTRAINT              EventToBuild
       FOREIGN KEY (BuildId) REFERENCES Builds (BuildId)

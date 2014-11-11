@@ -22,9 +22,8 @@ class Push
     /**
      *  The push id
      *
-     *  @var int
-     *  @Id @Column(name="PushId", type="integer", unique=true)
-     *  @GeneratedValue(strategy="AUTO")
+     *  @var string
+     *  @Id @Column(name="PushId", type="string", length=40, unique=true)
      */
     protected $id;
 

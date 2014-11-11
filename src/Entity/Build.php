@@ -23,7 +23,7 @@ class Build
      *  The build id
      *
      *  @var string
-     *  @Id @Column(name="BuildId", type="string", length=128, unique=true)
+     *  @Id @Column(name="BuildId", type="string", length=40, unique=true)
      */
     protected $id;
 
