@@ -213,17 +213,6 @@ CREATE TABLE Pushes (
     ENGINE          InnoDB
     CHARACTER SET   utf8;
 
--- Sessions Table
--- Keep track of sessions across machines.
-CREATE TABLE Sessions (
-    SessionId               CHAR(255)       NOT NULL,
-    SessionData             MEDIUMTEXT      NOT NULL,
-    SessionLastAccess       DATETIME        NOT NULL,
-    PRIMARY KEY             (SessionId)
-)
-    ENGINE                  InnoDB
-    CHARACTER SET           utf8;
-
 -- Subscriptions Table
 -- Keep track of consumer subscriptions
 CREATE TABLE Subscriptions (

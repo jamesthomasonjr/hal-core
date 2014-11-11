@@ -96,13 +96,6 @@ services:
         factory_method: 'getRepository'
         arguments: ['QL\Hal\Core\Entity\Server']
 
-    # Session Repository
-    session.repo:
-        class: 'QL\Hal\Core\Entity\Repository\SessionRepository'
-        factory_service: 'doctrine.em'
-        factory_method: 'getRepository'
-        arguments: ['QL\Hal\Core\Entity\Session']
-
     # Subscription Repository
     subscription.repo:
         class: 'QL\Hal\Core\Entity\Repository\SubscriptionRepository'
