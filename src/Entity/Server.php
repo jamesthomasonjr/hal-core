@@ -45,14 +45,6 @@ class Server
     protected $environment;
 
     /**
-     *  The server properties
-     *
-     *  @var ArrayCollection
-     *  @OneToMany(targetEntity="ServerProperty", mappedBy="server")
-     */
-    protected $properties;
-
-    /**
      *  Deployments for the server
      *
      *  @var ArrayCollection
@@ -68,7 +60,6 @@ class Server
         $this->id = null;
         $this->name = null;
         $this->environment = null;
-        $this->properties = new ArrayCollection();
         $this->deployments = new ArrayCollection();
     }
 
@@ -133,26 +124,6 @@ class Server
     }
 
     /**
-     *  Set the server properties
-     *
-     *  @param ArrayCollection $properties
-     */
-    public function setProperties(ArrayCollection $properties)
-    {
-        $this->properties = $properties;
-    }
-
-    /**
-     *  Get the server properties
-     *
-     *  @return ArrayCollection
-     */
-    public function getProperties()
-    {
-        return $this->properties;
-    }
-
-    /**
      *  Set the server deployments
      *
      *  @param ArrayCollection $deployments
@@ -171,6 +142,4 @@ class Server
     {
         return $this->deployments;
     }
-
-
 }
