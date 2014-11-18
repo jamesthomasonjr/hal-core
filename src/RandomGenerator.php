@@ -5,10 +5,15 @@
  *    is strictly prohibited.
  */
 
-namespace QL\Hal\Core\Entity\Repository;
+namespace QL\Hal\Core;
 
-use Doctrine\ORM\EntityRepository;
-
-class BuildRepository extends EntityRepository
+/**
+ * Generate a unique id.
+ */
+class RandomGenerator
 {
+    public function __invoke()
+    {
+        return sha1(microtime(true) . mt_rand(10000,90000));
+    }
 }

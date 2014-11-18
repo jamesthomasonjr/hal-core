@@ -258,6 +258,8 @@ CREATE TABLE EventLogs (
     EventLogId              BIGINT          NOT NULL AUTO_INCREMENT,
     Event                   ENUM('build.created', 'build.start', 'build.end', 'build.success', 'build.failure', 'push.created', 'push.start', 'push.end', 'push.success', 'push.failure', 'unknown') NOT NULL DEFAULT 'unknown',
     EventLogCreated         DATETIME        NOT NULL,
+    EventLogMessage         VARCHAR(255)    NULL,
+    EventLogStatus          ENUM('info', 'success', 'failure') NOT NULL DEFAULT 'info',
     BuildId                 CHAR(40)        NULL,
     PushId                  CHAR(40)        NULL,
     EventLogData            MEDIUMBLOB      DEFAULT NULL,
@@ -268,6 +270,7 @@ CREATE TABLE EventLogs (
       FOREIGN KEY (PushId) REFERENCES Pushes (PushId)
       ON UPDATE CASCADE,
     PRIMARY KEY             (EventLogId),
+    INDEX                   (Event),                          -- WHERE Event = ?
     INDEX                   (BuildId),                        -- WHERE BuildId = ?
     INDEX                   (PushId)                          -- WHERE PushId = ?
 )

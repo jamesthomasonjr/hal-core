@@ -10,10 +10,17 @@ namespace QL\Hal\Core\Entity\Listener;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use MCP\DataType\Time\Clock;
 use QL\Hal\Core\Entity\Build;
+use QL\Hal\Core\Entity\EventLog;
 use QL\Hal\Core\Entity\Push;
 
 /**
- * A doctrine event listener for adding a "CreatedTime" TimePoint to persisted objects when initially created.
+ * A doctrine event listener for:
+ * - Add a "CreatedTime" TimePoint to persisted objects when initially created.
+ *     - Build
+ *     - Push
+ *     - EventLog
+ * - Add a random sha hash as the unique identifier.
+ *     - EventLog
  *
  * It should be attached to the PrePersist event.
  *
@@ -26,12 +33,19 @@ class EntityPersistListener
      */
     private $clock;
 
+   /**
+     * @type callable
+     */
+    private $random;
+
     /**
      * @param Clock $clock
+     * @param callable $random
      */
-    public function __construct(Clock $clock)
+    public function __construct(Clock $clock, callable $random)
     {
         $this->clock = $clock;
+        $this->random = $random;
     }
 
     /**
@@ -44,10 +58,20 @@ class EntityPersistListener
     public function prePersist(LifecycleEventArgs $event)
     {
         $entity = $event->getObject();
-        if ($entity instanceof Build || $entity instanceof Push) {
+
+        // Add created time
+        if ($entity instanceof Build || $entity instanceof Push || $entity instanceof EventLog) {
             if (!$entity->getCreated()) {
                 $created = $this->clock->read();
                 $entity->setCreated($created);
+            }
+        }
+
+        // Add unique generated id
+        if ($entity instanceof EventLog) {
+            if (!$entity->getId()) {
+                $id = call_user_func($this->random);
+                $entity->setId($id);
             }
         }
     }

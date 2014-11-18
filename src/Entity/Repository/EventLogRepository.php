@@ -9,6 +9,6 @@ namespace QL\Hal\Core\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-class BuildRepository extends EntityRepository
+class EventLogRepository extends EntityRepository
 {
 }

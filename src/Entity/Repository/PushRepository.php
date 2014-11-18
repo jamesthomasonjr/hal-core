@@ -1,5 +1,9 @@
 <?php
-# src/QL/Hal/Core/Entity/Repository/PushRepository.php
+/**
+ * @copyright ©2014 Quicken Loans Inc. All rights reserved. Trade Secret,
+ *    Confidential and Proprietary. Any dissemination outside of Quicken Loans
+ *    is strictly prohibited.
+ */
 
 namespace QL\Hal\Core\Entity\Repository;
 
@@ -7,11 +11,6 @@ use Doctrine\ORM\EntityRepository;
 use QL\Hal\Core\Entity\Server;
 use QL\Hal\Core\Entity\Repository;
 
-/**
- *  Push Repository
- *
- *  @author Matt Colf <matthewcolf@quickenloans.com>
- */
 class PushRepository extends EntityRepository
 {
     /**

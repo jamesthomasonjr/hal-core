@@ -112,14 +112,14 @@ services:
 
     # Audit Log Repository
     audit.log.repo:
-        class: 'QL\Hal\Core\Entity\Repository\LogRepository'
+        class: 'QL\Hal\Core\Entity\Repository\AuditLogRepository'
         factory_service: 'doctrine.em'
         factory_method: 'getRepository'
         arguments: ['QL\Hal\Core\Entity\AuditLog']
 
-    # Log Repository
+    # Event Log Repository
     event.log.repo:
-        class: 'Doctrine\ORM\EntityRepository'
+        class: 'QL\Hal\Core\Entity\Repository\EventLogRepository'
         factory_service: 'doctrine.em'
         factory_method: 'getRepository'
         arguments: ['QL\Hal\Core\Entity\EventLog']

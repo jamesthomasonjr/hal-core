@@ -10,27 +10,26 @@ namespace QL\Hal\Core\Entity;
 use MCP\DataType\Time\TimePoint;
 
 /**
- *  Build|Push Event Log Entity
+ * Build|Push Event Log Entity
  *
- *  @Entity
- *  @Table(name="EventLogs")
+ * @Entity
+ * @Table(name="EventLogs")
  */
 class EventLog
 {
     /**
      * The event log id
      *
-     * @var int
-     * @Id @Column(name="EventLogId", type="integer", unique=true)
-     * @GeneratedValue(strategy="AUTO")
+     * @var varchar
+     * @Id @Column(name="EventLogId", type="char", length=40)
      */
     protected $id;
 
     /**
-     *  The event name
+     * The event name
      *
-     *  @var string
-     *  @Column(name="Event", type="eventenum")
+     * @var string
+     * @Column(name="Event", type="eventenum")
      */
     protected $event;
 
@@ -41,6 +40,22 @@ class EventLog
      * @Column(name="EventLogCreated", type="timepoint")
      */
     protected $created;
+
+    /**
+     * The log message
+     *
+     * @var string
+     * @Column(name="EventLogMessage", type="string", length=255)
+     */
+    protected $message;
+
+    /**
+     * The log status
+     *
+     * @var string
+     * @Column(name="EventLogStatus", type="eventstatusenum")
+     */
+    protected $status;
 
     /**
      * The build for this event, optional.
@@ -64,7 +79,7 @@ class EventLog
      * The data associated with the event
      *
      * @var string
-     * @Column(name="EventLogData", type="blob", length=10485760)
+     * @Column(name="EventLogData", type="compressedserialized")
      */
     protected $data;
 
@@ -72,7 +87,10 @@ class EventLog
     {
         $this->id = null;
         $this->event = null;
-        $this->recorded = null;
+        $this->created = null;
+
+        $this->message = null;
+        $this->status = null;
 
         $this->build = null;
         $this->push = null;
