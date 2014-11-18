@@ -10,34 +10,37 @@ namespace QL\Hal\Core\Entity\Type;
 use Doctrine\DBAL\Types\Type as BaseType;
 
 /**
- *  Event Doctrine Enum Type
+ * Event Doctrine Enum Type
  */
 class EventEnumType extends BaseType
 {
     use EnumTypeTrait;
 
     /**
-     *  The enum data type
+     * The enum data type
      */
     const TYPE = 'eventenum';
 
     /**
-     *  The enum allowed values
+     * The enum allowed values
      *
-     *  @var array
+     * @return array
      */
-    protected $values = [
-        'build.created',
-        'build.start',
-        'build.end',
-        'build.success',
-        'build.failure',
+    public static function values()
+    {
+        return [
+            'build.created',
+            'build.start',
+            'build.end',
+            'build.success',
+            'build.failure',
 
-        'push.created',
-        'push.start',
-        'push.end',
-        'push.success',
-        'push.failure',
-        'unknown'
-    ];
+            'push.created',
+            'push.start',
+            'push.end',
+            'push.success',
+            'push.failure',
+            'unknown'
+        ];
+    }
 }

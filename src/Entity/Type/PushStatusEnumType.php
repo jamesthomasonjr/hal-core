@@ -1,28 +1,38 @@
 <?php
-# src/QL/Hal/Core/Entity/Type/PushStatusEnumType.php
+/**
+ * @copyright ©2014 Quicken Loans Inc. All rights reserved. Trade Secret,
+ *    Confidential and Proprietary. Any dissemination outside of Quicken Loans
+ *    is strictly prohibited.
+ */
 
 namespace QL\Hal\Core\Entity\Type;
 
 use Doctrine\DBAL\Types\Type as BaseType;
 
 /**
- *  Push Status Doctrine Enum Type
- *
- *  @author Matt Colf <matthewcolf@quickenloans.com>
+ * Push Status Doctrine Enum Type
  */
 class PushStatusEnumType extends BaseType
 {
     use EnumTypeTrait;
 
     /**
-     *  The enum data type
+     * The enum data type
      */
     const TYPE = "pushstatusenum";
 
     /**
-     *  The enum allowed values
+     * The enum allowed values
      *
-     *  @var array
+     * @return array
      */
-    protected $values = ['Waiting','Pushing','Error','Success'];
+    public static function values()
+    {
+        return [
+            'Waiting',
+            'Pushing',
+            'Error',
+            'Success'
+        ];
+    }
 }

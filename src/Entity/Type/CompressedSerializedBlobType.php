@@ -11,18 +11,19 @@ use Doctrine\DBAL\Types\Type as BaseType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 
 /**
- *  Doctrine Compressed Blob Type
+ * Doctrine Compressed Blob Type
  */
 class CompressedSerializedBlobType extends BaseType
 {
     const TYPE = 'compressedserialized';
 
     /**
-     *  Convert plain text to database value
+     * Convert plain text to database value
      *
-     *  @param mixed $value
-     *  @param AbstractPlatform $platform
-     *  @return string|null
+     * @param mixed $value
+     * @param AbstractPlatform $platform
+     *
+     * @return string|null
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
@@ -33,10 +34,11 @@ class CompressedSerializedBlobType extends BaseType
     }
 
     /**
-     *  Convert database value to plain text
+     * Convert database value to plain text
      *
      * @param mixed $value
      * @param AbstractPlatform $platform
+     *
      * @return string|null
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
@@ -48,9 +50,9 @@ class CompressedSerializedBlobType extends BaseType
     }
 
     /**
-     *  Get the type name
+     * Get the type name
      *
-     *  @return string
+     * @return string
      */
     public function getName()
     {
@@ -58,9 +60,10 @@ class CompressedSerializedBlobType extends BaseType
     }
 
     /**
-     *  @param array $fieldDeclaration
-     *  @param AbstractPlatform $platform
-     *  @return string
+     * @param array $fieldDeclaration
+     * @param AbstractPlatform $platform
+     *
+     * @return string
      */
     public function getSqlDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {

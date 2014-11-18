@@ -1,5 +1,9 @@
 <?php
-# src/QL/Hal/Core/Entity/Type/HttpUrlType.php
+/**
+ * @copyright ©2014 Quicken Loans Inc. All rights reserved. Trade Secret,
+ *    Confidential and Proprietary. Any dissemination outside of Quicken Loans
+ *    is strictly prohibited.
+ */
 
 namespace QL\Hal\Core\Entity\Type;
 
@@ -8,21 +12,19 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use MCP\DataType\HttpUrl;
 
 /**
- *  Doctrine HTTP Url Type
- *
- *  @author Matt Colf <matthewcolf@quickenloans.com>
- *  @author Steve Kluck <stevekluck@quickenloans.com>
+ * Doctrine HTTP Url Type
  */
 class HttpUrlType extends BaseType
 {
     const TYPE = 'url';
 
     /**
-     *  Convert HttpUrl to database value
+     * Convert HttpUrl to database value
      *
-     *  @param mixed $value
-     *  @param AbstractPlatform $platform
-     *  @return string|null
+     * @param mixed $value
+     * @param AbstractPlatform $platform
+     *
+     * @return string|null
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
@@ -34,10 +36,11 @@ class HttpUrlType extends BaseType
     }
 
     /**
-     *  Convert database value to HttpUrl
+     * Convert database value to HttpUrl
      *
      * @param mixed $value
      * @param AbstractPlatform $platform
+     *
      * @return HttpUrl|null
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
@@ -50,9 +53,9 @@ class HttpUrlType extends BaseType
     }
 
     /**
-     *  Get the type name
+     * Get the type name
      *
-     *  @return string
+     * @return string
      */
     public function getName()
     {
@@ -60,11 +63,12 @@ class HttpUrlType extends BaseType
     }
 
     /**
-     *  Get the HttpUrl field definition
+     * Get the HttpUrl field definition
      *
-     *  @param array $fieldDeclaration
-     *  @param AbstractPlatform $platform
-     *  @return string
+     * @param array $fieldDeclaration
+     * @param AbstractPlatform $platform
+     *
+     * @return string
      */
     public function getSqlDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {

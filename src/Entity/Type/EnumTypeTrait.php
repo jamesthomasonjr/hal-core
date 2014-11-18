@@ -1,5 +1,9 @@
 <?php
-# src/QL/Hal/Core/Entity/Type/AbstractEnumType.php
+/**
+ * @copyright ©2014 Quicken Loans Inc. All rights reserved. Trade Secret,
+ *    Confidential and Proprietary. Any dissemination outside of Quicken Loans
+ *    is strictly prohibited.
+ */
 
 namespace QL\Hal\Core\Entity\Type;
 
@@ -7,27 +11,27 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use InvalidArgumentException;
 
 /**
- *  Abstract Doctrine Enum Type
- *
- *  @author Matt Colf <matthewcolf@quickenloans.com>
+ * Abstract Doctrine Enum Type
  */
 trait EnumTypeTrait
 {
     /**
-     *  Convert Enum to database value
+     * Convert Enum to database value
      *
-     *  @param mixed $value
-     *  @param AbstractPlatform $platform
-     *  @return string|null
-     *  @throws InvalidArgumentException
+     * @param mixed $value
+     * @param AbstractPlatform $platform
+     *
+     * @throws InvalidArgumentException
+     *
+     * @return string|null
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
-        if (!in_array($value, $this->values)) {
+        if (!in_array($value, static::values())) {
             throw new InvalidArgumentException(
                 sprintf(
                     "Invalid value '%s' for enum. Must be one of %s.",
-                    (string)$value,
+                    (string) $value,
                     $this->valuesAsString()
                 )
             );
@@ -49,11 +53,12 @@ trait EnumTypeTrait
     }
 
     /**
-     *  Get the Enum field definition
+     * Get the Enum field definition
      *
-     *  @param array $fieldDeclaration
-     *  @param AbstractPlatform $platform
-     *  @return string
+     * @param array $fieldDeclaration
+     * @param AbstractPlatform $platform
+     *
+     * @return string
      */
     public function getSqlDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
@@ -63,9 +68,9 @@ trait EnumTypeTrait
     }
 
     /**
-     *  Get the type name
+     * Get the type name
      *
-     *  @return string
+     * @return string
      */
     public function getName()
     {
@@ -73,7 +78,7 @@ trait EnumTypeTrait
     }
 
     /**
-     *  Get a string representation of valid enum values
+     * Get a string representation of valid enum values
      *
      * @return string
      */

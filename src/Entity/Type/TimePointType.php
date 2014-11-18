@@ -1,5 +1,9 @@
 <?php
-# src/QL/Hal/Core/Entity/Type/TimePointType.php
+/**
+ * @copyright ©2014 Quicken Loans Inc. All rights reserved. Trade Secret,
+ *    Confidential and Proprietary. Any dissemination outside of Quicken Loans
+ *    is strictly prohibited.
+ */
 
 namespace QL\Hal\Core\Entity\Type;
 
@@ -10,20 +14,18 @@ use DateTime;
 use DateTimeZone;
 
 /**
- *  Doctrine TimePoint Type
- *
- *  @author Matt Colf <matthewcolf@quickenloans.com>
- *  @author Steve Kluck <stevekluck@quickenloans.com>
+ * Doctrine TimePoint Type
  */
 class TimePointType extends BaseType
 {
     const TYPE = 'timepoint';
 
     /**
-     *  Convert TimePoint to database value
+     * Convert TimePoint to database value
      *
      * @param mixed $value
      * @param AbstractPlatform $platform
+     *
      * @return null|string
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
@@ -36,10 +38,11 @@ class TimePointType extends BaseType
     }
 
     /**
-     *  Convert database value to TimePoint
+     * Convert database value to TimePoint
      *
      * @param mixed $value
      * @param AbstractPlatform $platform
+     *
      * @return mixed|void
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
@@ -64,9 +67,9 @@ class TimePointType extends BaseType
     }
 
     /**
-     *  Get the type name
+     * Get the type name
      *
-     *  @return string
+     * @return string
      */
     public function getName()
     {
@@ -74,11 +77,12 @@ class TimePointType extends BaseType
     }
 
     /**
-     *  Get the Timepoint field declaration
+     * Get the Timepoint field declaration
      *
-     *  @param array $fieldDeclaration
-     *  @param AbstractPlatform $platform
-     *  @return string
+     * @param array $fieldDeclaration
+     * @param AbstractPlatform $platform
+     *
+     * @return string
      */
     public function getSqlDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {

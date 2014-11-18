@@ -1,5 +1,9 @@
 <?php
-# src/QL/Hal/Core/Entity/Type/BuildStatusEnumType.php
+/**
+ * @copyright ©2014 Quicken Loans Inc. All rights reserved. Trade Secret,
+ *    Confidential and Proprietary. Any dissemination outside of Quicken Loans
+ *    is strictly prohibited.
+ */
 
 namespace QL\Hal\Core\Entity\Type;
 
@@ -7,22 +11,29 @@ use Doctrine\DBAL\Types\Type as BaseType;
 
 /**
  *  Build Status Doctrine Enum Type
- *
- *  @author Matt Colf <matthewcolf@quickenloans.com>
  */
 class BuildStatusEnumType extends BaseType
 {
     use EnumTypeTrait;
 
     /**
-     *  The enum data type
+     * The enum data type
      */
     const TYPE = 'buildstatusenum';
 
     /**
-     *  The enum allowed values
+     * The enum allowed values
      *
-     *  @var array
+     * @return array
      */
-    protected $values = ['Waiting','Building','Success','Error','Removed'];
+    public static function values()
+    {
+        return [
+            'Waiting',
+            'Building',
+            'Success',
+            'Error',
+            'Removed'
+        ];
+    }
 }

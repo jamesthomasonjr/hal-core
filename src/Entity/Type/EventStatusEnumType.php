@@ -24,11 +24,14 @@ class EventStatusEnumType extends BaseType
     /**
      * The enum allowed values
      *
-     * @var array
+     * @return array
      */
-    protected $values = [
-        'info',
-        'success',
-        'failure'
-    ];
+    public static function values()
+    {
+        return [
+            'info',
+            'success',
+            'failure'
+        ];
+    }
 }
