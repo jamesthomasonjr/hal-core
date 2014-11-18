@@ -78,7 +78,7 @@ class EventLog
     /**
      * The data associated with the event
      *
-     * @var string
+     * @var array
      * @Column(name="EventLogData", type="compressedserialized")
      */
     protected $data;
@@ -96,5 +96,133 @@ class EventLog
         $this->push = null;
 
         $this->data = null;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEvent()
+    {
+        return $this->event;
+    }
+
+    /**
+     * @return TimePoint
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @return Build|null
+     */
+    public function getBuild()
+    {
+        return $this->build;
+    }
+
+    /**
+     * @return Push|null
+     */
+    public function getPush()
+    {
+        return $this->push;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @param string $status
+     */
+    public function setEvent($event)
+    {
+        $this->event = $event;
+    }
+
+    /**
+     * @param TimePoint $created
+     */
+    public function setCreated(TimePoint $created)
+    {
+        $this->created = $created;
+    }
+
+    /**
+     * @param string $message
+     */
+    public function setMessage($message)
+    {
+        $this->message = $message;
+    }
+
+    /**
+     * @param string $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * @param Build $build
+     */
+    public function setBuild(Build $build)
+    {
+        $this->build = $build;
+    }
+
+    /**
+     * @param Push $push
+     */
+    public function setPush(Push $push)
+    {
+        $this->push = $push;
+    }
+
+    /**
+     * @param array $data
+     */
+    public function setData(array $data)
+    {
+        $this->data = $data;
     }
 }
