@@ -75,22 +75,6 @@ CREATE TABLE Servers (
     ENGINE                  InnoDB
     CHARACTER SET           utf8;
 
--- Server Properties
--- Keep track of server properties (software versions, package versions, etc.)
-CREATE TABLE ServerProperties (
-    ServerPropertyId        INT UNSIGNED    NOT NULL AUTO_INCREMENT,
-    ServerPropertyName      CHAR(24)        CHARACTER SET ascii NOT NULL,
-    ServerPropertyValue     CHAR(16)        CHARACTER SET ascii NOT NULL,
-    ServerId                INT UNSIGNED    NOT NULL,
-    CONSTRAINT              ServerPropertyToServer
-      FOREIGN KEY (ServerId) REFERENCES Servers (ServerId)
-      ON UPDATE CASCADE
-      ON DELETE CASCADE,
-    PRIMARY KEY             (ServerPropertyId)
-)
-    ENGINE                  InnoDB
-    CHARACTER SET           utf8;
-
 -- Groups Table
 -- Keep track of repository groups.
 CREATE TABLE Groups (

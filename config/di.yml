@@ -82,13 +82,6 @@ services:
         factory_method: 'getRepository'
         arguments: ['QL\Hal\Core\Entity\Repository']
 
-    # Server Property Repository
-    serverproperty.repo:
-        class: 'QL\Hal\Core\Entity\Repository\ServerPropertyRepository'
-        factory_service: 'doctrine.em'
-        factory_method: 'getRepository'
-        arguments: ['QL\Hal\Core\Entity\ServerProperty']
-
     # Server Repository
     server.repo:
         class: 'QL\Hal\Core\Entity\Repository\ServerRepository'
