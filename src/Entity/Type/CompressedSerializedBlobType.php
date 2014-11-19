@@ -43,10 +43,10 @@ class CompressedSerializedBlobType extends BaseType
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        $unserialized = unserialize($value);
-        $uncompressed = gzuncompress($unserialized);
+        $uncompressed = gzuncompress($value);
+        $unserialized = unserialize($uncompressed);
 
-        return $uncompressed;
+        return $unserialized;
     }
 
     /**
