@@ -299,4 +299,24 @@ class Push
     {
         return $this->deployment;
     }
+
+    /**
+     *  Set the event logs
+     *
+     *  @param ArrayCollection $logs
+     */
+    public function setLogs($logs)
+    {
+        $this->logs = $logs;
+    }
+
+    /**
+     *  Get the event logs
+     *
+     *  @return ArrayCollection
+     */
+    public function getLogs()
+    {
+        return $this->logs;
+    }
 }
