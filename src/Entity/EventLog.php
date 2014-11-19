@@ -21,7 +21,7 @@ class EventLog
      * The event log id
      *
      * @var varchar
-     * @Id @Column(name="EventLogId", type="char", length=40)
+     * @Id @Column(name="EventLogId", type="string", length=40)
      */
     protected $id;
 
