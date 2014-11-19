@@ -31,12 +31,14 @@ class EventEnumType extends BaseType
         return [
             'build.created',
             'build.start',
+            'build.building',
             'build.end',
             'build.success',
             'build.failure',
 
             'push.created',
             'push.start',
+            'push.pushing',
             'push.end',
             'push.success',
             'push.failure',
