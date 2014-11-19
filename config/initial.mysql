@@ -255,7 +255,7 @@ CREATE TABLE AuditLogs (
 -- Event Logs Table
 -- Keep track of events on builds and pushes.
 CREATE TABLE EventLogs (
-    EventLogId              BIGINT          NOT NULL AUTO_INCREMENT,
+    EventLogId              CHAR(40)        NOT NULL,
     Event                   ENUM('build.created', 'build.start', 'build.end', 'build.success', 'build.failure', 'push.created', 'push.start', 'push.end', 'push.success', 'push.failure', 'unknown') NOT NULL DEFAULT 'unknown',
     EventLogCreated         DATETIME        NOT NULL,
     EventLogMessage         VARCHAR(255)    NULL,
