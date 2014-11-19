@@ -257,6 +257,7 @@ CREATE TABLE AuditLogs (
 CREATE TABLE EventLogs (
     EventLogId              CHAR(40)        NOT NULL,
     Event                   ENUM('build.created', 'build.start', 'build.building', 'build.end', 'build.success', 'build.failure', 'push.created', 'push.start', 'push.pushing', 'push.end', 'push.success', 'push.failure', 'unknown') NOT NULL DEFAULT 'unknown',
+    EventOrder              INT             NULL,
     EventLogCreated         DATETIME        NOT NULL,
     EventLogMessage         VARCHAR(255)    NULL,
     EventLogStatus          ENUM('info', 'success', 'failure') NOT NULL DEFAULT 'info',

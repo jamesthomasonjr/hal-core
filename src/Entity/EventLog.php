@@ -34,6 +34,14 @@ class EventLog
     protected $event;
 
     /**
+     * The event order
+     *
+     * @var string
+     * @Column(name="EventOrder", type="integer")
+     */
+    protected $order;
+
+    /**
      * When the log was created
      *
      * @var Timepoint
@@ -115,6 +123,14 @@ class EventLog
     }
 
     /**
+     * @return int
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    /**
      * @return TimePoint
      */
     public function getCreated()
@@ -176,6 +192,14 @@ class EventLog
     public function setEvent($event)
     {
         $this->event = $event;
+    }
+
+    /**
+     * @param int $order
+     */
+    public function setOrder($order)
+    {
+        $this->order = $order;
     }
 
     /**

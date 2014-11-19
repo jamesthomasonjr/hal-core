@@ -116,6 +116,7 @@ class Build
      *
      *  @var ArrayCollection
      *  @OneToMany(targetEntity="EventLog", mappedBy="build")
+     *  @OrderBy({"event" = "ASC", "order" = "ASC"})
      */
     protected $logs;
 
