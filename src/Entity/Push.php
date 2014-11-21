@@ -91,7 +91,7 @@ class Push
      *
      *  @var Deployment
      *  @ManyToOne(targetEntity="Deployment", inversedBy="pushes")
-     *  @JoinColumn(name="DeploymentId", referencedColumnName="DeploymentId")
+     *  @JoinColumn(name="DeploymentId", referencedColumnName="DeploymentId", nullable=true)
      */
     protected $deployment;
 
