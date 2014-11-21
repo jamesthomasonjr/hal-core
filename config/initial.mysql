@@ -175,7 +175,7 @@ CREATE TABLE Pushes (
     UserId                  INT UNSIGNED,
     ConsumerId              INT UNSIGNED,
     BuildId                 CHAR(40)        NOT NULL,
-    DeploymentId            INT UNSIGNED    NOT NULL,
+    DeploymentId            INT UNSIGNED,
     PRIMARY KEY             (PushId),
     CONSTRAINT              PushToUser
       FOREIGN KEY (UserId) REFERENCES Users (UserId)
@@ -188,7 +188,8 @@ CREATE TABLE Pushes (
       ON UPDATE CASCADE,
     CONSTRAINT              PushToDeployment
       FOREIGN KEY (DeploymentId) REFERENCES Deployments (DeploymentId)
-      ON UPDATE CASCADE,
+      ON UPDATE CASCADE
+      ON DELETE SET NULL,
     INDEX                   (UserId),                         -- WHERE UserId = ?
     INDEX                   (BuildId),                        -- WHERE BuildId = ?
     INDEX                   (DeploymentId),                   -- WHERE DeploymentId = ?
