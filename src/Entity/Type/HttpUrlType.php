@@ -74,7 +74,7 @@ class HttpUrlType extends BaseType
     {
         return $platform->getVarcharTypeDeclarationSQL([
             'fixed'  => true,
-            'length' => '128'
+            'length' => '1024'
         ]);
     }
 }

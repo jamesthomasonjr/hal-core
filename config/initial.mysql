@@ -116,6 +116,7 @@ CREATE TABLE Repositories (
 CREATE TABLE Deployments (
     DeploymentId            INT UNSIGNED    NOT NULL AUTO_INCREMENT,
     DeploymentPath          CHAR(255)       NOT NULL,
+    DeploymentUrl           CHAR(1024),
     RepositoryId            INT UNSIGNED    NOT NULL,
     ServerId                INT UNSIGNED    NOT NULL,
     PRIMARY KEY             (DeploymentId),

@@ -7,6 +7,7 @@
 
 namespace QL\Hal\Core\Entity;
 
+use MCP\DataType\HttpUrl;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -34,6 +35,12 @@ class Deployment
      *  @Column(name="DeploymentPath", type="string", length=255)
      */
     protected $path;
+
+    /**
+     *  @var null|HttpUrl
+     *  @Column(name="DeploymentUrl", type="url")
+     */
+    protected $url;
 
     /**
      *  @var Repository
@@ -106,6 +113,26 @@ class Deployment
     public function getPath()
     {
         return $this->path;
+    }
+
+    /**
+     * Set the deployment url
+     *
+     * @param HttpUrl $url
+     */
+    public function setUrl(HttpUrl $url)
+    {
+        $this->url = $url;
+    }
+
+    /**
+     * Get the deployment url
+     *
+     * @return HttpUrl|null
+     */
+    public function getUrl()
+    {
+        return $this->url;
     }
 
     /**
