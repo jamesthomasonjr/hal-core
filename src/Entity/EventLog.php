@@ -12,7 +12,7 @@ use MCP\DataType\Time\TimePoint;
 /**
  * Build|Push Event Log Entity
  *
- * @Entity
+ * @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\EventLogRepository")
  * @Table(name="EventLogs")
  */
 class EventLog
