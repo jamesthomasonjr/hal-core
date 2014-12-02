@@ -100,6 +100,7 @@ class Push
      *
      *  @var ArrayCollection
      *  @OneToMany(targetEntity="EventLog", mappedBy="push")
+     *  @OrderBy({"event" = "ASC", "order" = "ASC"})
      */
     protected $logs;
 
