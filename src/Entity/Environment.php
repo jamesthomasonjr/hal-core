@@ -8,43 +8,40 @@
 namespace QL\Hal\Core\Entity;
 
 /**
- *  Environment Entity
- *
- *  @author Matt Colf <matthewcolf@quickenloans.com>
- *  @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\EnvironmentRepository")
- *  @Table(name="Environments")
+ * @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\EnvironmentRepository")
+ * @Table(name="Environments")
  */
 class Environment
 {
     /**
-     *  The environment id
+     * The environment id
      *
-     *  @var integer
-     *  @Id @Column(name="EnvironmentId", type="integer", unique=true)
-     *  @GeneratedValue(strategy="AUTO")
+     * @var integer
+     * @Id @Column(name="EnvironmentId", type="integer", unique=true)
+     * @GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
     /**
-     *  The environment key
+     * The environment key
      *
-     *  @var string
-     *  @Column(name="EnvironmentKey", type="string", length=24, unique=true)
+     * @var string
+     * @Column(name="EnvironmentKey", type="string", length=24, unique=true)
      */
     protected $key;
 
     /**
-     *  The environment display order
+     * The environment display order
      *
-     *  @var integer
-     *  @Column(name="EnvironmentOrder", type="integer")
+     * @var integer
+     * @Column(name="EnvironmentOrder", type="integer")
      */
     protected $order;
 
     /**
-     *  Set the environment id
+     * Set the environment id
      *
-     *  @param integer $id
+     * @param integer $id
      */
     public function setId($id)
     {
@@ -52,9 +49,9 @@ class Environment
     }
 
     /**
-     *  Get the environment id
+     * Get the environment id
      *
-     *  @return integer
+     * @return integer
      */
     public function getId()
     {
@@ -62,9 +59,9 @@ class Environment
     }
 
     /**
-     *  Set the environment key
+     * Set the environment key
      *
-     *  @param string $key
+     * @param string $key
      */
     public function setKey($key)
     {
@@ -72,9 +69,9 @@ class Environment
     }
 
     /**
-     *  Get the environment key
+     * Get the environment key
      *
-     *  @return string
+     * @return string
      */
     public function getKey()
     {
@@ -82,9 +79,9 @@ class Environment
     }
 
     /**
-     *  Set the environment display order
+     * Set the environment display order
      *
-     *  @param int $order
+     * @param int $order
      */
     public function setOrder($order)
     {
@@ -92,14 +89,12 @@ class Environment
     }
 
     /**
-     *  Get the environment display order
+     * Get the environment display order
      *
-     *  @return int
+     * @return int
      */
     public function getOrder()
     {
         return $this->order;
     }
-
-
 }

@@ -10,114 +10,111 @@ namespace QL\Hal\Core\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- *  Repository Entity
- *
- *  @author Matt Colf <matthewcolf@quickenloans.com>
- *  @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\RepositoryRepository")
- *  @Table(name="Repositories")
+ * @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\RepositoryRepository")
+ * @Table(name="Repositories")
  */
 class Repository
 {
     /**
-     *  The repository id
+     * The repository id
      *
-     *  @var int
-     *  @Id @Column(name="RepositoryId", type="integer", unique=true)
-     *  @GeneratedValue(strategy="AUTO")
+     * @var int
+     * @Id @Column(name="RepositoryId", type="integer", unique=true)
+     * @GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
     /**
-     *  The repository key
+     * The repository key
      *
-     *  @var string
-     *  @Column(name="RepositoryKey", type="string", length=24, unique=true)
+     * @var string
+     * @Column(name="RepositoryKey", type="string", length=24, unique=true)
      */
     protected $key;
 
     /**
-     *  The repository description
+     * The repository description
      *
-     *  @var string
-     *  @Column(name="RepositoryDescription", type="string", length=255)
+     * @var string
+     * @Column(name="RepositoryDescription", type="string", length=255)
      */
     protected $description;
 
     /**
-     *  The repository Github user
+     * The repository Github user
      *
-     *  @var string
-     *  @Column(name="RepositoryGithubUser", type="string", length=48)
+     * @var string
+     * @Column(name="RepositoryGithubUser", type="string", length=48)
      */
     protected $githubUser;
 
     /**
-     *  The repository Github repository
+     * The repository Github repository
      *
-     *  @var string
-     *  @Column(name="RepositoryGithubRepo", type="string", length=48)
+     * @var string
+     * @Column(name="RepositoryGithubRepo", type="string", length=48)
      */
     protected $githubRepo;
 
     /**
-     *  The repository email address
+     * The repository email address
      *
-     *  @var string
-     *  @Column(name="RepositoryEmail", type="string", length=128)
+     * @var string
+     * @Column(name="RepositoryEmail", type="string", length=128)
      */
     protected $email;
 
     /**
-     *  The repository build command
+     * The repository build command
      *
-     *  @var null|string
-     *  @Column(name="RepositoryBuildCmd", type="string", length=255, nullable=true)
+     * @var null|string
+     * @Column(name="RepositoryBuildCmd", type="string", length=255, nullable=true)
      */
     protected $buildCmd;
 
     /**
-     *  The repository build transform command to be run before push
+     * The repository build transform command to be run before push
      *
-     *  @var null|string
-     *  @Column(name="RepositoryBuildTransformCmd", type="string", length=255, nullable=true)
+     * @var null|string
+     * @Column(name="RepositoryBuildTransformCmd", type="string", length=255, nullable=true)
      */
     protected $buildTransformCmd;
 
     /**
-     *  The repository pre push command
+     * The repository pre push command
      *
-     *  @var null|string
-     *  @Column(name="RepositoryPrePushCmd", type="string", length=128, nullable = true)
+     * @var null|string
+     * @Column(name="RepositoryPrePushCmd", type="string", length=128, nullable = true)
      */
     protected $prePushCmd;
 
     /**
-     *  The repository post push command
+     * The repository post push command
      *
-     *  @var null|string
-     *  @Column(name="RepositoryPostPushCmd", type="string", length=128, nullable=true)
+     * @var null|string
+     * @Column(name="RepositoryPostPushCmd", type="string", length=128, nullable=true)
      */
     protected $postPushCmd;
 
     /**
-     *  The repository group
+     * The repository group
      *
-     *  @var Group
-     *  @ManyToOne(targetEntity="Group", inversedBy="repositories")
-     *  @JoinColumn(name="GroupId", referencedColumnName="GroupId")
+     * @var Group
+     * @ManyToOne(targetEntity="Group", inversedBy="repositories")
+     * @JoinColumn(name="GroupId", referencedColumnName="GroupId")
      */
     protected $group;
 
     /**
-     *  The repository deployments
+     * The repository deployments
      *
-     *  @var ArrayCollection
-     *  @OneToMany(targetEntity="Deployment", mappedBy="repository")
+     * @var ArrayCollection
+     * @OneToMany(targetEntity="Deployment", mappedBy="repository")
      */
     protected $deployments;
 
     /**
-     *  Constructor
+     * Constructor
      */
     public function __construct()
     {
@@ -136,9 +133,9 @@ class Repository
     }
 
     /**
-     *  Set the repository build command
+     * Set the repository build command
      *
-     *  @param null|string $buildCmd
+     * @param null|string $buildCmd
      */
     public function setBuildCmd($buildCmd = null)
     {
@@ -146,9 +143,9 @@ class Repository
     }
 
     /**
-     *  Get the repository build command
+     * Get the repository build command
      *
-     *  @return null|string
+     * @return null|string
      */
     public function getBuildCmd()
     {
@@ -156,9 +153,9 @@ class Repository
     }
 
     /**
-     *  Set the repository build transform command
+     * Set the repository build transform command
      *
-     *  @param null|string $buildTransformCmd
+     * @param null|string $buildTransformCmd
      */
     public function setBuildTransformCmd($buildTransformCmd = null)
     {
@@ -166,9 +163,9 @@ class Repository
     }
 
     /**
-     *  Get the repository build transform command
+     * Get the repository build transform command
      *
-     *  @return null|string
+     * @return null|string
      */
     public function getBuildTransformCmd()
     {
@@ -176,9 +173,9 @@ class Repository
     }
 
     /**
-     *  Set the repository description
+     * Set the repository description
      *
-     *  @param string $description
+     * @param string $description
      */
     public function setDescription($description)
     {
@@ -186,9 +183,9 @@ class Repository
     }
 
     /**
-     *  Get the repository description
+     * Get the repository description
      *
-     *  @return string
+     * @return string
      */
     public function getDescription()
     {
@@ -196,7 +193,7 @@ class Repository
     }
 
     /**
-     *  Set the repository email address
+     * Set the repository email address
      *
      * @param string $email
      */
@@ -206,9 +203,9 @@ class Repository
     }
 
     /**
-     *  Get the repository email address
+     * Get the repository email address
      *
-     *  @return string
+     * @return string
      */
     public function getEmail()
     {
@@ -216,9 +213,9 @@ class Repository
     }
 
     /**
-     *  Set the repository Github Repository
+     * Set the repository Github Repository
      *
-     *  @param string $githubRepo
+     * @param string $githubRepo
      */
     public function setGithubRepo($githubRepo)
     {
@@ -226,9 +223,9 @@ class Repository
     }
 
     /**
-     *  Get the repository Github repository
+     * Get the repository Github repository
      *
-     *  @return string
+     * @return string
      */
     public function getGithubRepo()
     {
@@ -236,9 +233,9 @@ class Repository
     }
 
     /**
-     *  Set the repository Github user
+     * Set the repository Github user
      *
-     *  @param string $githubUser
+     * @param string $githubUser
      */
     public function setGithubUser($githubUser)
     {
@@ -246,9 +243,9 @@ class Repository
     }
 
     /**
-     *  Get the repository Github user
+     * Get the repository Github user
      *
-     *  @return string
+     * @return string
      */
     public function getGithubUser()
     {
@@ -256,9 +253,9 @@ class Repository
     }
 
     /**
-     *  Set the repository group
+     * Set the repository group
      *
-     *  @param Group $group
+     * @param Group $group
      */
     public function setGroup(Group $group)
     {
@@ -266,9 +263,9 @@ class Repository
     }
 
     /**
-     *  Get the repository group
+     * Get the repository group
      *
-     *  @return Group
+     * @return Group
      */
     public function getGroup()
     {
@@ -276,9 +273,9 @@ class Repository
     }
 
     /**
-     *  Set the repository id
+     * Set the repository id
      *
-     *  @param int $id
+     * @param int $id
      */
     public function setId($id)
     {
@@ -286,9 +283,9 @@ class Repository
     }
 
     /**
-     *  Get the repository id
+     * Get the repository id
      *
-     *  @return int
+     * @return int
      */
     public function getId()
     {
@@ -296,9 +293,9 @@ class Repository
     }
 
     /**
-     *  Set the repository key
+     * Set the repository key
      *
-     *  @param string $key
+     * @param string $key
      */
     public function setKey($key)
     {
@@ -306,9 +303,9 @@ class Repository
     }
 
     /**
-     *  Get the repository key
+     * Get the repository key
      *
-     *  @return string
+     * @return string
      */
     public function getKey()
     {
@@ -316,9 +313,9 @@ class Repository
     }
 
     /**
-     *  Set the repository post push command
+     * Set the repository post push command
      *
-     *  @param null|string $postPushCmd
+     * @param null|string $postPushCmd
      */
     public function setPostPushCmd($postPushCmd = null)
     {
@@ -326,9 +323,9 @@ class Repository
     }
 
     /**
-     *  Get the repository post push command
+     * Get the repository post push command
      *
-     *  @return null|string
+     * @return null|string
      */
     public function getPostPushCmd()
     {
@@ -336,7 +333,7 @@ class Repository
     }
 
     /**
-     *  Set the repository pre push command
+     * Set the repository pre push command
      *
      * @param null|string $prePushCmd
      */
@@ -346,13 +343,12 @@ class Repository
     }
 
     /**
-     *  Get the repository pre push command
+     * Get the repository pre push command
      *
-     *  @return null|string
+     * @return null|string
      */
     public function getPrePushCmd()
     {
         return $this->prePushCmd;
     }
-
 }

@@ -11,118 +11,112 @@ use Doctrine\Common\Collections\ArrayCollection;
 use MCP\DataType\Time\TimePoint;
 
 /**
- *  Build Entity
- *
- *  @author Matt Colf <matthewcolf@quickenloans.com>
- *  @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\BuildRepository")
- *  @Table(name="Builds")
+ * @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\BuildRepository")
+ * @Table(name="Builds")
  */
 class Build
 {
     /**
-     *  The build id
+     * The build id
      *
-     *  @var string
-     *  @Id @Column(name="BuildId", type="string", length=40, unique=true)
+     * @var string
+     * @Id @Column(name="BuildId", type="string", length=40, unique=true)
      */
     protected $id;
 
     /**
-     *  The build created time
+     * The build created time
      *
-     *  @var null|TimePoint
-     *  @Column(name="BuildCreated", type="timepoint", nullable=true)
+     * @var null|TimePoint
+     * @Column(name="BuildCreated", type="timepoint", nullable=true)
      */
     protected $created;
 
     /**
-     *  The build start time
+     * The build start time
      *
-     *  @var null|TimePoint
-     *  @Column(name="BuildStart", type="timepoint", nullable=true)
+     * @var null|TimePoint
+     * @Column(name="BuildStart", type="timepoint", nullable=true)
      */
     protected $start;
 
     /**
-     *  The build end time
+     * The build end time
      *
-     *  @var null|TimePoint
-     *  @Column(name="BuildEnd", type="timepoint", nullable=true)
+     * @var null|TimePoint
+     * @Column(name="BuildEnd", type="timepoint", nullable=true)
      */
     protected $end;
 
     /**
-     *  The build status
+     * The build status
      *
-     *  @var string
-     *  @Column(name="BuildStatus", type="buildstatusenum")
+     * @var string
+     * @Column(name="BuildStatus", type="buildstatusenum")
      */
     protected $status;
 
     /**
-     *  The build branch name
+     * The build branch name
      *
-     *  @var string
-     *  @Column(name="BuildBranch", type="string", length=64)
+     * @var string
+     * @Column(name="BuildBranch", type="string", length=64)
      */
     protected $branch;
 
     /**
-     *  The build commit hash
+     * The build commit hash
      *
-     *  @var string
-     *  @Column(name="BuildCommit", type="string", length=40)
+     * @var string
+     * @Column(name="BuildCommit", type="string", length=40)
      */
     protected $commit;
 
     /**
-     *  The build initiating user (if a user)
+     * The build initiating user (if a user)
      *
-     *  @var null|User
-     *  @ManyToOne(targetEntity="User", inversedBy="builds")
-     *  @JoinColumn(name="UserId", referencedColumnName="UserId", nullable=true)
+     * @var null|User
+     * @ManyToOne(targetEntity="User", inversedBy="builds")
+     * @JoinColumn(name="UserId", referencedColumnName="UserId", nullable=true)
      */
     protected $user;
 
     /**
-     *  The build initiating consumer(if a consumer)
+     * The build initiating consumer(if a consumer)
      *
-     *  @var null|Consumer
-     *  @ManyToOne(targetEntity="Consumer")
-     *  @JoinColumn(name="ConsumerId", referencedColumnName="ConsumerId", nullable=true)
+     * @var null|Consumer
+     * @ManyToOne(targetEntity="Consumer")
+     * @JoinColumn(name="ConsumerId", referencedColumnName="ConsumerId", nullable=true)
      */
     protected $consumer;
 
     /**
-     *  The build repository
+     * The build repository
      *
-     *  @var Repository
-     *  @ManyToOne(targetEntity="Repository")
-     *  @JoinColumn(name="RepositoryId", referencedColumnName="RepositoryId")
+     * @var Repository
+     * @ManyToOne(targetEntity="Repository")
+     * @JoinColumn(name="RepositoryId", referencedColumnName="RepositoryId")
      */
     protected $repository;
 
     /**
-     *  The build environment
+     * The build environment
      *
-     *  @var Environment
-     *  @ManyToOne(targetEntity="Environment")
-     *  @JoinColumn(name="EnvironmentId", referencedColumnName="EnvironmentId")
+     * @var Environment
+     * @ManyToOne(targetEntity="Environment")
+     * @JoinColumn(name="EnvironmentId", referencedColumnName="EnvironmentId")
      */
     protected $environment;
 
     /**
-     *  The event logs for this job
+     * The event logs for this job
      *
-     *  @var ArrayCollection
-     *  @OneToMany(targetEntity="EventLog", mappedBy="build")
-     *  @OrderBy({"event" = "ASC", "order" = "ASC"})
+     * @var ArrayCollection
+     * @OneToMany(targetEntity="EventLog", mappedBy="build")
+     * @OrderBy({"event" = "ASC", "order" = "ASC"})
      */
     protected $logs;
 
-    /**
-     *  Constructor
-     */
     public function __construct()
     {
         $this->id = null;
@@ -160,9 +154,9 @@ class Build
     }
 
     /**
-     *  Set the push created time
+     * Set the push created time
      *
-     *  @param null|TimePoint $created
+     * @param null|TimePoint $created
      */
     public function setCreated(TimePoint $created = null)
     {
@@ -170,9 +164,9 @@ class Build
     }
 
     /**
-     *  Get the push created time
+     * Get the push created time
      *
-     *  @return null|TimePoint
+     * @return null|TimePoint
      */
     public function getCreated()
     {
@@ -180,9 +174,9 @@ class Build
     }
 
     /**
-     *  Set the build start time
+     * Set the build start time
      *
-     *  @param TimePoint|null $start
+     * @param TimePoint|null $start
      */
     public function setStart(TimePoint $start = null)
     {
@@ -190,9 +184,9 @@ class Build
     }
 
     /**
-     *  Get the build start time
+     * Get the build start time
      *
-     *  @return TimePoint|null
+     * @return TimePoint|null
      */
     public function getStart()
     {
@@ -200,7 +194,7 @@ class Build
     }
 
     /**
-     *  Set the build end time
+     * Set the build end time
      *
      * @param TimePoint|null $end
      */
@@ -210,9 +204,9 @@ class Build
     }
 
     /**
-     *  Get the build end time
+     * Get the build end time
      *
-     *  @return TimePoint|null
+     * @return TimePoint|null
      */
     public function getEnd()
     {
@@ -220,9 +214,9 @@ class Build
     }
 
     /**
-     *  Set the build status
+     * Set the build status
      *
-     *  @param string $status
+     * @param string $status
      */
     public function setStatus($status)
     {
@@ -230,9 +224,9 @@ class Build
     }
 
     /**
-     *  Get the build status
+     * Get the build status
      *
-     *  @return string
+     * @return string
      */
     public function getStatus()
     {
@@ -240,9 +234,9 @@ class Build
     }
 
     /**
-     *  Set the build branch name
+     * Set the build branch name
      *
-     *  @param string $branch
+     * @param string $branch
      */
     public function setBranch($branch)
     {
@@ -250,9 +244,9 @@ class Build
     }
 
     /**
-     *  Get the build branch name
+     * Get the build branch name
      *
-     *  @return string
+     * @return string
      */
     public function getBranch()
     {
@@ -260,9 +254,9 @@ class Build
     }
 
     /**
-     *  Set the build commit hash
+     * Set the build commit hash
      *
-     *  @param string $commit
+     * @param string $commit
      */
     public function setCommit($commit)
     {
@@ -270,9 +264,9 @@ class Build
     }
 
     /**
-     *  Get the build commit hash
+     * Get the build commit hash
      *
-     *  @return string
+     * @return string
      */
     public function getCommit()
     {
@@ -280,9 +274,9 @@ class Build
     }
 
     /**
-     *  Set the build user
+     * Set the build user
      *
-     *  @param null|User $user
+     * @param null|User $user
      */
     public function setUser(User $user = null)
     {
@@ -290,9 +284,9 @@ class Build
     }
 
     /**
-     *  Get the build user
+     * Get the build user
      *
-     *  @return null|User
+     * @return null|User
      */
     public function getUser()
     {
@@ -300,9 +294,9 @@ class Build
     }
 
     /**
-     *  Set the build consumer
+     * Set the build consumer
      *
-     *  @param null|Consumer $consumer
+     * @param null|Consumer $consumer
      */
     public function setConsumer(Consumer $consumer = null)
     {
@@ -310,9 +304,9 @@ class Build
     }
 
     /**
-     *  Get the build consumer
+     * Get the build consumer
      *
-     *  @return null|Consumer
+     * @return null|Consumer
      */
     public function getConsumer()
     {
@@ -320,9 +314,9 @@ class Build
     }
 
     /**
-     *  Set the build repository
+     * Set the build repository
      *
-     *  @param Repository $repository
+     * @param Repository $repository
      */
     public function setRepository(Repository $repository)
     {
@@ -330,9 +324,9 @@ class Build
     }
 
     /**
-     *  Get the build repository
+     * Get the build repository
      *
-     *  @return Repository
+     * @return Repository
      */
     public function getRepository()
     {
@@ -340,9 +334,9 @@ class Build
     }
 
     /**
-     *  Set the build environment
+     * Set the build environment
      *
-     *  @param Environment $environment
+     * @param Environment $environment
      */
     public function setEnvironment(Environment $environment)
     {
@@ -350,9 +344,9 @@ class Build
     }
 
     /**
-     *  Get the build environment
+     * Get the build environment
      *
-     *  @return Environment
+     * @return Environment
      */
     public function getEnvironment()
     {
@@ -360,9 +354,9 @@ class Build
     }
 
     /**
-     *  Set the event logs
+     * Set the event logs
      *
-     *  @param ArrayCollection $logs
+     * @param ArrayCollection $logs
      */
     public function setLogs($logs)
     {
@@ -370,9 +364,9 @@ class Build
     }
 
     /**
-     *  Get the event logs
+     * Get the event logs
      *
-     *  @return ArrayCollection
+     * @return ArrayCollection
      */
     public function getLogs()
     {

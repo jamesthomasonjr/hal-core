@@ -10,49 +10,46 @@ namespace QL\Hal\Core\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- *  Group Entity
- *
- *  @author Matt Colf <matthewcolf@quickenloans.com>
- *  @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\GroupRepository")
- *  @Table(name="Groups")
+ * @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\GroupRepository")
+ * @Table(name="Groups")
  */
 class Group
 {
     /**
-     *  The group id
+     * The group id
      *
-     *  @var integer
-     *  @Id @Column(name="GroupId", type="integer", unique=true)
-     *  @GeneratedValue(strategy="AUTO")
+     * @var integer
+     * @Id @Column(name="GroupId", type="integer", unique=true)
+     * @GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
     /**
-     *  The group key
+     * The group key
      *
-     *  @var string
-     *  @Column(name="GroupKey", type="string", length=24, unique=true)
+     * @var string
+     * @Column(name="GroupKey", type="string", length=24, unique=true)
      */
     protected $key;
 
     /**
-     *  The group name
+     * The group name
      *
-     *  @var string
-     *  @Column(name="GroupName", type="string", length=48)
+     * @var string
+     * @Column(name="GroupName", type="string", length=48)
      */
     protected $name;
 
     /**
-     *  The group repositories
+     * The group repositories
      *
-     *  @var ArrayCollection
-     *  @OneToMany(targetEntity="Repository", mappedBy="group")
+     * @var ArrayCollection
+     * @OneToMany(targetEntity="Repository", mappedBy="group")
      */
     protected $repositories;
 
     /**
-     *  Constructor
+     * Constructor
      */
     public function __construct()
     {
@@ -63,9 +60,9 @@ class Group
     }
 
     /**
-     *  Set the group id
+     * Set the group id
      *
-     *  @param int $id
+     * @param int $id
      */
     public function setId($id)
     {
@@ -73,9 +70,9 @@ class Group
     }
 
     /**
-     *  Get the group id
+     * Get the group id
      *
-     *  @return int
+     * @return int
      */
     public function getId()
     {
@@ -83,9 +80,9 @@ class Group
     }
 
     /**
-     *  Set the group key
+     * Set the group key
      *
-     *  @param string $key
+     * @param string $key
      */
     public function setKey($key)
     {
@@ -93,9 +90,9 @@ class Group
     }
 
     /**
-     *  Get the group key
+     * Get the group key
      *
-     *  @return string
+     * @return string
      */
     public function getKey()
     {
@@ -103,9 +100,9 @@ class Group
     }
 
     /**
-     *  Set the group name
+     * Set the group name
      *
-     *  @param string $name
+     * @param string $name
      */
     public function setName($name)
     {
@@ -113,9 +110,9 @@ class Group
     }
 
     /**
-     *  Get the group name
+     * Get the group name
      *
-     *  @return string
+     * @return string
      */
     public function getName()
     {
@@ -123,9 +120,9 @@ class Group
     }
 
     /**
-     *  Set the group repositories
+     * Set the group repositories
      *
-     *  @param ArrayCollection $repositories
+     * @param ArrayCollection $repositories
      */
     public function setRepositories($repositories)
     {
@@ -133,9 +130,9 @@ class Group
     }
 
     /**
-     *  Get the group repositories
+     * Get the group repositories
      *
-     *  @return ArrayCollection
+     * @return ArrayCollection
      */
     public function getRepositories()
     {

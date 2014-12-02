@@ -11,51 +11,48 @@ use Doctrine\Common\Collections\ArrayCollection;
 use MCP\DataType\HttpUrl;
 
 /**
- *  User Entity
- *
- *  @author Matt Colf <matthewcolf@quickenloans.com>
- *  @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\UserRepository")
- *  @Table(name="Users")
+ * @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\UserRepository")
+ * @Table(name="Users")
  */
 class User
 {
     /**
-     *  The common id of the user.
+     * The common id of the user.
      *
-     *  @var integer
-     *  @Id @Column(name="UserId", type="integer", unique=true)
+     * @var integer
+     * @Id @Column(name="UserId", type="integer", unique=true)
      */
     protected $id;
 
     /**
-     *  The handle (username) of the user.
+     * The handle (username) of the user.
      *
-     *  @var string
-     *  @Column(name="UserHandle", type="string", length=32, unique=true)
+     * @var string
+     * @Column(name="UserHandle", type="string", length=32, unique=true)
      */
     protected $handle;
 
     /**
-     *  The display name of the user.
+     * The display name of the user.
      *
-     *  @var string
-     *  @Column(name="UserName", type="string", length=128)
+     * @var string
+     * @Column(name="UserName", type="string", length=128)
      */
     protected $name;
 
     /**
-     *  The email address of the user.
+     * The email address of the user.
      *
-     *  @var string
-     *  @Column(name="UserEmail", type="string", length=128)
+     * @var string
+     * @Column(name="UserEmail", type="string", length=128)
      */
     protected $email;
 
     /**
-     *  The URL of the user picture.
+     * The URL of the user picture.
      *
-     *  @var null|HttpUrl
-     *  @Column(name="UserPictureUrl", type="url")
+     * @var null|HttpUrl
+     * @Column(name="UserPictureUrl", type="url")
      */
     protected $pictureUrl;
 
@@ -78,10 +75,10 @@ class User
     protected $builds;
 
     /**
-     *  The current user status
+     * The current user status
      *
-     *  @var boolean
-     *  @Column(name="UserIsActive", type="boolean")
+     * @var boolean
+     * @Column(name="UserIsActive", type="boolean")
      */
     protected $isActive;
 
@@ -95,7 +92,7 @@ class User
     protected $tokens;
 
     /**
-     *  Constructor
+     * Constructor
      */
     public function __construct()
     {
@@ -110,9 +107,9 @@ class User
     }
 
     /**
-     *  Set the user id
+     * Set the user id
      *
-     *  @param integer $id
+     * @param integer $id
      */
     public function setId($id)
     {
@@ -120,9 +117,9 @@ class User
     }
 
     /**
-     *  Get the user id
+     * Get the user id
      *
-     *  @return integer
+     * @return integer
      */
     public function getId()
     {
@@ -130,9 +127,9 @@ class User
     }
 
     /**
-     *  Set the user handle (username)
+     * Set the user handle (username)
      *
-     *  @param string $handle
+     * @param string $handle
      */
     public function setHandle($handle)
     {
@@ -140,9 +137,9 @@ class User
     }
 
     /**
-     *  Get the user handle (username)
+     * Get the user handle (username)
      *
-     *  @return string
+     * @return string
      */
     public function getHandle()
     {
@@ -150,9 +147,9 @@ class User
     }
 
     /**
-     *  Set the user display name
+     * Set the user display name
      *
-     *  @param string $name
+     * @param string $name
      */
     public function setName($name)
     {
@@ -160,9 +157,9 @@ class User
     }
 
     /**
-     *  Get the user display name
+     * Get the user display name
      *
-     *  @return string
+     * @return string
      */
     public function getName()
     {
@@ -170,9 +167,9 @@ class User
     }
 
     /**
-     *  Set the user email address
+     * Set the user email address
      *
-     *  @param string $email
+     * @param string $email
      */
     public function setEmail($email)
     {
@@ -180,9 +177,9 @@ class User
     }
 
     /**
-     *  Get the user email address
+     * Get the user email address
      *
-     *  @return string
+     * @return string
      */
     public function getEmail()
     {
@@ -190,9 +187,9 @@ class User
     }
 
     /**
-     *  Set the user picture url
+     * Set the user picture url
      *
-     *  @param HttpUrl $pictureUrl
+     * @param HttpUrl $pictureUrl
      */
     public function setPictureUrl(HttpUrl $pictureUrl)
     {
@@ -200,9 +197,9 @@ class User
     }
 
     /**
-     *  Get the user picture url
+     * Get the user picture url
      *
-     *  @return null|HttpUrl
+     * @return null|HttpUrl
      */
     public function getPictureUrl()
     {
@@ -250,9 +247,9 @@ class User
     }
 
     /**
-     *  Set the user status
+     * Set the user status
      *
-     *  @param bool $isActive
+     * @param bool $isActive
      */
     public function setIsActive($isActive)
     {
@@ -260,9 +257,9 @@ class User
     }
 
     /**
-     *  Get the user status
+     * Get the user status
      *
-     *  @return boolean
+     * @return boolean
      */
     public function isActive()
     {

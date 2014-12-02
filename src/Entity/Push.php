@@ -11,101 +11,98 @@ use Doctrine\Common\Collections\ArrayCollection;
 use MCP\DataType\Time\TimePoint;
 
 /**
- *  Push Entity
- *
- *  @author Matt Colf <matthewcolf@quickenloans.com>
- *  @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\PushRepository")
- *  @Table(name="Pushes")
+ * @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\PushRepository")
+ * @Table(name="Pushes")
  */
 class Push
 {
     /**
-     *  The push id
+     * The push id
      *
-     *  @var string
-     *  @Id @Column(name="PushId", type="string", length=40, unique=true)
+     * @var string
+     * @Id @Column(name="PushId", type="string", length=40, unique=true)
      */
     protected $id;
 
     /**
-     *  The push created time
+     * The push created time
      *
-     *  @var TimePoint|null;
-     *  @Column(name="PushCreated", type="timepoint", nullable=true)
+     * @var TimePoint|null;
+     * @Column(name="PushCreated", type="timepoint", nullable=true)
      */
     protected $created;
 
     /**
-     *  The push start time
+     * The push start time
      *
-     *  @var TimePoint|null;
-     *  @Column(name="PushStart", type="timepoint", nullable=true)
+     * @var TimePoint|null;
+     * @Column(name="PushStart", type="timepoint", nullable=true)
      */
     protected $start;
 
     /**
-     *  The push end time
+     * The push end time
      *
-     *  @var TimePoint;
-     *  @Column(name="PushEnd", type="timepoint", nullable=true)
+     * @var TimePoint;
+     * @Column(name="PushEnd", type="timepoint", nullable=true)
      */
     protected $end;
 
     /**
-     *  The push status
+     * The push status
      *
-     *  @var string
-     *  @Column(name="PushStatus", type="pushstatusenum")
+     * @var string
+     * @Column(name="PushStatus", type="pushstatusenum")
      */
     protected $status;
 
     /**
-     *  The push initiating user (if a user)
+     * The push initiating user (if a user)
      *
-     *  @var null|User
-     *  @ManyToOne(targetEntity="User", inversedBy="pushes")
-     *  @JoinColumn(name="UserId", referencedColumnName="UserId", nullable=true)
+     * @var null|User
+     * @ManyToOne(targetEntity="User", inversedBy="pushes")
+     * @JoinColumn(name="UserId", referencedColumnName="UserId", nullable=true)
      */
     protected $user;
 
     /**
-     *  The push initiating consumer (if a consumer)
+     * The push initiating consumer (if a consumer)
      *
-     *  @var null|Consumer
-     *  @ManyToOne(targetEntity="Consumer")
-     *  @JoinColumn(name="ConsumerId", referencedColumnName="ConsumerId", nullable=true)
+     * @var null|Consumer
+     * @ManyToOne(targetEntity="Consumer")
+     * @JoinColumn(name="ConsumerId", referencedColumnName="ConsumerId", nullable=true)
      */
     protected $consumer;
 
     /**
-     *  The push build
+     * The push build
      *
-     *  @var Build
-     *  @ManyToOne(targetEntity="Build")
-     *  @JoinColumn(name="BuildId", referencedColumnName="BuildId")
+     * @var Build
+     * @ManyToOne(targetEntity="Build")
+     * @JoinColumn(name="BuildId", referencedColumnName="BuildId")
      */
     protected $build;
 
     /**
-     *  The push deployment
+     * The push deployment
      *
-     *  @var Deployment
-     *  @ManyToOne(targetEntity="Deployment", inversedBy="pushes")
-     *  @JoinColumn(name="DeploymentId", referencedColumnName="DeploymentId", nullable=true)
+     * @var Deployment
+     * @ManyToOne(targetEntity="Deployment", inversedBy="pushes")
+     * @JoinColumn(name="DeploymentId", referencedColumnName="DeploymentId", nullable=true)
      */
     protected $deployment;
 
     /**
-     *  The event logs for this job
+     * The event logs for this job
      *
-     *  @var ArrayCollection
-     *  @OneToMany(targetEntity="EventLog", mappedBy="push")
-     *  @OrderBy({"event" = "ASC", "order" = "ASC"})
+     * @var ArrayCollection
+     * @OneToMany(targetEntity="EventLog", mappedBy="push")
+     * @OrderBy({"event" = "ASC", "order" = "ASC"})
      */
     protected $logs;
 
     /**
-     *  Constructor
+     * Constructor
      */
     public function __construct()
     {
@@ -122,9 +119,9 @@ class Push
     }
 
     /**
-     *  Set the push id
+     * Set the push id
      *
-     *  @param int $id
+     * @param int $id
      */
     public function setId($id)
     {
@@ -132,9 +129,9 @@ class Push
     }
 
     /**
-     *  Get the push id
+     * Get the push id
      *
-     *  @return int
+     * @return int
      */
     public function getId()
     {
@@ -142,9 +139,9 @@ class Push
     }
 
     /**
-     *  Set the push created time
+     * Set the push created time
      *
-     *  @param null|TimePoint $created
+     * @param null|TimePoint $created
      */
     public function setCreated(TimePoint $created = null)
     {
@@ -152,9 +149,9 @@ class Push
     }
 
     /**
-     *  Get the push created time
+     * Get the push created time
      *
-     *  @return null|TimePoint
+     * @return null|TimePoint
      */
     public function getCreated()
     {
@@ -162,9 +159,9 @@ class Push
     }
 
     /**
-     *  Set the push start time
+     * Set the push start time
      *
-     *  @param null|TimePoint $start
+     * @param null|TimePoint $start
      */
     public function setStart(TimePoint $start = null)
     {
@@ -172,9 +169,9 @@ class Push
     }
 
     /**
-     *  Get the push start time
+     * Get the push start time
      *
-     *  @return null|TimePoint
+     * @return null|TimePoint
      */
     public function getStart()
     {
@@ -182,7 +179,7 @@ class Push
     }
 
     /**
-     *  Set the push end time
+     * Set the push end time
      *
      * @param null|TimePoint $end
      */
@@ -192,9 +189,9 @@ class Push
     }
 
     /**
-     *  Get the push end time
+     * Get the push end time
      *
-     *  @return null|TimePoint
+     * @return null|TimePoint
      */
     public function getEnd()
     {
@@ -202,9 +199,9 @@ class Push
     }
 
     /**
-     *  Set the push status
+     * Set the push status
      *
-     *  @param string $status
+     * @param string $status
      */
     public function setStatus($status)
     {
@@ -212,9 +209,9 @@ class Push
     }
 
     /**
-     *  Get the push status
+     * Get the push status
      *
-     *  @return string
+     * @return string
      */
     public function getStatus()
     {
@@ -222,9 +219,9 @@ class Push
     }
 
     /**
-     *  Set the push user
+     * Set the push user
      *
-     *  @param null|User $user
+     * @param null|User $user
      */
     public function setUser(User $user = null)
     {
@@ -232,9 +229,9 @@ class Push
     }
 
     /**
-     *  Get the push user
+     * Get the push user
      *
-     *  @return null|User
+     * @return null|User
      */
     public function getUser()
     {
@@ -242,9 +239,9 @@ class Push
     }
 
     /**
-     *  Set the push consumer
+     * Set the push consumer
      *
-     *  @param null|Consumer $consumer
+     * @param null|Consumer $consumer
      */
     public function setConsumer($consumer)
     {
@@ -252,9 +249,9 @@ class Push
     }
 
     /**
-     *  Get the push consumer
+     * Get the push consumer
      *
-     *  @return null|Consumer
+     * @return null|Consumer
      */
     public function getConsumer()
     {
@@ -262,9 +259,9 @@ class Push
     }
 
     /**
-     *  Set the push build
+     * Set the push build
      *
-     *  @param Build $build
+     * @param Build $build
      */
     public function setBuild(Build $build)
     {
@@ -272,9 +269,9 @@ class Push
     }
 
     /**
-     *  Get the push build
+     * Get the push build
      *
-     *  @return Build
+     * @return Build
      */
     public function getBuild()
     {
@@ -282,9 +279,9 @@ class Push
     }
 
     /**
-     *  Set the push deployment
+     * Set the push deployment
      *
-     *  @param Deployment $deployment
+     * @param Deployment $deployment
      */
     public function setDeployment(Deployment $deployment)
     {
@@ -292,9 +289,9 @@ class Push
     }
 
     /**
-     *  Get the push deployment
+     * Get the push deployment
      *
-     *  @return Deployment
+     * @return Deployment
      */
     public function getDeployment()
     {
@@ -302,9 +299,9 @@ class Push
     }
 
     /**
-     *  Set the event logs
+     * Set the event logs
      *
-     *  @param ArrayCollection $logs
+     * @param ArrayCollection $logs
      */
     public function setLogs($logs)
     {
@@ -312,9 +309,9 @@ class Push
     }
 
     /**
-     *  Get the event logs
+     * Get the event logs
      *
-     *  @return ArrayCollection
+     * @return ArrayCollection
      */
     public function getLogs()
     {

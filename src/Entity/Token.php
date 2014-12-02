@@ -1,13 +1,15 @@
 <?php
+/**
+ * @copyright ©2014 Quicken Loans Inc. All rights reserved. Trade Secret,
+ *    Confidential and Proprietary. Any dissemination outside of Quicken Loans
+ *    is strictly prohibited.
+ */
 
 namespace QL\Hal\Core\Entity;
 
 /**
- *  Token Entity
- *
- *  @author Matt Colf <matthewcolf@quickenloans.com>
- *  @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\TokenRepository")
- *  @Table(name="Tokens")
+ * @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\TokenRepository")
+ * @Table(name="Tokens")
  */
 class Token
 {
@@ -21,36 +23,36 @@ class Token
     protected $id;
 
     /**
-     *  The token value
+     * The token value
      *
-     *  @var string
-     *  @Column(name="TokenValue", type="string", length=64)
+     * @var string
+     * @Column(name="TokenValue", type="string", length=64)
      */
     protected $value;
 
     /**
-     *  The token label
+     * The token label
      *
-     *  @var string
-     *  @Column(name="TokenLabel", type="string", length=128)
+     * @var string
+     * @Column(name="TokenLabel", type="string", length=128)
      */
     protected $label;
 
     /**
-     *  The token user owner (if a user)
+     * The token user owner (if a user)
      *
-     *  @var null|User
-     *  @ManyToOne(targetEntity="User", inversedBy="tokens")
-     *  @JoinColumn(name="UserId", referencedColumnName="UserId", nullable=true)
+     * @var null|User
+     * @ManyToOne(targetEntity="User", inversedBy="tokens")
+     * @JoinColumn(name="UserId", referencedColumnName="UserId", nullable=true)
      */
     protected $user;
 
     /**
-     *  The token consumer owner (if a consumer)
+     * The token consumer owner (if a consumer)
      *
-     *  @var null|Consumer
-     *  @ManyToOne(targetEntity="Consumer", inversedBy="tokens")
-     *  @JoinColumn(name="ConsumerId", referencedColumnName="ConsumerId", nullable=true)
+     * @var null|Consumer
+     * @ManyToOne(targetEntity="Consumer", inversedBy="tokens")
+     * @JoinColumn(name="ConsumerId", referencedColumnName="ConsumerId", nullable=true)
      */
     protected $consumer;
 

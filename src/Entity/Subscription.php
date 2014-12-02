@@ -10,86 +10,83 @@ namespace QL\Hal\Core\Entity;
 use MCP\DataType\HttpUrl;
 
 /**
- *  Subscription Entity
- *
- *  @author Matt Colf <matthewcolf@quickenloans.com>
- *  @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\SubscriptionRepository")
- *  @Table(name="Subscriptions")
+ * @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\SubscriptionRepository")
+ * @Table(name="Subscriptions")
  */
 class Subscription
 {
     /**
-     *  The subscription id
+     * The subscription id
      *
-     *  @var int
-     *  @Id @Column(name="SubscriptionId", type="integer", unique=true)
-     *  @GeneratedValue(strategy="AUTO")
+     * @var int
+     * @Id @Column(name="SubscriptionId", type="integer", unique=true)
+     * @GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
     /**
-     *  The subscription notification URL
+     * The subscription notification URL
      *
-     *  @var null|HttpUrl
-     *  @Column(name="SubscriptionUrl", type="url")
+     * @var null|HttpUrl
+     * @Column(name="SubscriptionUrl", type="url")
      */
     protected $url;
 
     /**
-     *  The subscription event name
+     * The subscription event name
      *
-     *  @var string
-     *  @Column(name="SubscriptionEvent", type="string", length=24)
+     * @var string
+     * @Column(name="SubscriptionEvent", type="string", length=24)
      */
     protected $event;
 
     /**
-     *  The subscription consumer (owner)
+     * The subscription consumer (owner)
      *
-     *  @var Consumer
-     *  @ManyToOne(targetEntity="Consumer")
-     *  @JoinColumn(name="ConsumerId", referencedColumnName="ConsumerId")
+     * @var Consumer
+     * @ManyToOne(targetEntity="Consumer")
+     * @JoinColumn(name="ConsumerId", referencedColumnName="ConsumerId")
      */
     protected $consumer;
 
     /**
-     *  The subscription repository filter (optional)
+     * The subscription repository filter (optional)
      *
-     *  @var null|Repository
-     *  @ManyToOne(targetEntity="Repository")
-     *  @JoinColumn(name="RepositoryId", referencedColumnName="RepositoryId", nullable=true)
+     * @var null|Repository
+     * @ManyToOne(targetEntity="Repository")
+     * @JoinColumn(name="RepositoryId", referencedColumnName="RepositoryId", nullable=true)
      */
     protected $repository;
 
     /**
-     *  The subscription environment filter (optional)
+     * The subscription environment filter (optional)
      *
-     *  @var null|Environment
-     *  @ManyToOne(targetEntity="Environment")
-     *  @JoinColumn(name="EnvironmentId", referencedColumnName="EnvironmentId", nullable=true)
+     * @var null|Environment
+     * @ManyToOne(targetEntity="Environment")
+     * @JoinColumn(name="EnvironmentId", referencedColumnName="EnvironmentId", nullable=true)
      */
     protected $environment;
 
     /**
-     *  The subscription server filter (optional)
+     * The subscription server filter (optional)
      *
-     *  @var null|Server
-     *  @ManyToOne(targetEntity="Server")
-     *  @JoinColumn(name="ServerId", referencedColumnName="ServerId", nullable=true)
+     * @var null|Server
+     * @ManyToOne(targetEntity="Server")
+     * @JoinColumn(name="ServerId", referencedColumnName="ServerId", nullable=true)
      */
     protected $server;
 
     /**
-     *  The subscription group filter (optional)
+     * The subscription group filter (optional)
      *
-     *  @var null|Group
-     *  @ManyToOne(targetEntity="Group")
-     *  @JoinColumn(name="GroupId", referencedColumnName="GroupId", nullable=true)
+     * @var null|Group
+     * @ManyToOne(targetEntity="Group")
+     * @JoinColumn(name="GroupId", referencedColumnName="GroupId", nullable=true)
      */
     protected $group;
 
     /**
-     *  Constructor
+     * Constructor
      */
     public function __construct()
     {
@@ -104,9 +101,9 @@ class Subscription
     }
 
     /**
-     *  Set the subscription id
+     * Set the subscription id
      *
-     *  @param int $id
+     * @param int $id
      */
     public function setId($id)
     {
@@ -114,9 +111,9 @@ class Subscription
     }
 
     /**
-     *  Get the subscription id
+     * Get the subscription id
      *
-     *  @return int
+     * @return int
      */
     public function getId()
     {
@@ -124,9 +121,9 @@ class Subscription
     }
 
     /**
-     *  Set the subscription notification url
+     * Set the subscription notification url
      *
-     *  @param HttpUrl $url
+     * @param HttpUrl $url
      */
     public function setUrl(HttpUrl $url)
     {
@@ -134,9 +131,9 @@ class Subscription
     }
 
     /**
-     *  Get the subscription notification url
+     * Get the subscription notification url
      *
-     *  @return null|HttpUrl
+     * @return null|HttpUrl
      */
     public function getUrl()
     {
@@ -144,9 +141,9 @@ class Subscription
     }
 
     /**
-     *  Set the subscription event name
+     * Set the subscription event name
      *
-     *  @param string $event
+     * @param string $event
      */
     public function setEvent($event)
     {
@@ -154,9 +151,9 @@ class Subscription
     }
 
     /**
-     *  Get the subscription event name
+     * Get the subscription event name
      *
-     *  @return string
+     * @return string
      */
     public function getEvent()
     {
@@ -164,9 +161,9 @@ class Subscription
     }
 
     /**
-     *  Set the subscription consumer
+     * Set the subscription consumer
      *
-     *  @param Consumer $consumer
+     * @param Consumer $consumer
      */
     public function setConsumer(Consumer $consumer)
     {
@@ -174,9 +171,9 @@ class Subscription
     }
 
     /**
-     *  Get the subscription consumer
+     * Get the subscription consumer
      *
-     *  @return Consumer
+     * @return Consumer
      */
     public function getConsumer()
     {
@@ -184,9 +181,9 @@ class Subscription
     }
 
     /**
-     *  Set the subscription repository filter
+     * Set the subscription repository filter
      *
-     *  @param null|Repository $repository
+     * @param null|Repository $repository
      */
     public function setRepository(Repository $repository = null)
     {
@@ -194,9 +191,9 @@ class Subscription
     }
 
     /**
-     *  Get the subscription repository filter
+     * Get the subscription repository filter
      *
-     *  @return null|Repository
+     * @return null|Repository
      */
     public function getRepository()
     {
@@ -204,9 +201,9 @@ class Subscription
     }
 
     /**
-     *  Set the subscription environment filter
+     * Set the subscription environment filter
      *
-     *  @param null|Environment $environment
+     * @param null|Environment $environment
      */
     public function setEnvironment(Environment $environment = null)
     {
@@ -214,9 +211,9 @@ class Subscription
     }
 
     /**
-     *  Get the subscription environment filter
+     * Get the subscription environment filter
      *
-     *  @return null|Environment
+     * @return null|Environment
      */
     public function getEnvironment()
     {
@@ -224,7 +221,7 @@ class Subscription
     }
 
     /**
-     *  Set the subscription server filter
+     * Set the subscription server filter
      *
      * @param null|Server $server
      */
@@ -234,9 +231,9 @@ class Subscription
     }
 
     /**
-     *  Get the subscription server filter
+     * Get the subscription server filter
      *
-     *  @return null|Server
+     * @return null|Server
      */
     public function getServer()
     {
@@ -244,9 +241,9 @@ class Subscription
     }
 
     /**
-     *  Set the subscription group filter
+     * Set the subscription group filter
      *
-     *  @param null|Group $group
+     * @param null|Group $group
      */
     public function setGroup(Group $group = null)
     {
@@ -254,9 +251,9 @@ class Subscription
     }
 
     /**
-     *  Get the subscription group filter
+     * Get the subscription group filter
      *
-     *  @return null|Group
+     * @return null|Group
      */
     public function getGroup()
     {

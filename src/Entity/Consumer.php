@@ -6,52 +6,49 @@ namespace QL\Hal\Core\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- *  Consumer Entity
- *
- *  @author Matt Colf <matthewcolf@quickenloans.com>
- *  @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\ConsumerRepository")
- *  @Table(name="Consumers")
+ * @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\ConsumerRepository")
+ * @Table(name="Consumers")
  */
 class Consumer
 {
     /**
-     *  The consumer id
+     * The consumer id
      *
-     *  @var integer
-     *  @Id @Column(name="ConsumerId", type="integer", unique=true)
-     *  @GeneratedValue(strategy="AUTO")
+     * @var integer
+     * @Id @Column(name="ConsumerId", type="integer", unique=true)
+     * @GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
     /**
-     *  The consumer key
+     * The consumer key
      *
-     *  @var string
-     *  @Column(name="ConsumerKey", type="string", length=24)
+     * @var string
+     * @Column(name="ConsumerKey", type="string", length=24)
      */
     protected $key;
 
     /**
-     *  The consumer name
+     * The consumer name
      *
-     *  @var string
-     *  @Column(name="ConsumerName", type="string", length=48)
+     * @var string
+     * @Column(name="ConsumerName", type="string", length=48)
      */
     protected $name;
 
     /**
-     *  The consumer secret
+     * The consumer secret
      *
-     *  @var string
-     *  @Column(name="ConsumerSecret", type="string", length=128)
+     * @var string
+     * @Column(name="ConsumerSecret", type="string", length=128)
      */
     protected $secret;
 
     /**
-     *  The consumer status
+     * The consumer status
      *
-     *  @var boolean
-     *  @Column(name="ConsumerIsActive", type="boolean")
+     * @var boolean
+     * @Column(name="ConsumerIsActive", type="boolean")
      */
     protected $isActive;
 
@@ -65,9 +62,9 @@ class Consumer
     protected $tokens;
 
     /**
-     *  Set the consumer id
+     * Set the consumer id
      *
-     *  @param integer $id
+     * @param integer $id
      */
     public function setId($id)
     {
@@ -75,9 +72,9 @@ class Consumer
     }
 
     /**
-     *  Get the consumer id
+     * Get the consumer id
      *
-     *  @return integer
+     * @return integer
      */
     public function getId()
     {
@@ -85,9 +82,9 @@ class Consumer
     }
 
     /**
-     *  Set the consumer key
+     * Set the consumer key
      *
-     *  @param string $key
+     * @param string $key
      */
     public function setKey($key)
     {
@@ -95,9 +92,9 @@ class Consumer
     }
 
     /**
-     *  Get the consumer key
+     * Get the consumer key
      *
-     *  @return string
+     * @return string
      */
     public function getKey()
     {
@@ -105,9 +102,9 @@ class Consumer
     }
 
     /**
-     *  Set the consumer name
+     * Set the consumer name
      *
-     *  @param string $name
+     * @param string $name
      */
     public function setName($name)
     {
@@ -115,9 +112,9 @@ class Consumer
     }
 
     /**
-     *  Get the consumer name
+     * Get the consumer name
      *
-     *  @return string
+     * @return string
      */
     public function getName()
     {
@@ -125,9 +122,9 @@ class Consumer
     }
 
     /**
-     *  Set the consumer secret
+     * Set the consumer secret
      *
-     *  @param string $secret
+     * @param string $secret
      */
     public function setSecret($secret)
     {
@@ -135,9 +132,9 @@ class Consumer
     }
 
     /**
-     *  Get the consumer secret
+     * Get the consumer secret
      *
-     *  @return string
+     * @return string
      */
     public function getSecret()
     {
@@ -145,9 +142,9 @@ class Consumer
     }
 
     /**
-     *  Set the consumer status
+     * Set the consumer status
      *
-     *  @param bool $isActive
+     * @param bool $isActive
      */
     public function setIsActive($isActive)
     {
@@ -155,9 +152,9 @@ class Consumer
     }
 
     /**
-     *  Get the consumer status
+     * Get the consumer status
      *
-     *  @return boolean
+     * @return boolean
      */
     public function isActive()
     {

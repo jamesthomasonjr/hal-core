@@ -10,9 +10,6 @@ namespace QL\Hal\Core\Entity;
 use MCP\DataType\Time\TimePoint;
 
 /**
- * Audit Log Entity
- *
- * @author Matt Colf <matthewcolf@quickenloans.com>
  * @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\AuditLogRepository")
  * @Table(name="AuditLogs")
  */

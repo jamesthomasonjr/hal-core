@@ -10,50 +10,47 @@ namespace QL\Hal\Core\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- *  Server Entity
- *
- *  @author Matt Colf <matthewcolf@quickenloans.com>
- *  @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\ServerRepository")
- *  @Table(name="Servers")
+ * @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\ServerRepository")
+ * @Table(name="Servers")
  */
 class Server
 {
     /**
-     *  The server id
+     * The server id
      *
-     *  @var int
-     *  @Id @Column(name="ServerId", type="integer", unique=true)
-     *  @GeneratedValue(strategy="AUTO")
+     * @var int
+     * @Id @Column(name="ServerId", type="integer", unique=true)
+     * @GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
     /**
-     *  The server name (hostname)
+     * The server name (hostname)
      *
-     *  @var string
-     *  @Column(name="ServerName", type="string", length=24, unique=true)
+     * @var string
+     * @Column(name="ServerName", type="string", length=24, unique=true)
      */
     protected $name;
 
     /**
-     *  The environment
+     * The environment
      *
-     *  @var Environment
-     *  @ManyToOne(targetEntity="Environment")
-     *  @JoinColumn(name="EnvironmentId", referencedColumnName="EnvironmentId")
+     * @var Environment
+     * @ManyToOne(targetEntity="Environment")
+     * @JoinColumn(name="EnvironmentId", referencedColumnName="EnvironmentId")
      */
     protected $environment;
 
     /**
-     *  Deployments for the server
+     * Deployments for the server
      *
-     *  @var ArrayCollection
-     *  @OneToMany(targetEntity="Deployment", mappedBy="server")
+     * @var ArrayCollection
+     * @OneToMany(targetEntity="Deployment", mappedBy="server")
      */
     protected $deployments;
 
     /**
-     *  Constructor
+     * Constructor
      */
     public function __construct()
     {
@@ -64,9 +61,9 @@ class Server
     }
 
     /**
-     *  Set the server id
+     * Set the server id
      *
-     *  @param int $id
+     * @param int $id
      */
     public function setId($id)
     {
@@ -74,9 +71,9 @@ class Server
     }
 
     /**
-     *  Get the server id
+     * Get the server id
      *
-     *  @return int
+     * @return int
      */
     public function getId()
     {
@@ -84,9 +81,9 @@ class Server
     }
 
     /**
-     *  Set the server name
+     * Set the server name
      *
-     *  @param string $name
+     * @param string $name
      */
     public function setName($name)
     {
@@ -94,9 +91,9 @@ class Server
     }
 
     /**
-     *  Get the server name
+     * Get the server name
      *
-     *  @return string
+     * @return string
      */
     public function getName()
     {
@@ -104,9 +101,9 @@ class Server
     }
 
     /**
-     *  Set the server environment
+     * Set the server environment
      *
-     *  @param Environment $environment
+     * @param Environment $environment
      */
     public function setEnvironment($environment)
     {
@@ -114,9 +111,9 @@ class Server
     }
 
     /**
-     *  Get the server environment
+     * Get the server environment
      *
-     *  @return Environment
+     * @return Environment
      */
     public function getEnvironment()
     {
@@ -124,9 +121,9 @@ class Server
     }
 
     /**
-     *  Set the server deployments
+     * Set the server deployments
      *
-     *  @param ArrayCollection $deployments
+     * @param ArrayCollection $deployments
      */
     public function setDeployments(ArrayCollection $deployments)
     {
@@ -134,9 +131,9 @@ class Server
     }
 
     /**
-     *  Get the server deployments
+     * Get the server deployments
      *
-     *  @return ArrayCollection
+     * @return ArrayCollection
      */
     public function getDeployments()
     {

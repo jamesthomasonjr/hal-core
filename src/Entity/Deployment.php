@@ -11,60 +11,57 @@ use MCP\DataType\HttpUrl;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- *  Deployment Entity
- *
- *  @author Matt Colf <matthewcolf@quickenloans.com>
- *  @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\DeploymentRepository")
- *  @Table(name="Deployments")
+ * @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\DeploymentRepository")
+ * @Table(name="Deployments")
  */
 class Deployment
 {
     /**
-     *  The deployment id
+     * The deployment id
      *
-     *  @var int
-     *  @Id @Column(name="DeploymentId", type="integer", unique=true)
-     *  @GeneratedValue(strategy="AUTO")
+     * @var int
+     * @Id @Column(name="DeploymentId", type="integer", unique=true)
+     * @GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
     /**
-     *  The deployment path
+     * The deployment path
      *
-     *  @var string
-     *  @Column(name="DeploymentPath", type="string", length=255)
+     * @var string
+     * @Column(name="DeploymentPath", type="string", length=255)
      */
     protected $path;
 
     /**
-     *  @var null|HttpUrl
-     *  @Column(name="DeploymentUrl", type="url")
+     * @var null|HttpUrl
+     * @Column(name="DeploymentUrl", type="url")
      */
     protected $url;
 
     /**
-     *  @var Repository
-     *  @ManyToOne(targetEntity="Repository", inversedBy="deployments")
-     *  @JoinColumn(name="RepositoryId", referencedColumnName="RepositoryId")
+     * @var Repository
+     * @ManyToOne(targetEntity="Repository", inversedBy="deployments")
+     * @JoinColumn(name="RepositoryId", referencedColumnName="RepositoryId")
      */
     protected $repository;
 
     /**
-     *  @var Server
-     *  @ManyToOne(targetEntity="Server", inversedBy="deployments")
-     *  @JoinColumn(name="ServerId", referencedColumnName="ServerId")
+     * @var Server
+     * @ManyToOne(targetEntity="Server", inversedBy="deployments")
+     * @JoinColumn(name="ServerId", referencedColumnName="ServerId")
      */
     protected $server;
 
     /**
-     *  @var ArrayCollection
-     *  @OneToMany(targetEntity="Push", mappedBy="deployment")
-     *  @OrderBy({"id" = "DESC"})
+     * @var ArrayCollection
+     * @OneToMany(targetEntity="Push", mappedBy="deployment")
+     * @OrderBy({"id" = "DESC"})
      */
     protected $pushes;
 
     /**
-     *  Constructor
+     * Constructor
      */
     public function __construct()
     {
@@ -76,9 +73,9 @@ class Deployment
     }
 
     /**
-     *  Set the deployment id
+     * Set the deployment id
      *
-     *  @param int $id
+     * @param int $id
      */
     public function setId($id)
     {
@@ -86,9 +83,9 @@ class Deployment
     }
 
     /**
-     *  Get the deployment id
+     * Get the deployment id
      *
-     *  @return int
+     * @return int
      */
     public function getId()
     {
@@ -96,9 +93,9 @@ class Deployment
     }
 
     /**
-     *  Set the deployment path
+     * Set the deployment path
      *
-     *  @param string $path
+     * @param string $path
      */
     public function setPath($path)
     {
@@ -106,9 +103,9 @@ class Deployment
     }
 
     /**
-     *  Get the deployment path
+     * Get the deployment path
      *
-     *  @return string
+     * @return string
      */
     public function getPath()
     {
@@ -136,9 +133,9 @@ class Deployment
     }
 
     /**
-     *  Set the deployment repository
+     * Set the deployment repository
      *
-     *  @param Repository $repository
+     * @param Repository $repository
      */
     public function setRepository(Repository $repository)
     {
@@ -146,9 +143,9 @@ class Deployment
     }
 
     /**
-     *  Get the deployment repository
+     * Get the deployment repository
      *
-     *  @return Repository
+     * @return Repository
      */
     public function getRepository()
     {
@@ -156,9 +153,9 @@ class Deployment
     }
 
     /**
-     *  Set the deployment server
+     * Set the deployment server
      *
-     *  @param Server $server
+     * @param Server $server
      */
     public function setServer(Server $server)
     {
@@ -166,9 +163,9 @@ class Deployment
     }
 
     /**
-     *  Get the deployment server
+     * Get the deployment server
      *
-     *  @return Server
+     * @return Server
      */
     public function getServer()
     {
@@ -176,9 +173,9 @@ class Deployment
     }
 
     /**
-     *  Set the deployment pushes
+     * Set the deployment pushes
      *
-     *  @param ArrayCollection $pushes
+     * @param ArrayCollection $pushes
      */
     public function setPushes($pushes)
     {
@@ -186,13 +183,12 @@ class Deployment
     }
 
     /**
-     *  Get the deployment pushes
+     * Get the deployment pushes
      *
-     *  @return ArrayCollection
+     * @return ArrayCollection
      */
     public function getPushes()
     {
         return $this->pushes;
     }
-
 }
