@@ -7,6 +7,8 @@
 
 namespace QL\Hal\Core;
 
+use MCP\DataType\GUID;
+
 /**
  * Generate a unique id.
  */
@@ -14,6 +16,7 @@ class RandomGenerator
 {
     public function __invoke()
     {
-        return sha1(microtime(true) . mt_rand(10000,90000));
+        $id = GUID::create()->asHex();
+        return strtolower($id);
     }
 }
