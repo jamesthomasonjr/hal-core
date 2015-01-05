@@ -62,7 +62,7 @@ SQL;
      */
     public function getAvailableRollbacks(Repository $repository, Server $server, $limit = 25)
     {
-        $query = $this->_em
+        $query = $this->getEntityManager()
             ->createQuery(self::DQL_ROLLBACKS)
             ->setMaxResults($limit)
             ->setParameter('repo', $repository)
@@ -81,7 +81,7 @@ SQL;
      */
     public function getForRepository(Repository $repository)
     {
-        $query = $this->_em
+        $query = $this->getEntityManager()
             ->createQuery(self::DQL_BY_REPOSITORY)
             ->setParameter('repo', $repository);
 
@@ -97,7 +97,7 @@ SQL;
      */
     public function getMostRecentByDeployment(Deployment $deployment)
     {
-        $query = $this->em
+        $query = $this->getEntityManager()
             ->createQuery(self::DQL_RECENT_PUSH)
             ->setMaxResults(1)
             ->setParameter('deploy', $deployment);
@@ -114,7 +114,7 @@ SQL;
      */
     public function getMostRecentSuccessByDeployment(Deployment $deployment)
     {
-        $query = $this->em
+        $query = $this->getEntityManager()
             ->createQuery(self::DQL_RECENT_SUCCESSFUL_PUSH)
             ->setMaxResults(1)
             ->setParameter('deploy', $deployment)
