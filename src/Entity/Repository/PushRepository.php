@@ -17,39 +17,37 @@ use QL\Hal\Core\Entity\Server;
 class PushRepository extends EntityRepository
 {
     const DQL_ROLLBACKS = <<<SQL
-SELECT p
-  FROM QL\Hal\Core\Entity\Push p
-  JOIN p.deployment d
-  JOIN p.build b
- WHERE
-    d.server = :server AND
-    d.repository = :repo AND
-    p.status = :pushStatus AND
-    b.status = :buildStatus
+   SELECT p
+     FROM QL\Hal\Core\Entity\Push p
+     JOIN p.deployment d
+     JOIN p.build b
+    WHERE
+        d.server = :server AND
+        p.repository = :repo AND
+        p.status = :pushStatus AND
+        b.status = :buildStatus
  ORDER BY p.created DESC
 SQL;
 
     const DQL_BY_REPOSITORY = <<<SQL
-SELECT p
-  FROM QL\Hal\Core\Entity\Push p
-  JOIN p.deployment d
- WHERE
-    d.repository = :repo
+   SELECT p
+     FROM QL\Hal\Core\Entity\Push p
+    WHERE p.repository = :repo
  ORDER BY p.created DESC
 SQL;
 
     const DQL_RECENT_PUSH = <<<SQL
-SELECT p
-FROM QL\Hal\Core\Entity\Push p
-WHERE p.deployment = :deploy
+  SELECT p
+    FROM QL\Hal\Core\Entity\Push p
+   WHERE p.deployment = :deploy
 ORDER BY p.created DESC
 SQL;
     const DQL_RECENT_SUCCESSFUL_PUSH = <<<SQL
-SELECT p
-  FROM QL\Hal\Core\Entity\Push p
- WHERE
-    p.deployment = :deploy AND
-    p.status = :status
+   SELECT p
+     FROM QL\Hal\Core\Entity\Push p
+    WHERE
+        p.deployment = :deploy AND
+        p.status = :status
  ORDER BY p.created DESC
 SQL;
 
@@ -61,7 +59,7 @@ SQL;
      * @param int $limit
      * @param int $page
      *
-     * @return array
+     * @return Paginator
      */
     public function getAvailableRollbacks(Repository $repository, Server $server, $limit = 25, $page = 0)
     {
@@ -84,7 +82,7 @@ SQL;
      * @param int $limit
      * @param int $page
      *
-     * @return array
+     * @return Paginator
      */
     public function getForRepository(Repository $repository, $limit = 25, $page = 0)
     {
