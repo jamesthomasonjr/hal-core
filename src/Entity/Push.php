@@ -93,6 +93,15 @@ class Push
     protected $deployment;
 
     /**
+     * The push repository
+     *
+     * @var Repository
+     * @ManyToOne(targetEntity="Repository")
+     * @JoinColumn(name="RepositoryId", referencedColumnName="RepositoryId")
+     */
+    protected $repository;
+
+    /**
      * The event logs for this job
      *
      * @var ArrayCollection
@@ -115,6 +124,7 @@ class Push
         $this->consumer = null;
         $this->build = null;
         $this->deployment = null;
+        $this->repository = null;
         $this->logs = null;
     }
 
@@ -296,6 +306,26 @@ class Push
     public function getDeployment()
     {
         return $this->deployment;
+    }
+
+    /**
+     * Set the build repository
+     *
+     * @param Repository $repository
+     */
+    public function setRepository(Repository $repository)
+    {
+        $this->repository = $repository;
+    }
+
+    /**
+     * Get the build repository
+     *
+     * @return Repository
+     */
+    public function getRepository()
+    {
+        return $this->repository;
     }
 
     /**
