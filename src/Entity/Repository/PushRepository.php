@@ -58,13 +58,16 @@ SQL;
      * @param Repository $repository
      * @param Server $server
      * @param int $limit
+     * @param int $page
+     *
      * @return array
      */
-    public function getAvailableRollbacks(Repository $repository, Server $server, $limit = 25)
+    public function getAvailableRollbacks(Repository $repository, Server $server, $limit = 25, $page = 0)
     {
         $query = $this->getEntityManager()
             ->createQuery(self::DQL_ROLLBACKS)
             ->setMaxResults($limit)
+            ->setFirstResult($limit * $page)
             ->setParameter('repo', $repository)
             ->setParameter('server', $server)
             ->setParameter('pushStatus', 'Success')
@@ -77,12 +80,17 @@ SQL;
      * Get all pushes for a repository
      *
      * @param Repository $repository
+     * @param int $limit
+     * @param int $page
+     *
      * @return array
      */
-    public function getForRepository(Repository $repository)
+    public function getForRepository(Repository $repository, $limit = 25, $page = 0)
     {
         $query = $this->getEntityManager()
             ->createQuery(self::DQL_BY_REPOSITORY)
+            ->setMaxResults($limit)
+            ->setFirstResult($limit * $page)
             ->setParameter('repo', $repository);
 
         return $query->getResult();
