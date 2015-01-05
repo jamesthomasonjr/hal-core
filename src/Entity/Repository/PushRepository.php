@@ -26,7 +26,7 @@ SELECT p
     d.repository = :repo AND
     p.status = :pushStatus AND
     b.status = :buildStatus
- ORDER BY p.end DESC
+ ORDER BY p.created DESC
 SQL;
 
     const DQL_BY_REPOSITORY = <<<SQL
@@ -35,7 +35,7 @@ SELECT p
   JOIN p.deployment d
  WHERE
     d.repository = :repo
- ORDER BY p.end DESC
+ ORDER BY p.created DESC
 SQL;
 
     const DQL_RECENT_PUSH = <<<SQL
