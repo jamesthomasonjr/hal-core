@@ -8,6 +8,7 @@
 namespace QL\Hal\Core\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use QL\Hal\Core\Entity\Deployment;
 use QL\Hal\Core\Entity\Push;
 use QL\Hal\Core\Entity\Repository;
@@ -73,7 +74,7 @@ SQL;
             ->setParameter('pushStatus', 'Success')
             ->setParameter('buildStatus', 'Success');
 
-        return $query->getResult();
+        return new Paginator($query);
     }
 
     /**
@@ -93,7 +94,7 @@ SQL;
             ->setFirstResult($limit * $page)
             ->setParameter('repo', $repository);
 
-        return $query->getResult();
+        return new Paginator($query);
     }
 
     /**
