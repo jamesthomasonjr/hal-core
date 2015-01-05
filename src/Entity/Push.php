@@ -309,7 +309,7 @@ class Push
     }
 
     /**
-     * Set the build repository
+     * Set the push repository
      *
      * @param Repository $repository
      */
@@ -319,7 +319,7 @@ class Push
     }
 
     /**
-     * Get the build repository
+     * Get the push repository
      *
      * @return Repository
      */
