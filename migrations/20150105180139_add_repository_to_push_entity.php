@@ -13,7 +13,59 @@ class AddRepositoryToPushEntity extends AbstractMigration
     public function up()
     {
         $this->updateTable();
+        $this->importData();
+    }
 
+    /**
+     * Migrate Down.
+     */
+    public function down()
+    {
+        $table = $this->table(self::TABLE_PUSHES);
+
+        // drop foreign key, index
+
+        if ($table->hasForeignKey(['RepositoryId'])) {
+            $this->table(self::TABLE_PUSHES)
+                ->dropForeignKey('RepositoryId')
+                ->save();
+        }
+
+        if ($table->hasIndex(['RepositoryId'])) {
+            $table
+                ->removeIndex(['RepositoryId'])
+                ->save();
+        }
+
+        // remove column
+        if ($table->hasIndex(['RepositoryId'])) {
+            $table
+                ->removeColumn('RepositoryId')
+                ->save();
+        }
+    }
+
+    private function updateTable()
+    {
+        $table = $this->table(self::TABLE_PUSHES);
+
+        // Add RepositoryId to Pushes
+        $table
+            ->addColumn('RepositoryId', 'integer', ['after' => 'DeploymentId', 'null' => true])
+            ->addIndex(['RepositoryId'])
+            ->save();
+
+        // Add foreign key for RepositoryId, must be separate query
+        $table
+            ->addForeignKey('RepositoryId', self::TABLE_REPOSITORIES, 'RepositoryId', [
+                'update'=> 'CASCADE',
+                'delete' => 'SET_NULL'
+            ])
+            ->save();
+    }
+
+    private function importData()
+    {
         $select = <<<SQL
 SELECT
     PushId, Builds.RepositoryId
@@ -46,23 +98,6 @@ SQL;
 
             $this->execute($sql);
         }
-    }
-
-    private function updateTable()
-    {
-        // Add RepositoryId to Pushes
-        $this->table(self::TABLE_PUSHES)
-            ->addColumn('RepositoryId', 'integer', ['after' => 'DeploymentId', 'null' => true])
-            ->addIndex(['RepositoryId'])
-            ->save();
-
-        // Add foreign key for RepositoryId, must be separate query
-        $this->table(self::TABLE_PUSHES)
-            ->addForeignKey('RepositoryId', self::TABLE_REPOSITORIES, 'RepositoryId', [
-                'update'=> 'CASCADE',
-                'delete' => 'SET_NULL'
-            ])
-            ->save();
     }
 
     private function pdo()

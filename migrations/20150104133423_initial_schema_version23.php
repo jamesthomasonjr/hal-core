@@ -48,140 +48,6 @@ class InitialSchemaVersion23 extends AbstractMigration
         $this->createEventLogs();
 
         // $this->createSubscriptions();
-        // $this->addSubscriptionForeignKeys();
-
-        // add foreign keys
-        $this->addForeignKeys();
-    }
-
-    private function addForeignKeys()
-    {
-        // Tokens
-        $this->table(self::TABLE_TOKENS)
-            ->addForeignKey('UserId', self::TABLE_USERS, 'UserId', [
-                'delete' => 'CASCADE',
-                'update'=> 'CASCADE'
-            ])
-            ->addForeignKey('ConsumerId', self::TABLE_CONSUMERS, 'ConsumerId', [
-                'delete' => 'CASCADE',
-                'update'=> 'CASCADE'
-            ])
-            ->save();
-
-        // Servers
-        $this->table(self::TABLE_SERVERS)
-            ->addForeignKey('EnvironmentId', self::TABLE_ENVIRONMENTS, 'EnvironmentId', [
-                'delete' => 'RESTRICT',
-                'update'=> 'CASCADE'
-            ])
-            ->save();
-
-        // Repositories
-        $this->table(self::TABLE_REPOSITORIES)
-            ->addForeignKey('GroupId', self::TABLE_GROUPS, 'GroupId', [
-                'delete' => 'RESTRICT',
-                'update'=> 'CASCADE'
-            ])
-            ->save();
-
-        // Deployments
-        $this->table(self::TABLE_DEPLOYMENTS)
-            ->addForeignKey('RepositoryId', self::TABLE_REPOSITORIES, 'RepositoryId', [
-                'delete' => 'RESTRICT',
-                'update'=> 'CASCADE'
-            ])
-            ->addForeignKey('ServerId', self::TABLE_SERVERS, 'ServerId', [
-                'delete' => 'RESTRICT',
-                'update'=> 'CASCADE'
-            ])
-            ->save();
-
-        // Builds
-        $this->table(self::TABLE_BUILDS)
-            ->addForeignKey('UserId', self::TABLE_USERS, 'UserId', [
-                'delete' => 'SET_NULL',
-                'update'=> 'CASCADE'
-            ])
-            ->addForeignKey('ConsumerId', self::TABLE_CONSUMERS, 'ConsumerId', [
-                'delete' => 'SET_NULL',
-                'update'=> 'CASCADE'
-            ])
-            ->addForeignKey('RepositoryId', self::TABLE_REPOSITORIES, 'RepositoryId', [
-                'delete' => 'RESTRICT',
-                'update'=> 'CASCADE'
-            ])
-            ->addForeignKey('EnvironmentId', self::TABLE_ENVIRONMENTS, 'EnvironmentId', [
-                'delete' => 'RESTRICT',
-                'update'=> 'CASCADE'
-            ])
-            ->save();
-
-        // Pushes
-        $this->table(self::TABLE_PUSHES)
-            ->addForeignKey('UserId', self::TABLE_USERS, 'UserId', [
-                'delete' => 'SET_NULL',
-                'update'=> 'CASCADE'
-            ])
-            ->addForeignKey('ConsumerId', self::TABLE_CONSUMERS, 'ConsumerId', [
-                'delete' => 'SET_NULL',
-                'update'=> 'CASCADE'
-            ])
-            ->addForeignKey('DeploymentId', self::TABLE_DEPLOYMENTS, 'DeploymentId', [
-                'delete' => 'SET_NULL',
-                'update'=> 'CASCADE'
-            ])
-            ->addForeignKey('BuildId', self::TABLE_BUILDS, 'BuildId', [
-                'delete' => 'RESTRICT',
-                'update'=> 'CASCADE'
-            ])
-            ->save();
-
-        // Audit Logs
-        $this->table(self::TABLE_AUDITS)
-            ->addForeignKey('UserId', self::TABLE_USERS, 'UserId', [
-                'delete' => 'RESTRICT',
-                'update'=> 'CASCADE'
-            ])
-            ->save();
-
-        // Event Logs
-        $this->table(self::TABLE_EVENTS)
-            ->addForeignKey('BuildId', self::TABLE_BUILDS, 'BuildId', [
-                'delete' => 'CASCADE',
-                'update'=> 'CASCADE'
-            ])
-            ->addForeignKey('PushId', self::TABLE_PUSHES, 'PushId', [
-                'delete' => 'CASCADE',
-                'update'=> 'CASCADE'
-            ])
-            ->save();
-    }
-
-    private function addSubscriptionForeignKeys()
-    {
-        // Subscriptions
-        $this->table(self::TABLE_SUBSCRIPTIONS)
-            ->addForeignKey('ConsumerId', self::TABLE_CONSUMERS, 'ConsumerId', [
-                'delete' => 'CASCADE',
-                'update'=> 'CASCADE'
-            ])
-            ->addForeignKey('RepositoryId', self::TABLE_REPOSITORIES, 'RepositoryId', [
-                'delete' => 'CASCADE',
-                'update'=> 'CASCADE'
-            ])
-            ->addForeignKey('EnvironmentId', self::TABLE_ENVIRONMENTS, 'EnvironmentId', [
-                'delete' => 'CASCADE',
-                'update'=> 'CASCADE'
-            ])
-            ->addForeignKey('ServerId', self::TABLE_SERVERS, 'ServerId', [
-                'delete' => 'CASCADE',
-                'update'=> 'CASCADE'
-            ])
-            ->addForeignKey('GroupId', self::TABLE_GROUPS, 'GroupId', [
-                'delete' => 'CASCADE',
-                'update'=> 'CASCADE'
-            ])
-            ->save();
     }
 
     private function createUsers()
@@ -202,9 +68,6 @@ class InitialSchemaVersion23 extends AbstractMigration
             ->addColumn('UserEmail', 'string', ['limit' => 128])
             ->addColumn('UserPictureUrl', 'string', ['limit' => 128])
             ->addColumn('UserIsActive', 'boolean')
-
-            ->addIndex(['UserHandle'], ['unique' => true])
-            ->addIndex(['UserName'], ['unique' => true])
 
             ->save();
     }
@@ -245,10 +108,6 @@ class InitialSchemaVersion23 extends AbstractMigration
             ->addColumn('UserId', 'integer', ['null' => true])
             ->addColumn('ConsumerId', 'integer', ['null' => true])
 
-            ->addIndex(['TokenValue'], ['unique' => true])
-            ->addIndex(['UserId'])
-            ->addIndex(['ConsumerId'])
-
             ->save();
     }
 
@@ -265,8 +124,6 @@ class InitialSchemaVersion23 extends AbstractMigration
         $table
             ->addColumn('EnvironmentKey', 'string', ['limit' => 24])
             ->addColumn('EnvironmentOrder', 'integer')
-
-            ->addIndex(['EnvironmentKey'], ['unique' => true])
 
             ->save();
     }
@@ -286,9 +143,6 @@ class InitialSchemaVersion23 extends AbstractMigration
 
             ->addColumn('EnvironmentId', 'integer')
 
-            ->addIndex(['ServerName'], ['unique' => true])
-            ->addIndex(['EnvironmentId'])
-
             ->save();
     }
 
@@ -305,8 +159,6 @@ class InitialSchemaVersion23 extends AbstractMigration
         $table
             ->addColumn('GroupKey', 'string', ['limit' => 24])
             ->addColumn('GroupName', 'string', ['limit' => 48])
-
-            ->addIndex(['GroupKey'], ['unique' => true])
 
             ->save();
     }
@@ -334,9 +186,6 @@ class InitialSchemaVersion23 extends AbstractMigration
 
             ->addColumn('GroupId', 'integer')
 
-            ->addIndex(['RepositoryKey'], ['unique' => true])
-            ->addIndex(['GroupId'])
-
             ->save();
     }
 
@@ -356,8 +205,6 @@ class InitialSchemaVersion23 extends AbstractMigration
 
             ->addColumn('RepositoryId', 'integer')
             ->addColumn('ServerId', 'integer')
-
-            ->addIndex(['ServerId', 'DeploymentPath'], ['unique' => true])
 
             ->save();
     }
@@ -386,12 +233,6 @@ class InitialSchemaVersion23 extends AbstractMigration
             ->addColumn('ConsumerId', 'integer', ['null' => true])
             ->addColumn('RepositoryId', 'integer')
             ->addColumn('EnvironmentId', 'integer')
-
-            ->addIndex(['UserId'])
-            ->addIndex(['ConsumerId'])
-            ->addIndex(['EnvironmentId'])
-            ->addIndex(['RepositoryId', 'EnvironmentId'])
-            ->addIndex(['BuildCreated'])
 
             ->save();
 
@@ -435,11 +276,6 @@ ADD COLUMN
             ->addColumn('BuildId', 'char', ['limit' => 40])
             ->addColumn('DeploymentId', 'integer', ['null' => true])
 
-            ->addIndex(['UserId'])
-            ->addIndex(['BuildId'])
-            ->addIndex(['DeploymentId'])
-            ->addIndex(['PushCreated'])
-
             ->save();
 
         // Phinx (as of 0.4.1) does not support ENUM, so ENUM columns must be manually added
@@ -479,12 +315,6 @@ ADD COLUMN
             ->addColumn('ServerId', 'integer', ['null' => true])
             ->addColumn('GroupId', 'integer', ['null' => true])
 
-            ->addIndex(['ConsumerId'])
-            ->addIndex(['RepositoryId'])
-            ->addIndex(['EnvironmentId'])
-            ->addIndex(['ServerId'])
-            ->addIndex(['GroupId'])
-
             ->save();
     }
 
@@ -505,8 +335,6 @@ ADD COLUMN
             ->addColumn('Data', 'text', ['limit' => MysqlAdapter::TEXT_REGULAR, 'null' => true])
 
             ->addColumn('UserId', 'integer')
-
-            ->addIndex(['UserId'])
 
             ->save();
     }
@@ -533,10 +361,6 @@ ADD COLUMN
 
             ->addColumn('BuildId', 'char', ['limit' => 40, 'null' => true])
             ->addColumn('PushId', 'char', ['limit' => 40, 'null' => true])
-
-            // ->addIndex(['Event']) -- see below
-            ->addIndex(['BuildId'])
-            ->addIndex(['PushId'])
 
             ->save();
 
@@ -569,10 +393,5 @@ ADD COLUMN
     EventLogStatus ENUM($statuses) NOT NULL DEFAULT $default
     AFTER EventLogCreated
 ");
-
-        // Add index on enum column
-        $table
-            ->addIndex(['Event'])
-            ->save();
     }
 }
