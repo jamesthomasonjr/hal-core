@@ -4,18 +4,8 @@ use Phinx\Migration\AbstractMigration;
 
 class AddRepositoryToPushEntity extends AbstractMigration
 {
-    /**
-     * Change Method.
-     *
-     * More information on this method is available here:
-     * http://docs.phinx.org/en/latest/migrations.html#the-change-method
-     *
-     * Uncomment this method if you would like to use it.
-     *
-    public function change()
-    {
-    }
-    */
+    const TABLE_PUSHES = 'Pushes';
+    const TABLE_REPOSITORIES = 'Repositories';
 
     /**
      * Migrate Up.
@@ -58,26 +48,17 @@ SQL;
         }
     }
 
-    /**
-     * Migrate Down.
-     */
-    public function down()
-    {
-
-    }
-
     private function updateTable()
     {
         // Add RepositoryId to Pushes
-        $table = $this->table('Pushes');
-        $table
-            ->addColumn('RepositoryId', 'integer', ['after' => 'DeploymentId', 'null' => true, 'signed' => false])
+        $this->table(self::TABLE_PUSHES)
+            ->addColumn('RepositoryId', 'integer', ['after' => 'DeploymentId', 'null' => true])
             ->addIndex(['RepositoryId'])
             ->save();
 
         // Add foreign key for RepositoryId, must be separate query
-        $table
-            ->addForeignKey('RepositoryId', 'Repositories', 'RepositoryId', [
+        $this->table(self::TABLE_PUSHES)
+            ->addForeignKey('RepositoryId', self::TABLE_REPOSITORIES, 'RepositoryId', [
                 'update'=> 'CASCADE',
                 'delete' => 'SET_NULL'
             ])
