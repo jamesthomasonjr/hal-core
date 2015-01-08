@@ -50,6 +50,44 @@ class InitialSchemaVersion23 extends AbstractMigration
         // $this->createSubscriptions();
     }
 
+    /**
+     * WARNING! This drops all tables in the database! Use only if you want to reset your entire environment!
+     *
+     * Migrate down.
+     */
+    public function down()
+    {
+        $this->table(self::TABLE_EVENTS)
+            ->drop();
+        $this->table(self::TABLE_AUDITS)
+            ->drop();
+
+        $this->table(self::TABLE_PUSHES)
+            ->drop();
+        $this->table(self::TABLE_BUILDS)
+            ->drop();
+
+        $this->table(self::TABLE_DEPLOYMENTS)
+            ->drop();
+        $this->table(self::TABLE_REPOSITORIES)
+            ->drop();
+        $this->table(self::TABLE_GROUPS)
+            ->drop();
+
+        $this->table(self::TABLE_SERVERS)
+            ->drop();
+        $this->table(self::TABLE_ENVIRONMENTS)
+            ->drop();
+
+        $this->table(self::TABLE_USERS)
+            ->drop();
+        $this->table(self::TABLE_CONSUMERS)
+            ->drop();
+        $this->table(self::TABLE_TOKENS)
+            ->drop();
+    }
+
+
     private function createUsers()
     {
         if ($this->hasTable(self::TABLE_USERS)) {

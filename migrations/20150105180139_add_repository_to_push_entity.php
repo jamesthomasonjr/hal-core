@@ -24,7 +24,6 @@ class AddRepositoryToPushEntity extends AbstractMigration
         $table = $this->table(self::TABLE_PUSHES);
 
         // drop foreign key, index
-
         if ($table->hasForeignKey(['RepositoryId'])) {
             $this->table(self::TABLE_PUSHES)
                 ->dropForeignKey('RepositoryId')
@@ -38,7 +37,7 @@ class AddRepositoryToPushEntity extends AbstractMigration
         }
 
         // remove column
-        if ($table->hasIndex(['RepositoryId'])) {
+        if ($table->hasColumn('RepositoryId')) {
             $table
                 ->removeColumn('RepositoryId')
                 ->save();
