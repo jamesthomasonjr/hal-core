@@ -213,14 +213,14 @@ class InitialSchemaVersion23 extends AbstractMigration
 
         $table
             ->addColumn('RepositoryKey', 'string', ['limit' => 24])
-            ->addColumn('RepositoryDescription', 'string', ['limit' => 255])
+            ->addColumn('RepositoryDescription', 'string', ['limit' => 64])
             ->addColumn('RepositoryGithubUser', 'string', ['limit' => 48])
             ->addColumn('RepositoryGithubRepo', 'string', ['limit' => 48])
-            ->addColumn('RepositoryEmail', 'string', ['limit' => 128])
-            ->addColumn('RepositoryBuildCmd', 'string', ['limit' => 255])
-            ->addColumn('RepositoryBuildTransformCmd', 'string', ['limit' => 255])
-            ->addColumn('RepositoryPrePushCmd', 'string', ['limit' => 128])
-            ->addColumn('RepositoryPostPushCmd', 'string', ['limit' => 128])
+            ->addColumn('RepositoryEmail', 'string', ['limit' => 128, 'null' => true])
+            ->addColumn('RepositoryBuildCmd', 'string', ['limit' => 255, 'null' => true])
+            ->addColumn('RepositoryBuildTransformCmd', 'string', ['limit' => 255, 'null' => true])
+            ->addColumn('RepositoryPrePushCmd', 'string', ['limit' => 128, 'null' => true])
+            ->addColumn('RepositoryPostPushCmd', 'string', ['limit' => 128, 'null' => true])
 
             ->addColumn('GroupId', 'integer')
 
