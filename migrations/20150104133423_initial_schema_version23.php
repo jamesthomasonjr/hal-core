@@ -393,9 +393,9 @@ ADD COLUMN
             // ->addColumn('Event') -- see below
             ->addColumn('EventOrder', 'integer')
             ->addColumn('EventLogCreated', 'datetime')
-            ->addColumn('EventLogMessage', 'datetime', ['null' => true])
+            ->addColumn('EventLogMessage', 'string', ['limit' => 255, 'null' => true])
             // ->addColumn('EventLogStatus') -- see below
-            ->addColumn('EventLogData', 'text', ['limit' => MysqlAdapter::TEXT_MEDIUM, 'null' => true])
+            ->addColumn('EventLogData', 'binary', ['null' => true])
 
             ->addColumn('BuildId', 'char', ['limit' => 40, 'null' => true])
             ->addColumn('PushId', 'char', ['limit' => 40, 'null' => true])
