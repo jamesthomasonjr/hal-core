@@ -19,6 +19,7 @@ class Repository
      * The repository id
      *
      * @var int
+     *
      * @Id @Column(name="RepositoryId", type="integer", unique=true)
      * @GeneratedValue(strategy="AUTO")
      */
@@ -28,6 +29,7 @@ class Repository
      * The repository key
      *
      * @var string
+     *
      * @Column(name="RepositoryKey", type="string", length=24, unique=true)
      */
     protected $key;
@@ -36,6 +38,7 @@ class Repository
      * The repository description
      *
      * @var string
+     *
      * @Column(name="RepositoryDescription", type="string", length=255)
      */
     protected $description;
@@ -44,6 +47,7 @@ class Repository
      * The repository Github user
      *
      * @var string
+     *
      * @Column(name="RepositoryGithubUser", type="string", length=48)
      */
     protected $githubUser;
@@ -52,6 +56,7 @@ class Repository
      * The repository Github repository
      *
      * @var string
+     *
      * @Column(name="RepositoryGithubRepo", type="string", length=48)
      */
     protected $githubRepo;
@@ -60,6 +65,7 @@ class Repository
      * The repository email address
      *
      * @var string
+     *
      * @Column(name="RepositoryEmail", type="string", length=128)
      */
     protected $email;
@@ -68,38 +74,52 @@ class Repository
      * The repository build command
      *
      * @var null|string
-     * @Column(name="RepositoryBuildCmd", type="string", length=255, nullable=true)
+     *
+     * @Column(name="RepositoryBuildCmd", type="string", length=255)
      */
     protected $buildCmd;
 
     /**
      * The repository build transform command to be run before push
      *
-     * @var null|string
-     * @Column(name="RepositoryBuildTransformCmd", type="string", length=255, nullable=true)
+     * @var string
+     *
+     * @Column(name="RepositoryBuildTransformCmd", type="string", length=255)
      */
     protected $buildTransformCmd;
 
     /**
      * The repository pre push command
      *
-     * @var null|string
-     * @Column(name="RepositoryPrePushCmd", type="string", length=128, nullable = true)
+     * @var string
+     *
+     * @Column(name="RepositoryPrePushCmd", type="string", length=128)
      */
     protected $prePushCmd;
 
     /**
      * The repository post push command
      *
-     * @var null|string
-     * @Column(name="RepositoryPostPushCmd", type="string", length=128, nullable=true)
+     * @var string
+     *
+     * @Column(name="RepositoryPostPushCmd", type="string", length=128)
      */
     protected $postPushCmd;
+
+    /**
+     * The repository application name for elastic beanstalk
+     *
+     * @var string
+     *
+     * @Column(name="RepositoryEbsName", type="string", length=255)
+     */
+    protected $ebsName;
 
     /**
      * The repository group
      *
      * @var Group
+     *
      * @ManyToOne(targetEntity="Group", inversedBy="repositories")
      * @JoinColumn(name="GroupId", referencedColumnName="GroupId")
      */
@@ -109,6 +129,7 @@ class Repository
      * The repository deployments
      *
      * @var ArrayCollection
+     *
      * @OneToMany(targetEntity="Deployment", mappedBy="repository")
      */
     protected $deployments;
@@ -124,10 +145,14 @@ class Repository
         $this->githubUser = null;
         $this->githubRepo = null;
         $this->email = null;
+
         $this->buildCmd = null;
         $this->buildTransformCmd = null;
         $this->prePushCmd = null;
         $this->postPushCmd = null;
+
+        $this->ebsName = null;
+
         $this->group = null;
         $this->deployments = new ArrayCollection();
     }
@@ -135,9 +160,9 @@ class Repository
     /**
      * Set the repository build command
      *
-     * @param null|string $buildCmd
+     * @param string $buildCmd
      */
-    public function setBuildCmd($buildCmd = null)
+    public function setBuildCmd($buildCmd)
     {
         $this->buildCmd = $buildCmd;
     }
@@ -145,7 +170,7 @@ class Repository
     /**
      * Get the repository build command
      *
-     * @return null|string
+     * @return string
      */
     public function getBuildCmd()
     {
@@ -155,9 +180,9 @@ class Repository
     /**
      * Set the repository build transform command
      *
-     * @param null|string $buildTransformCmd
+     * @param string $buildTransformCmd
      */
-    public function setBuildTransformCmd($buildTransformCmd = null)
+    public function setBuildTransformCmd($buildTransformCmd)
     {
         $this->buildTransformCmd = $buildTransformCmd;
     }
@@ -165,7 +190,7 @@ class Repository
     /**
      * Get the repository build transform command
      *
-     * @return null|string
+     * @return string
      */
     public function getBuildTransformCmd()
     {
@@ -315,9 +340,9 @@ class Repository
     /**
      * Set the repository post push command
      *
-     * @param null|string $postPushCmd
+     * @param string $postPushCmd
      */
-    public function setPostPushCmd($postPushCmd = null)
+    public function setPostPushCmd($postPushCmd)
     {
         $this->postPushCmd = $postPushCmd;
     }
@@ -325,7 +350,7 @@ class Repository
     /**
      * Get the repository post push command
      *
-     * @return null|string
+     * @return string
      */
     public function getPostPushCmd()
     {
@@ -335,9 +360,9 @@ class Repository
     /**
      * Set the repository pre push command
      *
-     * @param null|string $prePushCmd
+     * @param string $prePushCmd
      */
-    public function setPrePushCmd($prePushCmd = null)
+    public function setPrePushCmd($prePushCmd)
     {
         $this->prePushCmd = $prePushCmd;
     }
@@ -345,10 +370,30 @@ class Repository
     /**
      * Get the repository pre push command
      *
-     * @return null|string
+     * @return string
      */
     public function getPrePushCmd()
     {
         return $this->prePushCmd;
+    }
+
+    /**
+     * Set the application name for elastic beanstalk
+     *
+     * @param string $ebsName
+     */
+    public function setEbsName($ebsName)
+    {
+        $this->ebsName = $ebsName;
+    }
+
+    /**
+     * Get the application name for elastic beanstalk
+     *
+     * @return string
+     */
+    public function getEbsName()
+    {
+        return $this->ebsName;
     }
 }

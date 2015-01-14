@@ -10,7 +10,7 @@ namespace QL\Hal\Core\Entity\Type;
 use Doctrine\DBAL\Types\Type as BaseType;
 
 /**
- * Event Doctrine Enum Type
+ * Event Status Enum
  */
 class EventStatusEnumType extends BaseType
 {

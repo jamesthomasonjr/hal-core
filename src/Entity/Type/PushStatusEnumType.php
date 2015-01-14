@@ -10,7 +10,7 @@ namespace QL\Hal\Core\Entity\Type;
 use Doctrine\DBAL\Types\Type as BaseType;
 
 /**
- * Push Status Doctrine Enum Type
+ * Push Status Enum
  */
 class PushStatusEnumType extends BaseType
 {

@@ -10,7 +10,7 @@ namespace QL\Hal\Core\Entity\Type;
 use Doctrine\DBAL\Types\Type as BaseType;
 
 /**
- *  Build Status Doctrine Enum Type
+ * Build Status Enum
  */
 class BuildStatusEnumType extends BaseType
 {

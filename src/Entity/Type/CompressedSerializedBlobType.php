@@ -11,7 +11,7 @@ use Doctrine\DBAL\Types\Type as BaseType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 
 /**
- * Doctrine Compressed Blob Type
+ * Compressed Blob Type
  */
 class CompressedSerializedBlobType extends BaseType
 {

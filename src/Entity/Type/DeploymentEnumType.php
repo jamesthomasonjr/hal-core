@@ -10,16 +10,16 @@ namespace QL\Hal\Core\Entity\Type;
 use Doctrine\DBAL\Types\Type as BaseType;
 
 /**
- * Event Type Enum
+ * Deployment Type Enum
  */
-class EventEnumType extends BaseType
+class DeploymentEnumType extends BaseType
 {
     use EnumTypeTrait;
 
     /**
      * The enum data type
      */
-    const TYPE = 'eventenum';
+    const TYPE = 'deploymentenum';
 
     /**
      * The enum allowed values
@@ -29,20 +29,8 @@ class EventEnumType extends BaseType
     public static function values()
     {
         return [
-            'build.created',
-            'build.start',
-            'build.building',
-            'build.end',
-            'build.success',
-            'build.failure',
-
-            'push.created',
-            'push.start',
-            'push.pushing',
-            'push.end',
-            'push.success',
-            'push.failure',
-            'unknown'
+            'rsync',
+            'elasticbeanstalk'
         ];
     }
 }
