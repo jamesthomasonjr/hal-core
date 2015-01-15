@@ -33,9 +33,20 @@ class Deployment
      *
      * @var string
      *
-     * @Column(name="DeploymentPath", type="string", length=255)
+     * @Column(name="DeploymentPath", type="string", length=255, nullable=true)
      */
     protected $path;
+
+    /**
+     * For ELASTIC BEANSTALK
+     *
+     * The deployment EBS environment ID
+     *
+     * @var string
+     *
+     * @Column(name="DeploymentEbsEnvironment", type="string", length=100, nullable=true)
+     */
+    protected $ebsEnvironment;
 
     /**
      * @var HttpUrl|null
@@ -76,7 +87,10 @@ class Deployment
     public function __construct()
     {
         $this->id = null;
+
         $this->path = null;
+        $this->ebsEnvironment = null;
+
         $this->repository = null;
         $this->server = null;
         $this->pushes = new ArrayCollection();
@@ -103,7 +117,7 @@ class Deployment
     }
 
     /**
-     * Set the deployment path
+     * Set the deployment rsync path
      *
      * @param string $path
      */
@@ -113,13 +127,33 @@ class Deployment
     }
 
     /**
-     * Get the deployment path
+     * Get the deployment rsync path
      *
      * @return string
      */
     public function getPath()
     {
         return $this->path;
+    }
+
+    /**
+     * Set the deployment EBS environment ID
+     *
+     * @param string $ebsEnvironment
+     */
+    public function setEbsEnvironment($ebsEnvironment)
+    {
+        $this->ebsEnvironment = $ebsEnvironment;
+    }
+
+    /**
+     * Get the deployment EBS environment ID
+     *
+     * @return string
+     */
+    public function getEbsEnvironment()
+    {
+        return $this->ebsEnvironment;
     }
 
     /**
