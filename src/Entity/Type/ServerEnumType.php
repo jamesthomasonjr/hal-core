@@ -10,16 +10,16 @@ namespace QL\Hal\Core\Entity\Type;
 use Doctrine\DBAL\Types\Type as BaseType;
 
 /**
- * Deployment Type Enum
+ * Server Type Enum
  */
-class DeploymentEnumType extends BaseType
+class ServerEnumType extends BaseType
 {
     use EnumTypeTrait;
 
     /**
      * The enum data type
      */
-    const TYPE = 'deploymentenum';
+    const TYPE = 'serverenum';
 
     /**
      * The enum allowed values

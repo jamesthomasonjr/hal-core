@@ -25,6 +25,15 @@ class Server
     protected $id;
 
     /**
+     * The server type
+     *
+     * @var string
+     *
+     * @Column(name="ServerType", type="serverenum")
+     */
+    protected $type;
+
+    /**
      * The server name (hostname)
      *
      * @var string
@@ -55,6 +64,7 @@ class Server
     public function __construct()
     {
         $this->id = null;
+        $this->type = null;
         $this->name = null;
         $this->environment = null;
         $this->deployments = new ArrayCollection();
@@ -78,6 +88,26 @@ class Server
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set the server type
+     *
+     * @param string $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * Get the server type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**

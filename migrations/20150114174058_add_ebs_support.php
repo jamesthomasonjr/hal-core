@@ -1,11 +1,11 @@
 <?php
 
 use Phinx\Migration\AbstractMigration;
-use QL\Hal\Core\Entity\Type\DeploymentEnumType;
+use QL\Hal\Core\Entity\Type\ServerEnumType;
 
 class AddEbsSupport extends AbstractMigration
 {
-    const TABLE_DEPLOYMENTS = 'Deployments';
+    const TABLE_SERVERS = 'Servers';
     const TABLE_REPOSITORIES = 'Repositories';
 
     /**
@@ -13,31 +13,26 @@ class AddEbsSupport extends AbstractMigration
      */
     public function up()
     {
-        $this->updateDeployments();
+        $this->updateServers();
         $this->updateRepositories();
     }
 
-    public function updateDeployments()
+    public function updateServers()
     {
-        $this->table(self::TABLE_DEPLOYMENTS)
-            ->changeColumn('ServerId', 'integer', ['null' => true])
-            ->addColumn('DeploymentEbsEnvironment', 'string', ['limit' => 100, 'after' => 'DeploymentUrl'])
-            ->addIndex(['DeploymentEbsEnvironment'], ['unique' => true])
-            ->save();
         // Phinx (as of 0.4.1) does not support ENUM, so ENUM columns must be manually added
         $types = array_map(function($type) {
             return sprintf("'%s'", $type);
-        }, DeploymentEnumType::values());
+        }, ServerEnumType::values());
 
-        $tbl = self::TABLE_DEPLOYMENTS;
+        $tbl = self::TABLE_SERVERS;
         $default = reset($types);
         $types = implode(", ", $types);
 
         $this->execute("
 ALTER TABLE $tbl
 ADD COLUMN
-    DeploymentType ENUM($types) NOT NULL DEFAULT $default
-    AFTER DeploymentId
+    ServerType ENUM($types) NOT NULL DEFAULT $default
+    AFTER ServerId
 ");
     }
 
@@ -60,10 +55,8 @@ ADD COLUMN
      */
     public function down()
     {
-        $this->table(self::TABLE_DEPLOYMENTS)
-            ->removeIndex(['DeploymentEbsEnvironment'])
-            ->removeColumn('DeploymentType')
-            ->removeColumn('DeploymentEbsEnvironment')
+        $this->table(self::TABLE_SERVERS)
+            ->removeColumn('ServerType')
             ->save();
 
         $this->table(self::TABLE_REPOSITORIES)
