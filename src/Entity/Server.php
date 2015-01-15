@@ -19,6 +19,7 @@ class Server
      * The server id
      *
      * @var int
+     *
      * @Id @Column(name="ServerId", type="integer", unique=true)
      * @GeneratedValue(strategy="AUTO")
      */
@@ -37,7 +38,8 @@ class Server
      * The server name (hostname)
      *
      * @var string
-     * @Column(name="ServerName", type="string", length=24, unique=true)
+     *
+     * @Column(name="ServerName", type="string", length=24)
      */
     protected $name;
 
@@ -45,6 +47,7 @@ class Server
      * The environment
      *
      * @var Environment
+     *
      * @ManyToOne(targetEntity="Environment")
      * @JoinColumn(name="EnvironmentId", referencedColumnName="EnvironmentId")
      */
@@ -54,6 +57,7 @@ class Server
      * Deployments for the server
      *
      * @var ArrayCollection
+     *
      * @OneToMany(targetEntity="Deployment", mappedBy="server")
      */
     protected $deployments;
