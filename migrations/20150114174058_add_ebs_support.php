@@ -22,8 +22,8 @@ class AddEbsSupport extends AbstractMigration
         $this->table(self::TABLE_DEPLOYMENTS)
             ->changeColumn('ServerId', 'integer', ['null' => true])
             ->addColumn('DeploymentEbsEnvironment', 'string', ['limit' => 100, 'after' => 'DeploymentUrl'])
+            ->addIndex(['DeploymentEbsEnvironment'], ['unique' => true])
             ->save();
-
         // Phinx (as of 0.4.1) does not support ENUM, so ENUM columns must be manually added
         $types = array_map(function($type) {
             return sprintf("'%s'", $type);
@@ -61,6 +61,7 @@ ADD COLUMN
     public function down()
     {
         $this->table(self::TABLE_DEPLOYMENTS)
+            ->removeIndex(['DeploymentEbsEnvironment'])
             ->removeColumn('DeploymentType')
             ->removeColumn('DeploymentEbsEnvironment')
             ->save();
