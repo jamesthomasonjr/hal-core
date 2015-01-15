@@ -11,6 +11,7 @@ use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManagerInterface;
 use QL\Hal\Core\Entity\Type\BuildStatusEnumType;
 use QL\Hal\Core\Entity\Type\CompressedSerializedBlobType;
+use QL\Hal\Core\Entity\Type\DeploymentEnumType;
 use QL\Hal\Core\Entity\Type\EventEnumType;
 use QL\Hal\Core\Entity\Type\EventStatusEnumType;
 use QL\Hal\Core\Entity\Type\HttpUrlType;
@@ -29,28 +30,26 @@ class EntityManagerConfigurator
      */
     public function configure(EntityManagerInterface $em)
     {
-        Type::addType(HttpUrlType::TYPE, 'QL\Hal\Core\Entity\Type\HttpUrlType');
-        Type::addType(TimePointType::TYPE, 'QL\Hal\Core\Entity\Type\TimePointType');
+        // @todo switch to php 5.5 so we can use ClassName::class
+        $mapping = [
+            HttpUrlType::TYPE                   => 'QL\Hal\Core\Entity\Type\HttpUrlType',
+            TimePointType::TYPE                 => 'QL\Hal\Core\Entity\Type\TimePointType',
+            BuildStatusEnumType::TYPE           => 'QL\Hal\Core\Entity\Type\BuildStatusEnumType',
+            PushStatusEnumType::TYPE            => 'QL\Hal\Core\Entity\Type\PushStatusEnumType',
+            EventEnumType::TYPE                 => 'QL\Hal\Core\Entity\Type\EventEnumType',
+            EventStatusEnumType::TYPE           => 'QL\Hal\Core\Entity\Type\EventStatusEnumType',
+            DeploymentEnumType::TYPE            => 'QL\Hal\Core\Entity\Type\DeploymentEnumType',
+            CompressedSerializedBlobType::TYPE  => 'QL\Hal\Core\Entity\Type\CompressedSerializedBlobType',
+        ];
 
-        Type::addType(BuildStatusEnumType::TYPE, 'QL\Hal\Core\Entity\Type\BuildStatusEnumType');
-        Type::addType(PushStatusEnumType::TYPE, 'QL\Hal\Core\Entity\Type\PushStatusEnumType');
-
-        Type::addType(EventEnumType::TYPE, 'QL\Hal\Core\Entity\Type\EventEnumType');
-        Type::addType(EventStatusEnumType::TYPE, 'QL\Hal\Core\Entity\Type\EventStatusEnumType');
-
-        Type::addType(CompressedSerializedBlobType::TYPE, 'QL\Hal\Core\Entity\Type\CompressedSerializedBlobType');
+        foreach ($mapping as $type => $fullyQualified) {
+            Type::addType($type, $fullyQualified);
+        }
 
         $platform = $em->getConnection()->getDatabasePlatform();
 
-        $platform->registerDoctrineTypeMapping(sprintf('db_%s', HttpUrlType::TYPE), HttpUrlType::TYPE);
-        $platform->registerDoctrineTypeMapping(sprintf('db_%s', TimePointType::TYPE), TimePointType::TYPE);
-
-        $platform->registerDoctrineTypeMapping(sprintf('db_%s', BuildStatusEnumType::TYPE), BuildStatusEnumType::TYPE);
-        $platform->registerDoctrineTypeMapping(sprintf('db_%s', PushStatusEnumType::TYPE), PushStatusEnumType::TYPE);
-
-        $platform->registerDoctrineTypeMapping(sprintf('db_%s', EventEnumType::TYPE), EventEnumType::TYPE);
-        $platform->registerDoctrineTypeMapping(sprintf('db_%s', EventStatusEnumType::TYPE), EventStatusEnumType::TYPE);
-
-        $platform->registerDoctrineTypeMapping(sprintf('db_%s', CompressedSerializedBlobType::TYPE), CompressedSerializedBlobType::TYPE);
+        foreach ($mapping as $type => $fullyQualified) {
+            $platform->registerDoctrineTypeMapping(sprintf('db_%s', $type), $type);
+        }
     }
 }
