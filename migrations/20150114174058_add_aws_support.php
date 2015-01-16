@@ -59,6 +59,14 @@ class AddEbsSupport extends AbstractMigration
             ->addIndex(['DeploymentEbEnvironment'], ['unique' => true])
             ->addIndex(['DeploymentEc2Pool'], ['unique' => true])
             ->save();
+
+        // Deployments
+        $this->table(self::TABLE_DEPLOYMENTS)
+            ->addForeignKey('ServerId', self::TABLE_SERVERS, 'ServerId', [
+                'delete' => 'RESTRICT',
+                'update'=> 'CASCADE'
+            ])
+            ->save();
     }
 
     public function updateServers()
