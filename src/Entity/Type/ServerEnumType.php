@@ -16,7 +16,7 @@ class ServerEnumType extends BaseType
 {
     const TYPE_RSYNC = 'rsync';
     const TYPE_EB = 'elasticbeanstalk';
-    const TYPE_EC2 'ec2';
+    const TYPE_EC2 = 'ec2';
 
     use EnumTypeTrait;
 
