@@ -16,6 +16,8 @@ use QL\Hal\Core\Entity\Server;
 
 class PushRepository extends EntityRepository
 {
+    const REGEX_COMMIT = '#^[0-9a-f]{40}$#i';
+
     const DQL_ROLLBACKS = <<<SQL
    SELECT p
      FROM QL\Hal\Core\Entity\Push p
@@ -35,6 +37,22 @@ SQL;
     WHERE p.repository = :repo
  ORDER BY p.created DESC
 SQL;
+    const DQL_BY_REPOSITORY_WITH_REF_FILTER = <<<SQL
+   SELECT p
+     FROM QL\Hal\Core\Entity\Push p
+     JOIN QL\Hal\Core\Entity\Build b WITH b = p.build
+    WHERE p.repository = :repo
+      AND b.branch = :ref
+ ORDER BY p.created DESC
+SQL;
+    const DQL_BY_REPOSITORY_WITH_SHA_FILTER = <<<SQL
+   SELECT p
+     FROM QL\Hal\Core\Entity\Push p
+     JOIN QL\Hal\Core\Entity\Build b WITH b = p.build
+    WHERE p.repository = :repo
+      AND b.commit = :ref
+ ORDER BY p.created DESC
+SQL;
 
     const DQL_RECENT_PUSH = <<<SQL
   SELECT p
@@ -42,6 +60,7 @@ SQL;
    WHERE p.deployment = :deploy
 ORDER BY p.created DESC
 SQL;
+
     const DQL_RECENT_SUCCESSFUL_PUSH = <<<SQL
    SELECT p
      FROM QL\Hal\Core\Entity\Push p
@@ -82,15 +101,32 @@ SQL;
      * @param int $limit
      * @param int $page
      *
+     * @param string|null $filter
+     *
      * @return Paginator
      */
-    public function getForRepository(Repository $repository, $limit = 25, $page = 0)
+    public function getForRepository(Repository $repository, $limit = 25, $page = 0, $filter = null)
     {
+        $dql = self::DQL_BY_REPOSITORY;
+        if ($filter) {
+            $dql = self::DQL_BY_REPOSITORY_WITH_REF_FILTER;
+
+            // is a commit sha
+            if (preg_match(self::REGEX_COMMIT, $filter) === 1) {
+                $dql = self::DQL_BY_REPOSITORY_WITH_SHA_FILTER;
+                $filter = strtolower($filter);
+            }
+        }
+
         $query = $this->getEntityManager()
-            ->createQuery(self::DQL_BY_REPOSITORY)
+            ->createQuery($dql)
             ->setMaxResults($limit)
             ->setFirstResult($limit * $page)
             ->setParameter('repo', $repository);
+
+        if ($filter) {
+            $query->setParameter('ref', $filter);
+        }
 
         return new Paginator($query);
     }
