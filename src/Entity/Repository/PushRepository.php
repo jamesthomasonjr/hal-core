@@ -40,7 +40,7 @@ SQL;
     const DQL_BY_REPOSITORY_WITH_REF_FILTER = <<<SQL
    SELECT p
      FROM QL\Hal\Core\Entity\Push p
-     JOIN QL\Hal\Core\Entity\Build b WITH b = p.build
+     JOIN p.build b
     WHERE p.repository = :repo
       AND b.branch = :ref
  ORDER BY p.created DESC
@@ -48,7 +48,7 @@ SQL;
     const DQL_BY_REPOSITORY_WITH_SHA_FILTER = <<<SQL
    SELECT p
      FROM QL\Hal\Core\Entity\Push p
-     JOIN QL\Hal\Core\Entity\Build b WITH b = p.build
+     JOIN p.build b
     WHERE p.repository = :repo
       AND b.commit = :ref
  ORDER BY p.created DESC
