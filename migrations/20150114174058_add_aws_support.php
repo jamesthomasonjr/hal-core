@@ -22,7 +22,7 @@ class AddEbsSupport extends AbstractMigration
     public function updateRepositories()
     {
         $this->table(self::TABLE_REPOSITORIES)
-            ->addColumn('RepositoryEbsName', 'string', ['limit' => 255, 'after' => 'RepositoryPostPushCmd'])
+            ->addColumn('RepositoryEbName', 'string', ['limit' => 255, 'after' => 'RepositoryPostPushCmd'])
 
             // make cmds not null
             ->changeColumn('RepositoryBuildCmd', 'string', ['limit' => 255])
@@ -35,7 +35,7 @@ class AddEbsSupport extends AbstractMigration
 
     public function updateDeployments()
     {
-        // Audit Logs
+        // Drop old FKs and Indexes
         $this->table(self::TABLE_DEPLOYMENTS)
             ->dropForeignKey('ServerId')
             ->save();
@@ -44,10 +44,11 @@ class AddEbsSupport extends AbstractMigration
             ->save();
 
         // Make path nullable
-        // Add EbsEnvironment
+        // Add EbEnvironment, Ec2Pool
         $this->table(self::TABLE_DEPLOYMENTS)
             ->changeColumn('DeploymentPath', 'string', ['limit' => 255, 'null' => true])
-            ->addColumn('DeploymentEbsEnvironment', 'string', ['limit' => 100, 'null' => true, 'after' => 'DeploymentPath'])
+            ->addColumn('DeploymentEbEnvironment', 'string', ['limit' => 100, 'null' => true, 'after' => 'DeploymentPath'])
+            ->addColumn('DeploymentEc2Pool', 'string', ['limit' => 100, 'null' => true, 'after' => 'DeploymentEbEnvironment'])
             ->save();
 
         // unique = serverId + path
@@ -55,7 +56,8 @@ class AddEbsSupport extends AbstractMigration
         $this->table(self::TABLE_DEPLOYMENTS)
             ->addIndex(['ServerId'])
             ->addIndex(['ServerId', 'DeploymentPath'], ['unique' => true])
-            ->addIndex(['DeploymentEbsEnvironment'], ['unique' => true])
+            ->addIndex(['DeploymentEbEnvironment'], ['unique' => true])
+            ->addIndex(['DeploymentEc2Pool'], ['unique' => true])
             ->save();
     }
 
@@ -93,7 +95,7 @@ ADD COLUMN
             ->save();
 
         $this->table(self::TABLE_REPOSITORIES)
-            ->removeColumn('RepositoryEbsName')
+            ->removeColumn('RepositoryEbName')
             ->save();
 
 
@@ -103,8 +105,12 @@ ADD COLUMN
 
         $this->table(self::TABLE_DEPLOYMENTS)
             ->removeIndex(['ServerId', 'DeploymentPath'])
-            ->removeIndex(['DeploymentEbsEnvironment'])
-            ->removeColumn('DeploymentEbsEnvironment')
+
+            ->removeIndex(['DeploymentEbEnvironment'])
+            ->removeColumn('DeploymentEbEnvironment')
+
+            ->removeIndex(['DeploymentEc2Pool'])
+            ->removeColumn('DeploymentEc2Pool')
             ->save();
     }
 }

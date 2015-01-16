@@ -29,7 +29,7 @@ class Deployment
     /**
      * For RSYNC
      *
-     * The deployment path
+     * The path
      *
      * @var string
      *
@@ -40,13 +40,24 @@ class Deployment
     /**
      * For ELASTIC BEANSTALK
      *
-     * The deployment EBS environment ID
+     * The EB environment ID
      *
      * @var string
      *
-     * @Column(name="DeploymentEbsEnvironment", type="string", length=100, nullable=true)
+     * @Column(name="DeploymentEbEnvironment", type="string", length=100, nullable=true)
      */
-    protected $ebsEnvironment;
+    protected $ebEnvironment;
+
+    /**
+     * For EC2
+     *
+     * The EC2 autoscaling pool. EC2 Instances must be tagged with the pool they belong to. This is how HAL knows where to put code.
+     *
+     * @var string
+     *
+     * @Column(name="DeploymentEc2Pool", type="string", length=100, nullable=true)
+     */
+    protected $ec2Pool;
 
     /**
      * @var HttpUrl|null
@@ -89,7 +100,8 @@ class Deployment
         $this->id = null;
 
         $this->path = null;
-        $this->ebsEnvironment = null;
+        $this->ebEnvironment = null;
+        $this->ec2Pool = null;
 
         $this->repository = null;
         $this->server = null;
@@ -117,7 +129,7 @@ class Deployment
     }
 
     /**
-     * Set the deployment rsync path
+     * Set the rsync path
      *
      * @param string $path
      */
@@ -127,7 +139,7 @@ class Deployment
     }
 
     /**
-     * Get the deployment rsync path
+     * Get the rsync path
      *
      * @return string
      */
@@ -137,27 +149,47 @@ class Deployment
     }
 
     /**
-     * Set the deployment EBS environment ID
+     * Set the EB environment ID
      *
-     * @param string $ebsEnvironment
+     * @param string $ebEnvironment
      */
-    public function setEbsEnvironment($ebsEnvironment)
+    public function setEbEnvironment($ebEnvironment)
     {
-        $this->ebsEnvironment = $ebsEnvironment;
+        $this->ebEnvironment = $ebEnvironment;
     }
 
     /**
-     * Get the deployment EBS environment ID
+     * Get the EB environment ID
      *
      * @return string
      */
-    public function getEbsEnvironment()
+    public function getEbEnvironment()
     {
-        return $this->ebsEnvironment;
+        return $this->ebEnvironment;
     }
 
     /**
-     * Set the deployment url
+     * Set the EC2 Pool
+     *
+     * @param string $ec2Pool
+     */
+    public function setEc2Pool($ec2Pool)
+    {
+        $this->ec2Pool = $ec2Pool;
+    }
+
+    /**
+     * Get the EC2 Pool
+     *
+     * @return string
+     */
+    public function getEc2Pool()
+    {
+        return $this->ec2Pool;
+    }
+
+    /**
+     * Set the url
      *
      * @param HttpUrl $url
      */
@@ -167,7 +199,7 @@ class Deployment
     }
 
     /**
-     * Get the deployment url
+     * Get the url
      *
      * @return HttpUrl|null
      */
@@ -177,7 +209,7 @@ class Deployment
     }
 
     /**
-     * Set the deployment repository
+     * Set the repository
      *
      * @param Repository $repository
      */
@@ -187,7 +219,7 @@ class Deployment
     }
 
     /**
-     * Get the deployment repository
+     * Get the repository
      *
      * @return Repository
      */
@@ -197,7 +229,7 @@ class Deployment
     }
 
     /**
-     * Set the deployment server
+     * Set the server
      *
      * @param Server $server
      */
@@ -207,7 +239,7 @@ class Deployment
     }
 
     /**
-     * Get the deployment server
+     * Get the server
      *
      * @return Server
      */
@@ -217,7 +249,7 @@ class Deployment
     }
 
     /**
-     * Set the deployment pushes
+     * Set the pushes
      *
      * @param ArrayCollection $pushes
      */
@@ -227,7 +259,7 @@ class Deployment
     }
 
     /**
-     * Get the deployment pushes
+     * Get the pushes
      *
      * @return ArrayCollection
      */

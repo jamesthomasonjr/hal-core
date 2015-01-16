@@ -107,13 +107,13 @@ class Repository
     protected $postPushCmd;
 
     /**
-     * The repository application name for elastic beanstalk
+     * The application name for elastic beanstalk
      *
      * @var string
      *
-     * @Column(name="RepositoryEbsName", type="string", length=255)
+     * @Column(name="RepositoryEbName", type="string", length=255)
      */
-    protected $ebsName;
+    protected $ebName;
 
     /**
      * The repository group
@@ -151,7 +151,7 @@ class Repository
         $this->prePushCmd = null;
         $this->postPushCmd = null;
 
-        $this->ebsName = null;
+        $this->ebName = null;
 
         $this->group = null;
         $this->deployments = new ArrayCollection();
@@ -380,11 +380,11 @@ class Repository
     /**
      * Set the application name for elastic beanstalk
      *
-     * @param string $ebsName
+     * @param string $ebName
      */
-    public function setEbsName($ebsName)
+    public function setEbName($ebName)
     {
-        $this->ebsName = $ebsName;
+        $this->ebName = $ebName;
     }
 
     /**
@@ -392,8 +392,8 @@ class Repository
      *
      * @return string
      */
-    public function getEbsName()
+    public function getEbName()
     {
-        return $this->ebsName;
+        return $this->ebName;
     }
 }

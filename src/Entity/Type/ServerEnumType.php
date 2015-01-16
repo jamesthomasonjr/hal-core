@@ -14,6 +14,10 @@ use Doctrine\DBAL\Types\Type as BaseType;
  */
 class ServerEnumType extends BaseType
 {
+    const TYPE_RSYNC = 'rsync';
+    const TYPE_EB = 'elasticbeanstalk';
+    const TYPE_EC2 'ec2';
+
     use EnumTypeTrait;
 
     /**
@@ -29,8 +33,9 @@ class ServerEnumType extends BaseType
     public static function values()
     {
         return [
-            'rsync',
-            'elasticbeanstalk'
+            self::TYPE_RSYNC,
+            self::TYPE_EB,
+            self::TYPE_EC2,
         ];
     }
 }
