@@ -35,13 +35,13 @@ class Repository
     protected $key;
 
     /**
-     * The repository description
+     * The repository name
      *
      * @var string
      *
-     * @Column(name="RepositoryDescription", type="string", length=255)
+     * @Column(name="RepositoryName", type="string", length=64)
      */
-    protected $description;
+    protected $name;
 
     /**
      * The repository Github user
@@ -141,7 +141,7 @@ class Repository
     {
         $this->id = null;
         $this->key = null;
-        $this->description = null;
+        $this->name = null;
         $this->githubUser = null;
         $this->githubRepo = null;
         $this->email = null;
@@ -198,23 +198,23 @@ class Repository
     }
 
     /**
-     * Set the repository description
+     * Set the repository name
      *
-     * @param string $description
+     * @param string $name
      */
-    public function setDescription($description)
+    public function setName($name)
     {
-        $this->description = $description;
+        $this->name = $name;
     }
 
     /**
-     * Get the repository description
+     * Get the repository name
      *
      * @return string
      */
-    public function getDescription()
+    public function getName()
     {
-        return $this->description;
+        return $this->name;
     }
 
     /**
