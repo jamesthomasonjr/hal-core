@@ -3,7 +3,7 @@
 use Phinx\Migration\AbstractMigration;
 use QL\Hal\Core\Entity\Type\ServerEnumType;
 
-class AddEbsSupport extends AbstractMigration
+class AddAwsSupport extends AbstractMigration
 {
     const TABLE_SERVERS = 'Servers';
     const TABLE_REPOSITORIES = 'Repositories';
