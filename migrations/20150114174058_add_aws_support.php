@@ -21,6 +21,11 @@ class AddAwsSupport extends AbstractMigration
 
     public function updateRepositories()
     {
+        $this->execute('UPDATE Repositories SET RepositoryBuildCmd="" WHERE RepositoryBuildCmd IS NULL');
+        $this->execute('UPDATE Repositories SET RepositoryBuildTransformCmd="" WHERE RepositoryBuildTransformCmd IS NULL');
+        $this->execute('UPDATE Repositories SET RepositoryPrePushCmd="" WHERE RepositoryPrePushCmd IS NULL');
+        $this->execute('UPDATE Repositories SET RepositoryPostPushCmd="" WHERE RepositoryPostPushCmd IS NULL');
+
         $this->table(self::TABLE_REPOSITORIES)
             ->addColumn('RepositoryEbName', 'string', ['limit' => 255, 'after' => 'RepositoryPostPushCmd'])
 
