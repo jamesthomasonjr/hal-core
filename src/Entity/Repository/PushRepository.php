@@ -24,8 +24,7 @@ class PushRepository extends EntityRepository
      JOIN p.deployment d
      JOIN p.build b
     WHERE
-        d.server = :server AND
-        p.repository = :repo AND
+        p.deployment = :deployment AND
         p.status = :pushStatus AND
         b.status = :buildStatus
  ORDER BY p.created DESC
@@ -71,23 +70,22 @@ SQL;
 SQL;
 
     /**
-     * Get all pushes, with available builds, that can be used as a rollback
+     * Get all pushes that can be used as a rollback
      *
-     * @param Repository $repository
-     * @param Server $server
+     * @param Deployment $deployment
+     *
      * @param int $limit
      * @param int $page
      *
      * @return Paginator
      */
-    public function getAvailableRollbacks(Repository $repository, Server $server, $limit = 25, $page = 0)
+    public function getAvailableRollbacksByDeployment(Deployment $deployment, $limit = 25, $page = 0)
     {
         $query = $this->getEntityManager()
             ->createQuery(self::DQL_ROLLBACKS)
             ->setMaxResults($limit)
             ->setFirstResult($limit * $page)
-            ->setParameter('repo', $repository)
-            ->setParameter('server', $server)
+            ->setParameter('deployment', $deployment)
             ->setParameter('pushStatus', 'Success')
             ->setParameter('buildStatus', 'Success');
 
@@ -105,7 +103,7 @@ SQL;
      *
      * @return Paginator
      */
-    public function getForRepository(Repository $repository, $limit = 25, $page = 0, $filter = null)
+    public function getByRepository(Repository $repository, $limit = 25, $page = 0, $filter = null)
     {
         $dql = self::DQL_BY_REPOSITORY;
         if ($filter) {

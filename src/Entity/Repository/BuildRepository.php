@@ -46,7 +46,7 @@ SQL;
      *
      * @return Paginator
      */
-    public function getForRepository(Repository $repository, $limit = 25, $page = 0, $filter = null)
+    public function getByRepository(Repository $repository, $limit = 25, $page = 0, $filter = null)
     {
         $dql = self::DQL_BY_REPOSITORY;
         if ($filter) {

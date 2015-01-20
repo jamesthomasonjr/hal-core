@@ -26,14 +26,14 @@ class DeploymentRepository extends EntityRepository
 SQL;
 
     /**
-     * Get all buildable environments for a repository
+     * Get all deployments for a repository and environment
      *
      * @param Repository $repository
      * @param Environment $environment
      *
      * @return Deployment[]
      */
-    public function getDeploymentsForRepositoryEnvironment(Repository $repository, Environment $environment)
+    public function getDeploymentsByRepositoryEnvironment(Repository $repository, Environment $environment)
     {
         $query = $this->getEntityManager()
             ->createQuery(self::DQL_BY_REPOSITORY_AND_ENVIRONMENT)

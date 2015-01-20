@@ -31,7 +31,7 @@ SQL;
      *
      * @return Environment[]
      */
-    public function getBuildableEnvironmentsForRepository(Repository $repository)
+    public function getBuildableEnvironmentsByRepository(Repository $repository)
     {
         $query = $this->getEntityManager()
             ->createQuery(self::DQL_BY_REPOSITORY)
