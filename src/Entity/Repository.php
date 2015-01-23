@@ -142,16 +142,17 @@ class Repository
         $this->id = null;
         $this->key = null;
         $this->name = null;
-        $this->githubUser = null;
-        $this->githubRepo = null;
-        $this->email = null;
 
-        $this->buildCmd = null;
-        $this->buildTransformCmd = null;
-        $this->prePushCmd = null;
-        $this->postPushCmd = null;
+        $this->githubUser = '';
+        $this->githubRepo = '';
+        $this->email = '';
 
-        $this->ebName = null;
+        $this->buildCmd = '';
+        $this->buildTransformCmd = '';
+        $this->prePushCmd = '';
+        $this->postPushCmd = '';
+
+        $this->ebName = '';
 
         $this->group = null;
         $this->deployments = new ArrayCollection();
