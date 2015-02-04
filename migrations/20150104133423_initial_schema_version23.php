@@ -260,7 +260,7 @@ class InitialSchemaVersion23 extends AbstractMigration
 
         $table
             ->addColumn('BuildId', 'char', ['limit' => 40])
-            ->addColumn('BuildCreated', 'datetime')
+            ->addColumn('BuildCreated', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
             ->addColumn('BuildStart', 'datetime', ['null' => true])
             ->addColumn('BuildEnd', 'datetime', ['null' => true])
             // ->addColumn('BuildStatus') -- see below
@@ -304,7 +304,7 @@ ADD COLUMN
 
         $table
             ->addColumn('PushId', 'char', ['limit' => 40])
-            ->addColumn('PushCreated', 'datetime')
+            ->addColumn('PushCreated', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
             ->addColumn('PushStart', 'datetime', ['null' => true])
             ->addColumn('PushEnd', 'datetime', ['null' => true])
             // ->addColumn('PushStatus') -- see below
@@ -367,7 +367,7 @@ ADD COLUMN
         ]);
 
         $table
-            ->addColumn('Recorded', 'datetime')
+            ->addColumn('Recorded', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
             ->addColumn('Entity', 'string', ['limit' => 255])
             ->addColumn('Action', 'string', ['limit' => 24])
             ->addColumn('Data', 'text', ['limit' => MysqlAdapter::TEXT_REGULAR, 'null' => true])
@@ -392,7 +392,7 @@ ADD COLUMN
             ->addColumn('EventLogId', 'char', ['limit' => 40])
             // ->addColumn('Event') -- see below
             ->addColumn('EventOrder', 'integer')
-            ->addColumn('EventLogCreated', 'datetime')
+            ->addColumn('EventLogCreated', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
             ->addColumn('EventLogMessage', 'string', ['limit' => 255, 'null' => true])
             // ->addColumn('EventLogStatus') -- see below
             ->addColumn('EventLogData', 'binary', ['null' => true])
