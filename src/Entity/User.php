@@ -57,6 +57,22 @@ class User
     protected $pictureUrl;
 
     /**
+     * The current user status
+     *
+     * @var boolean
+     * @Column(name="UserIsActive", type="boolean")
+     */
+    protected $isActive;
+
+    /**
+     * The github access token for the user
+     *
+     * @var string
+     * @Column(name="UserGithubToken", type="string", length=128)
+     */
+    protected $githubToken;
+
+    /**
      * All pushes done by the user.
      *
      * @var ArrayCollection
@@ -75,14 +91,6 @@ class User
     protected $builds;
 
     /**
-     * The current user status
-     *
-     * @var boolean
-     * @Column(name="UserIsActive", type="boolean")
-     */
-    protected $isActive;
-
-    /**
      * All tokens for the user.
      *
      * @var ArrayCollection
@@ -96,14 +104,21 @@ class User
      */
     public function __construct()
     {
+        // from ldap
         $this->id = null;
         $this->handle = null;
         $this->name = null;
         $this->email = null;
         $this->pictureUrl = null;
+
+        // hal settings
+        $this->isActive = false;
+        $this->githubToken = '';
+
+        // convenience queries
         $this->pushes = new ArrayCollection();
         $this->builds = new ArrayCollection();
-        $this->isActive = false;
+        $this->tokens = new ArrayCollection();
     }
 
     /**
@@ -207,6 +222,46 @@ class User
     }
 
     /**
+     * Set the user status
+     *
+     * @param bool $isActive
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+    }
+
+    /**
+     * Get the user status
+     *
+     * @return boolean
+     */
+    public function isActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * Set the github access token
+     *
+     * @param string $githubToken
+     */
+    public function setGithubToken($githubToken)
+    {
+        $this->githubToken = $githubToken;
+    }
+
+    /**
+     * Get the github access token
+     *
+     * @return string
+     */
+    public function getGithubToken()
+    {
+        return $this->githubToken;
+    }
+
+    /**
      * Set the the user builds
      *
      * @param ArrayCollection $builds
@@ -244,26 +299,6 @@ class User
     public function getPushes()
     {
         return $this->pushes;
-    }
-
-    /**
-     * Set the user status
-     *
-     * @param bool $isActive
-     */
-    public function setIsActive($isActive)
-    {
-        $this->isActive = $isActive;
-    }
-
-    /**
-     * Get the user status
-     *
-     * @return boolean
-     */
-    public function isActive()
-    {
-        return $this->isActive;
     }
 
     /**
