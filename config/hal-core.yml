@@ -3,16 +3,14 @@ services:
     # Doctrine Configuration
     doctrine.config:
         class: 'Doctrine\ORM\Configuration'
-        factory_class: 'Doctrine\ORM\Tools\Setup'
-        factory_method: 'createAnnotationMetadataConfiguration'
+        factory: ['Doctrine\ORM\Tools\Setup', 'createAnnotationMetadataConfiguration']
         arguments:
             - [@doctrine.mapping]
             - %doctrine.devmode%
 
     doctrine.mapping:
         class: 'DOES_NOT_MATTER'
-        factory_class: 'QL\Hal\Core\EntityMapping'
-        factory_method: 'path'
+        factory: ['QL\Hal\Core\EntityMapping', 'path']
 
     # Doctrine Entity Manager Configurator
     doctrine.em.config:
@@ -25,8 +23,7 @@ services:
     # Doctrine Entity Manager
     doctrine.em:
         class: 'Doctrine\ORM\EntityManager'
-        factory_class: 'Doctrine\ORM\EntityManager'
-        factory_method: 'create'
+        factory: ['Doctrine\ORM\EntityManager', 'create']
         arguments:
             - %doctrine.connection%
             - @doctrine.config
@@ -36,90 +33,83 @@ services:
     # Build Repository
     build.repo:
         class: 'QL\Hal\Core\Entity\Repository\BuildRepository'
-        factory_service: 'doctrine.em'
-        factory_method: 'getRepository'
+        factory: [@doctrine.em, 'getRepository']
         arguments: ['QL\Hal\Core\Entity\Build']
 
     # Consumer Repository
     consumer.repo:
-        class:            'QL\Hal\Core\Entity\Repository\ConsumerRepository'
-        factory_service: 'doctrine.em'
-        factory_method: 'getRepository'
+        class: 'QL\Hal\Core\Entity\Repository\ConsumerRepository'
+        factory: [@doctrine.em, 'getRepository']
         arguments: ['QL\Hal\Core\Entity\Consumer']
 
     # Deployment Repository
     deployment.repo:
         class: 'QL\Hal\Core\Entity\Repository\DeploymentRepository'
-        factory_service: 'doctrine.em'
-        factory_method: 'getRepository'
+        factory: [@doctrine.em, 'getRepository']
         arguments: ['QL\Hal\Core\Entity\Deployment']
 
     # Environment Repository
     environment.repo:
         class: 'QL\Hal\Core\Entity\Repository\EnvironmentRepository'
-        factory_service: 'doctrine.em'
-        factory_method: 'getRepository'
+        factory: [@doctrine.em, 'getRepository']
         arguments: ['QL\Hal\Core\Entity\Environment']
 
     # Group Repository
     group.repo:
         class: 'QL\Hal\Core\Entity\Repository\GroupRepository'
-        factory_service: 'doctrine.em'
-        factory_method: 'getRepository'
+        factory: [@doctrine.em, 'getRepository']
         arguments: ['QL\Hal\Core\Entity\Group']
 
     # Push Repository
     push.repo:
         class: 'QL\Hal\Core\Entity\Repository\PushRepository'
-        factory_service: 'doctrine.em'
-        factory_method: 'getRepository'
+        factory: [@doctrine.em, 'getRepository']
         arguments: ['QL\Hal\Core\Entity\Push']
 
     # Repository Repository
     repository.repo:
         class:            'QL\Hal\Core\Entity\Repository\RepositoryRepository'
-        factory_service: 'doctrine.em'
-        factory_method: 'getRepository'
+        factory: [@doctrine.em, 'getRepository']
         arguments: ['QL\Hal\Core\Entity\Repository']
 
     # Server Repository
     server.repo:
         class: 'QL\Hal\Core\Entity\Repository\ServerRepository'
-        factory_service: 'doctrine.em'
-        factory_method: 'getRepository'
+        factory: [@doctrine.em, 'getRepository']
         arguments: ['QL\Hal\Core\Entity\Server']
 
     # Subscription Repository
     subscription.repo:
         class: 'QL\Hal\Core\Entity\Repository\SubscriptionRepository'
-        factory_service: 'doctrine.em'
-        factory_method: 'getRepository'
+        factory: [@doctrine.em, 'getRepository']
         arguments: ['QL\Hal\Core\Entity\Subscription']
 
     # User Repository
     user.repo:
         class: 'QL\Hal\Core\Entity\Repository\UserRepository'
-        factory_service: 'doctrine.em'
-        factory_method: 'getRepository'
+        factory: [@doctrine.em, 'getRepository']
         arguments: ['QL\Hal\Core\Entity\User']
 
     # Token Repository
     token.repo:
         class: 'QL\Hal\Core\Entity\Repository\TokenRepository'
-        factory_service: 'doctrine.em'
-        factory_method: 'getRepository'
+        factory: [@doctrine.em, 'getRepository']
         arguments: ['QL\Hal\Core\Entity\Token']
 
     # Audit Log Repository
     audit.log.repo:
         class: 'QL\Hal\Core\Entity\Repository\AuditLogRepository'
-        factory_service: 'doctrine.em'
-        factory_method: 'getRepository'
+        factory: [@doctrine.em, 'getRepository']
         arguments: ['QL\Hal\Core\Entity\AuditLog']
 
     # Event Log Repository
     event.log.repo:
         class: 'QL\Hal\Core\Entity\Repository\EventLogRepository'
-        factory_service: 'doctrine.em'
-        factory_method: 'getRepository'
+        factory: [@doctrine.em, 'getRepository']
         arguments: ['QL\Hal\Core\Entity\EventLog']
+
+    # Encrypted Property Repository
+    encrypted.repo:
+        class: 'QL\Hal\Core\Entity\Repository\EncryptedPropertyRepository'
+        factory: [@doctrine.em, 'getRepository']
+        arguments: ['QL\Hal\Core\Entity\EncryptedProperty']
