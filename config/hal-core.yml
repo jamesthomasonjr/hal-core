@@ -30,6 +30,10 @@ services:
             - @doctrine.events
         configurator: [@doctrine.em.config, 'configure']
 
+    ####################################################################################################################
+    # REPOSITORIES
+    ####################################################################################################################
+
     # Build Repository
     build.repo:
         class: 'QL\Hal\Core\Entity\Repository\BuildRepository'

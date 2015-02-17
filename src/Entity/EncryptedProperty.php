@@ -8,7 +8,7 @@
 namespace QL\Hal\Core\Entity;
 
 /**
- * @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\EncryptedProperty")
+ * @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\EncryptedPropertyRepository")
  * @Table(name="EncryptedProperties")
  */
 class EncryptedProperty
@@ -33,7 +33,7 @@ class EncryptedProperty
      * The encrypted data
      *
      * @var array
-     * @Column(name="EventLogData", type="blob")
+     * @Column(name="EncryptedPropertyData", type="blob")
      */
     protected $data;
 
