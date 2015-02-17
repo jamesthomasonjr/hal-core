@@ -10,6 +10,7 @@ namespace QL\Hal\Core\Entity\Listener;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use MCP\DataType\Time\Clock;
 use QL\Hal\Core\Entity\Build;
+use QL\Hal\Core\Entity\EncryptedProperty;
 use QL\Hal\Core\Entity\EventLog;
 use QL\Hal\Core\Entity\Push;
 
@@ -20,6 +21,7 @@ use QL\Hal\Core\Entity\Push;
  *     - Push
  *     - EventLog
  * - Add a random sha hash as the unique identifier.
+ *     - EncryptedProperty
  *     - EventLog
  *
  * It should be attached to the PrePersist event.
@@ -68,7 +70,7 @@ class EntityPersistListener
         }
 
         // Add unique generated id
-        if ($entity instanceof EventLog) {
+        if ($entity instanceof EventLog || $entity instanceof EncryptedProperty) {
             if (!$entity->getId()) {
                 $id = call_user_func($this->random);
                 $entity->setId($id);
