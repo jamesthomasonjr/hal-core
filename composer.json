@@ -29,10 +29,11 @@
         }
     ],
     "require": {
+        "doctrine/orm": "~2.4",
+        "ext-openssl": "*",
         "php-64bit": ">=5.4.0",
         "ql/mcp-core": "*",
-        "ql/mcp-corp-account": "0.2.1",
-        "doctrine/orm": "~2.4"
+        "ql/mcp-corp-account": "0.2.1"
     },
     "require-dev": {
         "phpunit/phpunit": "*",
