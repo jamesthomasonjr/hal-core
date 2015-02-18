@@ -33,7 +33,7 @@ class EncryptedProperty
      * The encrypted data
      *
      * @var array
-     * @Column(name="EncryptedPropertyData", type="blob")
+     * @Column(name="EncryptedPropertyData", type="string")
      */
     protected $data;
 
