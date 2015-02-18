@@ -35,11 +35,9 @@ class CryptoFactory
     }
 
     /**
-     * @param string $data
-     *
-     * @return string|null
+     * @return Decrypter
      */
-    public function getAsymmetricDecrypter($data)
+    public function getAsymmetricDecrypter()
     {
         $symmetricDecrypter = $this->getSymmetricDecrypter();
         $key = $symmetricDecrypter->decrypt($this->encryptedKey);
