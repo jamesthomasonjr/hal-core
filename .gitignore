@@ -1,6 +1,7 @@
-/vendor
-/phpunit
-/.idea
-.DS_Store
+# unit testing artifacts
+/phpunit.xml
+/.phpunit/
 
+# compiled configuration, package manager installation
+/vendor/
 /composer.lock

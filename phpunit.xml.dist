@@ -31,7 +31,7 @@
     </filter>
 
     <logging>
-        <log type="coverage-html" target="phpunit/php-code-coverage" charset="UTF-8" highlight="true" lowUpperBound="98" highLowerBound="99" />
+        <log type="coverage-html" target=".phpunit/php-code-coverage" charset="UTF-8" highlight="true" lowUpperBound="98" highLowerBound="99" />
         <log type="coverage-text" target="php://stdout" showUncoveredFiles="true"/>
     </logging>
 
