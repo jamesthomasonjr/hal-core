@@ -30,6 +30,15 @@ class PushRepository extends EntityRepository
  ORDER BY p.created DESC
 SQL;
 
+    const DQL_BY_DEPLOYMENT = <<<SQL
+   SELECT p
+     FROM QL\Hal\Core\Entity\Push p
+     JOIN p.deployment d
+    WHERE
+        p.deployment = :deployment
+ ORDER BY p.created DESC
+SQL;
+
     const DQL_BY_REPOSITORY = <<<SQL
    SELECT p
      FROM QL\Hal\Core\Entity\Push p
@@ -88,6 +97,27 @@ SQL;
             ->setParameter('deployment', $deployment)
             ->setParameter('pushStatus', 'Success')
             ->setParameter('buildStatus', 'Success');
+
+        return new Paginator($query);
+    }
+
+    /**
+     * Get all pushes for a deployment
+     *
+     * @param Deployment $deployment
+     *
+     * @param int $limit
+     * @param int $page
+     *
+     * @return Paginator
+     */
+    public function getByDeployment(Deployment $deployment, $limit = 25, $page = 0)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery(self::DQL_BY_DEPLOYMENT)
+            ->setMaxResults($limit)
+            ->setFirstResult($limit * $page)
+            ->setParameter('deployment', $deployment);
 
         return new Paginator($query);
     }
