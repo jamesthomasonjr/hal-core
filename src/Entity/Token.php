@@ -7,18 +7,12 @@
 
 namespace QL\Hal\Core\Entity;
 
-/**
- * @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\TokenRepository")
- * @Table(name="Tokens")
- */
 class Token
 {
     /**
      * The token id
      *
      * @var int
-     * @Id @Column(name="TokenId", type="integer", unique=true)
-     * @GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
@@ -26,7 +20,6 @@ class Token
      * The token value
      *
      * @var string
-     * @Column(name="TokenValue", type="string", length=64)
      */
     protected $value;
 
@@ -34,7 +27,6 @@ class Token
      * The token label
      *
      * @var string
-     * @Column(name="TokenLabel", type="string", length=128)
      */
     protected $label;
 
@@ -42,8 +34,6 @@ class Token
      * The token user owner (if a user)
      *
      * @var null|User
-     * @ManyToOne(targetEntity="User", inversedBy="tokens")
-     * @JoinColumn(name="UserId", referencedColumnName="UserId", nullable=true)
      */
     protected $user;
 
@@ -51,10 +41,20 @@ class Token
      * The token consumer owner (if a consumer)
      *
      * @var null|Consumer
-     * @ManyToOne(targetEntity="Consumer", inversedBy="tokens")
-     * @JoinColumn(name="ConsumerId", referencedColumnName="ConsumerId", nullable=true)
      */
     protected $consumer;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->id = null;
+        $this->value = '';
+        $this->label = '';
+        $this->user = null;
+        $this->consumer = null;
+    }
 
     /**
      * @return null|Consumer
@@ -135,6 +135,4 @@ class Token
     {
         $this->value = $value;
     }
-
-
 }

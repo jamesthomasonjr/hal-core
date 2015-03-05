@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+
+# configure
+set -e
+set -u
+
+# declare variables
+p_DIR=$( cd "$( dirname "$0" )" && pwd )
+
+# script
+
+# Include phinx config if present
+if [ -f  "$p_DIR/phinx.config" ] ; then
+    source "$p_DIR/phinx.config"
+fi
+
+"$p_DIR/../vendor/bin/phinx" $@
+

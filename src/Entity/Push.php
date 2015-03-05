@@ -10,41 +10,33 @@ namespace QL\Hal\Core\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use MCP\DataType\Time\TimePoint;
 
-/**
- * @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\PushRepository")
- * @Table(name="Pushes")
- */
 class Push
 {
     /**
      * The push id
      *
      * @var string
-     * @Id @Column(name="PushId", type="string", length=40, unique=true)
      */
     protected $id;
 
     /**
      * The push created time
      *
-     * @var TimePoint|null;
-     * @Column(name="PushCreated", type="timepoint", nullable=true)
+     * @var TimePoint|null
      */
     protected $created;
 
     /**
      * The push start time
      *
-     * @var TimePoint|null;
-     * @Column(name="PushStart", type="timepoint", nullable=true)
+     * @var TimePoint|null
      */
     protected $start;
 
     /**
      * The push end time
      *
-     * @var TimePoint;
-     * @Column(name="PushEnd", type="timepoint", nullable=true)
+     * @var TimePoint|null
      */
     protected $end;
 
@@ -52,7 +44,6 @@ class Push
      * The push status
      *
      * @var string
-     * @Column(name="PushStatus", type="pushstatusenum")
      */
     protected $status;
 
@@ -60,8 +51,6 @@ class Push
      * The push initiating user (if a user)
      *
      * @var null|User
-     * @ManyToOne(targetEntity="User", inversedBy="pushes")
-     * @JoinColumn(name="UserId", referencedColumnName="UserId", nullable=true)
      */
     protected $user;
 
@@ -69,8 +58,6 @@ class Push
      * The push initiating consumer (if a consumer)
      *
      * @var null|Consumer
-     * @ManyToOne(targetEntity="Consumer")
-     * @JoinColumn(name="ConsumerId", referencedColumnName="ConsumerId", nullable=true)
      */
     protected $consumer;
 
@@ -78,8 +65,6 @@ class Push
      * The push build
      *
      * @var Build
-     * @ManyToOne(targetEntity="Build")
-     * @JoinColumn(name="BuildId", referencedColumnName="BuildId")
      */
     protected $build;
 
@@ -87,8 +72,6 @@ class Push
      * The push deployment
      *
      * @var Deployment
-     * @ManyToOne(targetEntity="Deployment", inversedBy="pushes")
-     * @JoinColumn(name="DeploymentId", referencedColumnName="DeploymentId", nullable=true)
      */
     protected $deployment;
 
@@ -96,8 +79,6 @@ class Push
      * The push repository
      *
      * @var Repository
-     * @ManyToOne(targetEntity="Repository")
-     * @JoinColumn(name="RepositoryId", referencedColumnName="RepositoryId")
      */
     protected $repository;
 
@@ -105,8 +86,6 @@ class Push
      * The event logs for this job
      *
      * @var ArrayCollection
-     * @OneToMany(targetEntity="EventLog", mappedBy="push")
-     * @OrderBy({"event" = "ASC", "order" = "ASC"})
      */
     protected $logs;
 

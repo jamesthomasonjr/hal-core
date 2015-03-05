@@ -9,19 +9,12 @@ namespace QL\Hal\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
-/**
- * @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\RepositoryRepository")
- * @Table(name="Repositories")
- */
 class Repository
 {
     /**
      * The repository id
      *
      * @var int
-     *
-     * @Id @Column(name="RepositoryId", type="integer", unique=true)
-     * @GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
@@ -29,8 +22,6 @@ class Repository
      * The repository key
      *
      * @var string
-     *
-     * @Column(name="RepositoryKey", type="string", length=24, unique=true)
      */
     protected $key;
 
@@ -38,8 +29,6 @@ class Repository
      * The repository name
      *
      * @var string
-     *
-     * @Column(name="RepositoryName", type="string", length=64)
      */
     protected $name;
 
@@ -47,8 +36,6 @@ class Repository
      * The repository Github user
      *
      * @var string
-     *
-     * @Column(name="RepositoryGithubUser", type="string", length=48)
      */
     protected $githubUser;
 
@@ -56,8 +43,6 @@ class Repository
      * The repository Github repository
      *
      * @var string
-     *
-     * @Column(name="RepositoryGithubRepo", type="string", length=48)
      */
     protected $githubRepo;
 
@@ -65,8 +50,6 @@ class Repository
      * The repository email address
      *
      * @var string
-     *
-     * @Column(name="RepositoryEmail", type="string", length=128)
      */
     protected $email;
 
@@ -74,8 +57,6 @@ class Repository
      * The repository build command
      *
      * @var null|string
-     *
-     * @Column(name="RepositoryBuildCmd", type="string", length=255)
      */
     protected $buildCmd;
 
@@ -83,8 +64,6 @@ class Repository
      * The repository build transform command to be run before push
      *
      * @var string
-     *
-     * @Column(name="RepositoryBuildTransformCmd", type="string", length=255)
      */
     protected $buildTransformCmd;
 
@@ -92,8 +71,6 @@ class Repository
      * The repository pre push command
      *
      * @var string
-     *
-     * @Column(name="RepositoryPrePushCmd", type="string", length=128)
      */
     protected $prePushCmd;
 
@@ -101,8 +78,6 @@ class Repository
      * The repository post push command
      *
      * @var string
-     *
-     * @Column(name="RepositoryPostPushCmd", type="string", length=128)
      */
     protected $postPushCmd;
 
@@ -110,8 +85,6 @@ class Repository
      * The application name for elastic beanstalk
      *
      * @var string
-     *
-     * @Column(name="RepositoryEbName", type="string", length=255)
      */
     protected $ebName;
 
@@ -119,9 +92,6 @@ class Repository
      * The repository group
      *
      * @var Group
-     *
-     * @ManyToOne(targetEntity="Group", inversedBy="repositories")
-     * @JoinColumn(name="GroupId", referencedColumnName="GroupId")
      */
     protected $group;
 
@@ -129,8 +99,6 @@ class Repository
      * The repository deployments
      *
      * @var ArrayCollection
-     *
-     * @OneToMany(targetEntity="Deployment", mappedBy="repository")
      */
     protected $deployments;
 

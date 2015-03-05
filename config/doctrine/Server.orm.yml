@@ -1,0 +1,35 @@
+QL\Hal\Core\Entity\Server:
+    type: entity
+    repositoryClass: QL\Hal\Core\Entity\Repository\ServerRepository
+    table: Servers
+
+    id:
+        id:
+            column: ServerId
+            type: integer
+            generator:
+                strategy: AUTO
+
+    fields:
+
+        type:
+            column: ServerType
+            type: serverenum
+        name:
+            column: ServerName
+            type: string
+            length: 24
+
+    manyToOne:
+
+        environment:
+            targetEntity: Environment
+            joinColumn:
+                name: EnvironmentId
+                referencedColumnName: EnvironmentId
+
+    oneToMany:
+
+        deployments:
+            targetEntity: Deployment
+            mappedBy: server

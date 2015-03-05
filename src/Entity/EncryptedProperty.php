@@ -7,17 +7,12 @@
 
 namespace QL\Hal\Core\Entity;
 
-/**
- * @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\EncryptedPropertyRepository")
- * @Table(name="EncryptedProperties")
- */
 class EncryptedProperty
 {
     /**
      * The encrypted property id
      *
      * @var varchar
-     * @Id @Column(name="EncryptedPropertyId", type="string", length=40)
      */
     protected $id;
 
@@ -25,7 +20,6 @@ class EncryptedProperty
      * The property name
      *
      * @var string
-     * @Column(name="EncryptedPropertyName", type="string", length=128)
      */
     protected $name;
 
@@ -33,7 +27,6 @@ class EncryptedProperty
      * The encrypted data
      *
      * @var array
-     * @Column(name="EncryptedPropertyData", type="string")
      */
     protected $data;
 
@@ -41,8 +34,6 @@ class EncryptedProperty
      * The repository the encrypted property is for
      *
      * @var Repository
-     * @ManyToOne(targetEntity="Repository")
-     * @JoinColumn(name="RepositoryId", referencedColumnName="RepositoryId")
      */
     protected $repository;
 
@@ -50,9 +41,6 @@ class EncryptedProperty
      * The environment the encrypted property is for (NULL for all)
      *
      * @var Environment
-     *
-     * @ManyToOne(targetEntity="Environment")
-     * @JoinColumn(name="EnvironmentId", referencedColumnName="EnvironmentId", nullable=true)
      */
     protected $environment;
 

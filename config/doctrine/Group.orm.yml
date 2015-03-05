@@ -1,0 +1,29 @@
+QL\Hal\Core\Entity\Group:
+    type: entity
+    repositoryClass: QL\Hal\Core\Entity\Repository\GroupRepository
+    table: Groups
+
+    id:
+        id:
+            column: GroupId
+            type: integer
+            generator:
+                strategy: AUTO
+
+    fields:
+
+        key:
+            column: GroupKey
+            type: string
+            length: 24
+            unique: true
+        name:
+            column: GroupName
+            type: string
+            length: 48
+
+    oneToMany:
+
+        repositories:
+            targetEntity: Repository
+            mappedBy: group

@@ -1,0 +1,72 @@
+QL\Hal\Core\Entity\Repository:
+    type: entity
+    repositoryClass: QL\Hal\Core\Entity\Repository\RepositoryRepository
+    table: Repositories
+
+    id:
+        id:
+            column: RepositoryId
+            type: integer
+            generator:
+                strategy: AUTO
+
+    fields:
+
+        key:
+            column: RepositoryKey
+            type: string
+            length: 24
+            unique: true
+        name:
+            column: RepositoryName
+            type: string
+            length: 64
+        githubUser:
+            column: RepositoryGithubUser
+            type: string
+            length: 48
+        githubRepo:
+            column: RepositoryGithubRepo
+            type: string
+            length: 48
+        email:
+            column: RepositoryEmail
+            type: string
+            length: 128
+
+        buildCmd:
+            column: RepositoryBuildCmd
+            type: string
+            length: 255
+        buildTransformCmd:
+            column: RepositoryBuildTransformCmd
+            type: string
+            length: 255
+        prePushCmd:
+            column: RepositoryPrePushCmd
+            type: string
+            length: 128
+        postPushCmd:
+            column: RepositoryPostPushCmd
+            type: string
+            length: 128
+
+        ebName:
+            column: RepositoryEbName
+            type: string
+            length: 255
+
+    manyToOne:
+
+        group:
+            targetEntity: Group
+            inversedBy: repositories
+            joinColumn:
+                name: GroupId
+                referencedColumnName: GroupId
+
+    oneToMany:
+
+        deployments:
+            targetEntity: Deployment
+            mappedBy: repository

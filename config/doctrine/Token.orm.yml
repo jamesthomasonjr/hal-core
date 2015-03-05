@@ -1,0 +1,39 @@
+QL\Hal\Core\Entity\Token:
+    type: entity
+    repositoryClass: QL\Hal\Core\Entity\Repository\TokenRepository
+    table: Tokens
+
+    id:
+        id:
+            column: TokenId
+            type: integer
+            generator:
+                strategy: AUTO
+
+    fields:
+
+        value:
+            column: TokenValue
+            type: string
+            length: 64
+        label:
+            column: TokenLabel
+            type: string
+            length: 128
+
+    manyToOne:
+
+        user:
+            targetEntity: User
+            inversedBy: tokens
+            joinColumn:
+                name: ConsumerId
+                referencedColumnName: ConsumerId
+                nullable: true
+        consumer:
+            targetEntity: Consumer
+            inversedBy: tokens
+            joinColumn:
+                name: ConsumerId
+                referencedColumnName: ConsumerId
+                nullable: true

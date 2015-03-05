@@ -11,17 +11,13 @@ use MCP\DataType\Time\TimePoint;
 
 /**
  * Build|Push Event Log Entity
- *
- * @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\EventLogRepository")
- * @Table(name="EventLogs")
  */
 class EventLog
 {
     /**
      * The event log id
      *
-     * @var varchar
-     * @Id @Column(name="EventLogId", type="string", length=40)
+     * @var string
      */
     protected $id;
 
@@ -29,7 +25,6 @@ class EventLog
      * The event name
      *
      * @var string
-     * @Column(name="Event", type="eventenum")
      */
     protected $event;
 
@@ -37,7 +32,6 @@ class EventLog
      * The event order
      *
      * @var string
-     * @Column(name="EventOrder", type="integer")
      */
     protected $order;
 
@@ -45,7 +39,6 @@ class EventLog
      * When the log was created
      *
      * @var Timepoint
-     * @Column(name="EventLogCreated", type="timepoint")
      */
     protected $created;
 
@@ -53,7 +46,6 @@ class EventLog
      * The log message
      *
      * @var string
-     * @Column(name="EventLogMessage", type="string", length=255)
      */
     protected $message;
 
@@ -61,7 +53,6 @@ class EventLog
      * The log status
      *
      * @var string
-     * @Column(name="EventLogStatus", type="eventstatusenum")
      */
     protected $status;
 
@@ -69,8 +60,6 @@ class EventLog
      * The build for this event, optional.
      *
      * @var Build
-     * @ManyToOne(targetEntity="Build", inversedBy="logs")
-     * @JoinColumn(name="BuildId", referencedColumnName="BuildId")
      */
     protected $build;
 
@@ -78,8 +67,6 @@ class EventLog
      * The push for this event, optional.
      *
      * @var Push
-     * @ManyToOne(targetEntity="Push", inversedBy="logs")
-     * @JoinColumn(name="PushId", referencedColumnName="PushId")
      */
     protected $push;
 
@@ -87,7 +74,6 @@ class EventLog
      * The data associated with the event
      *
      * @var array
-     * @Column(name="EventLogData", type="compressedserialized")
      */
     protected $data;
 

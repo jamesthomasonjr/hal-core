@@ -1,0 +1,49 @@
+QL\Hal\Core\Entity\EventLog:
+    type: entity
+    repositoryClass: QL\Hal\Core\Entity\Repository\EventLogRepository
+    table: EventLogs
+
+    id:
+        id:
+            column: EventLogId
+            type: string
+            length: 40
+
+    fields:
+
+        event:
+            column: Event
+            type: eventenum
+        order:
+            column: EventOrder
+            type: integer
+        created:
+            column: EventLogCreated
+            type: timepoint
+        message:
+            column: EventLogMessage
+            type: string
+            length: 255
+        status:
+            column: EventLogStatus
+            type: eventstatusenum
+        data:
+            column: EventLogData
+            type: compressedserialized
+
+    manyToOne:
+
+        build:
+            targetEntity: Build
+            inversedBy: logs
+            joinColumn:
+                name: BuildId
+                referencedColumnName: BuildId
+                nullable: true
+        push:
+            targetEntity: Push
+            inversedBy: logs
+            joinColumn:
+                name: PushId
+                referencedColumnName: PushId
+                nullable: true

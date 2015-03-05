@@ -3,5 +3,6 @@
 /.phpunit/
 
 # compiled configuration, package manager installation
+/bin/phinx.config
 /vendor/
 /composer.lock

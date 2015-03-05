@@ -1,0 +1,73 @@
+QL\Hal\Core\Entity\Build:
+    type: entity
+    repositoryClass: QL\Hal\Core\Entity\Repository\BuildRepository
+    table: Builds
+
+    id:
+        id:
+            column: BuildId
+            type: string
+            length: 40
+
+    fields:
+
+        created:
+            column: BuildCreated
+            type: timepoint
+            nullable: true
+        start:
+            column: BuildStart
+            type: timepoint
+            nullable: true
+        end:
+            column: BuildEnd
+            type: timepoint
+            nullable: true
+
+        status:
+            column: BuildStatus
+            type: buildstatusenum
+
+        branch:
+            column: BuildBranch
+            type: string
+            length: 64
+        commit:
+            column: BuildCommit
+            type: string
+            length: 40
+
+    manyToOne:
+
+        user:
+            targetEntity: User
+            inversedBy: builds
+            joinColumn:
+                name: UserId
+                referencedColumnName: UserId
+                nullable: true
+        consumer:
+            targetEntity: Consumer
+            joinColumn:
+                name: ConsumerId
+                referencedColumnName: ConsumerId
+                nullable: true
+        environment:
+            targetEntity: Environment
+            joinColumn:
+                name: EnvironmentId
+                referencedColumnName: EnvironmentId
+        repository:
+            targetEntity: Repository
+            joinColumn:
+                name: RepositoryId
+                referencedColumnName: RepositoryId
+
+    oneToMany:
+
+        logs:
+            targetEntity: EventLog
+            mappedBy: build
+            orderBy:
+                event: ASC
+                order: ASC

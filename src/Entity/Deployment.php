@@ -10,21 +10,19 @@ namespace QL\Hal\Core\Entity;
 use MCP\DataType\HttpUrl;
 use Doctrine\Common\Collections\ArrayCollection;
 
-/**
- * @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\DeploymentRepository")
- * @Table(name="Deployments")
- */
 class Deployment
 {
     /**
      * The deployment id
      *
      * @var int
-     *
-     * @Id @Column(name="DeploymentId", type="integer", unique=true)
-     * @GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+    /**
+     * @var HttpUrl|null
+     */
+    protected $url;
 
     /**
      * For RSYNC
@@ -32,8 +30,6 @@ class Deployment
      * The path
      *
      * @var string
-     *
-     * @Column(name="DeploymentPath", type="string", length=255, nullable=true)
      */
     protected $path;
 
@@ -43,8 +39,6 @@ class Deployment
      * The EB environment ID
      *
      * @var string
-     *
-     * @Column(name="DeploymentEbEnvironment", type="string", length=100, nullable=true)
      */
     protected $ebEnvironment;
 
@@ -54,23 +48,11 @@ class Deployment
      * The EC2 autoscaling pool. EC2 Instances must be tagged with the pool they belong to. This is how HAL knows where to put code.
      *
      * @var string
-     *
-     * @Column(name="DeploymentEc2Pool", type="string", length=100, nullable=true)
      */
     protected $ec2Pool;
 
     /**
-     * @var HttpUrl|null
-     *
-     * @Column(name="DeploymentUrl", type="url")
-     */
-    protected $url;
-
-    /**
      * @var Repository
-     *
-     * @ManyToOne(targetEntity="Repository", inversedBy="deployments")
-     * @JoinColumn(name="RepositoryId", referencedColumnName="RepositoryId")
      */
     protected $repository;
 
@@ -78,17 +60,11 @@ class Deployment
      * For RSYNC
      *
      * @var Server|null
-     *
-     * @ManyToOne(targetEntity="Server", inversedBy="deployments")
-     * @JoinColumn(name="ServerId", referencedColumnName="ServerId")
      */
     protected $server;
 
     /**
      * @var ArrayCollection
-     *
-     * @OneToMany(targetEntity="Push", mappedBy="deployment")
-     * @OrderBy({"created" = "DESC"})
      */
     protected $pushes;
 
@@ -98,6 +74,7 @@ class Deployment
     public function __construct()
     {
         $this->id = null;
+        $this->url = null;
 
         $this->path = null;
         $this->ebEnvironment = null;

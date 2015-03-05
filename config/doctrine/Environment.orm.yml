@@ -1,0 +1,22 @@
+QL\Hal\Core\Entity\Environment:
+    type: entity
+    repositoryClass: QL\Hal\Core\Entity\Repository\EnvironmentRepository
+    table: Environments
+
+    id:
+        id:
+            column: EnvironmentId
+            type: integer
+            generator:
+                strategy: AUTO
+
+    fields:
+
+        key:
+            column: EnvironmentKey
+            type: string
+            length: 24
+            unique: true
+        order:
+            column: EnvironmentOrder
+            type: integer

@@ -10,17 +10,12 @@ namespace QL\Hal\Core\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use MCP\DataType\HttpUrl;
 
-/**
- * @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\UserRepository")
- * @Table(name="Users")
- */
 class User
 {
     /**
      * The common id of the user.
      *
      * @var integer
-     * @Id @Column(name="UserId", type="integer", unique=true)
      */
     protected $id;
 
@@ -28,7 +23,6 @@ class User
      * The handle (username) of the user.
      *
      * @var string
-     * @Column(name="UserHandle", type="string", length=32, unique=true)
      */
     protected $handle;
 
@@ -36,7 +30,6 @@ class User
      * The display name of the user.
      *
      * @var string
-     * @Column(name="UserName", type="string", length=128)
      */
     protected $name;
 
@@ -44,7 +37,6 @@ class User
      * The email address of the user.
      *
      * @var string
-     * @Column(name="UserEmail", type="string", length=128)
      */
     protected $email;
 
@@ -52,7 +44,6 @@ class User
      * The URL of the user picture.
      *
      * @var null|HttpUrl
-     * @Column(name="UserPictureUrl", type="url")
      */
     protected $pictureUrl;
 
@@ -60,7 +51,6 @@ class User
      * The current user status
      *
      * @var boolean
-     * @Column(name="UserIsActive", type="boolean")
      */
     protected $isActive;
 
@@ -68,7 +58,6 @@ class User
      * The github access token for the user
      *
      * @var string
-     * @Column(name="UserGithubToken", type="string", length=128)
      */
     protected $githubToken;
 
@@ -76,8 +65,6 @@ class User
      * All pushes done by the user.
      *
      * @var ArrayCollection
-     * @OneToMany(targetEntity="Push", mappedBy="user")
-     * @OrderBy({"created" = "DESC"})
      */
     protected $pushes;
 
@@ -85,8 +72,6 @@ class User
      * All builds done by the user.
      *
      * @var ArrayCollection
-     * @OneToMany(targetEntity="Build", mappedBy="user")
-     * @OrderBy({"created" = "DESC"})
      */
     protected $builds;
 
@@ -94,14 +79,9 @@ class User
      * All tokens for the user.
      *
      * @var ArrayCollection
-     * @OneToMany(targetEntity="Token", mappedBy="user")
-     * @OrderBy({"id" = "DESC"})
      */
     protected $tokens;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         // from ldap

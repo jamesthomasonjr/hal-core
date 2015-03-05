@@ -1,24 +1,32 @@
+parameters:
+    # default parameters
+    doctrine.devmode: false
+    doctrine.proxy.dir: '.doctrine'
+    doctrine.connection:
+        driver: 'pdo_mysql'
+        host: 'localhost'
+        user: 'root'
+        password: ''
+        dbname: 'hal'
+
 services:
 
-    # Doctrine Configuration
-    doctrine.config:
-        class: 'Doctrine\ORM\Configuration'
-        factory: ['Doctrine\ORM\Tools\Setup', 'createAnnotationMetadataConfiguration']
-        arguments:
-            - [@doctrine.mapping]
-            - %doctrine.devmode%
+    ####################################################################################################################
+    # DOCTRINE PATHS
+    ####################################################################################################################
 
-    doctrine.mapping:
-        class: 'DOES_NOT_MATTER'
-        factory: ['QL\Hal\Core\EntityMapping', 'path']
+    doctrine.mapping.dir:
+        class: 'stdClass'
+        factory: ['QL\Hal\Core\DoctrineFactory', 'yamlPath']
 
-    # Doctrine Entity Manager Configurator
-    doctrine.em.config:
-        class: 'QL\Hal\Core\Entity\Configurator\EntityManagerConfigurator'
+    doctrine.proxy.dir:
+        class: 'stdClass'
+        factory: ['QL\Hal\Core\DoctrineFactory', 'doctrineProxyPath']
+        arguments: [%doctrine.proxy.dir%]
 
-    # Doctrine Event Manager
-    doctrine.events:
-        class: 'Doctrine\Common\EventManager'
+    ####################################################################################################################
+    # DOCTRINE CORE
+    ####################################################################################################################
 
     # Doctrine Entity Manager
     doctrine.em:
@@ -27,8 +35,38 @@ services:
         arguments:
             - %doctrine.connection%
             - @doctrine.config
-            - @doctrine.events
-        configurator: [@doctrine.em.config, 'configure']
+            - @doctrine.em.events
+        configurator: [@doctrine.em.configurator, 'configure']
+
+    doctrine.config:
+        class: 'Doctrine\ORM\Configuration'
+        factory: ['Doctrine\ORM\Tools\Setup', 'createConfiguration']
+        arguments:
+            - %doctrine.devmode%
+            - @doctrine.proxy.dir
+            - @cache.doctrine
+        calls:
+            - ['setMetadataDriverImpl', [@doctrine.config.driver]]
+
+    doctrine.config.driver:
+        class: 'Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver'
+        factory: ['QL\Hal\Core\DoctrineFactory', 'buildConfigurationDriver']
+        arguments: [@doctrine.mapping.dir]
+
+    doctrine.em.configurator:
+        class: 'QL\Hal\Core\Entity\Configurator\EntityManagerConfigurator'
+    doctrine.em.events:
+        class: 'Doctrine\Common\EventManager'
+
+    cache.doctrine:
+        class: 'Doctrine\Common\Cache\ArrayCache'
+
+    ####################################################################################################################
+    # DOCTRINE HELPERS
+    ####################################################################################################################
+
+    doctrine.random.id:
+        class: 'QL\Hal\Core\RandomGenerator'
 
     ####################################################################################################################
     # REPOSITORIES

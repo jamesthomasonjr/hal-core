@@ -7,18 +7,12 @@
 
 namespace QL\Hal\Core\Entity;
 
-/**
- * @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\EnvironmentRepository")
- * @Table(name="Environments")
- */
 class Environment
 {
     /**
      * The environment id
      *
      * @var integer
-     * @Id @Column(name="EnvironmentId", type="integer", unique=true)
-     * @GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
@@ -26,7 +20,6 @@ class Environment
      * The environment key
      *
      * @var string
-     * @Column(name="EnvironmentKey", type="string", length=24, unique=true)
      */
     protected $key;
 
@@ -34,7 +27,6 @@ class Environment
      * The environment display order
      *
      * @var integer
-     * @Column(name="EnvironmentOrder", type="integer")
      */
     protected $order;
 

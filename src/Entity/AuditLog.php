@@ -9,18 +9,12 @@ namespace QL\Hal\Core\Entity;
 
 use MCP\DataType\Time\TimePoint;
 
-/**
- * @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\AuditLogRepository")
- * @Table(name="AuditLogs")
- */
 class AuditLog
 {
     /**
      * The log id
      *
      * @var int
-     * @Id @Column(name="AuditLogId", type="integer", unique=true)
-     * @GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
@@ -28,8 +22,6 @@ class AuditLog
      * The user that initiated the action
      *
      * @var User
-     * @ManyToOne(targetEntity="User")
-     * @JoinColumn(name="UserId", referencedColumnName="UserId")
      */
     protected $user;
 
@@ -37,7 +29,6 @@ class AuditLog
      * When the log entry was recorded
      *
      * @var Timepoint
-     * @Column(name="Recorded", type="timepoint")
      */
     protected $recorded;
 
@@ -45,7 +36,6 @@ class AuditLog
      * The entity type the action was taken on
      *
      * @var string
-     * @Column(name="Entity", type="string", length=255)
      */
     protected $entity;
 
@@ -53,7 +43,6 @@ class AuditLog
      * The action that was taken
      *
      * @var string
-     * @Column(name="Action", type="string", length=24)
      */
     protected $action;
 
@@ -61,7 +50,6 @@ class AuditLog
      * The data associated with this action
      *
      * @var string
-     * @Column(name="Data", type="string")
      */
     protected $data;
 

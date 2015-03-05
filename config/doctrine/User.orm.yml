@@ -1,0 +1,48 @@
+QL\Hal\Core\Entity\User:
+    type: entity
+    repositoryClass: QL\Hal\Core\Entity\Repository\UserRepository
+    table: Users
+
+    id:
+        id:
+            column: UserId
+            type: integer
+            unique: true
+
+    fields:
+
+        handle:
+            column: UserHandle
+            type: string
+            length: 32
+            unique: true
+        name:
+            column: UserName
+            type: string
+            length: 128
+        email:
+            column: UserEmail
+            type: string
+            length: 128
+        pictureUrl:
+            column: UserPictureUrl
+            type: url
+        isActive:
+            column: UserIsActive
+            type: boolean
+        githubToken:
+            column: UserGithubToken
+            type: string
+            length: 128
+
+    oneToMany:
+
+        pushes:
+            targetEntity: Push
+            mappedBy: user
+        builds:
+            targetEntity: Build
+            mappedBy: user
+        tokens:
+            targetEntity: Token
+            mappedBy: user

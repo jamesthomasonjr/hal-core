@@ -9,18 +9,12 @@ namespace QL\Hal\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
-/**
- * @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\GroupRepository")
- * @Table(name="Groups")
- */
 class Group
 {
     /**
      * The group id
      *
      * @var integer
-     * @Id @Column(name="GroupId", type="integer", unique=true)
-     * @GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
@@ -28,7 +22,6 @@ class Group
      * The group key
      *
      * @var string
-     * @Column(name="GroupKey", type="string", length=24, unique=true)
      */
     protected $key;
 
@@ -36,7 +29,6 @@ class Group
      * The group name
      *
      * @var string
-     * @Column(name="GroupName", type="string", length=48)
      */
     protected $name;
 
@@ -44,7 +36,6 @@ class Group
      * The group repositories
      *
      * @var ArrayCollection
-     * @OneToMany(targetEntity="Repository", mappedBy="group")
      */
     protected $repositories;
 

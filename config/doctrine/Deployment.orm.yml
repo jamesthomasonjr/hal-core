@@ -1,0 +1,55 @@
+QL\Hal\Core\Entity\Deployment:
+    type: entity
+    repositoryClass: QL\Hal\Core\Entity\Repository\DeploymentRepository
+    table: Deployments
+
+    id:
+        id:
+            column: DeploymentId
+            type: integer
+            generator:
+                strategy: AUTO
+
+    fields:
+
+        url:
+            column: DeploymentUrl
+            type: url
+        path:
+            column: DeploymentPath
+            type: string
+            length: 255
+            nullable: true
+        ebEnvironment:
+            column: DeploymentEbEnvironment
+            type: string
+            length: 100
+            nullable: true
+        ec2Pool:
+            column: DeploymentEc2Pool
+            type: string
+            length: 100
+            nullable: true
+
+    manyToOne:
+
+        repository:
+            targetEntity: Repository
+            inversedBy: deployments
+            joinColumn:
+                name: RepositoryId
+                referencedColumnName: RepositoryId
+        server:
+            targetEntity: Server
+            inversedBy: deployments
+            joinColumn:
+                name: ServerId
+                referencedColumnName: ServerId
+
+    oneToMany:
+
+        pushes:
+            targetEntity: Push
+            mappedBy: deployment
+            orderBy:
+                created: DESC

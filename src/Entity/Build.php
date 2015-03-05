@@ -10,17 +10,12 @@ namespace QL\Hal\Core\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use MCP\DataType\Time\TimePoint;
 
-/**
- * @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\BuildRepository")
- * @Table(name="Builds")
- */
 class Build
 {
     /**
      * The build id
      *
      * @var string
-     * @Id @Column(name="BuildId", type="string", length=40, unique=true)
      */
     protected $id;
 
@@ -28,7 +23,6 @@ class Build
      * The build created time
      *
      * @var null|TimePoint
-     * @Column(name="BuildCreated", type="timepoint", nullable=true)
      */
     protected $created;
 
@@ -36,7 +30,6 @@ class Build
      * The build start time
      *
      * @var null|TimePoint
-     * @Column(name="BuildStart", type="timepoint", nullable=true)
      */
     protected $start;
 
@@ -44,7 +37,6 @@ class Build
      * The build end time
      *
      * @var null|TimePoint
-     * @Column(name="BuildEnd", type="timepoint", nullable=true)
      */
     protected $end;
 
@@ -52,7 +44,6 @@ class Build
      * The build status
      *
      * @var string
-     * @Column(name="BuildStatus", type="buildstatusenum")
      */
     protected $status;
 
@@ -60,7 +51,6 @@ class Build
      * The build branch name
      *
      * @var string
-     * @Column(name="BuildBranch", type="string", length=64)
      */
     protected $branch;
 
@@ -68,7 +58,6 @@ class Build
      * The build commit hash
      *
      * @var string
-     * @Column(name="BuildCommit", type="string", length=40)
      */
     protected $commit;
 
@@ -76,8 +65,6 @@ class Build
      * The build initiating user (if a user)
      *
      * @var null|User
-     * @ManyToOne(targetEntity="User", inversedBy="builds")
-     * @JoinColumn(name="UserId", referencedColumnName="UserId", nullable=true)
      */
     protected $user;
 
@@ -85,8 +72,6 @@ class Build
      * The build initiating consumer(if a consumer)
      *
      * @var null|Consumer
-     * @ManyToOne(targetEntity="Consumer")
-     * @JoinColumn(name="ConsumerId", referencedColumnName="ConsumerId", nullable=true)
      */
     protected $consumer;
 
@@ -94,8 +79,6 @@ class Build
      * The build repository
      *
      * @var Repository
-     * @ManyToOne(targetEntity="Repository")
-     * @JoinColumn(name="RepositoryId", referencedColumnName="RepositoryId")
      */
     protected $repository;
 
@@ -103,8 +86,6 @@ class Build
      * The build environment
      *
      * @var Environment
-     * @ManyToOne(targetEntity="Environment")
-     * @JoinColumn(name="EnvironmentId", referencedColumnName="EnvironmentId")
      */
     protected $environment;
 
@@ -112,8 +93,6 @@ class Build
      * The event logs for this job
      *
      * @var ArrayCollection
-     * @OneToMany(targetEntity="EventLog", mappedBy="build")
-     * @OrderBy({"event" = "ASC", "order" = "ASC"})
      */
     protected $logs;
 

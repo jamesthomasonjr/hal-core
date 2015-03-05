@@ -9,19 +9,12 @@ namespace QL\Hal\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
-/**
- * @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\ServerRepository")
- * @Table(name="Servers")
- */
 class Server
 {
     /**
      * The server id
      *
      * @var int
-     *
-     * @Id @Column(name="ServerId", type="integer", unique=true)
-     * @GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
@@ -29,8 +22,6 @@ class Server
      * The server type
      *
      * @var string
-     *
-     * @Column(name="ServerType", type="serverenum")
      */
     protected $type;
 
@@ -38,8 +29,6 @@ class Server
      * The server name (hostname)
      *
      * @var string
-     *
-     * @Column(name="ServerName", type="string", length=24)
      */
     protected $name;
 
@@ -47,9 +36,6 @@ class Server
      * The environment
      *
      * @var Environment
-     *
-     * @ManyToOne(targetEntity="Environment")
-     * @JoinColumn(name="EnvironmentId", referencedColumnName="EnvironmentId")
      */
     protected $environment;
 
@@ -57,8 +43,6 @@ class Server
      * Deployments for the server
      *
      * @var ArrayCollection
-     *
-     * @OneToMany(targetEntity="Deployment", mappedBy="server")
      */
     protected $deployments;
 

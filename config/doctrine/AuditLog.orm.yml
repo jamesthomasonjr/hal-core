@@ -1,0 +1,36 @@
+QL\Hal\Core\Entity\AuditLog:
+    type: entity
+    repositoryClass: QL\Hal\Core\Entity\Repository\AuditLogRepository
+    table: AuditLogs
+
+    id:
+        id:
+            column: AuditLogId
+            type: integer
+            generator:
+                strategy: AUTO
+
+    fields:
+
+        recorded:
+            column: Recorded
+            type: timepoint
+        entity:
+            column: Entity
+            type: string
+            length: 255
+        action:
+            column: Action
+            type: string
+            length: 255
+        data:
+            column: Data
+            type: string
+
+    manyToOne:
+
+        user:
+            targetEntity: User
+            joinColumn:
+                name: UserId
+                referencedColumnName: UserId

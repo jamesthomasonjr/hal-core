@@ -17,11 +17,11 @@ require_once $root . '/vendor/autoload.php';
 // Set Timezone to UTC
 ini_set('date.timezone', 'UTC');
 date_default_timezone_set('UTC');
+error_reporting(E_ALL | E_STRICT);
 
 $container = new ContainerBuilder;
 $builder = new YamlFileLoader($container, new FileLocator($root));
-$builder->load('config/config.example.yml');
-$builder->load('config/di.yml');
+$builder->load('config/hal-core.yml');
 
 $container->compile();
 

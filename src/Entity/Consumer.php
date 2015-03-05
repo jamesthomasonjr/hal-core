@@ -5,18 +5,12 @@ namespace QL\Hal\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
-/**
- * @Entity(repositoryClass="QL\Hal\Core\Entity\Repository\ConsumerRepository")
- * @Table(name="Consumers")
- */
 class Consumer
 {
     /**
      * The consumer id
      *
      * @var integer
-     * @Id @Column(name="ConsumerId", type="integer", unique=true)
-     * @GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
@@ -32,7 +26,6 @@ class Consumer
      * The consumer name
      *
      * @var string
-     * @Column(name="ConsumerName", type="string", length=48)
      */
     protected $name;
 
@@ -40,7 +33,6 @@ class Consumer
      * The consumer secret
      *
      * @var string
-     * @Column(name="ConsumerSecret", type="string", length=128)
      */
     protected $secret;
 
@@ -48,7 +40,6 @@ class Consumer
      * The consumer status
      *
      * @var boolean
-     * @Column(name="ConsumerIsActive", type="boolean")
      */
     protected $isActive;
 
@@ -56,10 +47,21 @@ class Consumer
      * All tokens for the user.
      *
      * @var ArrayCollection
-     * @OneToMany(targetEntity="Token", mappedBy="user")
-     * @OrderBy({"id" = "DESC"})
      */
     protected $tokens;
+
+    public function __construct()
+    {
+        // from ldap
+        $this->id = null;
+        $this->key = '';
+        $this->name = '';
+        $this->secret = '';
+
+        $this->isActive = false;
+
+        $this->tokens = new ArrayCollection();
+    }
 
     /**
      * Set the consumer id

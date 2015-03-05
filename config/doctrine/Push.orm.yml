@@ -1,0 +1,71 @@
+QL\Hal\Core\Entity\Push:
+    type: entity
+    repositoryClass: QL\Hal\Core\Entity\Repository\PushRepository
+    table: Pushes
+
+    id:
+        id:
+            column: PushId
+            type: string
+            length: 40
+
+    fields:
+
+        created:
+            column: PushCreated
+            type: timepoint
+            nullable: true
+        start:
+            column: PushStart
+            type: timepoint
+            nullable: true
+        end:
+            column: PushEnd
+            type: timepoint
+            nullable: true
+
+        status:
+            column: PushStatus
+            type: pushstatusenum
+
+    manyToOne:
+
+        user:
+            targetEntity: User
+            inversedBy: pushes
+            joinColumn:
+                name: UserId
+                referencedColumnName: UserId
+                nullable: true
+        consumer:
+            targetEntity: Consumer
+            joinColumn:
+                name: ConsumerId
+                referencedColumnName: ConsumerId
+                nullable: true
+        build:
+            targetEntity: Build
+            joinColumn:
+                name: BuildId
+                referencedColumnName: BuildId
+        deployment:
+            targetEntity: Deployment
+            inversedBy: pushes
+            joinColumn:
+                name: DeploymentId
+                referencedColumnName: DeploymentId
+                nullable: true
+        repository:
+            targetEntity: Repository
+            joinColumn:
+                name: RepositoryId
+                referencedColumnName: RepositoryId
+
+    oneToMany:
+
+        logs:
+            targetEntity: EventLog
+            mappedBy: push
+            orderBy:
+                event: ASC
+                order: ASC
