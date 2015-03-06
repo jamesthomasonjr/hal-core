@@ -5,7 +5,7 @@
  *    is strictly prohibited.
  */
 
-namespace QL\Hal\Core\Entity\Listener;
+namespace QL\Hal\Core;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use MCP\DataType\Time\Clock;
@@ -28,7 +28,7 @@ use QL\Hal\Core\Entity\Push;
  *
  * Default timestamps are done through code and not the database so we can maintain timezone consistency.
  */
-class EntityPersistListener
+class DoctrinePersistListener
 {
     /**
      * @type Clock

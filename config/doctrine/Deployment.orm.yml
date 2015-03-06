@@ -1,6 +1,6 @@
 QL\Hal\Core\Entity\Deployment:
     type: entity
-    repositoryClass: QL\Hal\Core\Entity\Repository\DeploymentRepository
+    repositoryClass: QL\Hal\Core\Repository\DeploymentRepository
     table: Deployments
 
     id:

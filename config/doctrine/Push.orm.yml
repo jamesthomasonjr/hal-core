@@ -1,6 +1,6 @@
 QL\Hal\Core\Entity\Push:
     type: entity
-    repositoryClass: QL\Hal\Core\Entity\Repository\PushRepository
+    repositoryClass: QL\Hal\Core\Repository\PushRepository
     table: Pushes
 
     id:

@@ -1,6 +1,6 @@
 QL\Hal\Core\Entity\Consumer:
     type: entity
-    repositoryClass: QL\Hal\Core\Entity\Repository\ConsumerRepository
+    repositoryClass: QL\Hal\Core\Repository\ConsumerRepository
     table: Consumers
 
     id:

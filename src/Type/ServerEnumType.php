@@ -5,21 +5,25 @@
  *    is strictly prohibited.
  */
 
-namespace QL\Hal\Core\Entity\Type;
+namespace QL\Hal\Core\Type;
 
 use Doctrine\DBAL\Types\Type as BaseType;
 
 /**
- * Build Status Enum
+ * Server Type Enum
  */
-class BuildStatusEnumType extends BaseType
+class ServerEnumType extends BaseType
 {
+    const TYPE_RSYNC = 'rsync';
+    const TYPE_EB = 'elasticbeanstalk';
+    const TYPE_EC2 = 'ec2';
+
     use EnumTypeTrait;
 
     /**
      * The enum data type
      */
-    const TYPE = 'buildstatusenum';
+    const TYPE = 'serverenum';
 
     /**
      * The enum allowed values
@@ -29,11 +33,9 @@ class BuildStatusEnumType extends BaseType
     public static function values()
     {
         return [
-            'Waiting',
-            'Building',
-            'Success',
-            'Error',
-            'Removed'
+            self::TYPE_RSYNC,
+            self::TYPE_EB,
+            self::TYPE_EC2,
         ];
     }
 }

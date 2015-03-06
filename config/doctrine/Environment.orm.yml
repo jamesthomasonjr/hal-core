@@ -1,6 +1,6 @@
 QL\Hal\Core\Entity\Environment:
     type: entity
-    repositoryClass: QL\Hal\Core\Entity\Repository\EnvironmentRepository
+    repositoryClass: QL\Hal\Core\Repository\EnvironmentRepository
     table: Environments
 
     id:

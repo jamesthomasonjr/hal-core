@@ -5,25 +5,21 @@
  *    is strictly prohibited.
  */
 
-namespace QL\Hal\Core\Entity\Type;
+namespace QL\Hal\Core\Type;
 
 use Doctrine\DBAL\Types\Type as BaseType;
 
 /**
- * Server Type Enum
+ * Event Status Enum
  */
-class ServerEnumType extends BaseType
+class EventStatusEnumType extends BaseType
 {
-    const TYPE_RSYNC = 'rsync';
-    const TYPE_EB = 'elasticbeanstalk';
-    const TYPE_EC2 = 'ec2';
-
     use EnumTypeTrait;
 
     /**
      * The enum data type
      */
-    const TYPE = 'serverenum';
+    const TYPE = 'eventstatusenum';
 
     /**
      * The enum allowed values
@@ -33,9 +29,9 @@ class ServerEnumType extends BaseType
     public static function values()
     {
         return [
-            self::TYPE_RSYNC,
-            self::TYPE_EB,
-            self::TYPE_EC2,
+            'info',
+            'success',
+            'failure'
         ];
     }
 }

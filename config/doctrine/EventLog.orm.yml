@@ -1,6 +1,6 @@
 QL\Hal\Core\Entity\EventLog:
     type: entity
-    repositoryClass: QL\Hal\Core\Entity\Repository\EventLogRepository
+    repositoryClass: QL\Hal\Core\Repository\EventLogRepository
     table: EventLogs
 
     id:

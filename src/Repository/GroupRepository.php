@@ -5,10 +5,10 @@
  *    is strictly prohibited.
  */
 
-namespace QL\Hal\Core\Entity\Repository;
+namespace QL\Hal\Core\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-class UserRepository extends EntityRepository
+class GroupRepository extends EntityRepository
 {
 }

@@ -54,7 +54,7 @@ services:
         arguments: [@doctrine.mapping.dir]
 
     doctrine.em.configurator:
-        class: 'QL\Hal\Core\Entity\Configurator\EntityManagerConfigurator'
+        class: 'QL\Hal\Core\DoctrineConfigurator'
     doctrine.em.events:
         class: 'Doctrine\Common\EventManager'
 
@@ -119,12 +119,6 @@ services:
         class: 'QL\Hal\Core\Entity\Repository\ServerRepository'
         factory: [@doctrine.em, 'getRepository']
         arguments: ['QL\Hal\Core\Entity\Server']
-
-    # Subscription Repository
-    subscription.repo:
-        class: 'QL\Hal\Core\Entity\Repository\SubscriptionRepository'
-        factory: [@doctrine.em, 'getRepository']
-        arguments: ['QL\Hal\Core\Entity\Subscription']
 
     # User Repository
     user.repo:

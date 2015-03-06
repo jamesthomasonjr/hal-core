@@ -1,6 +1,6 @@
 QL\Hal\Core\Entity\Server:
     type: entity
-    repositoryClass: QL\Hal\Core\Entity\Repository\ServerRepository
+    repositoryClass: QL\Hal\Core\Repository\ServerRepository
     table: Servers
 
     id:

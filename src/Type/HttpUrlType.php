@@ -5,20 +5,21 @@
  *    is strictly prohibited.
  */
 
-namespace QL\Hal\Core\Entity\Type;
+namespace QL\Hal\Core\Type;
 
 use Doctrine\DBAL\Types\Type as BaseType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use MCP\DataType\HttpUrl;
 
 /**
- * Compressed Blob Type
+ * Doctrine HTTP Url Type
  */
-class CompressedSerializedBlobType extends BaseType
+class HttpUrlType extends BaseType
 {
-    const TYPE = 'compressedserialized';
+    const TYPE = 'url';
 
     /**
-     * Convert plain text to database value
+     * Convert HttpUrl to database value
      *
      * @param mixed $value
      * @param AbstractPlatform $platform
@@ -27,26 +28,28 @@ class CompressedSerializedBlobType extends BaseType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
-        $serialized = serialize($value);
-        $compressed = gzcompress($serialized);
+        if ($value instanceof HttpUrl) {
+            return $value->asString();
+        }
 
-        return $compressed;
+        return null;
     }
 
     /**
-     * Convert database value to plain text
+     * Convert database value to HttpUrl
      *
      * @param mixed $value
      * @param AbstractPlatform $platform
      *
-     * @return string|null
+     * @return HttpUrl|null
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        $uncompressed = gzuncompress($value);
-        $unserialized = unserialize($uncompressed);
+        if ($value) {
+            return HttpUrl::create($value);
+        }
 
-        return $unserialized;
+        return null;
     }
 
     /**
@@ -60,6 +63,8 @@ class CompressedSerializedBlobType extends BaseType
     }
 
     /**
+     * Get the HttpUrl field definition
+     *
      * @param array $fieldDeclaration
      * @param AbstractPlatform $platform
      *
@@ -67,6 +72,9 @@ class CompressedSerializedBlobType extends BaseType
      */
     public function getSqlDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
-        return $platform->getBlobTypeDeclarationSQL();
+        return $platform->getVarcharTypeDeclarationSQL([
+            'fixed'  => true,
+            'length' => '1024'
+        ]);
     }
 }

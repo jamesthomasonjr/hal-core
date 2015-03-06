@@ -5,21 +5,20 @@
  *    is strictly prohibited.
  */
 
-namespace QL\Hal\Core\Entity\Type;
+namespace QL\Hal\Core\Type;
 
 use Doctrine\DBAL\Types\Type as BaseType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use MCP\DataType\HttpUrl;
 
 /**
- * Doctrine HTTP Url Type
+ * Compressed Blob Type
  */
-class HttpUrlType extends BaseType
+class CompressedSerializedBlobType extends BaseType
 {
-    const TYPE = 'url';
+    const TYPE = 'compressedserialized';
 
     /**
-     * Convert HttpUrl to database value
+     * Convert plain text to database value
      *
      * @param mixed $value
      * @param AbstractPlatform $platform
@@ -28,28 +27,26 @@ class HttpUrlType extends BaseType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
-        if ($value instanceof HttpUrl) {
-            return $value->asString();
-        }
+        $serialized = serialize($value);
+        $compressed = gzcompress($serialized);
 
-        return null;
+        return $compressed;
     }
 
     /**
-     * Convert database value to HttpUrl
+     * Convert database value to plain text
      *
      * @param mixed $value
      * @param AbstractPlatform $platform
      *
-     * @return HttpUrl|null
+     * @return string|null
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        if ($value) {
-            return HttpUrl::create($value);
-        }
+        $uncompressed = gzuncompress($value);
+        $unserialized = unserialize($uncompressed);
 
-        return null;
+        return $unserialized;
     }
 
     /**
@@ -63,8 +60,6 @@ class HttpUrlType extends BaseType
     }
 
     /**
-     * Get the HttpUrl field definition
-     *
      * @param array $fieldDeclaration
      * @param AbstractPlatform $platform
      *
@@ -72,9 +67,6 @@ class HttpUrlType extends BaseType
      */
     public function getSqlDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
-        return $platform->getVarcharTypeDeclarationSQL([
-            'fixed'  => true,
-            'length' => '1024'
-        ]);
+        return $platform->getBlobTypeDeclarationSQL();
     }
 }

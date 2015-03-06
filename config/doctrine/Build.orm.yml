@@ -1,6 +1,6 @@
 QL\Hal\Core\Entity\Build:
     type: entity
-    repositoryClass: QL\Hal\Core\Entity\Repository\BuildRepository
+    repositoryClass: QL\Hal\Core\Repository\BuildRepository
     table: Builds
 
     id:

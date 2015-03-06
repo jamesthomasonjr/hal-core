@@ -1,6 +1,6 @@
 QL\Hal\Core\Entity\Token:
     type: entity
-    repositoryClass: QL\Hal\Core\Entity\Repository\TokenRepository
+    repositoryClass: QL\Hal\Core\Repository\TokenRepository
     table: Tokens
 
     id:

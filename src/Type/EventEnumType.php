@@ -5,7 +5,7 @@
  *    is strictly prohibited.
  */
 
-namespace QL\Hal\Core\Entity\Type;
+namespace QL\Hal\Core\Type;
 
 use Doctrine\DBAL\Types\Type as BaseType;
 

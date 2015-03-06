@@ -1,6 +1,6 @@
 QL\Hal\Core\Entity\EncryptedProperty:
     type: entity
-    repositoryClass: QL\Hal\Core\Entity\Repository\EncryptedPropertyRepository
+    repositoryClass: QL\Hal\Core\Repository\EncryptedPropertyRepository
     table: EncryptedProperties
 
     id:
