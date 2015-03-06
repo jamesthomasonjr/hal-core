@@ -8,9 +8,10 @@
 namespace QL\Hal\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use JsonSerializable;
 use MCP\DataType\HttpUrl;
 
-class User
+class User implements JsonSerializable
 {
     /**
      * The common id of the user.
@@ -299,5 +300,28 @@ class User
     public function getTokens()
     {
         return $this->tokens;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        $json = [
+            'id' => $this->getId(),
+
+            'handle' => $this->getHandle(),
+            'name' => $this->getName(),
+            'email' => $this->getEmail(),
+            'url' => $this->getPictureUrl() ? $this->getPictureUrl()->asString() : null,
+            'isActive' => $this->isActive(),
+            // 'githubToken' => $this->getGithubToken(),
+
+            // 'builds' => $this->getBuilds() ? $this->getBuilds()->getKeys() : [],
+            // 'pushes' => $this->getPushes() ? $this->getPushes()->getKeys() : [],
+            // 'tokens' => $this->getTokens() ? $this->getTokens()->getKeys() : [],
+        ];
+
+        return $json;
     }
 }

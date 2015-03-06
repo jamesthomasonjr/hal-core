@@ -8,8 +8,9 @@
 namespace QL\Hal\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use JsonSerializable;
 
-class Group
+class Group implements JsonSerializable
 {
     /**
      * The group id
@@ -47,7 +48,7 @@ class Group
         $this->id = null;
         $this->key = null;
         $this->name = null;
-        $this->repositories = new ArrayCollection();
+        $this->repositories = new ArrayCollection;
     }
 
     /**
@@ -128,5 +129,22 @@ class Group
     public function getRepositories()
     {
         return $this->repositories;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        $json = [
+            'id' => $this->getId(),
+
+            'identifier' => $this->getKey(),
+            'name' => $this->getName(),
+
+            // 'repositories' => $this->getRepositories() ? $this->getRepositories()->getKeys() : []
+        ];
+
+        return $json;
     }
 }

@@ -4,5 +4,7 @@
 
 # compiled configuration, package manager installation
 /bin/phinx.config
+/.doctrine/
 /vendor/
 /composer.lock
+

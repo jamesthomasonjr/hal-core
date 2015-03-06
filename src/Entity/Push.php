@@ -7,10 +7,12 @@
 
 namespace QL\Hal\Core\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use JsonSerializable;
 use MCP\DataType\Time\TimePoint;
 
-class Push
+class Push implements JsonSerializable
 {
     /**
      * The push id
@@ -104,7 +106,7 @@ class Push
         $this->build = null;
         $this->deployment = null;
         $this->repository = null;
-        $this->logs = null;
+        $this->logs = new ArrayCollection;
     }
 
     /**
@@ -325,5 +327,31 @@ class Push
     public function getLogs()
     {
         return $this->logs;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        $json = [
+            'id' => $this->getId(),
+
+            'created' => $this->getCreated() ? $this->getCreated()->format(DateTime::RFC3339, 'UTC') : null,
+            'start' => $this->getStart() ? $this->getStart()->format(DateTime::RFC3339, 'UTC') : null,
+            'end' => $this->getEnd() ? $this->getEnd()->format(DateTime::RFC3339, 'UTC') : null,
+
+            'status' => $this->getStatus(),
+
+            'user' => $this->getUser() ? $this->getUser()->getId() : null,
+            'consumer' => $this->getConsumer() ? $this->getConsumer()->getId() : null,
+            'build' => $this->getBuild() ? $this->getBuild()->getId() : null,
+            'deployment' => $this->getDeployment() ? $this->getDeployment()->getId() : null,
+            'repository' => $this->getRepository() ? $this->getRepository()->getId() : null,
+
+            // 'logs' => $this->getLogs() ? $this->getLogs()->getKeys() : []
+        ];
+
+        return $json;
     }
 }

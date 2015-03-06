@@ -8,8 +8,9 @@
 namespace QL\Hal\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use JsonSerializable;
 
-class Server
+class Server implements JsonSerializable
 {
     /**
      * The server id
@@ -55,7 +56,7 @@ class Server
         $this->type = null;
         $this->name = null;
         $this->environment = null;
-        $this->deployments = new ArrayCollection();
+        $this->deployments = new ArrayCollection;
     }
 
     /**
@@ -156,5 +157,24 @@ class Server
     public function getDeployments()
     {
         return $this->deployments;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        $json = [
+            'id' => $this->getId(),
+
+            'type' => $this->getType(),
+            'name' => $this->getName(),
+
+            'environment' => $this->getEnvironment() ? $this->getEnvironment()->getId() : null,
+
+            // 'deployments' => $this->getDeployments() ? $this->getDeployments()->getKeys() : []
+        ];
+
+        return $json;
     }
 }

@@ -7,10 +7,12 @@
 
 namespace QL\Hal\Core\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use JsonSerializable;
 use MCP\DataType\Time\TimePoint;
 
-class Build
+class Build implements JsonSerializable
 {
     /**
      * The build id
@@ -99,17 +101,21 @@ class Build
     public function __construct()
     {
         $this->id = null;
+
         $this->created = null;
         $this->start = null;
         $this->end = null;
+
         $this->status = null;
-        $this->branch = null;
-        $this->commit = null;
+        $this->branch = '';
+        $this->commit = '';
+
         $this->user = null;
         $this->consumer = null;
         $this->repository = null;
         $this->environment = null;
-        $this->logs = null;
+
+        $this->logs = new ArrayCollection;
     }
 
     /**
@@ -350,5 +356,32 @@ class Build
     public function getLogs()
     {
         return $this->logs;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        $json = [
+            'id' => $this->getId(),
+
+            'created' => $this->getCreated() ? $this->getCreated()->format(DateTime::RFC3339, 'UTC') : null,
+            'start' => $this->getStart() ? $this->getStart()->format(DateTime::RFC3339, 'UTC') : null,
+            'end' => $this->getEnd() ? $this->getEnd()->format(DateTime::RFC3339, 'UTC') : null,
+
+            'status' => $this->getStatus(),
+            'branch' => $this->getBranch(),
+            'commit' => $this->getCommit(),
+
+            'user' => $this->getUser() ? $this->getUser()->getId() : null,
+            'consumer' => $this->getConsumer() ? $this->getConsumer()->getId() : null,
+            'repository' => $this->getRepository() ? $this->getRepository()->getId() : null,
+            'environment' => $this->getEnvironment() ? $this->getEnvironment()->getId() : null,
+
+            // 'logs' => $this->getLogs() ? $this->getLogs()->getKeys() : []
+        ];
+
+        return $json;
     }
 }

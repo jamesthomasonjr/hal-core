@@ -7,7 +7,9 @@
 
 namespace QL\Hal\Core\Entity;
 
-class Token
+use JsonSerializable;
+
+class Token implements JsonSerializable
 {
     /**
      * The token id
@@ -33,14 +35,14 @@ class Token
     /**
      * The token user owner (if a user)
      *
-     * @var null|User
+     * @var User|null
      */
     protected $user;
 
     /**
      * The token consumer owner (if a consumer)
      *
-     * @var null|Consumer
+     * @var Consumer|null
      */
     protected $consumer;
 
@@ -52,24 +54,9 @@ class Token
         $this->id = null;
         $this->value = '';
         $this->label = '';
+
         $this->user = null;
         $this->consumer = null;
-    }
-
-    /**
-     * @return null|Consumer
-     */
-    public function getConsumer()
-    {
-        return $this->consumer;
-    }
-
-    /**
-     * @param null|Consumer $consumer
-     */
-    public function setConsumer($consumer)
-    {
-        $this->consumer = $consumer;
     }
 
     /**
@@ -105,22 +92,6 @@ class Token
     }
 
     /**
-     * @return null|User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * @param null|User $user
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
-    }
-
-    /**
      * @return string
      */
     public function getValue()
@@ -134,5 +105,55 @@ class Token
     public function setValue($value)
     {
         $this->value = $value;
+    }
+
+    /**
+     * @return User|null
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user|null
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @return Consumer
+     */
+    public function getConsumer()
+    {
+        return $this->consumer;
+    }
+
+    /**
+     * @param Consumer $consumer
+     */
+    public function setConsumer($consumer)
+    {
+        $this->consumer = $consumer;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        $json = [
+            'id' => $this->getId(),
+
+            'label' => $this->getLabel(),
+            'value' => $this->getValue(),
+
+            'user' => $this->getUser() ? $this->getUser()->getId() : null,
+            'consumer' => $this->getConsumer() ? $this->getConsumer()->getId() : null,
+        ];
+
+        return $json;
     }
 }

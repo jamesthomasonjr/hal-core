@@ -7,12 +7,14 @@
 
 namespace QL\Hal\Core\Entity;
 
+use DateTime;
+use JsonSerializable;
 use MCP\DataType\Time\TimePoint;
 
 /**
  * Build|Push Event Log Entity
  */
-class EventLog
+class EventLog implements JsonSerializable
 {
     /**
      * The event log id
@@ -234,5 +236,30 @@ class EventLog
     public function setData(array $data)
     {
         $this->data = $data;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        $json = [
+            'id' => $this->getId(),
+
+            'created' => $this->getCreated() ? $this->getCreated()->format(DateTime::RFC3339, 'UTC') : null,
+
+            'event' => $this->getEvent(),
+            'order' => $this->getOrder(),
+            'message' => $this->getMessage(),
+            'status' => $this->getStatus(),
+
+            'build' => $this->getBuild() ? $this->getBuild()->getId() : null,
+            'push' => $this->getPush() ? $this->getPush()->getId() : null,
+
+            // 'data' => $this->getData(),
+            'data' => '**DATA**',
+        ];
+
+        return $json;
     }
 }

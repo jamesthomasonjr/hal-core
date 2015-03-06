@@ -9,8 +9,9 @@ namespace QL\Hal\Core\Entity;
 
 use MCP\DataType\HttpUrl;
 use Doctrine\Common\Collections\ArrayCollection;
+use JsonSerializable;
 
-class Deployment
+class Deployment implements JsonSerializable
 {
     /**
      * The deployment id
@@ -82,7 +83,7 @@ class Deployment
 
         $this->repository = null;
         $this->server = null;
-        $this->pushes = new ArrayCollection();
+        $this->pushes = new ArrayCollection;
     }
 
     /**
@@ -243,5 +244,27 @@ class Deployment
     public function getPushes()
     {
         return $this->pushes;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        $json = [
+            'id' => $this->getId(),
+
+            'path' => $this->getPath(),
+            'ebEnvironment' => $this->getEbEnvironment(),
+            'ec2Pool' => $this->getEc2Pool(),
+
+            'url' => $this->getUrl() ? $this->getUrl()->asString() : null,
+            'repository' => $this->getRepository() ? $this->getRepository()->getId() : null,
+            'server' => $this->getServer() ? $this->getServer()->getId() : null,
+
+            // 'pushes' => $this->getPushes() ? $this->getPushes()->getKeys() : []
+        ];
+
+        return $json;
     }
 }

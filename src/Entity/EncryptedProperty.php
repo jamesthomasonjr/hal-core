@@ -7,12 +7,14 @@
 
 namespace QL\Hal\Core\Entity;
 
-class EncryptedProperty
+use JsonSerializable;
+
+class EncryptedProperty implements JsonSerializable
 {
     /**
      * The encrypted property id
      *
-     * @var varchar
+     * @var string
      */
     protected $id;
 
@@ -132,5 +134,24 @@ class EncryptedProperty
     public function setEnvironment(Environment $environment)
     {
         $this->environment = $environment;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        $json = [
+            'id' => $this->getId(),
+
+            'name' => $this->getName(),
+            // 'data' => $this->getData(),
+            'data' => '**ENCRYPTED**',
+
+            'repository' => $this->getRepository() ? $this->getRepository()->getId() : null,
+            'environment' => $this->getEnvironment() ? $this->getEnvironment()->getId() : null,
+        ];
+
+        return $json;
     }
 }

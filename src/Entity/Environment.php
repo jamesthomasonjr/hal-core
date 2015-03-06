@@ -7,7 +7,9 @@
 
 namespace QL\Hal\Core\Entity;
 
-class Environment
+use JsonSerializable;
+
+class Environment implements JsonSerializable
 {
     /**
      * The environment id
@@ -88,5 +90,20 @@ class Environment
     public function getOrder()
     {
         return $this->order;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        $json = [
+            'id' => $this->getId(),
+
+            'identifier' => $this->getKey(),
+            'order' => $this->getOrder(),
+        ];
+
+        return $json;
     }
 }

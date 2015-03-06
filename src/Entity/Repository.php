@@ -8,8 +8,9 @@
 namespace QL\Hal\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use JsonSerializable;
 
-class Repository
+class Repository implements JsonSerializable
 {
     /**
      * The repository id
@@ -123,147 +124,7 @@ class Repository
         $this->ebName = '';
 
         $this->group = null;
-        $this->deployments = new ArrayCollection();
-    }
-
-    /**
-     * Set the repository build command
-     *
-     * @param string $buildCmd
-     */
-    public function setBuildCmd($buildCmd)
-    {
-        $this->buildCmd = $buildCmd;
-    }
-
-    /**
-     * Get the repository build command
-     *
-     * @return string
-     */
-    public function getBuildCmd()
-    {
-        return $this->buildCmd;
-    }
-
-    /**
-     * Set the repository build transform command
-     *
-     * @param string $buildTransformCmd
-     */
-    public function setBuildTransformCmd($buildTransformCmd)
-    {
-        $this->buildTransformCmd = $buildTransformCmd;
-    }
-
-    /**
-     * Get the repository build transform command
-     *
-     * @return string
-     */
-    public function getBuildTransformCmd()
-    {
-        return $this->buildTransformCmd;
-    }
-
-    /**
-     * Set the repository name
-     *
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * Get the repository name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set the repository email address
-     *
-     * @param string $email
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-    }
-
-    /**
-     * Get the repository email address
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Set the repository Github Repository
-     *
-     * @param string $githubRepo
-     */
-    public function setGithubRepo($githubRepo)
-    {
-        $this->githubRepo = $githubRepo;
-    }
-
-    /**
-     * Get the repository Github repository
-     *
-     * @return string
-     */
-    public function getGithubRepo()
-    {
-        return $this->githubRepo;
-    }
-
-    /**
-     * Set the repository Github user
-     *
-     * @param string $githubUser
-     */
-    public function setGithubUser($githubUser)
-    {
-        $this->githubUser = $githubUser;
-    }
-
-    /**
-     * Get the repository Github user
-     *
-     * @return string
-     */
-    public function getGithubUser()
-    {
-        return $this->githubUser;
-    }
-
-    /**
-     * Set the repository group
-     *
-     * @param Group $group
-     */
-    public function setGroup(Group $group)
-    {
-        $this->group = $group;
-    }
-
-    /**
-     * Get the repository group
-     *
-     * @return Group
-     */
-    public function getGroup()
-    {
-        return $this->group;
+        $this->deployments = new ArrayCollection;
     }
 
     /**
@@ -307,6 +168,146 @@ class Repository
     }
 
     /**
+     * Set the repository name
+     *
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * Get the repository name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set the repository Github Repository
+     *
+     * @param string $githubRepo
+     */
+    public function setGithubRepo($githubRepo)
+    {
+        $this->githubRepo = $githubRepo;
+    }
+
+    /**
+     * Get the repository Github repository
+     *
+     * @return string
+     */
+    public function getGithubRepo()
+    {
+        return $this->githubRepo;
+    }
+
+    /**
+     * Set the repository Github user
+     *
+     * @param string $githubUser
+     */
+    public function setGithubUser($githubUser)
+    {
+        $this->githubUser = $githubUser;
+    }
+
+    /**
+     * Get the repository Github user
+     *
+     * @return string
+     */
+    public function getGithubUser()
+    {
+        return $this->githubUser;
+    }
+
+    /**
+     * Set the repository email address
+     *
+     * @param string $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * Get the repository email address
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set the application name for elastic beanstalk
+     *
+     * @param string $ebName
+     */
+    public function setEbName($ebName)
+    {
+        $this->ebName = $ebName;
+    }
+
+    /**
+     * Get the application name for elastic beanstalk
+     *
+     * @return string
+     */
+    public function getEbName()
+    {
+        return $this->ebName;
+    }
+
+    /**
+     * Set the repository build command
+     *
+     * @param string $buildCmd
+     */
+    public function setBuildCmd($buildCmd)
+    {
+        $this->buildCmd = $buildCmd;
+    }
+
+    /**
+     * Get the repository build command
+     *
+     * @return string
+     */
+    public function getBuildCmd()
+    {
+        return $this->buildCmd;
+    }
+
+    /**
+     * Set the repository build transform command
+     *
+     * @param string $buildTransformCmd
+     */
+    public function setBuildTransformCmd($buildTransformCmd)
+    {
+        $this->buildTransformCmd = $buildTransformCmd;
+    }
+
+    /**
+     * Get the repository build transform command
+     *
+     * @return string
+     */
+    public function getBuildTransformCmd()
+    {
+        return $this->buildTransformCmd;
+    }
+
+    /**
      * Set the repository post push command
      *
      * @param string $postPushCmd
@@ -347,22 +348,43 @@ class Repository
     }
 
     /**
-     * Set the application name for elastic beanstalk
+     * Set the repository group
      *
-     * @param string $ebName
+     * @param Group $group
      */
-    public function setEbName($ebName)
+    public function setGroup(Group $group)
     {
-        $this->ebName = $ebName;
+        $this->group = $group;
     }
 
     /**
-     * Get the application name for elastic beanstalk
+     * Get the repository group
      *
-     * @return string
+     * @return Group
      */
-    public function getEbName()
+    public function getGroup()
     {
-        return $this->ebName;
+        return $this->group;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        $json = [
+            'id' => $this->getId(),
+
+            'identifier' => $this->getKey(),
+            'name' => $this->getName(),
+            'githubUser' => $this->getGithubRepo(),
+            'githubRepo' => $this->getGithubUser(),
+            'email' => $this->getEmail(),
+            'ebName' => $this->getEbName(),
+
+            'group' => $this->getGroup() ? $this->getGroup()->getId() : null,
+        ];
+
+        return $json;
     }
 }

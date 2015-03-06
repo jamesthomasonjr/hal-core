@@ -1,11 +1,16 @@
 <?php
-# src/QL/Hal/Core/Entity/Consumer.php
+/**
+ * @copyright ©2015 Quicken Loans Inc. All rights reserved. Trade Secret,
+ *    Confidential and Proprietary. Any dissemination outside of Quicken Loans
+ *    is strictly prohibited.
+ */
 
 namespace QL\Hal\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use JsonSerializable;
 
-class Consumer
+class Consumer implements JsonSerializable
 {
     /**
      * The consumer id
@@ -18,7 +23,6 @@ class Consumer
      * The consumer key
      *
      * @var string
-     * @Column(name="ConsumerKey", type="string", length=24)
      */
     protected $key;
 
@@ -52,7 +56,6 @@ class Consumer
 
     public function __construct()
     {
-        // from ldap
         $this->id = null;
         $this->key = '';
         $this->name = '';
@@ -60,7 +63,7 @@ class Consumer
 
         $this->isActive = false;
 
-        $this->tokens = new ArrayCollection();
+        $this->tokens = new ArrayCollection;
     }
 
     /**
@@ -181,5 +184,24 @@ class Consumer
     public function getTokens()
     {
         return $this->tokens;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        $json = [
+            'id' => $this->getId(),
+
+            'key' => $this->getKey(),
+            'name' => $this->getName(),
+            'secret' => $this->getSecret(),
+            'isActive' => $this->isActive(),
+
+            // 'tokens' => $this->getTokens() ? $this->getTokens()->getKeys() : []
+        ];
+
+        return $json;
     }
 }
