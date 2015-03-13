@@ -74,78 +74,78 @@ services:
 
     # Build Repository
     build.repo:
-        class: 'QL\Hal\Core\Entity\Repository\BuildRepository'
+        class: 'QL\Hal\Core\Repository\BuildRepository'
         factory: [@doctrine.em, 'getRepository']
         arguments: ['QL\Hal\Core\Entity\Build']
 
     # Consumer Repository
     consumer.repo:
-        class: 'QL\Hal\Core\Entity\Repository\ConsumerRepository'
+        class: 'QL\Hal\Core\Repository\ConsumerRepository'
         factory: [@doctrine.em, 'getRepository']
         arguments: ['QL\Hal\Core\Entity\Consumer']
 
     # Deployment Repository
     deployment.repo:
-        class: 'QL\Hal\Core\Entity\Repository\DeploymentRepository'
+        class: 'QL\Hal\Core\Repository\DeploymentRepository'
         factory: [@doctrine.em, 'getRepository']
         arguments: ['QL\Hal\Core\Entity\Deployment']
 
     # Environment Repository
     environment.repo:
-        class: 'QL\Hal\Core\Entity\Repository\EnvironmentRepository'
+        class: 'QL\Hal\Core\Repository\EnvironmentRepository'
         factory: [@doctrine.em, 'getRepository']
         arguments: ['QL\Hal\Core\Entity\Environment']
 
     # Group Repository
     group.repo:
-        class: 'QL\Hal\Core\Entity\Repository\GroupRepository'
+        class: 'QL\Hal\Core\Repository\GroupRepository'
         factory: [@doctrine.em, 'getRepository']
         arguments: ['QL\Hal\Core\Entity\Group']
 
     # Push Repository
     push.repo:
-        class: 'QL\Hal\Core\Entity\Repository\PushRepository'
+        class: 'QL\Hal\Core\Repository\PushRepository'
         factory: [@doctrine.em, 'getRepository']
         arguments: ['QL\Hal\Core\Entity\Push']
 
     # Repository Repository
     repository.repo:
-        class:            'QL\Hal\Core\Entity\Repository\RepositoryRepository'
+        class: 'QL\Hal\Core\Repository\RepositoryRepository'
         factory: [@doctrine.em, 'getRepository']
         arguments: ['QL\Hal\Core\Entity\Repository']
 
     # Server Repository
     server.repo:
-        class: 'QL\Hal\Core\Entity\Repository\ServerRepository'
+        class: 'QL\Hal\Core\Repository\ServerRepository'
         factory: [@doctrine.em, 'getRepository']
         arguments: ['QL\Hal\Core\Entity\Server']
 
     # User Repository
     user.repo:
-        class: 'QL\Hal\Core\Entity\Repository\UserRepository'
+        class: 'QL\Hal\Core\Repository\UserRepository'
         factory: [@doctrine.em, 'getRepository']
         arguments: ['QL\Hal\Core\Entity\User']
 
     # Token Repository
     token.repo:
-        class: 'QL\Hal\Core\Entity\Repository\TokenRepository'
+        class: 'QL\Hal\Core\Repository\TokenRepository'
         factory: [@doctrine.em, 'getRepository']
         arguments: ['QL\Hal\Core\Entity\Token']
 
     # Audit Log Repository
     audit.log.repo:
-        class: 'QL\Hal\Core\Entity\Repository\AuditLogRepository'
+        class: 'QL\Hal\Core\Repository\AuditLogRepository'
         factory: [@doctrine.em, 'getRepository']
         arguments: ['QL\Hal\Core\Entity\AuditLog']
 
     # Event Log Repository
     event.log.repo:
-        class: 'QL\Hal\Core\Entity\Repository\EventLogRepository'
+        class: 'QL\Hal\Core\Repository\EventLogRepository'
         factory: [@doctrine.em, 'getRepository']
         arguments: ['QL\Hal\Core\Entity\EventLog']
 
     # Encrypted Property Repository
     encrypted.repo:
-        class: 'QL\Hal\Core\Entity\Repository\EncryptedPropertyRepository'
+        class: 'QL\Hal\Core\Repository\EncryptedPropertyRepository'
         factory: [@doctrine.em, 'getRepository']
         arguments: ['QL\Hal\Core\Entity\EncryptedProperty']
