@@ -3,6 +3,8 @@ QL\Hal\Core\Entity\Group:
     repositoryClass: QL\Hal\Core\Repository\GroupRepository
     table: Groups
 
+    cache: {usage : NONSTRICT_READ_WRITE}
+
     id:
         id:
             column: GroupId

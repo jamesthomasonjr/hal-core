@@ -3,6 +3,8 @@ QL\Hal\Core\Entity\Consumer:
     repositoryClass: QL\Hal\Core\Repository\ConsumerRepository
     table: Consumers
 
+    cache: {usage : NONSTRICT_READ_WRITE}
+
     id:
         id:
             column: ConsumerId

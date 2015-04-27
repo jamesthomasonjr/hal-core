@@ -3,6 +3,8 @@ QL\Hal\Core\Entity\EncryptedProperty:
     repositoryClass: QL\Hal\Core\Repository\EncryptedPropertyRepository
     table: EncryptedProperties
 
+    cache: {usage : NONSTRICT_READ_WRITE}
+
     id:
         id:
             column: EncryptedPropertyId

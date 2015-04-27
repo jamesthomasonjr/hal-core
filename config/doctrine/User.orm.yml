@@ -40,5 +40,6 @@ QL\Hal\Core\Entity\User:
     oneToMany:
 
         tokens:
+            cache: {usage : READ_ONLY}
             targetEntity: Token
             mappedBy: user

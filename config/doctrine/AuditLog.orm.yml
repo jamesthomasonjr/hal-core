@@ -3,6 +3,8 @@ QL\Hal\Core\Entity\AuditLog:
     repositoryClass: QL\Hal\Core\Repository\AuditLogRepository
     table: AuditLogs
 
+    cache: {usage : NONSTRICT_READ_WRITE}
+
     id:
         id:
             column: AuditLogId

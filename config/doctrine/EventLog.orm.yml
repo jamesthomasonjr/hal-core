@@ -3,6 +3,8 @@ QL\Hal\Core\Entity\EventLog:
     repositoryClass: QL\Hal\Core\Repository\EventLogRepository
     table: EventLogs
 
+    cache: {usage : READ_ONLY}
+
     id:
         id:
             column: EventLogId

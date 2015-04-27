@@ -3,6 +3,8 @@ QL\Hal\Core\Entity\Environment:
     repositoryClass: QL\Hal\Core\Repository\EnvironmentRepository
     table: Environments
 
+    cache: {usage : NONSTRICT_READ_WRITE}
+
     id:
         id:
             column: EnvironmentId

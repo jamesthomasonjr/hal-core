@@ -3,6 +3,8 @@ QL\Hal\Core\Entity\Token:
     repositoryClass: QL\Hal\Core\Repository\TokenRepository
     table: Tokens
 
+    cache: {usage : NONSTRICT_READ_WRITE}
+
     id:
         id:
             column: TokenId

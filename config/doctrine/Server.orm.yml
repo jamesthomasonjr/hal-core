@@ -34,5 +34,6 @@ QL\Hal\Core\Entity\Server:
     oneToMany:
 
         deployments:
+            cache: {usage : READ_ONLY}
             targetEntity: Deployment
             mappedBy: server
