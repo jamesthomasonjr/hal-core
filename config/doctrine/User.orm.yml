@@ -39,12 +39,6 @@ QL\Hal\Core\Entity\User:
 
     oneToMany:
 
-        pushes:
-            targetEntity: Push
-            mappedBy: user
-        builds:
-            targetEntity: Build
-            mappedBy: user
         tokens:
             targetEntity: Token
             mappedBy: user

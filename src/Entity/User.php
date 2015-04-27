@@ -63,20 +63,6 @@ class User implements JsonSerializable
     protected $githubToken;
 
     /**
-     * All pushes done by the user.
-     *
-     * @var ArrayCollection
-     */
-    protected $pushes;
-
-    /**
-     * All builds done by the user.
-     *
-     * @var ArrayCollection
-     */
-    protected $builds;
-
-    /**
      * All tokens for the user.
      *
      * @var ArrayCollection
@@ -97,8 +83,6 @@ class User implements JsonSerializable
         $this->githubToken = '';
 
         // convenience queries
-        $this->pushes = new ArrayCollection();
-        $this->builds = new ArrayCollection();
         $this->tokens = new ArrayCollection();
     }
 
@@ -243,46 +227,6 @@ class User implements JsonSerializable
     }
 
     /**
-     * Set the the user builds
-     *
-     * @param ArrayCollection $builds
-     */
-    public function setBuilds(ArrayCollection $builds)
-    {
-        $this->builds = $builds;
-    }
-
-    /**
-     * Get the user builds
-     *
-     * @return ArrayCollection
-     */
-    public function getBuilds()
-    {
-        return $this->builds;
-    }
-
-    /**
-     * Set the user pushes
-     *
-     * @param ArrayCollection $pushes
-     */
-    public function setPushes(ArrayCollection $pushes)
-    {
-        $this->pushes = $pushes;
-    }
-
-    /**
-     * Get the user pushes
-     *
-     * @return ArrayCollection
-     */
-    public function getPushes()
-    {
-        return $this->pushes;
-    }
-
-    /**
      * Set the user tokens
      *
      * @param ArrayCollection $tokens
@@ -317,8 +261,6 @@ class User implements JsonSerializable
             'isActive' => $this->isActive(),
             // 'githubToken' => $this->getGithubToken(),
 
-            // 'builds' => $this->getBuilds() ? $this->getBuilds()->getKeys() : [],
-            // 'pushes' => $this->getPushes() ? $this->getPushes()->getKeys() : [],
             // 'tokens' => $this->getTokens() ? $this->getTokens()->getKeys() : [],
         ];
 
