@@ -65,11 +65,6 @@ class Deployment implements JsonSerializable
     protected $server;
 
     /**
-     * @var ArrayCollection
-     */
-    protected $pushes;
-
-    /**
      * Constructor
      */
     public function __construct()
@@ -83,7 +78,6 @@ class Deployment implements JsonSerializable
 
         $this->repository = null;
         $this->server = null;
-        $this->pushes = new ArrayCollection;
     }
 
     /**
@@ -227,26 +221,6 @@ class Deployment implements JsonSerializable
     }
 
     /**
-     * Set the pushes
-     *
-     * @param ArrayCollection $pushes
-     */
-    public function setPushes($pushes)
-    {
-        $this->pushes = $pushes;
-    }
-
-    /**
-     * Get the pushes
-     *
-     * @return ArrayCollection
-     */
-    public function getPushes()
-    {
-        return $this->pushes;
-    }
-
-    /**
      * @return array
      */
     public function jsonSerialize()
@@ -260,9 +234,7 @@ class Deployment implements JsonSerializable
 
             'url' => $this->getUrl() ? $this->getUrl()->asString() : null,
             'repository' => $this->getRepository() ? $this->getRepository()->getId() : null,
-            'server' => $this->getServer() ? $this->getServer()->getId() : null,
-
-            // 'pushes' => $this->getPushes() ? $this->getPushes()->getKeys() : []
+            'server' => $this->getServer() ? $this->getServer()->getId() : null
         ];
 
         return $json;

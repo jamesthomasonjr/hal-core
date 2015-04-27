@@ -49,11 +49,3 @@ QL\Hal\Core\Entity\Deployment:
             joinColumn:
                 name: ServerId
                 referencedColumnName: ServerId
-
-    oneToMany:
-
-        pushes:
-            targetEntity: Push
-            mappedBy: deployment
-            orderBy:
-                created: DESC
