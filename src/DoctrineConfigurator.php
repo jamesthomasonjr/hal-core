@@ -32,17 +32,17 @@ class DoctrineConfigurator
     {
         // @todo switch to php 5.5 so we can use ClassName::class
         $mapping = [
-            HttpUrlType::TYPE                   => 'QL\Hal\Core\Type\HttpUrlType',
-            TimePointType::TYPE                 => 'QL\Hal\Core\Type\TimePointType',
-            ServerEnumType::TYPE                 => 'QL\Hal\Core\Type\ServerEnumType',
+            HttpUrlType::TYPE                   => HttpUrlType::CLASS,
+            TimePointType::TYPE                 => TimePointType::CLASS,
+            ServerEnumType::TYPE                => ServerEnumType::CLASS,
 
-            BuildStatusEnumType::TYPE           => 'QL\Hal\Core\Type\BuildStatusEnumType',
-            PushStatusEnumType::TYPE            => 'QL\Hal\Core\Type\PushStatusEnumType',
+            BuildStatusEnumType::TYPE           => BuildStatusEnumType::CLASS,
+            PushStatusEnumType::TYPE            => PushStatusEnumType::CLASS,
 
-            EventEnumType::TYPE                 => 'QL\Hal\Core\Type\EventEnumType',
-            EventStatusEnumType::TYPE           => 'QL\Hal\Core\Type\EventStatusEnumType',
+            EventEnumType::TYPE                 => EventEnumType::CLASS,
+            EventStatusEnumType::TYPE           => EventStatusEnumType::CLASS,
 
-            CompressedSerializedBlobType::TYPE  => 'QL\Hal\Core\Type\CompressedSerializedBlobType',
+            CompressedSerializedBlobType::TYPE  => CompressedSerializedBlobType::CLASS,
         ];
 
         foreach ($mapping as $type => $fullyQualified) {
