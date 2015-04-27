@@ -13,7 +13,7 @@ use QL\Hal\Core\Entity\User;
 class UserRepository extends EntityRepository
 {
     const DQL_BUILD_COUNT = <<<SQL
-   SELECT count(p)
+   SELECT count(b)
      FROM QL\Hal\Core\Entity\Build b
     WHERE
         b.user = :user
@@ -41,7 +41,7 @@ SQL;
             ->createQuery($dql)
             ->setParameter('user', $user);
 
-        return $query->getOneOrNullResult();
+        return $this->getCount($query);
     }
 
     /**
@@ -59,6 +59,17 @@ SQL;
             ->createQuery($dql)
             ->setParameter('user', $user);
 
-        return $query->getOneOrNullResult();
+        return $this->getCount($query);
+    }
+
+    private function getCount($query)
+    {
+        $result = $query->getOneOrNullResult();
+
+        if (!$result) {
+            return 0;
+        }
+
+        return (int) array_shift($result);
     }
 }
