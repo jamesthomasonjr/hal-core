@@ -8,6 +8,7 @@
 namespace QL\Hal\Core\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use QL\Hal\Core\Entity\User;
 
 class UserRepository extends EntityRepository
 {
