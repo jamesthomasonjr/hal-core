@@ -22,11 +22,13 @@ QL\Hal\Core\Entity\EncryptedProperty:
     manyToOne:
 
         repository:
+            cache: {usage : READ_ONLY}
             targetEntity: Repository
             joinColumn:
                 name: RepositoryId
                 referencedColumnName: RepositoryId
         environment:
+            cache: {usage : READ_ONLY}
             targetEntity: Environment
             joinColumn:
                 name: EnvironmentId

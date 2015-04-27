@@ -24,6 +24,7 @@ QL\Hal\Core\Entity\Token:
     manyToOne:
 
         user:
+            cache: {usage : READ_ONLY}
             targetEntity: User
             inversedBy: tokens
             joinColumn:
@@ -31,6 +32,7 @@ QL\Hal\Core\Entity\Token:
                 referencedColumnName: ConsumerId
                 nullable: true
         consumer:
+            cache: {usage : READ_ONLY}
             targetEntity: Consumer
             inversedBy: tokens
             joinColumn:

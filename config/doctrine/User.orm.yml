@@ -3,6 +3,8 @@ QL\Hal\Core\Entity\User:
     repositoryClass: QL\Hal\Core\Repository\UserRepository
     table: Users
 
+    cache: {usage : READ_ONLY}
+
     id:
         id:
             column: UserId

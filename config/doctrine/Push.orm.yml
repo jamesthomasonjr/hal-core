@@ -31,6 +31,7 @@ QL\Hal\Core\Entity\Push:
     manyToOne:
 
         user:
+            cache: {usage : READ_ONLY}
             targetEntity: User
             inversedBy: pushes
             joinColumn:
@@ -38,17 +39,20 @@ QL\Hal\Core\Entity\Push:
                 referencedColumnName: UserId
                 nullable: true
         consumer:
+            cache: {usage : READ_ONLY}
             targetEntity: Consumer
             joinColumn:
                 name: ConsumerId
                 referencedColumnName: ConsumerId
                 nullable: true
         build:
+            cache: {usage : READ_ONLY}
             targetEntity: Build
             joinColumn:
                 name: BuildId
                 referencedColumnName: BuildId
         deployment:
+            cache: {usage : READ_ONLY}
             targetEntity: Deployment
             inversedBy: pushes
             joinColumn:
@@ -56,6 +60,7 @@ QL\Hal\Core\Entity\Push:
                 referencedColumnName: DeploymentId
                 nullable: true
         repository:
+            cache: {usage : READ_ONLY}
             targetEntity: Repository
             joinColumn:
                 name: RepositoryId

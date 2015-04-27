@@ -40,6 +40,7 @@ QL\Hal\Core\Entity\Build:
     manyToOne:
 
         user:
+            cache: {usage : READ_ONLY}
             targetEntity: User
             inversedBy: builds
             joinColumn:
@@ -47,17 +48,20 @@ QL\Hal\Core\Entity\Build:
                 referencedColumnName: UserId
                 nullable: true
         consumer:
+            cache: {usage : READ_ONLY}
             targetEntity: Consumer
             joinColumn:
                 name: ConsumerId
                 referencedColumnName: ConsumerId
                 nullable: true
         environment:
+            cache: {usage : READ_ONLY}
             targetEntity: Environment
             joinColumn:
                 name: EnvironmentId
                 referencedColumnName: EnvironmentId
         repository:
+            cache: {usage : READ_ONLY}
             targetEntity: Repository
             joinColumn:
                 name: RepositoryId

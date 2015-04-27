@@ -30,6 +30,7 @@ QL\Hal\Core\Entity\AuditLog:
     manyToOne:
 
         user:
+            cache: {usage : READ_ONLY}
             targetEntity: User
             joinColumn:
                 name: UserId

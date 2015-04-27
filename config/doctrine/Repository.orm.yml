@@ -3,6 +3,8 @@ QL\Hal\Core\Entity\Repository:
     repositoryClass: QL\Hal\Core\Repository\RepositoryRepository
     table: Repositories
 
+    cache: {usage : READ_ONLY}
+
     id:
         id:
             column: RepositoryId
@@ -59,6 +61,7 @@ QL\Hal\Core\Entity\Repository:
     manyToOne:
 
         group:
+            cache: {usage : READ_ONLY}
             targetEntity: Group
             inversedBy: repositories
             joinColumn:
@@ -68,5 +71,6 @@ QL\Hal\Core\Entity\Repository:
     oneToMany:
 
         deployments:
+            cache: {usage : READ_ONLY}
             targetEntity: Deployment
             mappedBy: repository

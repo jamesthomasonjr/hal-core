@@ -34,6 +34,7 @@ QL\Hal\Core\Entity\EventLog:
     manyToOne:
 
         build:
+            cache: {usage : READ_ONLY}
             targetEntity: Build
             inversedBy: logs
             joinColumn:
@@ -41,6 +42,7 @@ QL\Hal\Core\Entity\EventLog:
                 referencedColumnName: BuildId
                 nullable: true
         push:
+            cache: {usage : READ_ONLY}
             targetEntity: Push
             inversedBy: logs
             joinColumn:
