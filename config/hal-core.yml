@@ -9,6 +9,9 @@ parameters:
         password: ''
         dbname: 'hal'
 
+    doctrine.lvl2cache.ttl: 600
+    doctrine.lvl2cache.lock: 60
+
 services:
 
     ####################################################################################################################
@@ -47,6 +50,8 @@ services:
             - @cache.doctrine
         calls:
             - ['setMetadataDriverImpl', [@doctrine.config.driver]]
+            - ['setSecondLevelCacheEnabled', [true]]
+            - ['setSecondLevelCacheConfiguration', [@doctrine.secondlevelcache.config]]
 
     doctrine.config.driver:
         class: 'Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver'
@@ -58,8 +63,26 @@ services:
     doctrine.em.events:
         class: 'Doctrine\Common\EventManager'
 
-    cache.doctrine:
+    ####################################################################################################################
+    # DOCTRINE CACHE
+    ####################################################################################################################
+
+    # default to array
+    doctrine.cache:
         class: 'Doctrine\Common\Cache\ArrayCache'
+
+    doctrine.secondlevelcache.config:
+        class: 'Doctrine\ORM\Cache\CacheConfiguration'
+        calls:
+            - ['setCacheFactory', [@doctrine.secondlevelcache.factory]]
+
+    doctrine.secondlevelcache.factory:
+        class: 'Doctrine\ORM\Cache\DefaultCacheFactory'
+        arguments: [@doctrine.secondlevelcache.region.config, @cache.doctrine]
+
+    doctrine.secondlevelcache.region.config:
+        class: 'Doctrine\ORM\Cache\RegionsConfiguration'
+        arguments: [%doctrine.lvl2cache.ttl%, %doctrine.lvl2cache.lock%]
 
     ####################################################################################################################
     # DOCTRINE HELPERS
