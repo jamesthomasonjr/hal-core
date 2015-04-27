@@ -34,13 +34,6 @@ class Group implements JsonSerializable
     protected $name;
 
     /**
-     * The group repositories
-     *
-     * @var ArrayCollection
-     */
-    protected $repositories;
-
-    /**
      * Constructor
      */
     public function __construct()
@@ -48,7 +41,6 @@ class Group implements JsonSerializable
         $this->id = null;
         $this->key = null;
         $this->name = null;
-        $this->repositories = new ArrayCollection;
     }
 
     /**
@@ -112,26 +104,6 @@ class Group implements JsonSerializable
     }
 
     /**
-     * Set the group repositories
-     *
-     * @param ArrayCollection $repositories
-     */
-    public function setRepositories($repositories)
-    {
-        $this->repositories = $repositories;
-    }
-
-    /**
-     * Get the group repositories
-     *
-     * @return ArrayCollection
-     */
-    public function getRepositories()
-    {
-        return $this->repositories;
-    }
-
-    /**
      * @return array
      */
     public function jsonSerialize()
@@ -140,9 +112,7 @@ class Group implements JsonSerializable
             'id' => $this->getId(),
 
             'identifier' => $this->getKey(),
-            'name' => $this->getName(),
-
-            // 'repositories' => $this->getRepositories() ? $this->getRepositories()->getKeys() : []
+            'name' => $this->getName()
         ];
 
         return $json;

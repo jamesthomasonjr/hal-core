@@ -21,9 +21,3 @@ QL\Hal\Core\Entity\Group:
             column: GroupName
             type: string
             length: 48
-
-    oneToMany:
-
-        repositories:
-            targetEntity: Repository
-            mappedBy: group
