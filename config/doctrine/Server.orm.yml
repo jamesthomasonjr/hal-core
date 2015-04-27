@@ -3,7 +3,7 @@ QL\Hal\Core\Entity\Server:
     repositoryClass: QL\Hal\Core\Repository\ServerRepository
     table: Servers
 
-    cache: {usage : READ_ONLY}
+    cache: {usage : NONSTRICT_READ_WRITE}
 
     id:
         id:

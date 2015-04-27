@@ -3,7 +3,7 @@ QL\Hal\Core\Entity\Deployment:
     repositoryClass: QL\Hal\Core\Repository\DeploymentRepository
     table: Deployments
 
-    cache: {usage : READ_ONLY}
+    cache: {usage : NONSTRICT_READ_WRITE}
 
     id:
         id:
