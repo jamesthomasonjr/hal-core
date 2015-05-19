@@ -9,6 +9,7 @@ namespace QL\Hal\Core;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use MCP\DataType\Time\Clock;
+use QL\Hal\Core\Entity\AuditLog;
 use QL\Hal\Core\Entity\Build;
 use QL\Hal\Core\Entity\EncryptedProperty;
 use QL\Hal\Core\Entity\EventLog;
@@ -18,12 +19,14 @@ use QL\Hal\Core\Entity\Token;
 /**
  * A doctrine event listener for:
  * - Add a "CreatedTime" TimePoint to persisted objects when initially created.
+ *     - AuditLog
  *     - Build
  *     - Push
  *     - EventLog
  * - Add a random sha hash as the unique identifier.
  *     - EncryptedProperty
  *     - EventLog
+ *     - Token
  *
  * It should be attached to the PrePersist event.
  *
