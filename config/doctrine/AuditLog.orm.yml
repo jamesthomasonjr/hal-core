@@ -14,7 +14,7 @@ QL\Hal\Core\Entity\AuditLog:
 
     fields:
 
-        recorded:
+        created:
             column: Recorded
             type: timepoint
         entity:

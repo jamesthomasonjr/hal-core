@@ -62,7 +62,12 @@ class DoctrinePersistListener
         $entity = $event->getObject();
 
         // Add created time
-        if ($entity instanceof Build || $entity instanceof Push || $entity instanceof EventLog) {
+        if (
+            $entity instanceof Build ||
+            $entity instanceof Push ||
+            $entity instanceof EventLog ||
+            $entity instanceof AuditLog
+        ) {
             if (!$entity->getCreated()) {
                 $created = $this->clock->read();
                 $entity->setCreated($created);
