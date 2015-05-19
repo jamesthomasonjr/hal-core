@@ -1,6 +1,5 @@
 QL\Hal\Core\Entity\Group:
     type: entity
-    repositoryClass: QL\Hal\Core\Repository\GroupRepository
     table: Groups
 
     cache: {usage : NONSTRICT_READ_WRITE}

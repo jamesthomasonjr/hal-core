@@ -1,6 +1,5 @@
 QL\Hal\Core\Entity\EncryptedProperty:
     type: entity
-    repositoryClass: QL\Hal\Core\Repository\EncryptedPropertyRepository
     table: EncryptedProperties
 
     cache: {usage : NONSTRICT_READ_WRITE}

@@ -1,6 +1,5 @@
 QL\Hal\Core\Entity\EventLog:
     type: entity
-    repositoryClass: QL\Hal\Core\Repository\EventLogRepository
     table: EventLogs
 
     cache: {usage : READ_ONLY}
