@@ -28,6 +28,6 @@ QL\Hal\Core\Entity\Token:
             targetEntity: User
             inversedBy: tokens
             joinColumn:
-                name: ConsumerId
-                referencedColumnName: ConsumerId
+                name: UserId
+                referencedColumnName: UserId
                 nullable: true
