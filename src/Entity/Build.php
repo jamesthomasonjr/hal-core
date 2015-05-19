@@ -15,86 +15,57 @@ use MCP\DataType\Time\TimePoint;
 class Build implements JsonSerializable
 {
     /**
-     * The build id
-     *
-     * @var string
+     * @type string
      */
     protected $id;
 
     /**
-     * The build created time
-     *
-     * @var null|TimePoint
+     * @type TimePoint|null
      */
     protected $created;
 
     /**
-     * The build start time
-     *
-     * @var null|TimePoint
+     * @type TimePoint|null
      */
     protected $start;
 
     /**
-     * The build end time
-     *
-     * @var null|TimePoint
+     * @type TimePoint|null
      */
     protected $end;
 
     /**
-     * The build status
-     *
-     * @var string
+     * @type string
      */
     protected $status;
 
     /**
-     * The build branch name
-     *
-     * @var string
+     * @type string
      */
     protected $branch;
 
     /**
-     * The build commit hash
-     *
-     * @var string
+     * @type string
      */
     protected $commit;
 
     /**
-     * The build initiating user (if a user)
-     *
-     * @var null|User
+     * @type null|User
      */
     protected $user;
 
     /**
-     * The build initiating consumer(if a consumer)
-     *
-     * @var null|Consumer
-     */
-    protected $consumer;
-
-    /**
-     * The build repository
-     *
-     * @var Repository
+     * @type Repository
      */
     protected $repository;
 
     /**
-     * The build environment
-     *
-     * @var Environment
+     * @type Environment
      */
     protected $environment;
 
     /**
-     * The event logs for this job
-     *
-     * @var ArrayCollection
+     * @type ArrayCollection
      */
     protected $logs;
 
@@ -111,7 +82,6 @@ class Build implements JsonSerializable
         $this->commit = '';
 
         $this->user = null;
-        $this->consumer = null;
         $this->repository = null;
         $this->environment = null;
 
@@ -119,9 +89,7 @@ class Build implements JsonSerializable
     }
 
     /**
-     *  Set the build id
-     *
-     *  @param string $id
+     * @param string $id
      */
     public function setId($id)
     {
@@ -129,9 +97,7 @@ class Build implements JsonSerializable
     }
 
     /**
-     *  Get the build id
-     *
-     *  @return string
+     * @return string
      */
     public function getId()
     {
@@ -139,9 +105,7 @@ class Build implements JsonSerializable
     }
 
     /**
-     * Set the push created time
-     *
-     * @param null|TimePoint $created
+     * @param TimePoint|null $created
      */
     public function setCreated(TimePoint $created = null)
     {
@@ -149,9 +113,7 @@ class Build implements JsonSerializable
     }
 
     /**
-     * Get the push created time
-     *
-     * @return null|TimePoint
+     * @return TimePoint|null
      */
     public function getCreated()
     {
@@ -159,8 +121,6 @@ class Build implements JsonSerializable
     }
 
     /**
-     * Set the build start time
-     *
      * @param TimePoint|null $start
      */
     public function setStart(TimePoint $start = null)
@@ -169,8 +129,6 @@ class Build implements JsonSerializable
     }
 
     /**
-     * Get the build start time
-     *
      * @return TimePoint|null
      */
     public function getStart()
@@ -179,8 +137,6 @@ class Build implements JsonSerializable
     }
 
     /**
-     * Set the build end time
-     *
      * @param TimePoint|null $end
      */
     public function setEnd(TimePoint $end = null)
@@ -189,8 +145,6 @@ class Build implements JsonSerializable
     }
 
     /**
-     * Get the build end time
-     *
      * @return TimePoint|null
      */
     public function getEnd()
@@ -199,8 +153,6 @@ class Build implements JsonSerializable
     }
 
     /**
-     * Set the build status
-     *
      * @param string $status
      */
     public function setStatus($status)
@@ -209,8 +161,6 @@ class Build implements JsonSerializable
     }
 
     /**
-     * Get the build status
-     *
      * @return string
      */
     public function getStatus()
@@ -219,8 +169,6 @@ class Build implements JsonSerializable
     }
 
     /**
-     * Set the build branch name
-     *
      * @param string $branch
      */
     public function setBranch($branch)
@@ -229,8 +177,6 @@ class Build implements JsonSerializable
     }
 
     /**
-     * Get the build branch name
-     *
      * @return string
      */
     public function getBranch()
@@ -239,8 +185,6 @@ class Build implements JsonSerializable
     }
 
     /**
-     * Set the build commit hash
-     *
      * @param string $commit
      */
     public function setCommit($commit)
@@ -249,8 +193,6 @@ class Build implements JsonSerializable
     }
 
     /**
-     * Get the build commit hash
-     *
      * @return string
      */
     public function getCommit()
@@ -259,19 +201,15 @@ class Build implements JsonSerializable
     }
 
     /**
-     * Set the build user
-     *
-     * @param null|User $user
+     * @param User $user
      */
-    public function setUser(User $user = null)
+    public function setUser(User $user)
     {
         $this->user = $user;
     }
 
     /**
-     * Get the build user
-     *
-     * @return null|User
+     * @return User|null
      */
     public function getUser()
     {
@@ -279,28 +217,6 @@ class Build implements JsonSerializable
     }
 
     /**
-     * Set the build consumer
-     *
-     * @param null|Consumer $consumer
-     */
-    public function setConsumer(Consumer $consumer = null)
-    {
-        $this->consumer = $consumer;
-    }
-
-    /**
-     * Get the build consumer
-     *
-     * @return null|Consumer
-     */
-    public function getConsumer()
-    {
-        return $this->consumer;
-    }
-
-    /**
-     * Set the build repository
-     *
      * @param Repository $repository
      */
     public function setRepository(Repository $repository)
@@ -309,8 +225,6 @@ class Build implements JsonSerializable
     }
 
     /**
-     * Get the build repository
-     *
      * @return Repository
      */
     public function getRepository()
@@ -319,8 +233,6 @@ class Build implements JsonSerializable
     }
 
     /**
-     * Set the build environment
-     *
      * @param Environment $environment
      */
     public function setEnvironment(Environment $environment)
@@ -329,8 +241,6 @@ class Build implements JsonSerializable
     }
 
     /**
-     * Get the build environment
-     *
      * @return Environment
      */
     public function getEnvironment()
@@ -339,8 +249,6 @@ class Build implements JsonSerializable
     }
 
     /**
-     * Set the event logs
-     *
      * @param ArrayCollection $logs
      */
     public function setLogs($logs)
@@ -349,8 +257,6 @@ class Build implements JsonSerializable
     }
 
     /**
-     * Get the event logs
-     *
      * @return ArrayCollection
      */
     public function getLogs()
@@ -375,7 +281,6 @@ class Build implements JsonSerializable
             'commit' => $this->getCommit(),
 
             'user' => $this->getUser() ? $this->getUser()->getId() : null,
-            'consumer' => $this->getConsumer() ? $this->getConsumer()->getId() : null,
             'repository' => $this->getRepository() ? $this->getRepository()->getId() : null,
             'environment' => $this->getEnvironment() ? $this->getEnvironment()->getId() : null,
 

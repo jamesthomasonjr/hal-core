@@ -14,58 +14,48 @@ use MCP\DataType\HttpUrl;
 class User implements JsonSerializable
 {
     /**
-     * The common id of the user.
-     *
-     * @var integer
+     * @type integer
      */
     protected $id;
 
     /**
-     * The handle (username) of the user.
-     *
-     * @var string
+     * @type string
      */
     protected $handle;
 
     /**
-     * The display name of the user.
-     *
-     * @var string
+     * @type string
      */
     protected $name;
 
     /**
-     * The email address of the user.
-     *
-     * @var string
+     * @type string
      */
     protected $email;
 
     /**
-     * The URL of the user picture.
-     *
-     * @var null|HttpUrl
+     * @type null|HttpUrl
      */
     protected $pictureUrl;
 
     /**
      * The current user status
      *
-     * @var boolean
+     * @type boolean
      */
     protected $isActive;
 
     /**
      * The github access token for the user
      *
-     * @var string
+     * @type string
      */
     protected $githubToken;
 
     /**
      * All tokens for the user.
      *
-     * @var ArrayCollection
+     * @type ArrayCollection
      */
     protected $tokens;
 

@@ -12,29 +12,28 @@ use JsonSerializable;
 class Environment implements JsonSerializable
 {
     /**
-     * The environment id
-     *
-     * @var integer
+     * @type integer
      */
     protected $id;
 
     /**
-     * The environment key
-     *
-     * @var string
+     * @type string
      */
     protected $key;
 
     /**
-     * The environment display order
-     *
-     * @var integer
+     * @type integer
      */
     protected $order;
 
+    public function __construct()
+    {
+        $this->id = null;
+        $this->key = '';
+        $this->order = null;
+    }
+
     /**
-     * Set the environment id
-     *
      * @param integer $id
      */
     public function setId($id)
@@ -43,8 +42,6 @@ class Environment implements JsonSerializable
     }
 
     /**
-     * Get the environment id
-     *
      * @return integer
      */
     public function getId()
@@ -53,8 +50,6 @@ class Environment implements JsonSerializable
     }
 
     /**
-     * Set the environment key
-     *
      * @param string $key
      */
     public function setKey($key)
@@ -63,8 +58,6 @@ class Environment implements JsonSerializable
     }
 
     /**
-     * Get the environment key
-     *
      * @return string
      */
     public function getKey()
@@ -73,8 +66,6 @@ class Environment implements JsonSerializable
     }
 
     /**
-     * Set the environment display order
-     *
      * @param int $order
      */
     public function setOrder($order)
@@ -83,8 +74,6 @@ class Environment implements JsonSerializable
     }
 
     /**
-     * Get the environment display order
-     *
      * @return int
      */
     public function getOrder()

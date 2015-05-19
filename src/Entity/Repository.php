@@ -13,93 +13,71 @@ use JsonSerializable;
 class Repository implements JsonSerializable
 {
     /**
-     * The repository id
-     *
-     * @var int
+     * @type int
      */
     protected $id;
 
     /**
-     * The repository key
-     *
-     * @var string
+     * @type string
      */
     protected $key;
 
     /**
-     * The repository name
-     *
-     * @var string
+     * @type string
      */
     protected $name;
 
     /**
-     * The repository Github user
-     *
-     * @var string
+     * @type string
      */
     protected $githubUser;
 
     /**
-     * The repository Github repository
-     *
-     * @var string
+     * @type string
      */
     protected $githubRepo;
 
     /**
-     * The repository email address
-     *
-     * @var string
+     * @type string
      */
     protected $email;
 
     /**
-     * The repository build command
-     *
-     * @var null|string
+     * @type null|string
      */
     protected $buildCmd;
 
     /**
-     * The repository build transform command to be run before push
-     *
-     * @var string
+     * @type string
      */
     protected $buildTransformCmd;
 
     /**
-     * The repository pre push command
-     *
-     * @var string
+     * @type string
      */
     protected $prePushCmd;
 
     /**
-     * The repository post push command
-     *
-     * @var string
+     * @type string
      */
     protected $postPushCmd;
 
     /**
      * The application name for elastic beanstalk
      *
-     * @var string
+     * @type string
      */
     protected $ebName;
 
     /**
-     * The repository group
-     *
-     * @var Group
+     * @type Group
      */
     protected $group;
 
     /**
      * The repository deployments
      *
-     * @var ArrayCollection
+     * @type ArrayCollection
      */
     protected $deployments;
 

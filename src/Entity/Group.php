@@ -13,29 +13,20 @@ use JsonSerializable;
 class Group implements JsonSerializable
 {
     /**
-     * The group id
-     *
-     * @var integer
+     * @type integer
      */
     protected $id;
 
     /**
-     * The group key
-     *
-     * @var string
+     * @type string
      */
     protected $key;
 
     /**
-     * The group name
-     *
-     * @var string
+     * @type string
      */
     protected $name;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->id = null;
@@ -44,8 +35,6 @@ class Group implements JsonSerializable
     }
 
     /**
-     * Set the group id
-     *
      * @param int $id
      */
     public function setId($id)
@@ -54,8 +43,6 @@ class Group implements JsonSerializable
     }
 
     /**
-     * Get the group id
-     *
      * @return int
      */
     public function getId()
@@ -64,8 +51,6 @@ class Group implements JsonSerializable
     }
 
     /**
-     * Set the group key
-     *
      * @param string $key
      */
     public function setKey($key)
@@ -74,8 +59,6 @@ class Group implements JsonSerializable
     }
 
     /**
-     * Get the group key
-     *
      * @return string
      */
     public function getKey()
@@ -84,8 +67,6 @@ class Group implements JsonSerializable
     }
 
     /**
-     * Set the group name
-     *
      * @param string $name
      */
     public function setName($name)
@@ -94,8 +75,6 @@ class Group implements JsonSerializable
     }
 
     /**
-     * Get the group name
-     *
      * @return string
      */
     public function getName()

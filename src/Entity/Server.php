@@ -13,37 +13,29 @@ use JsonSerializable;
 class Server implements JsonSerializable
 {
     /**
-     * The server id
-     *
-     * @var int
+     * @type int
      */
     protected $id;
 
     /**
-     * The server type
-     *
-     * @var string
+     * @type string
      */
     protected $type;
 
     /**
-     * The server name (hostname)
-     *
-     * @var string
+     * @type string
      */
     protected $name;
 
     /**
-     * The environment
-     *
-     * @var Environment
+     * @type Environment
      */
     protected $environment;
 
     /**
      * Deployments for the server
      *
-     * @var ArrayCollection
+     * @type ArrayCollection
      */
     protected $deployments;
 
@@ -60,8 +52,6 @@ class Server implements JsonSerializable
     }
 
     /**
-     * Set the server id
-     *
      * @param int $id
      */
     public function setId($id)
@@ -70,8 +60,6 @@ class Server implements JsonSerializable
     }
 
     /**
-     * Get the server id
-     *
      * @return int
      */
     public function getId()
@@ -80,8 +68,6 @@ class Server implements JsonSerializable
     }
 
     /**
-     * Set the server type
-     *
      * @param string $type
      */
     public function setType($type)
@@ -90,8 +76,6 @@ class Server implements JsonSerializable
     }
 
     /**
-     * Get the server type
-     *
      * @return string
      */
     public function getType()
@@ -100,8 +84,6 @@ class Server implements JsonSerializable
     }
 
     /**
-     * Set the server name
-     *
      * @param string $name
      */
     public function setName($name)
@@ -110,8 +92,6 @@ class Server implements JsonSerializable
     }
 
     /**
-     * Get the server name
-     *
      * @return string
      */
     public function getName()
@@ -120,8 +100,6 @@ class Server implements JsonSerializable
     }
 
     /**
-     * Set the server environment
-     *
      * @param Environment $environment
      */
     public function setEnvironment($environment)
@@ -130,8 +108,6 @@ class Server implements JsonSerializable
     }
 
     /**
-     * Get the server environment
-     *
      * @return Environment
      */
     public function getEnvironment()
@@ -140,8 +116,6 @@ class Server implements JsonSerializable
     }
 
     /**
-     * Set the server deployments
-     *
      * @param ArrayCollection $deployments
      */
     public function setDeployments(ArrayCollection $deployments)
@@ -150,8 +124,6 @@ class Server implements JsonSerializable
     }
 
     /**
-     * Get the server deployments
-     *
      * @return ArrayCollection
      */
     public function getDeployments()

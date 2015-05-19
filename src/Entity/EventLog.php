@@ -17,65 +17,53 @@ use MCP\DataType\Time\TimePoint;
 class EventLog implements JsonSerializable
 {
     /**
-     * The event log id
-     *
-     * @var string
+     * @type string
      */
     protected $id;
 
     /**
-     * The event name
-     *
-     * @var string
+     * @type string
      */
     protected $event;
 
     /**
-     * The event order
-     *
-     * @var string
+     * @type string
      */
     protected $order;
 
     /**
-     * When the log was created
-     *
-     * @var Timepoint
+     * @type Timepoint
      */
     protected $created;
 
     /**
-     * The log message
-     *
-     * @var string
+     * @type string
      */
     protected $message;
 
     /**
-     * The log status
-     *
-     * @var string
+     * @type string
      */
     protected $status;
 
     /**
      * The build for this event, optional.
      *
-     * @var Build
+     * @type Build
      */
     protected $build;
 
     /**
      * The push for this event, optional.
      *
-     * @var Push
+     * @type Push
      */
     protected $push;
 
     /**
      * The data associated with the event
      *
-     * @var array
+     * @type array
      */
     protected $data;
 

@@ -47,13 +47,6 @@ QL\Hal\Core\Entity\Build:
                 name: UserId
                 referencedColumnName: UserId
                 nullable: true
-        consumer:
-            cache: {usage : READ_ONLY}
-            targetEntity: Consumer
-            joinColumn:
-                name: ConsumerId
-                referencedColumnName: ConsumerId
-                nullable: true
         environment:
             cache: {usage : READ_ONLY}
             targetEntity: Environment

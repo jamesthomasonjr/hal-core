@@ -15,79 +15,52 @@ use MCP\DataType\Time\TimePoint;
 class Push implements JsonSerializable
 {
     /**
-     * The push id
-     *
-     * @var string
+     * @type string
      */
     protected $id;
 
     /**
-     * The push created time
-     *
-     * @var TimePoint|null
+     * @type TimePoint|null
      */
     protected $created;
 
     /**
-     * The push start time
-     *
-     * @var TimePoint|null
+     * @type TimePoint|null
      */
     protected $start;
 
     /**
-     * The push end time
-     *
-     * @var TimePoint|null
+     * @type TimePoint|null
      */
     protected $end;
 
     /**
-     * The push status
-     *
-     * @var string
+     * @type string
      */
     protected $status;
 
     /**
-     * The push initiating user (if a user)
-     *
-     * @var null|User
+     * @type User
      */
     protected $user;
 
     /**
-     * The push initiating consumer (if a consumer)
-     *
-     * @var null|Consumer
-     */
-    protected $consumer;
-
-    /**
-     * The push build
-     *
-     * @var Build
+     * @type Build
      */
     protected $build;
 
     /**
-     * The push deployment
-     *
-     * @var Deployment
+     * @type Deployment
      */
     protected $deployment;
 
     /**
-     * The push repository
-     *
-     * @var Repository
+     * @type Repository
      */
     protected $repository;
 
     /**
-     * The event logs for this job
-     *
-     * @var ArrayCollection
+     * @type ArrayCollection
      */
     protected $logs;
 
@@ -96,13 +69,13 @@ class Push implements JsonSerializable
      */
     public function __construct()
     {
-        $this->id = null;
+        $this->id = '';
         $this->created = null;
         $this->start = null;
         $this->end = null;
-        $this->status = null;
+        $this->status = '';
+
         $this->user = null;
-        $this->consumer = null;
         $this->build = null;
         $this->deployment = null;
         $this->repository = null;
@@ -110,8 +83,6 @@ class Push implements JsonSerializable
     }
 
     /**
-     * Set the push id
-     *
      * @param int $id
      */
     public function setId($id)
@@ -120,8 +91,6 @@ class Push implements JsonSerializable
     }
 
     /**
-     * Get the push id
-     *
      * @return int
      */
     public function getId()
@@ -130,9 +99,7 @@ class Push implements JsonSerializable
     }
 
     /**
-     * Set the push created time
-     *
-     * @param null|TimePoint $created
+     * @param TimePoint|null $created
      */
     public function setCreated(TimePoint $created = null)
     {
@@ -140,9 +107,7 @@ class Push implements JsonSerializable
     }
 
     /**
-     * Get the push created time
-     *
-     * @return null|TimePoint
+     * @return TimePoint|null
      */
     public function getCreated()
     {
@@ -150,9 +115,7 @@ class Push implements JsonSerializable
     }
 
     /**
-     * Set the push start time
-     *
-     * @param null|TimePoint $start
+     * @param TimePoint|null $start
      */
     public function setStart(TimePoint $start = null)
     {
@@ -160,9 +123,7 @@ class Push implements JsonSerializable
     }
 
     /**
-     * Get the push start time
-     *
-     * @return null|TimePoint
+     * @return TimePoint|null
      */
     public function getStart()
     {
@@ -170,9 +131,7 @@ class Push implements JsonSerializable
     }
 
     /**
-     * Set the push end time
-     *
-     * @param null|TimePoint $end
+     * @param TimePoint|null $end
      */
     public function setEnd(TimePoint $end = null)
     {
@@ -180,9 +139,7 @@ class Push implements JsonSerializable
     }
 
     /**
-     * Get the push end time
-     *
-     * @return null|TimePoint
+     * @return TimePoint|null
      */
     public function getEnd()
     {
@@ -190,8 +147,6 @@ class Push implements JsonSerializable
     }
 
     /**
-     * Set the push status
-     *
      * @param string $status
      */
     public function setStatus($status)
@@ -200,8 +155,6 @@ class Push implements JsonSerializable
     }
 
     /**
-     * Get the push status
-     *
      * @return string
      */
     public function getStatus()
@@ -210,9 +163,7 @@ class Push implements JsonSerializable
     }
 
     /**
-     * Set the push user
-     *
-     * @param null|User $user
+     * @param User $user
      */
     public function setUser(User $user = null)
     {
@@ -220,9 +171,7 @@ class Push implements JsonSerializable
     }
 
     /**
-     * Get the push user
-     *
-     * @return null|User
+     * @return User
      */
     public function getUser()
     {
@@ -230,28 +179,6 @@ class Push implements JsonSerializable
     }
 
     /**
-     * Set the push consumer
-     *
-     * @param null|Consumer $consumer
-     */
-    public function setConsumer($consumer)
-    {
-        $this->consumer = $consumer;
-    }
-
-    /**
-     * Get the push consumer
-     *
-     * @return null|Consumer
-     */
-    public function getConsumer()
-    {
-        return $this->consumer;
-    }
-
-    /**
-     * Set the push build
-     *
      * @param Build $build
      */
     public function setBuild(Build $build)
@@ -260,8 +187,6 @@ class Push implements JsonSerializable
     }
 
     /**
-     * Get the push build
-     *
      * @return Build
      */
     public function getBuild()
@@ -270,8 +195,6 @@ class Push implements JsonSerializable
     }
 
     /**
-     * Set the push deployment
-     *
      * @param Deployment $deployment
      */
     public function setDeployment(Deployment $deployment)
@@ -280,8 +203,6 @@ class Push implements JsonSerializable
     }
 
     /**
-     * Get the push deployment
-     *
      * @return Deployment
      */
     public function getDeployment()
@@ -290,8 +211,6 @@ class Push implements JsonSerializable
     }
 
     /**
-     * Set the push repository
-     *
      * @param Repository $repository
      */
     public function setRepository(Repository $repository)
@@ -300,8 +219,6 @@ class Push implements JsonSerializable
     }
 
     /**
-     * Get the push repository
-     *
      * @return Repository
      */
     public function getRepository()
@@ -310,8 +227,6 @@ class Push implements JsonSerializable
     }
 
     /**
-     * Set the event logs
-     *
      * @param ArrayCollection $logs
      */
     public function setLogs($logs)
@@ -320,8 +235,6 @@ class Push implements JsonSerializable
     }
 
     /**
-     * Get the event logs
-     *
      * @return ArrayCollection
      */
     public function getLogs()
@@ -344,7 +257,6 @@ class Push implements JsonSerializable
             'status' => $this->getStatus(),
 
             'user' => $this->getUser() ? $this->getUser()->getId() : null,
-            'consumer' => $this->getConsumer() ? $this->getConsumer()->getId() : null,
             'build' => $this->getBuild() ? $this->getBuild()->getId() : null,
             'deployment' => $this->getDeployment() ? $this->getDeployment()->getId() : null,
             'repository' => $this->getRepository() ? $this->getRepository()->getId() : null,

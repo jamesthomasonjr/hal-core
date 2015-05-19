@@ -38,13 +38,6 @@ QL\Hal\Core\Entity\Push:
                 name: UserId
                 referencedColumnName: UserId
                 nullable: true
-        consumer:
-            cache: {usage : READ_ONLY}
-            targetEntity: Consumer
-            joinColumn:
-                name: ConsumerId
-                referencedColumnName: ConsumerId
-                nullable: true
         build:
             cache: {usage : READ_ONLY}
             targetEntity: Build

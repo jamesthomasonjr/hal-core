@@ -14,14 +14,12 @@ use JsonSerializable;
 class Deployment implements JsonSerializable
 {
     /**
-     * The deployment id
-     *
-     * @var int
+     * @type int
      */
     protected $id;
 
     /**
-     * @var HttpUrl|null
+     * @type HttpUrl|null
      */
     protected $url;
 
@@ -30,7 +28,7 @@ class Deployment implements JsonSerializable
      *
      * The path
      *
-     * @var string
+     * @type string
      */
     protected $path;
 
@@ -39,7 +37,7 @@ class Deployment implements JsonSerializable
      *
      * The EB environment ID
      *
-     * @var string
+     * @type string
      */
     protected $ebEnvironment;
 
@@ -48,25 +46,22 @@ class Deployment implements JsonSerializable
      *
      * The EC2 autoscaling pool. EC2 Instances must be tagged with the pool they belong to. This is how HAL knows where to put code.
      *
-     * @var string
+     * @type string
      */
     protected $ec2Pool;
 
     /**
-     * @var Repository
+     * @type Repository
      */
     protected $repository;
 
     /**
      * For RSYNC
      *
-     * @var Server|null
+     * @type Server|null
      */
     protected $server;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->id = null;
@@ -81,8 +76,6 @@ class Deployment implements JsonSerializable
     }
 
     /**
-     * Set the deployment id
-     *
      * @param int $id
      */
     public function setId($id)
@@ -91,8 +84,6 @@ class Deployment implements JsonSerializable
     }
 
     /**
-     * Get the deployment id
-     *
      * @return int
      */
     public function getId()
@@ -101,8 +92,6 @@ class Deployment implements JsonSerializable
     }
 
     /**
-     * Set the rsync path
-     *
      * @param string $path
      */
     public function setPath($path)
@@ -111,8 +100,6 @@ class Deployment implements JsonSerializable
     }
 
     /**
-     * Get the rsync path
-     *
      * @return string
      */
     public function getPath()
@@ -121,8 +108,6 @@ class Deployment implements JsonSerializable
     }
 
     /**
-     * Set the EB environment ID
-     *
      * @param string $ebEnvironment
      */
     public function setEbEnvironment($ebEnvironment)
@@ -131,8 +116,6 @@ class Deployment implements JsonSerializable
     }
 
     /**
-     * Get the EB environment ID
-     *
      * @return string
      */
     public function getEbEnvironment()
@@ -141,8 +124,6 @@ class Deployment implements JsonSerializable
     }
 
     /**
-     * Set the EC2 Pool
-     *
      * @param string $ec2Pool
      */
     public function setEc2Pool($ec2Pool)
@@ -151,8 +132,6 @@ class Deployment implements JsonSerializable
     }
 
     /**
-     * Get the EC2 Pool
-     *
      * @return string
      */
     public function getEc2Pool()
@@ -161,8 +140,6 @@ class Deployment implements JsonSerializable
     }
 
     /**
-     * Set the url
-     *
      * @param HttpUrl $url
      */
     public function setUrl(HttpUrl $url)
@@ -171,8 +148,6 @@ class Deployment implements JsonSerializable
     }
 
     /**
-     * Get the url
-     *
      * @return HttpUrl|null
      */
     public function getUrl()
@@ -181,8 +156,6 @@ class Deployment implements JsonSerializable
     }
 
     /**
-     * Set the repository
-     *
      * @param Repository $repository
      */
     public function setRepository(Repository $repository)
@@ -191,8 +164,6 @@ class Deployment implements JsonSerializable
     }
 
     /**
-     * Get the repository
-     *
      * @return Repository
      */
     public function getRepository()
@@ -201,8 +172,6 @@ class Deployment implements JsonSerializable
     }
 
     /**
-     * Set the server
-     *
      * @param Server $server
      */
     public function setServer(Server $server)
@@ -211,8 +180,6 @@ class Deployment implements JsonSerializable
     }
 
     /**
-     * Get the server
-     *
      * @return Server
      */
     public function getServer()
