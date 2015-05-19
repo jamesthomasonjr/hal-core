@@ -13,6 +13,7 @@ use QL\Hal\Core\Entity\Build;
 use QL\Hal\Core\Entity\EncryptedProperty;
 use QL\Hal\Core\Entity\EventLog;
 use QL\Hal\Core\Entity\Push;
+use QL\Hal\Core\Entity\Token;
 
 /**
  * A doctrine event listener for:
@@ -75,7 +76,11 @@ class DoctrinePersistListener
         }
 
         // Add unique generated id
-        if ($entity instanceof EventLog || $entity instanceof EncryptedProperty) {
+        if (
+            $entity instanceof EventLog ||
+            $entity instanceof EncryptedProperty ||
+            $entity instanceof Token
+        ) {
             if (!$entity->getId()) {
                 $id = call_user_func($this->random);
                 $entity->setId($id);

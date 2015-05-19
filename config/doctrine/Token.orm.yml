@@ -1,6 +1,5 @@
 QL\Hal\Core\Entity\Token:
     type: entity
-    repositoryClass: QL\Hal\Core\Repository\TokenRepository
     table: Tokens
 
     cache: {usage : NONSTRICT_READ_WRITE}
@@ -8,9 +7,8 @@ QL\Hal\Core\Entity\Token:
     id:
         id:
             column: TokenId
-            type: integer
-            generator:
-                strategy: AUTO
+            type: string
+            length: 40
 
     fields:
 
@@ -28,14 +26,6 @@ QL\Hal\Core\Entity\Token:
         user:
             cache: {usage : READ_ONLY}
             targetEntity: User
-            inversedBy: tokens
-            joinColumn:
-                name: ConsumerId
-                referencedColumnName: ConsumerId
-                nullable: true
-        consumer:
-            cache: {usage : READ_ONLY}
-            targetEntity: Consumer
             inversedBy: tokens
             joinColumn:
                 name: ConsumerId

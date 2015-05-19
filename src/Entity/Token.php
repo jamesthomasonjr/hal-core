@@ -12,55 +12,39 @@ use JsonSerializable;
 class Token implements JsonSerializable
 {
     /**
-     * The token id
-     *
-     * @var int
+     * @type string
      */
     protected $id;
 
     /**
-     * The token value
-     *
-     * @var string
+     * @type string
      */
     protected $value;
 
     /**
-     * The token label
-     *
-     * @var string
+     * @type string
      */
     protected $label;
 
     /**
-     * The token user owner (if a user)
-     *
-     * @var User|null
+     * @type User
      */
     protected $user;
-
-    /**
-     * The token consumer owner (if a consumer)
-     *
-     * @var Consumer|null
-     */
-    protected $consumer;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->id = null;
+        $this->id = '';
         $this->value = '';
         $this->label = '';
 
         $this->user = null;
-        $this->consumer = null;
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getId()
     {
@@ -68,7 +52,7 @@ class Token implements JsonSerializable
     }
 
     /**
-     * @param int $id
+     * @param string $id
      */
     public function setId($id)
     {
@@ -124,22 +108,6 @@ class Token implements JsonSerializable
     }
 
     /**
-     * @return Consumer
-     */
-    public function getConsumer()
-    {
-        return $this->consumer;
-    }
-
-    /**
-     * @param Consumer $consumer
-     */
-    public function setConsumer($consumer)
-    {
-        $this->consumer = $consumer;
-    }
-
-    /**
      * @return array
      */
     public function jsonSerialize()
@@ -150,8 +118,7 @@ class Token implements JsonSerializable
             'label' => $this->getLabel(),
             'value' => $this->getValue(),
 
-            'user' => $this->getUser() ? $this->getUser()->getId() : null,
-            'consumer' => $this->getConsumer() ? $this->getConsumer()->getId() : null,
+            'user' => $this->getUser()->getId(),
         ];
 
         return $json;
