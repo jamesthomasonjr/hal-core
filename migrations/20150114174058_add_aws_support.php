@@ -1,7 +1,7 @@
 <?php
 
 use Phinx\Migration\AbstractMigration;
-use QL\Hal\Core\Entity\Type\ServerEnumType;
+use QL\Hal\Core\Type\ServerEnumType;
 
 class AddAwsSupport extends AbstractMigration
 {
