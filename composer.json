@@ -19,7 +19,8 @@
     },
     "autoload": {
         "psr-4": {
-            "QL\\Hal\\Core\\": "src/"
+            "QL\\Hal\\Core\\": "src/",
+            "QL\\Kraken\\Core\\": "src-kraken/"
         }
     },
     "repositories": [

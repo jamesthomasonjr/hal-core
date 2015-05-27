@@ -5,7 +5,7 @@
  *    is strictly prohibited.
  */
 
-namespace QL\Hal\Core;
+namespace QL\Hal\Core\Utility;
 
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,25 +21,40 @@ use QL\Hal\Core\Type\EnumType\ServerEnum;
 class DoctrineConfigurator
 {
     /**
+     * @type array
+     */
+    private $mapping;
+
+    /**
+     * @param array mapping
+     */
+    public function __construct(array $mapping = [])
+    {
+        $this->mapping = $mapping;
+    }
+
+    /**
+     * @param array $mapping
+     *
+     * @return void
+     */
+    public function addEntityMappings(array $mapping)
+    {
+        foreach ($mapping as $type => $fq) {
+            $this->mapping[$type] = $fq;
+        }
+    }
+
+    /**
      * @param EntityManagerInterface $em
+     *
+     * @return void
      */
     public function configure(EntityManagerInterface $em)
     {
-        $mapping = [
-            CompressedSerializedBlobType::TYPE  => CompressedSerializedBlobType::CLASS,
-            HttpUrlType::TYPE                   => HttpUrlType::CLASS,
-            TimePointType::TYPE                 => TimePointType::CLASS,
-
-            ServerEnum::TYPE                => ServerEnum::CLASS,
-            BuildStatusEnum::TYPE           => BuildStatusEnum::CLASS,
-            PushStatusEnum::TYPE            => PushStatusEnum::CLASS,
-            EventEnum::TYPE                 => EventEnum::CLASS,
-            EventStatusEnum::TYPE           => EventStatusEnum::CLASS,
-        ];
-
         $platform = $em->getConnection()->getDatabasePlatform();
 
-        foreach ($mapping as $type => $fullyQualified) {
+        foreach ($this->mapping as $type => $fullyQualified) {
             Type::addType($type, $fullyQualified);
 
             // Register with platform

@@ -1,4 +1,4 @@
-QL\Hal\Core\Entity\Permissions\UserType:
+QL\Hal\Core\Entity\UserType:
     type: entity
     table: UserTypes
 

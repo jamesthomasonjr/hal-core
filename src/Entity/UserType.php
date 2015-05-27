@@ -5,11 +5,9 @@
  *    is strictly prohibited.
  */
 
-namespace QL\Hal\Core\Entity\Permissions;
+namespace QL\Hal\Core\Entity;
 
 use JsonSerializable;
-use QL\Hal\Core\Entity\Repository;
-use QL\Hal\Core\Entity\User;
 
 class UserType implements JsonSerializable
 {

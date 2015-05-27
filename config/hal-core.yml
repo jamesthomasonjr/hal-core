@@ -18,20 +18,23 @@ services:
     # DOCTRINE PATHS
     ####################################################################################################################
 
-    doctrine.mapping.dir:
+    doctrine.mapping.dir.hal:
         class: 'stdClass'
-        factory: ['QL\Hal\Core\DoctrineFactory', 'yamlPath']
+        factory: ['QL\Hal\Core\Utility\DoctrineFactory', 'halYaml']
+
+    doctrine.mapping.dir.kraken:
+        class: 'stdClass'
+        factory: ['QL\Hal\Core\Utility\DoctrineFactory', 'krakenYaml']
 
     doctrine.proxy.dir:
         class: 'stdClass'
-        factory: ['QL\Hal\Core\DoctrineFactory', 'doctrineProxyPath']
+        factory: ['QL\Hal\Core\Utility\DoctrineFactory', 'proxyPath']
         arguments: [%doctrine.proxy.dir%]
 
     ####################################################################################################################
-    # DOCTRINE CORE
+    # DOCTRINE EM
     ####################################################################################################################
 
-    # Doctrine Entity Manager
     doctrine.em:
         class: 'Doctrine\ORM\EntityManager'
         factory: ['Doctrine\ORM\EntityManager', 'create']
@@ -41,13 +44,26 @@ services:
             - @doctrine.em.events
         configurator: [@doctrine.em.configurator, 'configure']
 
+    doctrine.em.configurator:
+        class: 'QL\Hal\Core\Utility\DoctrineConfigurator'
+        calls:
+            - ['addEntityMappings', [@doctrine.types.hal]]
+            - ['addEntityMappings', [@doctrine.types.kraken]]
+
+    doctrine.em.events:
+        class: 'Doctrine\Common\EventManager'
+
+    ####################################################################################################################
+    # DOCTRINE CONFIG
+    ####################################################################################################################
+
     doctrine.config:
         class: 'Doctrine\ORM\Configuration'
         factory: ['Doctrine\ORM\Tools\Setup', 'createConfiguration']
         arguments:
             - %doctrine.devmode%
             - @doctrine.proxy.dir
-            - @cache.doctrine
+            - @doctrine.cache
         calls:
             - ['setMetadataDriverImpl', [@doctrine.config.driver]]
             - ['setSecondLevelCacheEnabled', [true]]
@@ -55,13 +71,28 @@ services:
 
     doctrine.config.driver:
         class: 'Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver'
-        factory: ['QL\Hal\Core\DoctrineFactory', 'buildConfigurationDriver']
-        arguments: [@doctrine.mapping.dir]
+        arguments: [@doctrine.mapping.dirs]
+        calls:
+            - ['setGlobalBasename', ['global']]
 
-    doctrine.em.configurator:
-        class: 'QL\Hal\Core\DoctrineConfigurator'
-    doctrine.em.events:
-        class: 'Doctrine\Common\EventManager'
+    doctrine.mapping.dirs:
+        class: 'stdClass'
+        factory: ['QL\Hal\Core\Utility\DoctrineFactory', 'buildConfigurationMapping']
+        arguments:
+            - [@doctrine.mapping.dir.hal, 'QL\Hal\Core\Entity']
+            - [@doctrine.mapping.dir.kraken, 'QL\Kraken\Core\Entity']
+
+    ####################################################################################################################
+    # TYPES
+    ####################################################################################################################
+
+    doctrine.types.hal:
+        class: 'stdClass'
+        factory: ['QL\Hal\Core\Utility\DoctrineCustomTypes', 'getMapping']
+
+    doctrine.types.kraken:
+        class: 'stdClass'
+        factory: ['QL\Kraken\Core\Utility\DoctrineCustomTypes', 'getMapping']
 
     ####################################################################################################################
     # DOCTRINE CACHE
@@ -78,7 +109,7 @@ services:
 
     doctrine.secondlevelcache.factory:
         class: 'Doctrine\ORM\Cache\DefaultCacheFactory'
-        arguments: [@doctrine.secondlevelcache.region.config, @cache.doctrine]
+        arguments: [@doctrine.secondlevelcache.region.config, @doctrine.cache]
 
     doctrine.secondlevelcache.region.config:
         class: 'Doctrine\ORM\Cache\RegionsConfiguration'

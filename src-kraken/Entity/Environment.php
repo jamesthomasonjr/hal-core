@@ -5,39 +5,33 @@
  *    is strictly prohibited.
  */
 
-namespace QL\Hal\Core\Entity\Permissions;
+namespace QL\Kraken\Core\Entity;
 
 use JsonSerializable;
 
-class UserPermission implements JsonSerializable
+class Environment implements JsonSerializable
 {
     /**
      * @type string
      */
     protected $id;
+    protected $name;
+    protected $consulServer;
+    protected $consulToken;
 
     /**
-     * @type bool
+     * @type string
      */
     protected $isProduction;
-
-    /**
-     * @type User
-     */
-    protected $user;
-
-    /**
-     * @type Repository
-     */
-    protected $application;
 
     public function __construct()
     {
         $this->id = '';
-        $this->isProduction = false;
+        $this->name = '';
+        $this->consulServer = '';
+        $this->consulToken = '';
 
-        $this->user = null;
-        $this->application = null;
+        $this->isProduction = false;
     }
 
     /**
@@ -49,6 +43,14 @@ class UserPermission implements JsonSerializable
     }
 
     /**
+     * @return string
+     */
+    public function name()
+    {
+        return $this->name;
+    }
+
+    /**
      * @return bool
      */
     public function isProduction()
@@ -57,19 +59,19 @@ class UserPermission implements JsonSerializable
     }
 
     /**
-     * @return User
+     * @return string
      */
-    public function user()
+    public function consulServer()
     {
-        return $this->user;
+        return $this->consulServer;
     }
 
     /**
-     * @return Repository
+     * @return string
      */
-    public function application()
+    public function consulToken()
     {
-        return $this->application;
+        return $this->consulToken;
     }
 
     /**
@@ -80,6 +82,17 @@ class UserPermission implements JsonSerializable
     public function withId($id)
     {
         $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return self
+     */
+    public function withName($name)
+    {
+        $this->name = $name;
         return $this;
     }
 
@@ -95,24 +108,24 @@ class UserPermission implements JsonSerializable
     }
 
     /**
-     * @param User $user
+     * @param string $server
      *
      * @return self
      */
-    public function withUser(User $user)
+    public function withConsulServer($server)
     {
-        $this->user = $user;
+        $this->consulServer = $server;
         return $this;
     }
 
     /**
-     * @param Repository $application
+     * @param string $token
      *
      * @return self
      */
-    public function withApplication(Repository $application)
+    public function withConsulToken($token)
     {
-        $this->application = $application;
+        $this->consulToken = $token;
         return $this;
     }
 
@@ -123,10 +136,11 @@ class UserPermission implements JsonSerializable
     {
         $json = [
             'id' => $this->id(),
+            'name' => $this->name(),
             'isProduction' => $this->isProduction(),
 
-            'user' => $this->user()->getId(),
-            'application' => $this->application()->getId()
+            'consulServer' => $this->consulServer(),
+            'consulToken' => $this->consulToken()
         ];
 
         return $json;
