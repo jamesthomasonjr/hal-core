@@ -15,7 +15,7 @@ class FixTokenId extends AbstractMigration
             ->save();
 
         $this->table(DatabaseMeta::DB_TOKEN)
-            ->changeColumn('TokenId', 'string', ['limit' => 32])
+            ->changeColumn('TokenId', 'char', ['limit' => 32])
             ->changeColumn('UserId', 'integer', ['null' => false])
             ->save();
 
