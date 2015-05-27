@@ -1,23 +1,20 @@
 <?php
 
 use Phinx\Migration\AbstractMigration;
+use QL\Hal\Core\DatabaseMeta;
 
 class AddEncryptedProperties extends AbstractMigration
 {
-    const TABLE_ENCRYPTED = 'EncryptedProperties';
-    const TABLE_REPOSITORIES = 'Repositories';
-    const TABLE_ENVIRONMENTS = 'Environments';
-
     /**
      * Migrate Up.
      */
     public function up()
     {
-        if ($this->hasTable(self::TABLE_ENCRYPTED)) {
+        if ($this->hasTable(DatabaseMeta::TABLE_ENCRYPTED)) {
             return;
         }
 
-        $table = $this->table(self::TABLE_ENCRYPTED, [
+        $table = $this->table(DatabaseMeta::TABLE_ENCRYPTED, [
             'id' => false,
             'primary_key' => 'EncryptedPropertyId'
         ]);
@@ -36,14 +33,14 @@ class AddEncryptedProperties extends AbstractMigration
 
         // Foreign Keys
         $table
-            ->addForeignKey('RepositoryId', self::TABLE_REPOSITORIES, 'RepositoryId', [
+            ->addForeignKey('RepositoryId', DatabaseMeta::DB_REPO, 'RepositoryId', [
                 'delete' => 'CASCADE',
                 'update'=> 'CASCADE'
             ])
             ->save();
 
         $table
-            ->addForeignKey('EnvironmentId', self::TABLE_ENVIRONMENTS, 'EnvironmentId', [
+            ->addForeignKey('EnvironmentId', DatabaseMeta::DB_ENVIRONMENT, 'EnvironmentId', [
                 'delete' => 'CASCADE',
                 'update'=> 'CASCADE'
             ])
@@ -55,6 +52,6 @@ class AddEncryptedProperties extends AbstractMigration
      */
     public function down()
     {
-        $this->dropTable(self::TABLE_ENCRYPTED);
+        $this->dropTable(DatabaseMeta::TABLE_ENCRYPTED);
     }
 }

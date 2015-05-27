@@ -1,0 +1,35 @@
+QL\Hal\Core\Entity\Permissions\UserType:
+    type: entity
+    table: UserTypes
+
+    cache: {usage : NONSTRICT_READ_WRITE}
+
+    id:
+        id:
+            column: UserTypeId
+            type: string
+            length: 32
+            options: {fixed: true}
+
+    fields:
+
+        type:
+            column: UserType
+            type: usertypeenum
+            options: {default: 'pleb'}
+
+    manyToOne:
+
+        user:
+            cache: {usage : READ_ONLY}
+            targetEntity: User
+            joinColumn:
+                name: UserId
+                referencedColumnName: UserId
+
+        application:
+            cache: {usage : READ_ONLY}
+            targetEntity: Repository
+            joinColumn:
+                name: ApplicationId
+                referencedColumnName: RepositoryId

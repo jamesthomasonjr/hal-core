@@ -1,0 +1,36 @@
+QL\Hal\Core\Entity\Permissions\UserPermission:
+    type: entity
+    table: UserPermissions
+
+    cache: {usage : NONSTRICT_READ_WRITE}
+
+    id:
+        id:
+            column: UserTypeId
+            type: string
+            length: 32
+            options: {fixed: true}
+
+    fields:
+
+        isProduction:
+            column: UserPermissionIsProduction
+            type: boolean
+            options: {default: false}
+
+    manyToOne:
+
+        user:
+            cache: {usage : READ_ONLY}
+            targetEntity: User
+            joinColumn:
+                name: UserId
+                referencedColumnName: UserId
+
+        application:
+            cache: {usage : READ_ONLY}
+            targetEntity: Repository
+            joinColumn:
+                name: ApplicationId
+                referencedColumnName: RepositoryId
+                nullable: true
