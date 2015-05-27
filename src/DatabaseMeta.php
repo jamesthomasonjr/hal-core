@@ -24,5 +24,7 @@ class DatabaseMeta
     const DB_PUSH = 'Pushes';
 
     const DB_USER = 'Users';
+    const DB_USER_TYPE = 'UserTypes';
+    const DB_USER_PERMISSION = 'UserPermissions';
     const DB_TOKEN = 'Tokens';
 }

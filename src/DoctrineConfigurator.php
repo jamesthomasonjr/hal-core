@@ -9,49 +9,40 @@ namespace QL\Hal\Core;
 
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManagerInterface;
-use QL\Hal\Core\Type\BuildStatusEnumType;
 use QL\Hal\Core\Type\CompressedSerializedBlobType;
-use QL\Hal\Core\Type\EventEnumType;
-use QL\Hal\Core\Type\EventStatusEnumType;
 use QL\Hal\Core\Type\HttpUrlType;
-use QL\Hal\Core\Type\PushStatusEnumType;
-use QL\Hal\Core\Type\ServerEnumType;
 use QL\Hal\Core\Type\TimePointType;
+use QL\Hal\Core\Type\EnumType\BuildStatusEnum;
+use QL\Hal\Core\Type\EnumType\EventEnum;
+use QL\Hal\Core\Type\EnumType\EventStatusEnum;
+use QL\Hal\Core\Type\EnumType\PushStatusEnum;
+use QL\Hal\Core\Type\EnumType\ServerEnum;
 
-/**
- * Perform runtime configuration of the Doctrine Entity Manager
- */
 class DoctrineConfigurator
 {
     /**
-     * Run the configuration
-     *
      * @param EntityManagerInterface $em
      */
     public function configure(EntityManagerInterface $em)
     {
-        // @todo switch to php 5.5 so we can use ClassName::class
         $mapping = [
+            CompressedSerializedBlobType::TYPE  => CompressedSerializedBlobType::CLASS,
             HttpUrlType::TYPE                   => HttpUrlType::CLASS,
             TimePointType::TYPE                 => TimePointType::CLASS,
-            ServerEnumType::TYPE                => ServerEnumType::CLASS,
 
-            BuildStatusEnumType::TYPE           => BuildStatusEnumType::CLASS,
-            PushStatusEnumType::TYPE            => PushStatusEnumType::CLASS,
-
-            EventEnumType::TYPE                 => EventEnumType::CLASS,
-            EventStatusEnumType::TYPE           => EventStatusEnumType::CLASS,
-
-            CompressedSerializedBlobType::TYPE  => CompressedSerializedBlobType::CLASS,
+            ServerEnum::TYPE                => ServerEnum::CLASS,
+            BuildStatusEnum::TYPE           => BuildStatusEnum::CLASS,
+            PushStatusEnum::TYPE            => PushStatusEnum::CLASS,
+            EventEnum::TYPE                 => EventEnum::CLASS,
+            EventStatusEnum::TYPE           => EventStatusEnum::CLASS,
         ];
-
-        foreach ($mapping as $type => $fullyQualified) {
-            Type::addType($type, $fullyQualified);
-        }
 
         $platform = $em->getConnection()->getDatabasePlatform();
 
         foreach ($mapping as $type => $fullyQualified) {
+            Type::addType($type, $fullyQualified);
+
+            // Register with platform
             $platform->registerDoctrineTypeMapping(sprintf('db_%s', $type), $type);
         }
     }

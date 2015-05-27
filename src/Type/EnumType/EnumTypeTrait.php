@@ -5,14 +5,11 @@
  *    is strictly prohibited.
  */
 
-namespace QL\Hal\Core\Type;
+namespace QL\Hal\Core\Type\EnumType;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use InvalidArgumentException;
 
-/**
- * Abstract Doctrine Enum Type
- */
 trait EnumTypeTrait
 {
     /**

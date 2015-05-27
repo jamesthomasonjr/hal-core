@@ -5,14 +5,11 @@
  *    is strictly prohibited.
  */
 
-namespace QL\Hal\Core\Type;
+namespace QL\Hal\Core\Type\EnumType;
 
 use Doctrine\DBAL\Types\Type as BaseType;
 
-/**
- * Push Status Enum
- */
-class PushStatusEnumType extends BaseType
+class PushStatusEnum extends BaseType
 {
     use EnumTypeTrait;
 

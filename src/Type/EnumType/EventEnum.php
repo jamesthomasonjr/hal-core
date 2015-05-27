@@ -5,21 +5,18 @@
  *    is strictly prohibited.
  */
 
-namespace QL\Hal\Core\Type;
+namespace QL\Hal\Core\Type\EnumType;
 
 use Doctrine\DBAL\Types\Type as BaseType;
 
-/**
- * Build Status Enum
- */
-class BuildStatusEnumType extends BaseType
+class EventEnum extends BaseType
 {
     use EnumTypeTrait;
 
     /**
      * The enum data type
      */
-    const TYPE = 'buildstatusenum';
+    const TYPE = 'eventenum';
 
     /**
      * The enum allowed values
@@ -29,11 +26,20 @@ class BuildStatusEnumType extends BaseType
     public static function values()
     {
         return [
-            'Waiting',
-            'Building',
-            'Success',
-            'Error',
-            'Removed'
+            'build.created',
+            'build.start',
+            'build.building',
+            'build.end',
+            'build.success',
+            'build.failure',
+
+            'push.created',
+            'push.start',
+            'push.pushing',
+            'push.end',
+            'push.success',
+            'push.failure',
+            'unknown'
         ];
     }
 }
