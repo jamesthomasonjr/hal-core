@@ -15,6 +15,7 @@ use QL\Hal\Core\Type\EnumType\EventEnum;
 use QL\Hal\Core\Type\EnumType\EventStatusEnum;
 use QL\Hal\Core\Type\EnumType\PushStatusEnum;
 use QL\Hal\Core\Type\EnumType\ServerEnum;
+use QL\Hal\Core\Type\EnumType\UserTypeEnum;
 
 class DoctrineCustomTypes
 {
@@ -33,6 +34,8 @@ class DoctrineCustomTypes
             PushStatusEnum::TYPE => PushStatusEnum::CLASS,
             EventEnum::TYPE => EventEnum::CLASS,
             EventStatusEnum::TYPE => EventStatusEnum::CLASS,
+
+            UserTypeEnum::TYPE => UserTypeEnum::CLASS,
         ];
     }
 }
