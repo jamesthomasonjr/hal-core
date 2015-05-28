@@ -19,6 +19,7 @@ QL\Hal\Core\Entity\Environment:
             type: string
             length: 24
             unique: true
-        order:
-            column: EnvironmentOrder
-            type: integer
+        isProduction:
+            column: EnvironmentIsProduction
+            type: boolean
+            options: {default: false}

@@ -22,15 +22,15 @@ class Environment implements JsonSerializable
     protected $key;
 
     /**
-     * @type integer
+     * @type bool
      */
-    protected $order;
+    protected $isProduction;
 
     public function __construct()
     {
         $this->id = null;
         $this->key = '';
-        $this->order = null;
+        $this->isProduction = false;
     }
 
     /**
@@ -66,19 +66,19 @@ class Environment implements JsonSerializable
     }
 
     /**
-     * @param int $order
+     * @param bool $isProduction
      */
-    public function setOrder($order)
+    public function setIsProduction($isProduction)
     {
-        $this->order = $order;
+        $this->isProduction = (bool) $isProduction;
     }
 
     /**
-     * @return int
+     * @return bool
      */
-    public function getOrder()
+    public function getIsProduction()
     {
-        return $this->order;
+        return $this->isProduction;
     }
 
     /**
@@ -90,7 +90,7 @@ class Environment implements JsonSerializable
             'id' => $this->getId(),
 
             'identifier' => $this->getKey(),
-            'order' => $this->getOrder(),
+            'isProduction' => $this->getIsProduction(),
         ];
 
         return $json;
