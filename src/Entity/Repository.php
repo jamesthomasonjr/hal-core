@@ -355,8 +355,8 @@ class Repository implements JsonSerializable
 
             'identifier' => $this->getKey(),
             'name' => $this->getName(),
-            'githubUser' => $this->getGithubRepo(),
-            'githubRepo' => $this->getGithubUser(),
+            'githubRepo' => $this->getGithubRepo(),
+            'githubUser' => $this->getGithubUser(),
             'email' => $this->getEmail(),
             'ebName' => $this->getEbName(),
 
