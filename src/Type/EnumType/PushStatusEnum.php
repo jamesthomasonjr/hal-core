@@ -16,7 +16,7 @@ class PushStatusEnum extends BaseType
     /**
      * The enum data type
      */
-    const TYPE = "pushstatusenum";
+    const TYPE = 'pushstatusenum';
 
     /**
      * The enum allowed values

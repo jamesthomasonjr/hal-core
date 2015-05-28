@@ -59,9 +59,7 @@ trait EnumTypeTrait
      */
     public function getSqlDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
-        $values = $this->valuesAsString();
-
-        return "ENUM(".$values.") COMMENT '(DC2Type:".static::TYPE.")'";
+        return sprintf("ENUM(%s) COMMENT '(DC2Type:%s)'", $this->valuesAsString(), $this->getName());
     }
 
     /**
@@ -83,7 +81,7 @@ trait EnumTypeTrait
     {
         $values =  array_map(function ($val) {
             return "'$val'";
-        }, $this->values);
+        }, static::values());
 
         return implode(', ', $values);
     }
