@@ -15,7 +15,7 @@ class AuditLogRepository extends EntityRepository
     const DQL_GET_PAGED = <<<SQL
   SELECT l
     FROM QL\Hal\Core\Entity\AuditLog l
-ORDER BY l.recorded DESC
+ORDER BY l.created DESC
 SQL;
 
     /**
