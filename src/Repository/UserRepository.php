@@ -7,11 +7,23 @@
 
 namespace QL\Hal\Core\Repository;
 
+use DateTime;
+use DateTimeZone;
 use Doctrine\ORM\EntityRepository;
+use MCP\DataType\Time\TimePoint;
 use QL\Hal\Core\Entity\User;
 
 class UserRepository extends EntityRepository
 {
+    const DQL_RECENT_APPLICATIONS = <<<SQL
+   SELECT a
+     FROM QL\Hal\Core\Entity\Build b
+     JOIN QL\Hal\Core\Entity\Repository a WITH a = b.repository
+    WHERE
+        b.user = :user
+        AND b.created > :oldestbuild
+SQL;
+
     const DQL_BUILD_COUNT = <<<SQL
    SELECT count(b)
      FROM QL\Hal\Core\Entity\Build b
@@ -25,6 +37,35 @@ SQL;
     WHERE
         p.user = :user
 SQL;
+
+    /**
+     * Get recent applications the user has built or pushed for
+     *
+     * @param User $user
+     * @param Timepoint|null $oldest
+     *
+     * @return int
+     */
+    public function getUsersRecentApplications(User $user, Timepoint $oldest = null)
+    {
+        $dql = self::DQL_BUILD_COUNT;
+
+        if ($oldest) {
+            $oldest = $oldest->format('Y-m-d H:i:s', 'UTC');
+        } else {
+            $oldeset = (new DateTime)
+                ->modify('-2 months')
+                ->setTimeZone(new DateTimeZone('UTC'))
+                ->format('Y-m-d H:i:s');
+        }
+
+        $query = $this->getEntityManager()
+            ->createQuery(self::DQL_RECENT_APPLICATIONS)
+            ->setParameter('user', $user)
+            ->setParameter('oldestbuild', $oldest);
+
+        return $query->getResult();
+    }
 
     /**
      * Get all number of builds for User
