@@ -6,7 +6,7 @@ QL\Hal\Core\Entity\UserPermission:
 
     id:
         id:
-            column: UserTypeId
+            column: UserPermissionId
             type: string
             length: 32
             options: {fixed: true}
