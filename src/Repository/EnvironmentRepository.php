@@ -24,7 +24,6 @@ class EnvironmentRepository extends EntityRepository
      JOIN QL\Hal\Core\Entity\Environment e WITH e = s.environment
 
     WHERE d.repository = :repo
- ORDER BY e.order ASC
 SQL;
 
     /**
