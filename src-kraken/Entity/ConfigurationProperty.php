@@ -276,9 +276,9 @@ class ConfigurationProperty implements JsonSerializable
 
             'created' => $this->created() ? $this->created()->format(DateTime::RFC3339, 'UTC') : null,
 
-            'configuration' => $this->configuration(),
-            'property' => $this->property(),
-            'schema' => $this->schema()
+            'configuration' => $this->configuration() ? $this->configuration()->id() : null,
+            'property' => $this->property() ? $this->property()->id() : null,
+            'schema' => $this->schema() ? $this->schema()->id() : null
         ];
 
         return $json;

@@ -202,9 +202,9 @@ class Configuration implements JsonSerializable
             'audit' => $this->audit(),
             'created' => $this->created() ? $this->created()->format(DateTime::RFC3339, 'UTC') : null,
 
-            'application' => $this->application(),
-            'environment' => $this->environment(),
-            'user' => $this->user()
+            'application' => $this->application() ? $this->application()->id() : null,
+            'environment' => $this->environment() ? $this->environment()->id() : null,
+            'user' => $this->user() ? $this->user()->getId() : null
         ];
 
         return $json;

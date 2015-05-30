@@ -198,13 +198,13 @@ class Property implements JsonSerializable
         $json = [
             'id' => $this->id(),
             'value' => $this->value(),
-            'schema' => $this->schema(),
+            'schema' => $this->schema() ? $this->schema()->id() : null,
 
             'created' => $this->created() ? $this->created()->format(DateTime::RFC3339, 'UTC') : null,
 
-            'application' => $this->application(),
-            'environment' => $this->environment(),
-            'user' => $this->user()
+            'application' => $this->application() ? $this->application()->id() : null,
+            'environment' => $this->environment() ? $this->environment()->id() : null,
+            'user' => $this->user() ? $this->user()->getId() : null,
         ];
 
         return $json;
