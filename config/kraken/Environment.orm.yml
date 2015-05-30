@@ -24,7 +24,7 @@ QL\Kraken\Core\Entity\Environment:
         consulToken:
             column: EnvironmentConsulToken
             type: string
-            length: 200
+            length: 100
         isProduction:
             column: EnvironmentIsProduction
             type: boolean
