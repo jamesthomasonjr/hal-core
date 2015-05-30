@@ -9,6 +9,7 @@ parameters:
         password: ''
         dbname: 'hal'
 
+    doctrine.lvl2cache.enabled: true
     doctrine.lvl2cache.ttl: 600
     doctrine.lvl2cache.lock: 60
 
@@ -66,7 +67,7 @@ services:
             - @doctrine.cache
         calls:
             - ['setMetadataDriverImpl', [@doctrine.config.driver]]
-            - ['setSecondLevelCacheEnabled', [true]]
+            - ['setSecondLevelCacheEnabled', [%doctrine.lvl2cache.enabled%]]
             - ['setSecondLevelCacheConfiguration', [@doctrine.secondlevelcache.config]]
 
     doctrine.config.driver:

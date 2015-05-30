@@ -5,7 +5,7 @@
  *    is strictly prohibited.
  */
 
-namespace QL\Hal\Core;
+namespace QL\Hal\Core\Listener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use MCP\DataType\Time\Clock;
