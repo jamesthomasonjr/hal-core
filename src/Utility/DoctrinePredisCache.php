@@ -7,9 +7,10 @@
 
 namespace QL\Hal\Core\Utility;
 
-use Predis\Client as Predis;
 use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Cache\CacheProvider;
+use Predis\Client as Predis;
+use Predis\Collection\Iterator\Keyspace;
 
 class DoctrinePredisCache extends CacheProvider
 {
@@ -89,9 +90,14 @@ class DoctrinePredisCache extends CacheProvider
      */
     protected function doFlush()
     {
-        $key = sprintf(self::KEY, '*');
+        $match = '*' . sprintf(self::KEY, '*');
 
-        if (!$keys = $this->redis->keys($key)) {
+        $keys = [];
+        foreach (new Keyspace($this->redis, $match) as $key) {
+            $keys[] = $key;
+        }
+
+        if (!$keys) {
             return false;
         }
 
