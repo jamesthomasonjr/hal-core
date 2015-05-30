@@ -1,10 +1,12 @@
 QL\Kraken\Core\Entity\Application:
     type: entity
-    table: kraken_application
+    table: KrakenApplication
+
+    cache: {usage : NONSTRICT_READ_WRITE}
 
     id:
         id:
-            column: id
+            column: ApplicationID
             type: string
             length: 32
             options: {fixed: true}
@@ -12,18 +14,20 @@ QL\Kraken\Core\Entity\Application:
     fields:
 
         coreId:
-            column: core_id
+            column: ApplicationCoreID
             type: string
-            length: 64
+            length: 32
         name:
-            column: name
+            column: ApplicationName
             type: string
             length: 64
 
     manyToOne:
 
         halApplication:
+            cache: {usage : READ_ONLY}
             targetEntity: QL\Hal\Core\Entity\Repository
             joinColumn:
-                name: hal_id
+                name: HalApplicationID
                 referencedColumnName: RepositoryId
+                nullable: true

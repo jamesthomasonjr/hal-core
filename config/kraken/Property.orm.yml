@@ -1,10 +1,12 @@
 QL\Kraken\Core\Entity\Property:
     type: entity
-    table: kraken_property
+    table: KrakenProperty
+
+    cache: {usage : NONSTRICT_READ_WRITE}
 
     id:
         id:
-            column: id
+            column: PropertyID
             type: string
             length: 32
             options: {fixed: true}
@@ -12,34 +14,40 @@ QL\Kraken\Core\Entity\Property:
     fields:
 
         value:
-            column: value
+            column: PropertyValue
             type: text
             length: 65535
         created:
-            column: created_time
+            column: PropertyCreated
             type: timepoint
             nullable: true
 
     manyToOne:
 
         schema:
+            cache: {usage : READ_ONLY}
             targetEntity: Schema
             joinColumn:
-                name: schema_id
-                referencedColumnName: id
-        environment:
-            targetEntity: Environment
-            joinColumn:
-                name: environment_id
-                referencedColumnName: id
+                name: SchemaID
+                referencedColumnName: SchemaID
+
         application:
+            cache: {usage : READ_ONLY}
             targetEntity: Application
             joinColumn:
-                name: application_id
-                referencedColumnName: id
+                name: ApplicationID
+                referencedColumnName: ApplicationID
+
+        environment:
+            cache: {usage : READ_ONLY}
+            targetEntity: Environment
+            joinColumn:
+                name: EnvironmentID
+                referencedColumnName: EnvironmentID
+
         user:
             cache: {usage : READ_ONLY}
-            targetEntity: QL\Hal\Core\Entity\User
+            targetEntity: User
             joinColumn:
-                name: user_id
+                name: UserID
                 referencedColumnName: UserId

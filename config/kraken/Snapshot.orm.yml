@@ -1,0 +1,61 @@
+QL\Kraken\Core\Entity\Snapshot:
+    type: entity
+    table: KrakenSnapshot
+
+    cache: {usage : READ_ONLY}
+
+    id:
+        id:
+            column: SnapshotID
+            type: string
+            length: 32
+            options: {fixed: true}
+
+    fields:
+
+        key:
+            column: SnapshotKey
+            type: string
+            length: 150
+        dataType:
+            column: SnapshotDataType
+            type: propertyenum
+        isSecure:
+            column: SnapshotIsSecure
+            type: boolean
+        value:
+            column: SnapshotValue
+            type: text
+            length: 65535
+        checksum:
+            column: SnapshotChecksum
+            type: string
+            length: 40
+        created:
+            column: SnapshotCreated
+            type: timepoint
+            nullable: true
+
+    manyToOne:
+
+        configuration:
+            cache: {usage : READ_ONLY}
+            targetEntity: Configuration
+            joinColumn:
+                name: ConfigurationID
+                referencedColumnName: ConfigurationID
+
+        property:
+            cache: {usage : READ_ONLY}
+            targetEntity: Property
+            joinColumn:
+                name: PropertyID
+                referencedColumnName: PropertyID
+                nullable: true
+        schema:
+            cache: {usage : READ_ONLY}
+            targetEntity: Schema
+            joinColumn:
+                name: SchemaID
+                referencedColumnName: SchemaID
+                nullable: true

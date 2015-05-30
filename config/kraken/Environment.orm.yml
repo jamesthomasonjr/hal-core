@@ -1,10 +1,12 @@
 QL\Kraken\Core\Entity\Environment:
     type: entity
-    table: kraken_environment
+    table: KrakenEnvironment
+
+    cache: {usage : NONSTRICT_READ_WRITE}
 
     id:
         id:
-            column: id
+            column: EnvironmentID
             type: string
             length: 32
             options: {fixed: true}
@@ -12,17 +14,17 @@ QL\Kraken\Core\Entity\Environment:
     fields:
 
         name:
-            column: name
+            column: EnvironmentName
             type: string
             length: 40
         consulServer:
-            column: consul_server
+            column: EnvironmentConsulServer
             type: string
             length: 200
         consulToken:
-            column: consul_token
+            column: EnvironmentConsulToken
             type: string
             length: 200
         isProduction:
-            column: production
+            column: EnvironmentIsProduction
             type: boolean

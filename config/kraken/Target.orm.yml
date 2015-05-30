@@ -1,10 +1,12 @@
 QL\Kraken\Core\Entity\Target:
     type: entity
-    table: kraken_target
+    table: KrakenTarget
+
+    cache: {usage : NONSTRICT_READ_WRITE}
 
     id:
         id:
-            column: id
+            column: TargetID
             type: string
             length: 32
             options: {fixed: true}
@@ -12,24 +14,28 @@ QL\Kraken\Core\Entity\Target:
     fields:
 
         key:
-            column: encryption_key
+            column: TargetEncryptionKey
             type: string
-            length: 200
+            length: 100
 
     manyToOne:
 
-        environment:
-            targetEntity: Environment
-            joinColumn:
-                name: environment_id
-                referencedColumnName: id
         application:
+            cache: {usage : READ_ONLY}
             targetEntity: Application
             joinColumn:
-                name: application_id
-                referencedColumnName: id
+                name: ApplicationID
+                referencedColumnName: ApplicationID
+
+        environment:
+            cache: {usage : READ_ONLY}
+            targetEntity: Environment
+            joinColumn:
+                name: EnvironmentID
+                referencedColumnName: EnvironmentID
+
         configuration:
             targetEntity: Configuration
             joinColumn:
-                name: configuration_id
-                referencedColumnName: id
+                name: ConfigurationID
+                referencedColumnName: ConfigurationID

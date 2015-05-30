@@ -18,7 +18,7 @@ use QL\Hal\Core\Entity\User;
  * This allows us to verify what is currently deployed (with checksums), or
  * redeploy/rollback an previous configuration. Even if the schema was changed.
  */
-class ConfigurationProperty implements JsonSerializable
+class Snapshot implements JsonSerializable
 {
     /**
      * @type string

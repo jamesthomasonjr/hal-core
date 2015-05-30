@@ -1,10 +1,12 @@
 QL\Kraken\Core\Entity\Configuration:
     type: entity
-    table: kraken_configuration
+    table: KrakenConfiguration
+
+    cache: {usage : READ_ONLY}
 
     id:
         id:
-            column: id
+            column: ConfigurationID
             type: string
             length: 32
             options: {fixed: true}
@@ -12,34 +14,36 @@ QL\Kraken\Core\Entity\Configuration:
     fields:
 
         isSuccess:
-            column: success
+            column: ConfigurationStatus
             type: boolean
         audit:
-            column: audit
+            column: ConfigurationAudit
             type: text
             length: 65535
         created:
-            column: created_time
+            column: ConfigurationCreated
             type: timepoint
             nullable: true
 
     manyToOne:
 
-        environment:
-            targetEntity: Environment
-            joinColumn:
-                name: environment_id
-                referencedColumnName: id
-
         application:
+            cache: {usage : READ_ONLY}
             targetEntity: Application
             joinColumn:
-                name: application_id
-                referencedColumnName: id
+                name: ApplicationID
+                referencedColumnName: ApplicationID
+
+        environment:
+            cache: {usage : READ_ONLY}
+            targetEntity: Environment
+            joinColumn:
+                name: EnvironmentID
+                referencedColumnName: EnvironmentID
 
         user:
             cache: {usage : READ_ONLY}
-            targetEntity: QL\Hal\Core\Entity\User
+            targetEntity: User
             joinColumn:
-                name: user_id
+                name: UserID
                 referencedColumnName: UserId

@@ -30,9 +30,6 @@ class InitialAddIndexesAndForeignKeys extends AbstractMigration
 
         // add foreign keys
         $this->addForeignKeys();
-
-        // $this->addSubscriptionIndexes();
-        // $this->addSubscriptionForeignKeys();
     }
 
     /**
@@ -207,44 +204,6 @@ class InitialAddIndexesAndForeignKeys extends AbstractMigration
                 'update'=> 'CASCADE'
             ])
             ->addForeignKey('PushId', self::TABLE_PUSHES, 'PushId', [
-                'delete' => 'CASCADE',
-                'update'=> 'CASCADE'
-            ])
-            ->save();
-    }
-
-    private function addSubscriptionIndexes()
-    {
-        $this->table(self::TABLE_SUBSCRIPTIONS)
-            ->addIndex(['ConsumerId'])
-            ->addIndex(['RepositoryId'])
-            ->addIndex(['EnvironmentId'])
-            ->addIndex(['ServerId'])
-            ->addIndex(['GroupId'])
-            ->save();
-    }
-
-    private function addSubscriptionForeignKeys()
-    {
-        // Subscriptions
-        $this->table(self::TABLE_SUBSCRIPTIONS)
-            ->addForeignKey('ConsumerId', self::TABLE_CONSUMERS, 'ConsumerId', [
-                'delete' => 'CASCADE',
-                'update'=> 'CASCADE'
-            ])
-            ->addForeignKey('RepositoryId', self::TABLE_REPOSITORIES, 'RepositoryId', [
-                'delete' => 'CASCADE',
-                'update'=> 'CASCADE'
-            ])
-            ->addForeignKey('EnvironmentId', self::TABLE_ENVIRONMENTS, 'EnvironmentId', [
-                'delete' => 'CASCADE',
-                'update'=> 'CASCADE'
-            ])
-            ->addForeignKey('ServerId', self::TABLE_SERVERS, 'ServerId', [
-                'delete' => 'CASCADE',
-                'update'=> 'CASCADE'
-            ])
-            ->addForeignKey('GroupId', self::TABLE_GROUPS, 'GroupId', [
                 'delete' => 'CASCADE',
                 'update'=> 'CASCADE'
             ])

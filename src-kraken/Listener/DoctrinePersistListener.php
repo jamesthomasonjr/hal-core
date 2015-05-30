@@ -10,17 +10,17 @@ namespace QL\Kraken\Core\Listener;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use MCP\DataType\Time\Clock;
 use QL\Kraken\Core\Entity\Configuration;
-use QL\Kraken\Core\Entity\ConfigurationProperty;
 use QL\Kraken\Core\Entity\Property;
 use QL\Kraken\Core\Entity\Schema;
+use QL\Kraken\Core\Entity\Snapshot;
 
 /**
  * A doctrine event listener for:
  * - Add a "created" TimePoint to persisted objects when initially created.
  *     - Configuration
- *     - ConfigurationProperty
  *     - Property
  *     - Schema
+ *     - Snapshot
  *
  * It should be attached to the PrePersist event.
  *
@@ -73,9 +73,9 @@ class DoctrinePersistListener
     private function isTimestampable($entity)
     {
         if ($entity instanceof Configuration) return true;
-        if ($entity instanceof ConfigurationProperty) return true;
         if ($entity instanceof Property) return true;
         if ($entity instanceof Schema) return true;
+        if ($entity instanceof Snapshot) return true;
 
         return false;
     }

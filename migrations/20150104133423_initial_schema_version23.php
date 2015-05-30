@@ -46,8 +46,6 @@ class InitialSchemaVersion23 extends AbstractMigration
 
         $this->createAuditLogs();
         $this->createEventLogs();
-
-        // $this->createSubscriptions();
     }
 
     /**
@@ -86,7 +84,6 @@ class InitialSchemaVersion23 extends AbstractMigration
         $this->table(self::TABLE_TOKENS)
             ->drop();
     }
-
 
     private function createUsers()
     {
@@ -260,7 +257,7 @@ class InitialSchemaVersion23 extends AbstractMigration
 
         $table
             ->addColumn('BuildId', 'char', ['limit' => 40])
-            ->addColumn('BuildCreated', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
+            ->addColumn('BuildCreated', 'datetime')
             ->addColumn('BuildStart', 'datetime', ['null' => true])
             ->addColumn('BuildEnd', 'datetime', ['null' => true])
             // ->addColumn('BuildStatus') -- see below
@@ -304,7 +301,7 @@ ADD COLUMN
 
         $table
             ->addColumn('PushId', 'char', ['limit' => 40])
-            ->addColumn('PushCreated', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
+            ->addColumn('PushCreated', 'datetime')
             ->addColumn('PushStart', 'datetime', ['null' => true])
             ->addColumn('PushEnd', 'datetime', ['null' => true])
             // ->addColumn('PushStatus') -- see below
@@ -333,29 +330,6 @@ ADD COLUMN
 ");
     }
 
-    private function createSubscriptions()
-    {
-        if ($this->hasTable(self::TABLE_SUBSCRIPTIONS)) {
-            return;
-        }
-
-        $table = $this->table(self::TABLE_SUBSCRIPTIONS, [
-            'id' => 'SubscriptionId'
-        ]);
-
-        $table
-            ->addColumn('SubscriptionUrl', 'string', ['limit' => 255])
-            ->addColumn('SubscriptionEvent', 'string', ['limit' => 24])
-
-            ->addColumn('ConsumerId', 'integer')
-            ->addColumn('RepositoryId', 'integer', ['null' => true])
-            ->addColumn('EnvironmentId', 'integer', ['null' => true])
-            ->addColumn('ServerId', 'integer', ['null' => true])
-            ->addColumn('GroupId', 'integer', ['null' => true])
-
-            ->save();
-    }
-
     private function createAuditLogs()
     {
         if ($this->hasTable(self::TABLE_AUDITS)) {
@@ -367,7 +341,7 @@ ADD COLUMN
         ]);
 
         $table
-            ->addColumn('Recorded', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
+            ->addColumn('Recorded', 'datetime')
             ->addColumn('Entity', 'string', ['limit' => 255])
             ->addColumn('Action', 'string', ['limit' => 24])
             ->addColumn('Data', 'text', ['limit' => MysqlAdapter::TEXT_REGULAR, 'null' => true])
@@ -392,7 +366,7 @@ ADD COLUMN
             ->addColumn('EventLogId', 'char', ['limit' => 40])
             // ->addColumn('Event') -- see below
             ->addColumn('EventOrder', 'integer')
-            ->addColumn('EventLogCreated', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
+            ->addColumn('EventLogCreated', 'datetime')
             ->addColumn('EventLogMessage', 'string', ['limit' => 255, 'null' => true])
             // ->addColumn('EventLogStatus') -- see below
             ->addColumn('EventLogData', 'binary', ['null' => true])
