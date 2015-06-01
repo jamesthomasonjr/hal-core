@@ -8,9 +8,9 @@
 namespace QL\Hal\Core\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use QL\Hal\Core\Entity\Application;
 use QL\Hal\Core\Entity\Deployment;
 use QL\Hal\Core\Entity\Environment;
-use QL\Hal\Core\Entity\Repository;
 
 class DeploymentRepository extends EntityRepository
 {
@@ -21,23 +21,23 @@ class DeploymentRepository extends EntityRepository
      JOIN QL\Hal\Core\Entity\Server s WITH s = d.server
      JOIN QL\Hal\Core\Entity\Environment e WITH e = s.environment
 
-    WHERE d.repository = :repo
+    WHERE d.application = :application
       AND s.environment = :env
 SQL;
 
     /**
-     * Get all deployments for a repository and environment
+     * Get all deployments for a application and environment
      *
-     * @param Repository $repository
+     * @param Application $application
      * @param Environment $environment
      *
      * @return Deployment[]
      */
-    public function getDeploymentsByRepositoryEnvironment(Repository $repository, Environment $environment)
+    public function getDeploymentsByApplicationEnvironment(Application $application, Environment $environment)
     {
         $query = $this->getEntityManager()
             ->createQuery(self::DQL_BY_REPOSITORY_AND_ENVIRONMENT)
-            ->setParameter('repo', $repository)
+            ->setParameter('application', $application)
             ->setParameter('env', $environment);
 
         return $query->getResult();

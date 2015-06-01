@@ -9,9 +9,9 @@ namespace QL\Hal\Core\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use QL\Hal\Core\Entity\Application;
 use QL\Hal\Core\Entity\Deployment;
 use QL\Hal\Core\Entity\Push;
-use QL\Hal\Core\Entity\Repository;
 use QL\Hal\Core\Entity\Server;
 
 class PushRepository extends EntityRepository
@@ -39,25 +39,25 @@ SQL;
  ORDER BY p.created DESC
 SQL;
 
-    const DQL_BY_REPOSITORY = <<<SQL
+    const DQL_BY_APPLICATION = <<<SQL
    SELECT p
      FROM QL\Hal\Core\Entity\Push p
-    WHERE p.repository = :repo
+    WHERE p.application = :application
  ORDER BY p.created DESC
 SQL;
-    const DQL_BY_REPOSITORY_WITH_REF_FILTER = <<<SQL
+    const DQL_BY_APPLICATION_WITH_REF_FILTER = <<<SQL
    SELECT p
      FROM QL\Hal\Core\Entity\Push p
      JOIN p.build b
-    WHERE p.repository = :repo
+    WHERE p.application = :application
       AND b.branch = :ref
  ORDER BY p.created DESC
 SQL;
-    const DQL_BY_REPOSITORY_WITH_SHA_FILTER = <<<SQL
+    const DQL_BY_APPLICATION_WITH_SHA_FILTER = <<<SQL
    SELECT p
      FROM QL\Hal\Core\Entity\Push p
      JOIN p.build b
-    WHERE p.repository = :repo
+    WHERE p.application = :application
       AND b.commit = :ref
  ORDER BY p.created DESC
 SQL;
@@ -123,9 +123,9 @@ SQL;
     }
 
     /**
-     * Get all pushes for a repository
+     * Get all pushes for a application
      *
-     * @param Repository $repository
+     * @param Application $application
      * @param int $limit
      * @param int $page
      *
@@ -133,15 +133,15 @@ SQL;
      *
      * @return Paginator
      */
-    public function getByRepository(Repository $repository, $limit = 25, $page = 0, $filter = null)
+    public function getByRepository(Application $application, $limit = 25, $page = 0, $filter = null)
     {
-        $dql = self::DQL_BY_REPOSITORY;
+        $dql = self::DQL_BY_APPLICATION;
         if ($filter) {
-            $dql = self::DQL_BY_REPOSITORY_WITH_REF_FILTER;
+            $dql = self::DQL_BY_APPLICATION_WITH_REF_FILTER;
 
             // is a commit sha
             if (preg_match(self::REGEX_COMMIT, $filter) === 1) {
-                $dql = self::DQL_BY_REPOSITORY_WITH_SHA_FILTER;
+                $dql = self::DQL_BY_APPLICATION_WITH_SHA_FILTER;
                 $filter = strtolower($filter);
             }
         }
@@ -150,7 +150,7 @@ SQL;
             ->createQuery($dql)
             ->setMaxResults($limit)
             ->setFirstResult($limit * $page)
-            ->setParameter('repo', $repository);
+            ->setParameter('application', $application);
 
         if ($filter) {
             $query->setParameter('ref', $filter);

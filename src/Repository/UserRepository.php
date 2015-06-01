@@ -18,7 +18,7 @@ class UserRepository extends EntityRepository
     const DQL_RECENT_APPLICATIONS = <<<SQL
    SELECT a
      FROM QL\Hal\Core\Entity\Build b
-     JOIN QL\Hal\Core\Entity\Repository a WITH a = b.repository
+     JOIN QL\Hal\Core\Entity\Application a WITH a = b.application
     WHERE
         b.user = :user
         AND b.created > :oldestbuild

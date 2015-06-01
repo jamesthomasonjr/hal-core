@@ -8,8 +8,8 @@
 namespace QL\Hal\Core\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use QL\Hal\Core\Entity\Application;
 use QL\Hal\Core\Entity\Environment;
-use QL\Hal\Core\Entity\Repository;
 use QL\Hal\Core\Utility\SortingTrait;
 
 class EnvironmentRepository extends EntityRepository
@@ -23,21 +23,21 @@ class EnvironmentRepository extends EntityRepository
      JOIN QL\Hal\Core\Entity\Server s WITH s = d.server
      JOIN QL\Hal\Core\Entity\Environment e WITH e = s.environment
 
-    WHERE d.repository = :repo
+    WHERE d.application = :application
 SQL;
 
     /**
-     * Get all buildable environments for a repository
+     * Get all buildable environments for a application
      *
-     * @param Repository $repository
+     * @param Application $application
      *
      * @return Environment[]
      */
-    public function getBuildableEnvironmentsByRepository(Repository $repository)
+    public function getBuildableEnvironmentsByApplication(Application $application)
     {
         $query = $this->getEntityManager()
             ->createQuery(self::DQL_BY_REPOSITORY)
-            ->setParameter('repo', $repository);
+            ->setParameter('application', $application);
 
         return $query->getResult();
     }
