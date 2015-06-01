@@ -19,6 +19,14 @@ services:
     # DOCTRINE PATHS
     ####################################################################################################################
 
+    doctrine.proxy.generator:
+        class: 'QL\Hal\Core\Utility\DoctrineProxyGenerator'
+        arguments: [@service_container]
+
+    ####################################################################################################################
+    # DOCTRINE PATHS
+    ####################################################################################################################
+
     doctrine.mapping.dir.hal:
         class: 'stdClass'
         factory: ['QL\Hal\Core\Utility\DoctrineFactory', 'halYaml']
