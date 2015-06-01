@@ -219,7 +219,7 @@ class Build implements JsonSerializable
     /**
      * @param Application $application
      */
-    public function setRepository(Application $application)
+    public function setApplication(Application $application)
     {
         $this->application = $application;
     }
@@ -227,7 +227,7 @@ class Build implements JsonSerializable
     /**
      * @return Application
      */
-    public function getRepository()
+    public function getApplication()
     {
         return $this->application;
     }
