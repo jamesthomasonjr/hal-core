@@ -47,7 +47,7 @@ QL\Kraken\Core\Entity\Property:
 
         user:
             cache: {usage : READ_ONLY}
-            targetEntity: User
+            targetEntity: QL\Hal\Core\Entity\User
             joinColumn:
                 name: UserID
                 referencedColumnName: UserId
