@@ -1,4 +1,4 @@
-QL\Hal\Core\Entity\Repository:
+QL\Hal\Core\Entity\Application:
     type: entity
     table: Repositories
 
@@ -62,14 +62,7 @@ QL\Hal\Core\Entity\Repository:
         group:
             cache: {usage : READ_ONLY}
             targetEntity: Group
-            inversedBy: repositories
+            inversedBy: applications
             joinColumn:
                 name: GroupId
                 referencedColumnName: GroupId
-
-    oneToMany:
-
-        deployments:
-            cache: {usage : READ_ONLY}
-            targetEntity: Deployment
-            mappedBy: repository

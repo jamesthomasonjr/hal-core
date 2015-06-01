@@ -8,7 +8,7 @@
 namespace QL\Kraken\Core\Entity;
 
 use JsonSerializable;
-use QL\Hal\Core\Entity\Repository as HalApplication;
+use QL\Hal\Core\Entity\Application as HalApplication;
 
 class Application implements JsonSerializable
 {

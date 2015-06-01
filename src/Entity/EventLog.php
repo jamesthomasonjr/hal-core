@@ -63,9 +63,12 @@ class EventLog implements JsonSerializable
      */
     protected $data;
 
-    public function __construct()
+    /**
+     * @param string $id
+     */
+    public function __construct($id = null)
     {
-        $this->id = null;
+        $this->id = $id;
         $this->event = '';
         $this->order = 0;
         $this->created = null;

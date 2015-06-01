@@ -21,10 +21,6 @@ class Server implements JsonSerializable
      * @type string
      */
     protected $type;
-
-    /**
-     * @type string
-     */
     protected $name;
 
     /**
@@ -45,90 +41,95 @@ class Server implements JsonSerializable
     public function __construct()
     {
         $this->id = null;
-        $this->type = null;
-        $this->name = null;
+        $this->type = '';
+        $this->name = '';
+
         $this->environment = null;
         $this->deployments = new ArrayCollection;
     }
 
     /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
      * @return int
      */
-    public function getId()
+    public function id()
     {
         return $this->id;
     }
 
     /**
-     * @param string $type
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-    }
-
-    /**
      * @return string
      */
-    public function getType()
+    public function type()
     {
         return $this->type;
     }
 
     /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
      * @return string
      */
-    public function getName()
+    public function name()
     {
         return $this->name;
     }
 
     /**
-     * @param Environment $environment
-     */
-    public function setEnvironment($environment)
-    {
-        $this->environment = $environment;
-    }
-
-    /**
      * @return Environment
      */
-    public function getEnvironment()
+    public function environment()
     {
         return $this->environment;
     }
 
     /**
-     * @param ArrayCollection $deployments
+     * @return ArrayCollection
      */
-    public function setDeployments(ArrayCollection $deployments)
+    public function deployments()
     {
-        $this->deployments = $deployments;
+        return $this->deployments;
     }
 
     /**
-     * @return ArrayCollection
+     * @param int $id
+     *
+     * @return self
      */
-    public function getDeployments()
+    public function withId($id)
     {
-        return $this->deployments;
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @param string $type
+     *
+     * @return self
+     */
+    public function withType($type)
+    {
+        $this->type = $type;
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return self
+     */
+    public function withName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @param Environment $environment
+     *
+     * @return self
+     */
+    public function withEnvironment(Environment $environment)
+    {
+        $this->environment = $environment;
+        return $this;
     }
 
     /**
@@ -137,12 +138,12 @@ class Server implements JsonSerializable
     public function jsonSerialize()
     {
         $json = [
-            'id' => $this->getId(),
+            'id' => $this->id(),
 
-            'type' => $this->getType(),
-            'name' => $this->getName(),
+            'type' => $this->type(),
+            'name' => $this->name(),
 
-            'environment' => $this->getEnvironment() ? $this->getEnvironment()->id() : null,
+            'environment' => $this->environment() ? $this->environment()->id() : null,
 
             // 'deployments' => $this->getDeployments() ? $this->getDeployments()->getKeys() : []
         ];

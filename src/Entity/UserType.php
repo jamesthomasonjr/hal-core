@@ -27,7 +27,7 @@ class UserType implements JsonSerializable
     protected $user;
 
     /**
-     * @type Repository|null
+     * @type Application|null
      */
     protected $application;
 
@@ -106,11 +106,11 @@ class UserType implements JsonSerializable
     }
 
     /**
-     * @param Repository $application
+     * @param Application $application
      *
      * @return self
      */
-    public function withApplication(Repository $application)
+    public function withApplication(Application $application)
     {
         $this->application = $application;
         return $this;
@@ -126,7 +126,7 @@ class UserType implements JsonSerializable
             'type' => $this->type(),
 
             'user' => $this->user()->id(),
-            'application' => $this->application() ? $this->application()->getId() : null,
+            'application' => $this->application() ? $this->application()->id() : null,
         ];
 
         return $json;

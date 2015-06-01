@@ -29,7 +29,7 @@ QL\Hal\Core\Entity\UserType:
 
         application:
             cache: {usage : READ_ONLY}
-            targetEntity: Repository
+            targetEntity: Application
             joinColumn:
                 name: ApplicationId
                 referencedColumnName: RepositoryId

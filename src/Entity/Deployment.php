@@ -51,9 +51,9 @@ class Deployment implements JsonSerializable
     protected $ec2Pool;
 
     /**
-     * @type Repository
+     * @type Application
      */
-    protected $repository;
+    protected $application;
 
     /**
      * For RSYNC
@@ -71,120 +71,142 @@ class Deployment implements JsonSerializable
         $this->ebEnvironment = null;
         $this->ec2Pool = null;
 
-        $this->repository = null;
+        $this->application = null;
         $this->server = null;
     }
 
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
 
     /**
      * @return int
      */
-    public function getId()
+    public function id()
     {
         return $this->id;
     }
 
     /**
-     * @param string $path
-     */
-    public function setPath($path)
-    {
-        $this->path = $path;
-    }
-
-    /**
      * @return string
      */
-    public function getPath()
+    public function path()
     {
         return $this->path;
     }
 
     /**
-     * @param string $ebEnvironment
-     */
-    public function setEbEnvironment($ebEnvironment)
-    {
-        $this->ebEnvironment = $ebEnvironment;
-    }
-
-    /**
      * @return string
      */
-    public function getEbEnvironment()
+    public function ebEnvironment()
     {
         return $this->ebEnvironment;
     }
 
     /**
-     * @param string $ec2Pool
-     */
-    public function setEc2Pool($ec2Pool)
-    {
-        $this->ec2Pool = $ec2Pool;
-    }
-
-    /**
      * @return string
      */
-    public function getEc2Pool()
+    public function ec2Pool()
     {
         return $this->ec2Pool;
     }
 
     /**
-     * @param HttpUrl $url
-     */
-    public function setUrl(HttpUrl $url)
-    {
-        $this->url = $url;
-    }
-
-    /**
      * @return HttpUrl|null
      */
-    public function getUrl()
+    public function url()
     {
         return $this->url;
     }
 
     /**
-     * @param Repository $repository
+     * @return Application
      */
-    public function setRepository(Repository $repository)
+    public function application()
     {
-        $this->repository = $repository;
-    }
-
-    /**
-     * @return Repository
-     */
-    public function getRepository()
-    {
-        return $this->repository;
-    }
-
-    /**
-     * @param Server $server
-     */
-    public function setServer(Server $server)
-    {
-        $this->server = $server;
+        return $this->application;
     }
 
     /**
      * @return Server
      */
-    public function getServer()
+    public function server()
     {
         return $this->server;
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return self
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @param HttpUrl $url
+     *
+     * @return self
+     */
+    public function setUrl(HttpUrl $url)
+    {
+        $this->url = $url;
+        return $this;
+    }
+
+    /**
+     * @param string $path
+     *
+     * @return self
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+        return $this;
+    }
+
+    /**
+     * @param string $ebEnvironment
+     *
+     * @return self
+     */
+    public function setEbEnvironment($ebEnvironment)
+    {
+        $this->ebEnvironment = $ebEnvironment;
+        return $this;
+    }
+
+    /**
+     * @param string $ec2Pool
+     *
+     * @return self
+     */
+    public function setEc2Pool($ec2Pool)
+    {
+        $this->ec2Pool = $ec2Pool;
+        return $this;
+    }
+
+    /**
+     * @param Application $application
+     *
+     * @return self
+     */
+    public function setApplication(Application $application)
+    {
+        $this->application = $application;
+        return $this;
+    }
+
+    /**
+     * @param Server $server
+     *
+     * @return self
+     */
+    public function setServer(Server $server)
+    {
+        $this->server = $server;
+        return $this;
     }
 
     /**
@@ -193,15 +215,15 @@ class Deployment implements JsonSerializable
     public function jsonSerialize()
     {
         $json = [
-            'id' => $this->getId(),
+            'id' => $this->id(),
 
-            'path' => $this->getPath(),
-            'ebEnvironment' => $this->getEbEnvironment(),
-            'ec2Pool' => $this->getEc2Pool(),
+            'path' => $this->path(),
+            'ebEnvironment' => $this->ebEnvironment(),
+            'ec2Pool' => $this->ec2Pool(),
 
-            'url' => $this->getUrl() ? $this->getUrl()->asString() : null,
-            'repository' => $this->getRepository() ? $this->getRepository()->getId() : null,
-            'server' => $this->getServer() ? $this->getServer()->getId() : null
+            'url' => $this->url() ? $this->url()->asString() : null,
+            'application' => $this->application() ? $this->application()->id() : null,
+            'server' => $this->server() ? $this->server()->id() : null
         ];
 
         return $json;

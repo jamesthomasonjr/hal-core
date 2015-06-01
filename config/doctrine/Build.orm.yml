@@ -47,18 +47,20 @@ QL\Hal\Core\Entity\Build:
                 name: UserId
                 referencedColumnName: UserId
                 nullable: true
+
+        application:
+            cache: {usage : READ_ONLY}
+            targetEntity: Application
+            joinColumn:
+                name: RepositoryId
+                referencedColumnName: RepositoryId
+
         environment:
             cache: {usage : READ_ONLY}
             targetEntity: Environment
             joinColumn:
                 name: EnvironmentId
                 referencedColumnName: EnvironmentId
-        repository:
-            cache: {usage : READ_ONLY}
-            targetEntity: Repository
-            joinColumn:
-                name: RepositoryId
-                referencedColumnName: RepositoryId
 
     oneToMany:
 

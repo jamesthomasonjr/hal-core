@@ -27,9 +27,9 @@ class EncryptedProperty implements JsonSerializable
     protected $data;
 
     /**
-     * @type Repository
+     * @type Application
      */
-    protected $repository;
+    protected $application;
 
     /**
      * The environment the encrypted property is for (NULL for all)
@@ -38,13 +38,16 @@ class EncryptedProperty implements JsonSerializable
      */
     protected $environment;
 
-    public function __construct()
+    /**
+     * @param string $id
+     */
+    public function __construct($id = null)
     {
-        $this->id = null;
+        $this->id = $id;
         $this->name = '';
         $this->data = '';
 
-        $this->repository = null;
+        $this->application = null;
         $this->environment = null;
     }
 
@@ -73,11 +76,11 @@ class EncryptedProperty implements JsonSerializable
     }
 
     /**
-     * @return Repository
+     * @return Application
      */
-    public function repository()
+    public function application()
     {
-        return $this->repository;
+        return $this->application;
     }
 
     /**
@@ -122,13 +125,13 @@ class EncryptedProperty implements JsonSerializable
     }
 
     /**
-     * @param Repository $repository
+     * @param Application $application
      *
      * @return self
      */
-    public function withRepository(Repository $repository)
+    public function withApplication(Application $application)
     {
-        $this->repository = $repository;
+        $this->application = $application;
         return $this;
     }
 
@@ -155,7 +158,7 @@ class EncryptedProperty implements JsonSerializable
             // 'data' => $this->getData(),
             'data' => '**ENCRYPTED**',
 
-            'repository' => $this->repository() ? $this->repository()->getId() : null,
+            'application' => $this->application() ? $this->application()->id() : null,
             'environment' => $this->environment() ? $this->environment()->id() : null,
         ];
 

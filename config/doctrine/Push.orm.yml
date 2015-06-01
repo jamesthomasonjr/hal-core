@@ -38,12 +38,14 @@ QL\Hal\Core\Entity\Push:
                 name: UserId
                 referencedColumnName: UserId
                 nullable: true
+
         build:
             cache: {usage : READ_ONLY}
             targetEntity: Build
             joinColumn:
                 name: BuildId
                 referencedColumnName: BuildId
+
         deployment:
             cache: {usage : READ_ONLY}
             targetEntity: Deployment
@@ -52,9 +54,10 @@ QL\Hal\Core\Entity\Push:
                 name: DeploymentId
                 referencedColumnName: DeploymentId
                 nullable: true
-        repository:
+
+        application:
             cache: {usage : READ_ONLY}
-            targetEntity: Repository
+            targetEntity: Application
             joinColumn:
                 name: RepositoryId
                 referencedColumnName: RepositoryId

@@ -27,7 +27,7 @@ class UserPermission implements JsonSerializable
     protected $user;
 
     /**
-     * @type Repository
+     * @type Application
      */
     protected $application;
 
@@ -65,7 +65,7 @@ class UserPermission implements JsonSerializable
     }
 
     /**
-     * @return Repository
+     * @return Application
      */
     public function application()
     {
@@ -106,11 +106,11 @@ class UserPermission implements JsonSerializable
     }
 
     /**
-     * @param Repository $application
+     * @param Application $application
      *
      * @return self
      */
-    public function withApplication(Repository $application)
+    public function withApplication(Application $application)
     {
         $this->application = $application;
         return $this;
@@ -126,7 +126,7 @@ class UserPermission implements JsonSerializable
             'isProduction' => $this->isProduction(),
 
             'user' => $this->user()->id(),
-            'application' => $this->application()->getId()
+            'application' => $this->application()->id()
         ];
 
         return $json;

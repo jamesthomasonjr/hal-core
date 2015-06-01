@@ -42,6 +42,7 @@ QL\Hal\Core\Entity\EventLog:
                 name: BuildId
                 referencedColumnName: BuildId
                 nullable: true
+
         push:
             cache: {usage : READ_ONLY}
             targetEntity: Push

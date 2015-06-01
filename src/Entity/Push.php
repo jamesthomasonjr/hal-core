@@ -55,9 +55,9 @@ class Push implements JsonSerializable
     protected $deployment;
 
     /**
-     * @type Repository
+     * @type Application
      */
-    protected $repository;
+    protected $application;
 
     /**
      * @type ArrayCollection
@@ -78,7 +78,7 @@ class Push implements JsonSerializable
         $this->user = null;
         $this->build = null;
         $this->deployment = null;
-        $this->repository = null;
+        $this->application = null;
         $this->logs = new ArrayCollection;
     }
 
@@ -211,19 +211,19 @@ class Push implements JsonSerializable
     }
 
     /**
-     * @param Repository $repository
+     * @param Application $application
      */
-    public function setRepository(Repository $repository)
+    public function setApplication(Application $application)
     {
-        $this->repository = $repository;
+        $this->application = $application;
     }
 
     /**
-     * @return Repository
+     * @return Application
      */
-    public function getRepository()
+    public function getApplication()
     {
-        return $this->repository;
+        return $this->application;
     }
 
     /**
@@ -258,8 +258,8 @@ class Push implements JsonSerializable
 
             'user' => $this->getUser() ? $this->getUser()->id() : null,
             'build' => $this->getBuild() ? $this->getBuild()->getId() : null,
-            'deployment' => $this->getDeployment() ? $this->getDeployment()->getId() : null,
-            'repository' => $this->getRepository() ? $this->getRepository()->getId() : null,
+            'deployment' => $this->getDeployment() ? $this->getDeployment()->id() : null,
+            'application' => $this->application() ? $this->application()->id() : null,
 
             // 'logs' => $this->getLogs() ? $this->getLogs()->getKeys() : []
         ];

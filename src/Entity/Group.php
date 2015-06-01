@@ -30,56 +30,65 @@ class Group implements JsonSerializable
     public function __construct()
     {
         $this->id = null;
-        $this->key = null;
-        $this->name = null;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
+        $this->key = '';
+        $this->name = '';
     }
 
     /**
      * @return int
      */
-    public function getId()
+    public function id()
     {
         return $this->id;
     }
 
     /**
-     * @param string $key
-     */
-    public function setKey($key)
-    {
-        $this->key = $key;
-    }
-
-    /**
      * @return string
      */
-    public function getKey()
+    public function key()
     {
         return $this->key;
     }
 
     /**
-     * @param string $name
+     * @return string
      */
-    public function setName($name)
+    public function name()
     {
-        $this->name = $name;
+        return $this->name;
     }
 
     /**
-     * @return string
+     * @param int $id
+     *
+     * @return self
      */
-    public function getName()
+    public function withId($id)
     {
-        return $this->name;
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return self
+     */
+    public function withKey($key)
+    {
+        $this->key = $key;
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return self
+     */
+    public function withName($name)
+    {
+        $this->name = $name;
+        return $this;
     }
 
     /**
@@ -88,10 +97,10 @@ class Group implements JsonSerializable
     public function jsonSerialize()
     {
         $json = [
-            'id' => $this->getId(),
+            'id' => $this->id(),
 
-            'identifier' => $this->getKey(),
-            'name' => $this->getName()
+            'identifier' => $this->key(),
+            'name' => $this->name()
         ];
 
         return $json;

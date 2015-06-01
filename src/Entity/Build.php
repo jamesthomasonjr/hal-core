@@ -55,9 +55,9 @@ class Build implements JsonSerializable
     protected $user;
 
     /**
-     * @type Repository
+     * @type Application
      */
-    protected $repository;
+    protected $application;
 
     /**
      * @type Environment
@@ -217,19 +217,19 @@ class Build implements JsonSerializable
     }
 
     /**
-     * @param Repository $repository
+     * @param Application $application
      */
-    public function setRepository(Repository $repository)
+    public function setRepository(Application $application)
     {
-        $this->repository = $repository;
+        $this->application = $application;
     }
 
     /**
-     * @return Repository
+     * @return Application
      */
     public function getRepository()
     {
-        return $this->repository;
+        return $this->application;
     }
 
     /**
@@ -281,7 +281,7 @@ class Build implements JsonSerializable
             'commit' => $this->getCommit(),
 
             'user' => $this->getUser() ? $this->getUser()->id() : null,
-            'repository' => $this->getRepository() ? $this->getRepository()->getId() : null,
+            'repository' => $this->getApplication() ? $this->getApplication()->id() : null,
             'environment' => $this->getEnvironment() ? $this->getEnvironment()->id() : null,
 
             // 'logs' => $this->getLogs() ? $this->getLogs()->getKeys() : []

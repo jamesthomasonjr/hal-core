@@ -35,13 +35,14 @@ QL\Hal\Core\Entity\Deployment:
 
     manyToOne:
 
-        repository:
+        application:
             cache: {usage : READ_ONLY}
-            targetEntity: Repository
+            targetEntity: Application
             inversedBy: deployments
             joinColumn:
                 name: RepositoryId
                 referencedColumnName: RepositoryId
+
         server:
             cache: {usage : READ_ONLY}
             targetEntity: Server
