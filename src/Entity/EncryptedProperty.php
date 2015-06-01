@@ -96,6 +96,7 @@ class EncryptedProperty implements JsonSerializable
     public function withId($id)
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -106,6 +107,7 @@ class EncryptedProperty implements JsonSerializable
     public function withName($name)
     {
         $this->name = $name;
+        return $this;
     }
 
     /**
@@ -116,6 +118,7 @@ class EncryptedProperty implements JsonSerializable
     public function withData($data)
     {
         $this->data = $data;
+        return $this;
     }
 
     /**
@@ -126,6 +129,7 @@ class EncryptedProperty implements JsonSerializable
     public function withRepository(Repository $repository)
     {
         $this->repository = $repository;
+        return $this;
     }
 
     /**
@@ -136,6 +140,7 @@ class EncryptedProperty implements JsonSerializable
     public function withEnvironment(Environment $environment)
     {
         $this->environment = $environment;
+        return $this;
     }
 
     /**
