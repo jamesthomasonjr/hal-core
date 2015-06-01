@@ -75,7 +75,6 @@ class Deployment implements JsonSerializable
         $this->server = null;
     }
 
-
     /**
      * @return int
      */

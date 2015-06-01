@@ -133,7 +133,7 @@ SQL;
      *
      * @return Paginator
      */
-    public function getByRepository(Application $application, $limit = 25, $page = 0, $filter = null)
+    public function getByApplication(Application $application, $limit = 25, $page = 0, $filter = null)
     {
         $dql = self::DQL_BY_APPLICATION;
         if ($filter) {
