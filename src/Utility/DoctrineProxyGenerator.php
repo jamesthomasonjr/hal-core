@@ -30,11 +30,11 @@ class DoctrineProxyGenerator
     private $output;
 
     /**
-     * @param ContainerInterface $container
+     * @param ContainerInterface $di
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $di)
     {
-        $this->em = $this->buildFakeEntityManager([
+        $this->em = $this->buildFakeEntityManager($di, [
             'driver' => 'pdo_sqlite',
             'memory' => true
         ]);
@@ -43,19 +43,20 @@ class DoctrineProxyGenerator
     }
 
     /**
+     * @param ContainerInterface $di
      * @param mixed options
      *
      * @return EntityManagerInterface
      */
-    public function buildFakeEntityManager($options)
+    public function buildFakeEntityManager(ContainerInterface $di, $options)
     {
         $em = EntityManager::create(
             $options,
-            $container->get('doctrine.config'),
-            $container->get('doctrine.em.events')
+            $di->get('doctrine.config'),
+            $di->get('doctrine.em.events')
         );
 
-        $container->get('doctrine.em.configurator')->configure($em);
+        $di->get('doctrine.em.configurator')->configure($em);
 
         return $em;
     }
