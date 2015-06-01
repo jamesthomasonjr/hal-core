@@ -17,11 +17,6 @@ class AuditLog
     protected $id;
 
     /**
-     * @type User
-     */
-    protected $user;
-
-    /**
      * @type Timepoint
      */
     protected $created;
@@ -30,16 +25,13 @@ class AuditLog
      * @type string
      */
     protected $entity;
-
-    /**
-     * @type string
-     */
     protected $action;
+    protected $data;
 
     /**
-     * @type string
+     * @type User
      */
-    protected $data;
+    protected $user;
 
     public function __construct()
     {
@@ -52,99 +44,119 @@ class AuditLog
         $this->data = '';
     }
 
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
 
     /**
      * @return int
      */
-    public function getId()
+    public function id()
     {
         return $this->id;
     }
 
     /**
-     * @param Timepoint $created
-     */
-    public function setCreated(Timepoint $created)
-    {
-        $this->created = $created;
-    }
-
-    /**
      * @return Timepoint
      */
-    public function getCreated()
+    public function created()
     {
         return $this->created;
     }
 
     /**
-     * @param User $user
+     * @return string
      */
-    public function setUser(User $user)
+    public function entity()
     {
-        $this->user = $user;
+        return $this->entity;
     }
 
-    /**
-     * @return User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * @param string $action
-     */
-    public function setAction($action)
-    {
-        $this->action = $action;
-    }
 
     /**
      * @return string
      */
-    public function getAction()
+    public function action()
     {
         return $this->action;
     }
 
     /**
-     * @param string $data
-     */
-    public function setData($data)
-    {
-        $this->data = $data;
-    }
-
-    /**
      * @return string
      */
-    public function getData()
+    public function data()
     {
         return $this->data;
     }
 
     /**
-     * @param string $entity
+     * @return User
      */
-    public function setEntity($entity)
+    public function user()
     {
-        $this->entity = $entity;
+        return $this->user;
     }
 
     /**
-     * @return string
+     * @param int $id
+     *
+     * @return self
      */
-    public function getEntity()
+    public function withId($id)
     {
-        return $this->entity;
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @param Timepoint $created
+     *
+     * @return self
+     */
+    public function withCreated(Timepoint $created)
+    {
+        $this->created = $created;
+        return $this;
+    }
+
+    /**
+     * @param string $entity
+     *
+     * @return self
+     */
+    public function withEntity($entity)
+    {
+        $this->entity = $entity;
+        return $this;
+    }
+
+    /**
+     * @param string $action
+     *
+     * @return self
+     */
+    public function withAction($action)
+    {
+        $this->action = $action;
+        return $this;
+    }
+
+    /**
+     * @param string $data
+     *
+     * @return self
+     */
+    public function withData($data)
+    {
+        $this->data = $data;
+        return $this;
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return self
+     */
+    public function withUser(User $user)
+    {
+        $this->user = $user;
+        return $this;
     }
 }

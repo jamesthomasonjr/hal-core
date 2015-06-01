@@ -280,9 +280,9 @@ class Build implements JsonSerializable
             'branch' => $this->getBranch(),
             'commit' => $this->getCommit(),
 
-            'user' => $this->getUser() ? $this->getUser()->getId() : null,
+            'user' => $this->getUser() ? $this->getUser()->id() : null,
             'repository' => $this->getRepository() ? $this->getRepository()->getId() : null,
-            'environment' => $this->getEnvironment() ? $this->getEnvironment()->getId() : null,
+            'environment' => $this->getEnvironment() ? $this->getEnvironment()->id() : null,
 
             // 'logs' => $this->getLogs() ? $this->getLogs()->getKeys() : []
         ];

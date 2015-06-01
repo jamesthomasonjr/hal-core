@@ -27,8 +27,8 @@ trait SortingTrait
 
         return function(Environment $a, Environment $b) use ($order) {
 
-            $aName = strtolower($a->getKey());
-            $bName = strtolower($b->getKey());
+            $aName = strtolower($a->getName());
+            $bName = strtolower($b->getName());
 
             $aOrder = isset($order[$aName]) ? $order[$aName] : 999;
             $bOrder = isset($order[$bName]) ? $order[$bName] : 999;

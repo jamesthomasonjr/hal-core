@@ -27,7 +27,7 @@ class EventLog implements JsonSerializable
     protected $event;
 
     /**
-     * @type string
+     * @type int
      */
     protected $order;
 
@@ -40,10 +40,6 @@ class EventLog implements JsonSerializable
      * @type string
      */
     protected $message;
-
-    /**
-     * @type string
-     */
     protected $status;
 
     /**
@@ -70,22 +66,23 @@ class EventLog implements JsonSerializable
     public function __construct()
     {
         $this->id = null;
-        $this->event = null;
+        $this->event = '';
+        $this->order = 0;
         $this->created = null;
 
-        $this->message = null;
-        $this->status = null;
+        $this->message = '';
+        $this->status = '';
 
         $this->build = null;
         $this->push = null;
 
-        $this->data = null;
+        $this->data = [];
     }
 
     /**
      * @return string
      */
-    public function getId()
+    public function id()
     {
         return $this->id;
     }
@@ -93,7 +90,7 @@ class EventLog implements JsonSerializable
     /**
      * @return string
      */
-    public function getEvent()
+    public function event()
     {
         return $this->event;
     }
@@ -101,7 +98,7 @@ class EventLog implements JsonSerializable
     /**
      * @return int
      */
-    public function getOrder()
+    public function order()
     {
         return $this->order;
     }
@@ -109,7 +106,7 @@ class EventLog implements JsonSerializable
     /**
      * @return TimePoint
      */
-    public function getCreated()
+    public function created()
     {
         return $this->created;
     }
@@ -117,7 +114,7 @@ class EventLog implements JsonSerializable
     /**
      * @return string|null
      */
-    public function getMessage()
+    public function message()
     {
         return $this->message;
     }
@@ -125,7 +122,7 @@ class EventLog implements JsonSerializable
     /**
      * @return string
      */
-    public function getStatus()
+    public function status()
     {
         return $this->status;
     }
@@ -133,7 +130,7 @@ class EventLog implements JsonSerializable
     /**
      * @return Build|null
      */
-    public function getBuild()
+    public function build()
     {
         return $this->build;
     }
@@ -141,7 +138,7 @@ class EventLog implements JsonSerializable
     /**
      * @return Push|null
      */
-    public function getPush()
+    public function push()
     {
         return $this->push;
     }
@@ -149,81 +146,108 @@ class EventLog implements JsonSerializable
     /**
      * @return array|null
      */
-    public function getData()
+    public function data()
     {
         return $this->data;
     }
 
     /**
      * @param int $id
+     *
+     * @return self
      */
-    public function setId($id)
+    public function withId($id)
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
      * @param string $status
+     *
+     * @return self
      */
-    public function setEvent($event)
+    public function withEvent($event)
     {
         $this->event = $event;
+        return $this;
     }
 
     /**
      * @param int $order
+     *
+     * @return self
      */
-    public function setOrder($order)
+    public function withOrder($order)
     {
         $this->order = $order;
+        return $this;
     }
 
     /**
      * @param TimePoint $created
+     *
+     * @return self
      */
-    public function setCreated(TimePoint $created)
+    public function withCreated(TimePoint $created)
     {
         $this->created = $created;
+        return $this;
     }
 
     /**
      * @param string $message
+     *
+     * @return self
      */
-    public function setMessage($message)
+    public function withMessage($message)
     {
         $this->message = $message;
+        return $this;
     }
 
     /**
      * @param string $status
+     *
+     * @return self
      */
-    public function setStatus($status)
+    public function withStatus($status)
     {
         $this->status = $status;
+        return $this;
     }
 
     /**
      * @param Build $build
+     *
+     * @return self
      */
-    public function setBuild(Build $build)
+    public function withBuild(Build $build)
     {
         $this->build = $build;
+        return $this;
     }
 
     /**
      * @param Push $push
+     *
+     * @return self
      */
-    public function setPush(Push $push)
+    public function withPush(Push $push)
     {
         $this->push = $push;
+        return $this;
     }
 
     /**
      * @param array $data
+     *
+     * @return self
      */
-    public function setData(array $data)
+    public function withData(array $data)
     {
         $this->data = $data;
+        return $this;
     }
 
     /**
@@ -232,17 +256,17 @@ class EventLog implements JsonSerializable
     public function jsonSerialize()
     {
         $json = [
-            'id' => $this->getId(),
+            'id' => $this->id(),
 
-            'created' => $this->getCreated() ? $this->getCreated()->format(DateTime::RFC3339, 'UTC') : null,
+            'created' => $this->created() ? $this->created()->format(DateTime::RFC3339, 'UTC') : null,
 
-            'event' => $this->getEvent(),
-            'order' => $this->getOrder(),
-            'message' => $this->getMessage(),
-            'status' => $this->getStatus(),
+            'event' => $this->event(),
+            'order' => $this->order(),
+            'message' => $this->message(),
+            'status' => $this->status(),
 
-            'build' => $this->getBuild() ? $this->getBuild()->getId() : null,
-            'push' => $this->getPush() ? $this->getPush()->getId() : null,
+            'build' => $this->build() ? $this->build()->getId() : null,
+            'push' => $this->push() ? $this->push()->getId() : null,
 
             // 'data' => $this->getData(),
             'data' => '**DATA**',

@@ -125,7 +125,7 @@ class UserType implements JsonSerializable
             'id' => $this->id(),
             'type' => $this->type(),
 
-            'user' => $this->user()->getId(),
+            'user' => $this->user()->id(),
             'application' => $this->application() ? $this->application()->getId() : null,
         ];
 

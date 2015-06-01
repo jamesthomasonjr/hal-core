@@ -20,10 +20,6 @@ class Token implements JsonSerializable
      * @type string
      */
     protected $value;
-
-    /**
-     * @type string
-     */
     protected $label;
 
     /**
@@ -46,65 +42,77 @@ class Token implements JsonSerializable
     /**
      * @return string
      */
-    public function getId()
+    public function id()
     {
         return $this->id;
     }
 
     /**
-     * @param string $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
      * @return string
      */
-    public function getLabel()
+    public function label()
     {
         return $this->label;
     }
 
     /**
-     * @param string $label
-     */
-    public function setLabel($label)
-    {
-        $this->label = $label;
-    }
-
-    /**
      * @return string
      */
-    public function getValue()
+    public function value()
     {
         return $this->value;
     }
 
     /**
-     * @param string $value
+     * @return User
      */
-    public function setValue($value)
-    {
-        $this->value = $value;
-    }
-
-    /**
-     * @return User|null
-     */
-    public function getUser()
+    public function user()
     {
         return $this->user;
     }
 
     /**
-     * @param User $user|null
+     * @param string $id
+     *
+     * @return self
      */
-    public function setUser($user)
+    public function withId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @param string $label
+     *
+     * @return self
+     */
+    public function withLabel($label)
+    {
+        $this->label = $label;
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return self
+     */
+    public function withValue($value)
+    {
+        $this->value = $value;
+        return $this;
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return self
+     */
+    public function withUser(User $user)
     {
         $this->user = $user;
+        return $this;
     }
 
     /**
@@ -113,12 +121,12 @@ class Token implements JsonSerializable
     public function jsonSerialize()
     {
         $json = [
-            'id' => $this->getId(),
+            'id' => $this->id(),
 
-            'label' => $this->getLabel(),
-            'value' => $this->getValue(),
+            'label' => $this->label(),
+            'value' => $this->value(),
 
-            'user' => $this->getUser()->getId(),
+            'user' => $this->user()->id(),
         ];
 
         return $json;

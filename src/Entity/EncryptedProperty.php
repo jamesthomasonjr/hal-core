@@ -34,7 +34,7 @@ class EncryptedProperty implements JsonSerializable
     /**
      * The environment the encrypted property is for (NULL for all)
      *
-     * @type Environment
+     * @type Environment|null
      */
     protected $environment;
 
@@ -51,79 +51,89 @@ class EncryptedProperty implements JsonSerializable
     /**
      * @return string
      */
-    public function getId()
+    public function id()
     {
         return $this->id;
     }
 
     /**
-     * @param string $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
      * @return string
      */
-    public function getName()
+    public function name()
     {
         return $this->name;
     }
 
     /**
-     * @param string $key
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
      * @return string
      */
-    public function getData()
+    public function data()
     {
         return $this->data;
     }
 
     /**
-     * @param string $data
-     */
-    public function setData($data)
-    {
-        $this->data = $data;
-    }
-
-    /**
      * @return Repository
      */
-    public function getRepository()
+    public function repository()
     {
         return $this->repository;
     }
 
     /**
-     * @param Repository $repository
+     * @return Environment|null
      */
-    public function setRepository(Repository $repository)
-    {
-        $this->repository = $repository;
-    }
-
-    /**
-     * @return Environment
-     */
-    public function getEnvironment()
+    public function environment()
     {
         return $this->environment;
     }
 
     /**
-     * @param Environment $environment
+     * @param string $id
+     *
+     * @return self
      */
-    public function setEnvironment(Environment $environment)
+    public function withId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return self
+     */
+    public function withName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @param string $data
+     *
+     * @return self
+     */
+    public function withData($data)
+    {
+        $this->data = $data;
+    }
+
+    /**
+     * @param Repository $repository
+     *
+     * @return self
+     */
+    public function withRepository(Repository $repository)
+    {
+        $this->repository = $repository;
+    }
+
+    /**
+     * @param Environment $environment
+     *
+     * @return self
+     */
+    public function withEnvironment(Environment $environment)
     {
         $this->environment = $environment;
     }
@@ -134,14 +144,14 @@ class EncryptedProperty implements JsonSerializable
     public function jsonSerialize()
     {
         $json = [
-            'id' => $this->getId(),
+            'id' => $this->id(),
 
-            'name' => $this->getName(),
+            'name' => $this->name(),
             // 'data' => $this->getData(),
             'data' => '**ENCRYPTED**',
 
-            'repository' => $this->getRepository() ? $this->getRepository()->getId() : null,
-            'environment' => $this->getEnvironment() ? $this->getEnvironment()->getId() : null,
+            'repository' => $this->repository() ? $this->repository()->getId() : null,
+            'environment' => $this->environment() ? $this->environment()->id() : null,
         ];
 
         return $json;

@@ -125,7 +125,7 @@ class UserPermission implements JsonSerializable
             'id' => $this->id(),
             'isProduction' => $this->isProduction(),
 
-            'user' => $this->user()->getId(),
+            'user' => $this->user()->id(),
             'application' => $this->application()->getId()
         ];
 

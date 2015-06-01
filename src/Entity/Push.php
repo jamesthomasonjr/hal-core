@@ -256,7 +256,7 @@ class Push implements JsonSerializable
 
             'status' => $this->getStatus(),
 
-            'user' => $this->getUser() ? $this->getUser()->getId() : null,
+            'user' => $this->getUser() ? $this->getUser()->id() : null,
             'build' => $this->getBuild() ? $this->getBuild()->getId() : null,
             'deployment' => $this->getDeployment() ? $this->getDeployment()->getId() : null,
             'repository' => $this->getRepository() ? $this->getRepository()->getId() : null,

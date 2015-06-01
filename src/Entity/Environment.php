@@ -19,7 +19,7 @@ class Environment implements JsonSerializable
     /**
      * @type string
      */
-    protected $key;
+    protected $name;
 
     /**
      * @type bool
@@ -29,56 +29,65 @@ class Environment implements JsonSerializable
     public function __construct()
     {
         $this->id = null;
-        $this->key = '';
+        $this->name = '';
         $this->isProduction = false;
-    }
-
-    /**
-     * @param integer $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
     }
 
     /**
      * @return integer
      */
-    public function getId()
+    public function id()
     {
         return $this->id;
     }
 
     /**
-     * @param string $key
-     */
-    public function setKey($key)
-    {
-        $this->key = $key;
-    }
-
-    /**
      * @return string
      */
-    public function getKey()
+    public function name()
     {
-        return $this->key;
-    }
-
-    /**
-     * @param bool $isProduction
-     */
-    public function setIsProduction($isProduction)
-    {
-        $this->isProduction = (bool) $isProduction;
+        return $this->name;
     }
 
     /**
      * @return bool
      */
-    public function getIsProduction()
+    public function isProduction()
     {
         return $this->isProduction;
+    }
+
+    /**
+     * @param integer $id
+     *
+     * @return self
+     */
+    public function withId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return self
+     */
+    public function withName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @param bool $isProduction
+     *
+     * @return self
+     */
+    public function withIsProduction($isProduction)
+    {
+        $this->isProduction = (bool) $isProduction;
+        return $this;
     }
 
     /**
@@ -87,10 +96,10 @@ class Environment implements JsonSerializable
     public function jsonSerialize()
     {
         $json = [
-            'id' => $this->getId(),
+            'id' => $this->id(),
 
-            'identifier' => $this->getKey(),
-            'isProduction' => $this->getIsProduction(),
+            'name' => $this->name(),
+            'isProduction' => $this->isProduction(),
         ];
 
         return $json;

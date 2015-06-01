@@ -60,7 +60,7 @@ class DoctrineChangeLogger
             return;
         }
 
-        if (!$user = $em->find(User::CLASS, $user->getId())) {
+        if (!$user = $em->find(User::CLASS, $user->id())) {
             return;
         }
 
@@ -122,11 +122,11 @@ class DoctrineChangeLogger
 
         $object = sprintf('%s:%s', $classname, $id);
 
-        $log = new AuditLog;
-        $log->setUser($user);
-        $log->setEntity($object);
-        $log->setAction($action);
-        $log->setData(json_encode($entity));
+        $log = (new AuditLog)
+            ->withUser($user)
+            ->withEntity($object)
+            ->withAction($action)
+            ->withData(json_encode($entity));
 
         return $log;
     }
@@ -139,7 +139,7 @@ class DoctrineChangeLogger
      */
     private function addChangeset(AuditLog $log, array $changeset)
     {
-        $data = json_decode($log->getData(), true);
+        $data = json_decode($log->data(), true);
 
         foreach ($changeset as $field => $properties) {
             if (isset($data[$field])) {
@@ -150,7 +150,7 @@ class DoctrineChangeLogger
             }
         }
 
-        $log->setData(json_encode($data));
+        $log->withData(json_encode($data));
     }
 
     /**

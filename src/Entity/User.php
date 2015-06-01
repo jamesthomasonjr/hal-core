@@ -14,7 +14,7 @@ use MCP\DataType\HttpUrl;
 class User implements JsonSerializable
 {
     /**
-     * @type integer
+     * @type int
      */
     protected $id;
 
@@ -22,19 +22,11 @@ class User implements JsonSerializable
      * @type string
      */
     protected $handle;
-
-    /**
-     * @type string
-     */
     protected $name;
-
-    /**
-     * @type string
-     */
     protected $email;
 
     /**
-     * @type null|HttpUrl
+     * @type HttpUrl|null
      */
     protected $pictureUrl;
 
@@ -63,9 +55,9 @@ class User implements JsonSerializable
     {
         // from ldap
         $this->id = null;
-        $this->handle = null;
-        $this->name = null;
-        $this->email = null;
+        $this->handle = '';
+        $this->name = '';
+        $this->email = '';
         $this->pictureUrl = null;
 
         // hal settings
@@ -77,118 +69,46 @@ class User implements JsonSerializable
     }
 
     /**
-     * Set the user id
-     *
-     * @param integer $id
+     * @return int
      */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * Get the user id
-     *
-     * @return integer
-     */
-    public function getId()
+    public function id()
     {
         return $this->id;
     }
 
     /**
-     * Set the user handle (username)
-     *
-     * @param string $handle
-     */
-    public function setHandle($handle)
-    {
-        $this->handle = $handle;
-    }
-
-    /**
-     * Get the user handle (username)
-     *
      * @return string
      */
-    public function getHandle()
+    public function handle()
     {
         return $this->handle;
     }
 
     /**
-     * Set the user display name
-     *
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * Get the user display name
-     *
      * @return string
      */
-    public function getName()
+    public function name()
     {
         return $this->name;
     }
 
     /**
-     * Set the user email address
-     *
-     * @param string $email
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-    }
-
-    /**
-     * Get the user email address
-     *
      * @return string
      */
-    public function getEmail()
+    public function email()
     {
         return $this->email;
     }
 
     /**
-     * Set the user picture url
-     *
-     * @param HttpUrl $pictureUrl
+     * @return HttpUrl|null
      */
-    public function setPictureUrl(HttpUrl $pictureUrl)
-    {
-        $this->pictureUrl = $pictureUrl;
-    }
-
-    /**
-     * Get the user picture url
-     *
-     * @return null|HttpUrl
-     */
-    public function getPictureUrl()
+    public function pictureUrl()
     {
         return $this->pictureUrl;
     }
 
     /**
-     * Set the user status
-     *
-     * @param bool $isActive
-     */
-    public function setIsActive($isActive)
-    {
-        $this->isActive = $isActive;
-    }
-
-    /**
-     * Get the user status
-     *
      * @return boolean
      */
     public function isActive()
@@ -197,43 +117,96 @@ class User implements JsonSerializable
     }
 
     /**
-     * Set the github access token
-     *
-     * @param string $githubToken
-     */
-    public function setGithubToken($githubToken)
-    {
-        $this->githubToken = $githubToken;
-    }
-
-    /**
-     * Get the github access token
-     *
      * @return string
      */
-    public function getGithubToken()
+    public function githubToken()
     {
         return $this->githubToken;
     }
 
     /**
-     * Set the user tokens
-     *
-     * @param ArrayCollection $tokens
+     * @return ArrayCollection
      */
-    public function setTokens(ArrayCollection $tokens)
+    public function tokens()
     {
-        $this->tokens = $tokens;
+        return $this->tokens;
     }
 
     /**
-     * Get the user tokens
+     * @param int $id
      *
-     * @return ArrayCollection
+     * @return self
      */
-    public function getTokens()
+    public function withId($id)
     {
-        return $this->tokens;
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @param string $handle
+     *
+     * @return self
+     */
+    public function withHandle($handle)
+    {
+        $this->handle = $handle;
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return self
+     */
+    public function withName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @param string $email
+     *
+     * @return self
+     */
+    public function withEmail($email)
+    {
+        $this->email = $email;
+        return $this;
+    }
+
+    /**
+     * @param HttpUrl $pictureUrl
+     *
+     * @return self
+     */
+    public function withPictureUrl(HttpUrl $pictureUrl)
+    {
+        $this->pictureUrl = $pictureUrl;
+        return $this;
+    }
+
+    /**
+     * @param bool $isActive
+     *
+     * @return self
+     */
+    public function withIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+        return $this;
+    }
+
+    /**
+     * @param string $githubToken
+     *
+     * @return self
+     */
+    public function withGithubToken($githubToken)
+    {
+        $this->githubToken = $githubToken;
+        return $this;
     }
 
     /**
@@ -242,12 +215,12 @@ class User implements JsonSerializable
     public function jsonSerialize()
     {
         $json = [
-            'id' => $this->getId(),
+            'id' => $this->id(),
 
-            'handle' => $this->getHandle(),
-            'name' => $this->getName(),
-            'email' => $this->getEmail(),
-            'url' => $this->getPictureUrl() ? $this->getPictureUrl()->asString() : null,
+            'handle' => $this->handle(),
+            'name' => $this->name(),
+            'email' => $this->email(),
+            'url' => $this->pictureUrl() ? $this->pictureUrl()->asString() : null,
             'isActive' => $this->isActive(),
             // 'githubToken' => $this->getGithubToken(),
 

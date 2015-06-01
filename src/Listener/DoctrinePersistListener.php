@@ -68,13 +68,21 @@ class DoctrinePersistListener
         // Add created time
         if (
             $entity instanceof Build ||
-            $entity instanceof Push ||
-            $entity instanceof EventLog ||
-            $entity instanceof AuditLog
+            $entity instanceof Push
         ) {
             if (!$entity->getCreated()) {
                 $created = $this->clock->read();
                 $entity->setCreated($created);
+            }
+        }
+
+        if (
+            $entity instanceof EventLog ||
+            $entity instanceof AuditLog
+        ) {
+            if (!$entity->created()) {
+                $created = $this->clock->read();
+                $entity->withCreated($created);
             }
         }
 
@@ -84,9 +92,9 @@ class DoctrinePersistListener
             $entity instanceof EncryptedProperty ||
             $entity instanceof Token
         ) {
-            if (!$entity->getId()) {
+            if (!$entity->id()) {
                 $id = call_user_func($this->random);
-                $entity->setId($id);
+                $entity->withId($id);
             }
         }
     }

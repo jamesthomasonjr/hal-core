@@ -14,7 +14,7 @@ QL\Hal\Core\Entity\Environment:
 
     fields:
 
-        key:
+        name:
             column: EnvironmentKey
             type: string
             length: 24
