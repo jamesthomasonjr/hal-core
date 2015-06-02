@@ -37,7 +37,6 @@ class AddUserPermissions extends AbstractMigration
             ->save();
 
         // add UserPermissions
-
         $permissionsTable = $this->table(DatabaseMeta::DB_USER_PERMISSION, [
             'id' => false,
             'primary_key' => 'UserPermissionId'
@@ -55,7 +54,7 @@ class AddUserPermissions extends AbstractMigration
 
             ->save();
 
-        // get FKed boiiii
+        // add FKs
         $typesTable
             ->addForeignKey('ApplicationId', DatabaseMeta::DB_REPO, 'RepositoryId', [
                 'delete' => 'CASCADE',
