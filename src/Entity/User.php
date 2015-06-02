@@ -222,9 +222,9 @@ class User implements JsonSerializable
             'email' => $this->email(),
             'url' => $this->pictureUrl() ? $this->pictureUrl()->asString() : null,
             'isActive' => $this->isActive(),
-            // 'githubToken' => $this->getGithubToken(),
+            // 'githubToken' => $this->githubToken(),
 
-            // 'tokens' => $this->getTokens() ? $this->getTokens()->getKeys() : [],
+            // 'tokens' => $this->tokens() ? $this->tokens()->getKeys() : [],
         ];
 
         return $json;

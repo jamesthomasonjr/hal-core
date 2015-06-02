@@ -136,7 +136,7 @@ class Deployment implements JsonSerializable
      *
      * @return self
      */
-    public function setId($id)
+    public function withId($id)
     {
         $this->id = $id;
         return $this;
@@ -147,7 +147,7 @@ class Deployment implements JsonSerializable
      *
      * @return self
      */
-    public function setUrl(HttpUrl $url)
+    public function withUrl(HttpUrl $url)
     {
         $this->url = $url;
         return $this;
@@ -158,7 +158,7 @@ class Deployment implements JsonSerializable
      *
      * @return self
      */
-    public function setPath($path)
+    public function withPath($path)
     {
         $this->path = $path;
         return $this;
@@ -169,7 +169,7 @@ class Deployment implements JsonSerializable
      *
      * @return self
      */
-    public function setEbEnvironment($ebEnvironment)
+    public function withEbEnvironment($ebEnvironment)
     {
         $this->ebEnvironment = $ebEnvironment;
         return $this;
@@ -180,7 +180,7 @@ class Deployment implements JsonSerializable
      *
      * @return self
      */
-    public function setEc2Pool($ec2Pool)
+    public function withEc2Pool($ec2Pool)
     {
         $this->ec2Pool = $ec2Pool;
         return $this;
@@ -191,7 +191,7 @@ class Deployment implements JsonSerializable
      *
      * @return self
      */
-    public function setApplication(Application $application)
+    public function withApplication(Application $application)
     {
         $this->application = $application;
         return $this;
@@ -202,7 +202,7 @@ class Deployment implements JsonSerializable
      *
      * @return self
      */
-    public function setServer(Server $server)
+    public function withServer(Server $server)
     {
         $this->server = $server;
         return $this;

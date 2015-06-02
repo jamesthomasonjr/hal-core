@@ -23,15 +23,7 @@ class Push implements JsonSerializable
      * @type TimePoint|null
      */
     protected $created;
-
-    /**
-     * @type TimePoint|null
-     */
     protected $start;
-
-    /**
-     * @type TimePoint|null
-     */
     protected $end;
 
     /**
@@ -64,9 +56,6 @@ class Push implements JsonSerializable
      */
     protected $logs;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->id = '';
@@ -83,163 +72,182 @@ class Push implements JsonSerializable
     }
 
     /**
-     * @param int $id
+     * @return string
      */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
+    public function id()
     {
         return $this->id;
     }
 
     /**
-     * @param TimePoint|null $created
-     */
-    public function setCreated(TimePoint $created = null)
-    {
-        $this->created = $created;
-    }
-
-    /**
      * @return TimePoint|null
      */
-    public function getCreated()
+    public function created()
     {
         return $this->created;
     }
 
     /**
-     * @param TimePoint|null $start
-     */
-    public function setStart(TimePoint $start = null)
-    {
-        $this->start = $start;
-    }
-
-    /**
      * @return TimePoint|null
      */
-    public function getStart()
+    public function start()
     {
         return $this->start;
     }
 
     /**
-     * @param TimePoint|null $end
-     */
-    public function setEnd(TimePoint $end = null)
-    {
-        $this->end = $end;
-    }
-
-    /**
      * @return TimePoint|null
      */
-    public function getEnd()
+    public function end()
     {
         return $this->end;
     }
 
     /**
-     * @param string $status
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-    }
-
-    /**
      * @return string
      */
-    public function getStatus()
+    public function status()
     {
         return $this->status;
     }
 
     /**
-     * @param User $user
-     */
-    public function setUser(User $user = null)
-    {
-        $this->user = $user;
-    }
-
-    /**
      * @return User
      */
-    public function getUser()
+    public function user()
     {
         return $this->user;
     }
 
     /**
-     * @param Build $build
-     */
-    public function setBuild(Build $build)
-    {
-        $this->build = $build;
-    }
-
-    /**
      * @return Build
      */
-    public function getBuild()
+    public function build()
     {
         return $this->build;
     }
 
     /**
-     * @param Deployment $deployment
-     */
-    public function setDeployment(Deployment $deployment)
-    {
-        $this->deployment = $deployment;
-    }
-
-    /**
-     * @return Deployment
-     */
-    public function getDeployment()
-    {
-        return $this->deployment;
-    }
-
-    /**
-     * @param Application $application
-     */
-    public function setApplication(Application $application)
-    {
-        $this->application = $application;
-    }
-
-    /**
      * @return Application
      */
-    public function getApplication()
+    public function application()
     {
         return $this->application;
     }
 
     /**
-     * @param ArrayCollection $logs
+     * @return Deployment
      */
-    public function setLogs($logs)
+    public function deployment()
     {
-        $this->logs = $logs;
+        return $this->deployment;
     }
 
     /**
      * @return ArrayCollection
      */
-    public function getLogs()
+    public function logs()
     {
         return $this->logs;
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return self
+     */
+    public function withId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @param TimePoint|null $created
+     *
+     * @return self
+     */
+    public function withCreated(TimePoint $created = null)
+    {
+        $this->created = $created;
+        return $this;
+    }
+
+    /**
+     * @param TimePoint|null $start
+     *
+     * @return self
+     */
+    public function withStart(TimePoint $start = null)
+    {
+        $this->start = $start;
+        return $this;
+    }
+
+    /**
+     * @param TimePoint|null $end
+     *
+     * @return self
+     */
+    public function withEnd(TimePoint $end = null)
+    {
+        $this->end = $end;
+        return $this;
+    }
+
+    /**
+     * @param string $status
+     *
+     * @return self
+     */
+    public function withStatus($status)
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * @param Build $build
+     *
+     * @return self
+     */
+    public function withBuild(Build $build)
+    {
+        $this->build = $build;
+        return $this;
+    }
+
+    /**
+     * @param Application $application
+     *
+     * @return self
+     */
+    public function withApplication(Application $application)
+    {
+        $this->application = $application;
+        return $this;
+    }
+
+    /**
+     * @param Deployment $deployment
+     *
+     * @return self
+     */
+    public function withDeployment(Deployment $deployment)
+    {
+        $this->deployment = $deployment;
+        return $this;
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return self
+     */
+    public function withUser(User $user = null)
+    {
+        $this->user = $user;
+        return $this;
     }
 
     /**
@@ -248,20 +256,20 @@ class Push implements JsonSerializable
     public function jsonSerialize()
     {
         $json = [
-            'id' => $this->getId(),
+            'id' => $this->id(),
 
-            'created' => $this->getCreated() ? $this->getCreated()->format(DateTime::RFC3339, 'UTC') : null,
-            'start' => $this->getStart() ? $this->getStart()->format(DateTime::RFC3339, 'UTC') : null,
-            'end' => $this->getEnd() ? $this->getEnd()->format(DateTime::RFC3339, 'UTC') : null,
+            'created' => $this->created() ? $this->created()->format(DateTime::RFC3339, 'UTC') : null,
+            'start' => $this->start() ? $this->start()->format(DateTime::RFC3339, 'UTC') : null,
+            'end' => $this->end() ? $this->end()->format(DateTime::RFC3339, 'UTC') : null,
 
-            'status' => $this->getStatus(),
+            'status' => $this->status(),
 
-            'user' => $this->getUser() ? $this->getUser()->id() : null,
-            'build' => $this->getBuild() ? $this->getBuild()->getId() : null,
-            'deployment' => $this->getDeployment() ? $this->getDeployment()->id() : null,
+            'user' => $this->user() ? $this->user()->id() : null,
+            'build' => $this->build() ? $this->build()->id() : null,
+            'deployment' => $this->deployment() ? $this->deployment()->id() : null,
             'application' => $this->application() ? $this->application()->id() : null,
 
-            // 'logs' => $this->getLogs() ? $this->getLogs()->getKeys() : []
+            // 'logs' => $this->logs() ? $this->logs()->getKeys() : []
         ];
 
         return $json;

@@ -114,9 +114,7 @@ class DoctrineChangeLogger
 
         // figure out the entity primary id
         $id = '?';
-        if (is_callable([$entity, 'getId']) && $entity->getId()) {
-            $id = $entity->getId();
-        } elseif (is_callable([$entity, 'id']) && $entity->id()) {
+        if (is_callable([$entity, 'id']) && $entity->id()) {
             $id = $entity->id();
         }
 

@@ -145,7 +145,7 @@ class Server implements JsonSerializable
 
             'environment' => $this->environment() ? $this->environment()->id() : null,
 
-            // 'deployments' => $this->getDeployments() ? $this->getDeployments()->getKeys() : []
+            // 'deployments' => $this->deployments() ? $this->deployments()->getKeys() : []
         ];
 
         return $json;

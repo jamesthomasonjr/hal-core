@@ -225,11 +225,11 @@ SQL;
 
         $latest = [];
         foreach ($pushes as $push) {
-            if (!$push->getDeployment()) {
+            if (!$push->deployment()) {
                 continue;
             }
 
-            $latest[$push->getDeployment()->id()] = $push;
+            $latest[$push->deployment()->id()] = $push;
         }
 
         return $latest;

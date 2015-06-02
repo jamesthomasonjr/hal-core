@@ -23,34 +23,18 @@ class Build implements JsonSerializable
      * @type TimePoint|null
      */
     protected $created;
-
-    /**
-     * @type TimePoint|null
-     */
     protected $start;
-
-    /**
-     * @type TimePoint|null
-     */
     protected $end;
 
     /**
      * @type string
      */
     protected $status;
-
-    /**
-     * @type string
-     */
     protected $branch;
-
-    /**
-     * @type string
-     */
     protected $commit;
 
     /**
-     * @type null|User
+     * @type User|null
      */
     protected $user;
 
@@ -88,180 +72,203 @@ class Build implements JsonSerializable
         $this->logs = new ArrayCollection;
     }
 
-    /**
-     * @param string $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
 
     /**
      * @return string
      */
-    public function getId()
+    public function id()
     {
         return $this->id;
     }
 
     /**
-     * @param TimePoint|null $created
-     */
-    public function setCreated(TimePoint $created = null)
-    {
-        $this->created = $created;
-    }
-
-    /**
      * @return TimePoint|null
      */
-    public function getCreated()
+    public function created()
     {
         return $this->created;
     }
 
     /**
-     * @param TimePoint|null $start
-     */
-    public function setStart(TimePoint $start = null)
-    {
-        $this->start = $start;
-    }
-
-    /**
      * @return TimePoint|null
      */
-    public function getStart()
+    public function start()
     {
         return $this->start;
     }
 
     /**
-     * @param TimePoint|null $end
-     */
-    public function setEnd(TimePoint $end = null)
-    {
-        $this->end = $end;
-    }
-
-    /**
      * @return TimePoint|null
      */
-    public function getEnd()
+    public function end()
     {
         return $this->end;
     }
 
     /**
-     * @param string $status
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-    }
-
-    /**
      * @return string
      */
-    public function getStatus()
+    public function status()
     {
         return $this->status;
     }
 
     /**
-     * @param string $branch
-     */
-    public function setBranch($branch)
-    {
-        $this->branch = $branch;
-    }
-
-    /**
      * @return string
      */
-    public function getBranch()
+    public function branch()
     {
         return $this->branch;
     }
 
     /**
-     * @param string $commit
-     */
-    public function setCommit($commit)
-    {
-        $this->commit = $commit;
-    }
-
-    /**
      * @return string
      */
-    public function getCommit()
+    public function commit()
     {
         return $this->commit;
     }
 
     /**
-     * @param User $user
-     */
-    public function setUser(User $user)
-    {
-        $this->user = $user;
-    }
-
-    /**
      * @return User|null
      */
-    public function getUser()
+    public function user()
     {
         return $this->user;
     }
 
     /**
-     * @param Application $application
-     */
-    public function setApplication(Application $application)
-    {
-        $this->application = $application;
-    }
-
-    /**
      * @return Application
      */
-    public function getApplication()
+    public function application()
     {
         return $this->application;
     }
 
     /**
-     * @param Environment $environment
-     */
-    public function setEnvironment(Environment $environment)
-    {
-        $this->environment = $environment;
-    }
-
-    /**
      * @return Environment
      */
-    public function getEnvironment()
+    public function environment()
     {
         return $this->environment;
     }
 
     /**
-     * @param ArrayCollection $logs
+     * @return ArrayCollection
      */
-    public function setLogs($logs)
+    public function logs()
     {
-        $this->logs = $logs;
+        return $this->logs;
     }
 
     /**
-     * @return ArrayCollection
+     * @param string $id
+     *
+     * @return self
      */
-    public function getLogs()
+    public function withId($id)
     {
-        return $this->logs;
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @param TimePoint|null $created
+     *
+     * @return self
+     */
+    public function withCreated(TimePoint $created = null)
+    {
+        $this->created = $created;
+        return $this;
+    }
+
+    /**
+     * @param TimePoint|null $start
+     *
+     * @return self
+     */
+    public function withStart(TimePoint $start = null)
+    {
+        $this->start = $start;
+        return $this;
+    }
+
+    /**
+     * @param TimePoint|null $end
+     *
+     * @return self
+     */
+    public function withEnd(TimePoint $end = null)
+    {
+        $this->end = $end;
+        return $this;
+    }
+
+    /**
+     * @param string $status
+     *
+     * @return self
+     */
+    public function withStatus($status)
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * @param string $branch
+     *
+     * @return self
+     */
+    public function withBranch($branch)
+    {
+        $this->branch = $branch;
+        return $this;
+    }
+
+    /**
+     * @param string $commit
+     *
+     * @return self
+     */
+    public function withCommit($commit)
+    {
+        $this->commit = $commit;
+        return $this;
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return self
+     */
+    public function withUser(User $user)
+    {
+        $this->user = $user;
+        return $this;
+    }
+
+    /**
+     * @param Application $application
+     *
+     * @return self
+     */
+    public function withApplication(Application $application)
+    {
+        $this->application = $application;
+        return $this;
+    }
+
+    /**
+     * @param Environment $environment
+     *
+     * @return self
+     */
+    public function withEnvironment(Environment $environment)
+    {
+        $this->environment = $environment;
+        return $this;
     }
 
     /**
@@ -270,21 +277,21 @@ class Build implements JsonSerializable
     public function jsonSerialize()
     {
         $json = [
-            'id' => $this->getId(),
+            'id' => $this->id(),
 
-            'created' => $this->getCreated() ? $this->getCreated()->format(DateTime::RFC3339, 'UTC') : null,
-            'start' => $this->getStart() ? $this->getStart()->format(DateTime::RFC3339, 'UTC') : null,
-            'end' => $this->getEnd() ? $this->getEnd()->format(DateTime::RFC3339, 'UTC') : null,
+            'created' => $this->created() ? $this->created()->format(DateTime::RFC3339, 'UTC') : null,
+            'start' => $this->start() ? $this->start()->format(DateTime::RFC3339, 'UTC') : null,
+            'end' => $this->end() ? $this->end()->format(DateTime::RFC3339, 'UTC') : null,
 
-            'status' => $this->getStatus(),
-            'branch' => $this->getBranch(),
-            'commit' => $this->getCommit(),
+            'status' => $this->status(),
+            'branch' => $this->branch(),
+            'commit' => $this->commit(),
 
-            'user' => $this->getUser() ? $this->getUser()->id() : null,
-            'repository' => $this->getApplication() ? $this->getApplication()->id() : null,
-            'environment' => $this->getEnvironment() ? $this->getEnvironment()->id() : null,
+            'user' => $this->user() ? $this->user()->id() : null,
+            'repository' => $this->application() ? $this->application()->id() : null,
+            'environment' => $this->environment() ? $this->environment()->id() : null,
 
-            // 'logs' => $this->getLogs() ? $this->getLogs()->getKeys() : []
+            // 'logs' => $this->logs() ? $this->logs()->getKeys() : []
         ];
 
         return $json;

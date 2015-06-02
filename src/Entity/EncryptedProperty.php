@@ -155,7 +155,7 @@ class EncryptedProperty implements JsonSerializable
             'id' => $this->id(),
 
             'name' => $this->name(),
-            // 'data' => $this->getData(),
+            // 'data' => $this->data(),
             'data' => '**ENCRYPTED**',
 
             'application' => $this->application() ? $this->application()->id() : null,

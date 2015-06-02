@@ -268,10 +268,10 @@ class EventLog implements JsonSerializable
             'message' => $this->message(),
             'status' => $this->status(),
 
-            'build' => $this->build() ? $this->build()->getId() : null,
-            'push' => $this->push() ? $this->push()->getId() : null,
+            'build' => $this->build() ? $this->build()->id() : null,
+            'push' => $this->push() ? $this->push()->id() : null,
 
-            // 'data' => $this->getData(),
+            // 'data' => $this->data(),
             'data' => '**DATA**',
         ];
 
