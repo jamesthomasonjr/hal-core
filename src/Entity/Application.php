@@ -26,7 +26,7 @@ class Application implements JsonSerializable
     /**
      * @type string
      */
-    protected $githubUser;
+    protected $githubOwner;
     protected $githubRepo;
 
     /**
@@ -63,7 +63,7 @@ class Application implements JsonSerializable
         $this->key = null;
         $this->name = null;
 
-        $this->githubUser = '';
+        $this->githubOwner = '';
         $this->githubRepo = '';
         $this->email = '';
 
@@ -104,18 +104,19 @@ class Application implements JsonSerializable
     /**
      * @return string
      */
-    public function githubRepo()
+    public function githubOwner()
     {
-        return $this->githubRepo;
+        return $this->githubOwner;
     }
 
     /**
      * @return string
      */
-    public function githubUser()
+    public function githubRepo()
     {
-        return $this->githubUser;
+        return $this->githubRepo;
     }
+
     /**
      * @return string
      */
@@ -174,23 +175,23 @@ class Application implements JsonSerializable
     }
 
     /**
-     * @param string $owner
+     * @param string $githubOwner
      *
      * @return self
      */
-    public function withGithubUser($owner)
+    public function withGithubOwner($githubOwner)
     {
-        $this->owner = $owner;
+        $this->githubOwner = $githubOwner;
         return $this;
     }
     /**
-     * @param string $repository
+     * @param string $githubRepo
      *
      * @return self
      */
-    public function withGithubRepo($repository)
+    public function withGithubRepo($githubRepo)
     {
-        $this->repository = $repository;
+        $this->githubRepo = $githubRepo;
         return $this;
     }
 
@@ -247,8 +248,8 @@ class Application implements JsonSerializable
 
             'identifier' => $this->key(),
             'name' => $this->name(),
+            'githubOwner' => $this->githubOwner(),
             'githubRepo' => $this->githubRepo(),
-            'githubUser' => $this->githubUser(),
             'email' => $this->email(),
             'ebName' => $this->ebName(),
 

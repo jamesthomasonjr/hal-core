@@ -22,7 +22,7 @@ QL\Hal\Core\Entity\Application:
             column: RepositoryName
             type: string
             length: 64
-        githubUser:
+        githubOwner:
             column: RepositoryGithubUser
             type: string
             length: 48
