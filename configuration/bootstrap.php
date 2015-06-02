@@ -21,7 +21,7 @@ error_reporting(E_ALL | E_STRICT);
 
 $container = new ContainerBuilder;
 $builder = new YamlFileLoader($container, new FileLocator($root));
-$builder->load('config/hal-core.yml');
+$builder->load('configuration/hal-core.yml');
 
 $container->compile();
 

@@ -14,7 +14,7 @@ class DoctrineFactory
      */
     public static function halYaml()
     {
-        return self::root() . '/config/doctrine';
+        return self::root() . '/configuration/doctrine';
     }
 
     /**
@@ -22,7 +22,7 @@ class DoctrineFactory
      */
     public static function krakenYaml()
     {
-        return self::root() . '/config/kraken';
+        return self::root() . '/configuration/kraken';
     }
 
     /**
