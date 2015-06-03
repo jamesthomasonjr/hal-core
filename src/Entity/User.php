@@ -44,13 +44,6 @@ class User implements JsonSerializable
      */
     protected $githubToken;
 
-    /**
-     * All tokens for the user.
-     *
-     * @type ArrayCollection
-     */
-    protected $tokens;
-
     public function __construct()
     {
         // from ldap
@@ -63,9 +56,6 @@ class User implements JsonSerializable
         // hal settings
         $this->isActive = false;
         $this->githubToken = '';
-
-        // convenience queries
-        $this->tokens = new ArrayCollection();
     }
 
     /**
@@ -122,14 +112,6 @@ class User implements JsonSerializable
     public function githubToken()
     {
         return $this->githubToken;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function tokens()
-    {
-        return $this->tokens;
     }
 
     /**
@@ -210,26 +192,6 @@ class User implements JsonSerializable
     }
 
     /**
-     * @param Token $token
-     *
-     * @return void
-     */
-    public function addToken(Token $token)
-    {
-        return $this->tokens->add($token);
-    }
-
-    /**
-     * @param Token $token
-     *
-     * @return void
-     */
-    public function removeToken(Token $token)
-    {
-        return $this->tokens->removeElement($token);
-    }
-
-    /**
      * @return array
      */
     public function jsonSerialize()
@@ -243,8 +205,6 @@ class User implements JsonSerializable
             'url' => $this->pictureUrl() ? $this->pictureUrl()->asString() : null,
             'isActive' => $this->isActive(),
             // 'githubToken' => $this->githubToken(),
-
-            // 'tokens' => $this->tokens() ? $this->tokens()->getKeys() : [],
         ];
 
         return $json;

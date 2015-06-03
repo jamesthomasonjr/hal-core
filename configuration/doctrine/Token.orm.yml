@@ -26,8 +26,6 @@ QL\Hal\Core\Entity\Token:
         user:
             cache: {usage : READ_ONLY}
             targetEntity: User
-            inversedBy: tokens
             joinColumn:
                 name: UserId
                 referencedColumnName: UserId
-                nullable: true
