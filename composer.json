@@ -30,7 +30,7 @@
         }
     ],
     "require": {
-        "doctrine/orm": "*",
+        "doctrine/orm": ">=2.5",
         "ext-openssl": "*",
         "php-64bit": ">=5.4.0",
         "ql/mcp-core": "*",
