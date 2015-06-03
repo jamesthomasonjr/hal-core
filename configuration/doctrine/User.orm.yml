@@ -40,6 +40,5 @@ QL\Hal\Core\Entity\User:
     oneToMany:
 
         tokens:
-            cache: {usage : NONSTRICT_READ_WRITE}
             targetEntity: Token
             mappedBy: user
