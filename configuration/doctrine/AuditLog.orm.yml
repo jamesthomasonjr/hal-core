@@ -8,25 +8,24 @@ QL\Hal\Core\Entity\AuditLog:
     id:
         id:
             column: AuditLogId
-            type: integer
-            generator:
-                strategy: AUTO
-
+            type: string
+            length: 32
+            options: {fixed: true}
     fields:
 
         created:
-            column: Recorded
+            column: AuditLogCreated
             type: timepoint
         entity:
-            column: Entity
+            column: AuditLogEntity
             type: string
             length: 255
         action:
-            column: Action
+            column: AuditLogAction
             type: string
             length: 255
         data:
-            column: Data
+            column: AuditLogData
             type: string
 
     manyToOne:

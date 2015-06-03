@@ -12,6 +12,8 @@ use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\UnitOfWork;
 use MCP\DataType\Time\Clock;
 use QL\Hal\Core\Entity\AuditLog;
+use QL\Hal\Core\Entity\Build;
+use QL\Hal\Core\Entity\Push;
 use QL\Hal\Core\Entity\User;
 
 class DoctrineChangeLogger
@@ -28,18 +30,24 @@ class DoctrineChangeLogger
     /**
      * @type Clock
      */
-    private $clock;
+    private $random;
+
+    /**
+     * @type callable
+     */
+    private $lazyUser;
 
     /**
      * @param Clock $clock
+     * @param callable $random
      * @param callable $lazyUser
      */
-    public function __construct(Clock $clock, callable $lazyUser)
+    public function __construct(Clock $clock, callable $random, callable $lazyUser)
     {
         $this->clock = $clock;
+        $this->random = $random;
         $this->lazyUser = $lazyUser;
     }
-
     /**
      * Listen for Doctrine flush events.
      *
@@ -103,6 +111,11 @@ class DoctrineChangeLogger
             return;
         }
 
+        // Skip builds and pushes, since those are always attached to a user anyway.
+        if ($entity instanceof Build || $entity instanceof Push) {
+            return;
+        }
+
         $fqcn = explode('\\', get_class($entity));
         $classname = array_pop($fqcn);
         $namespace = implode('\\', $fqcn);
@@ -114,17 +127,15 @@ class DoctrineChangeLogger
 
         // figure out the entity primary id
         $id = '?';
-        if (is_callable([$entity, 'id']) && $entity->id()) {
-            $id = $entity->id();
-        }
+        $entityId = $entity->id() ? $entity->id() : '?';
+        $object = sprintf('%s:%s', $classname, $entityId);
 
-        $object = sprintf('%s:%s', $classname, $id);
-
-        $log = (new AuditLog)
-            ->withUser($user)
+        $id = call_user_func($this->random);
+        $log = (new AuditLog($id))
             ->withEntity($object)
             ->withAction($action)
-            ->withData(json_encode($entity));
+            ->withData(json_encode($entity))
+            ->withUser($user);
 
         return $log;
     }
