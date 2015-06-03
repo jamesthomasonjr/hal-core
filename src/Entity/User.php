@@ -44,6 +44,11 @@ class User implements JsonSerializable
      */
     protected $githubToken;
 
+    /**
+     * @type ArrayCollection
+     */
+    protected $tokens;
+
     public function __construct()
     {
         // from ldap
@@ -56,6 +61,8 @@ class User implements JsonSerializable
         // hal settings
         $this->isActive = false;
         $this->githubToken = '';
+
+        $this->tokens = new ArrayCollection;
     }
 
     /**
@@ -112,6 +119,14 @@ class User implements JsonSerializable
     public function githubToken()
     {
         return $this->githubToken;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function tokens()
+    {
+        return $this->tokens;
     }
 
     /**

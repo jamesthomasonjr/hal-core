@@ -36,3 +36,9 @@ QL\Hal\Core\Entity\User:
             column: UserGithubToken
             type: string
             length: 128
+
+    oneToMany:
+
+        tokens:
+            targetEntity: Token
+            mappedBy: user
