@@ -7,7 +7,9 @@
 
 namespace QL\Hal\Core\Utility;
 
+use QL\Hal\Core\Entity\Application;
 use QL\Hal\Core\Entity\Environment;
+use QL\Hal\Core\Entity\Group;
 
 trait SortingTrait
 {
@@ -38,6 +40,26 @@ trait SortingTrait
             }
 
             return ($aOrder > $bOrder);
+        };
+    }
+
+    /**
+     * @return Closure
+     */
+    private function applicationSorter()
+    {
+        return function(Application $a, Application $b) {
+            return strcasecmp($a->name(), $b->name());
+        };
+    }
+
+    /**
+     * @return Closure
+     */
+    private function groupSorter()
+    {
+        return function(Group $a, Group $b) {
+            return strcasecmp($a->name(), $b->name());
         };
     }
 }

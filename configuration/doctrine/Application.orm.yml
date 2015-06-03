@@ -1,5 +1,6 @@
 QL\Hal\Core\Entity\Application:
     type: entity
+    repositoryClass: QL\Hal\Core\Repository\ApplicationRepository
     table: Repositories
 
     cache: {usage : NONSTRICT_READ_WRITE}
