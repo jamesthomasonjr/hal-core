@@ -36,6 +36,7 @@ class AddKrakenIndexesAndForeignKeys extends AbstractMigration
     {
         $this->table(DatabaseMeta::DB_LOG_AUDIT)
             ->addIndex(['AuditLogEntity'])
+            ->addIndex(['AuditLogKey'])
             ->save();
 
         $this->table(DatabaseMeta::DB_SCHEMA)
@@ -51,6 +52,7 @@ class AddKrakenIndexesAndForeignKeys extends AbstractMigration
     {
         $this->table(DatabaseMeta::DB_LOG_AUDIT)
             ->addForeignKey('UserID', HalDatabaseMeta::DB_USER, 'UserId', $this->fkRestrict())
+            ->addForeignKey('ApplicationID', DatabaseMeta::DB_APPLICATION, 'ApplicationID', $this->fkNullable())
             ->save();
 
         $this->table(DatabaseMeta::DB_APPLICATION)

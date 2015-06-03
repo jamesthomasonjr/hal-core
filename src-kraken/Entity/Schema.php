@@ -44,9 +44,12 @@ class Schema implements JsonSerializable
      */
     protected $user;
 
-    public function __construct()
+    /**
+     * @param string $id
+     */
+    public function __construct($id = '')
     {
-        $this->id = '';
+        $this->id = $id;
         $this->key = '';
 
         $this->dataType = '';

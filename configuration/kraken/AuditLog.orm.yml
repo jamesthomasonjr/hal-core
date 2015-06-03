@@ -21,6 +21,10 @@ QL\Kraken\Core\Entity\AuditLog:
             column: AuditLogEntity
             type: string
             length: 100
+        key:
+            column: AuditLogKey
+            type: string
+            length: 150
         action:
             column: AuditLogAction
             type: string
@@ -38,3 +42,10 @@ QL\Kraken\Core\Entity\AuditLog:
             joinColumn:
                 name: UserID
                 referencedColumnName: UserId
+
+        application:
+            cache: {usage : READ_ONLY}
+            targetEntity: Application
+            joinColumn:
+                name: ApplicationID
+                referencedColumnName: ApplicationID

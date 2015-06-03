@@ -28,11 +28,11 @@ class Token implements JsonSerializable
     protected $user;
 
     /**
-     * Constructor
+     * @param string $id
      */
-    public function __construct()
+    public function __construct($id = '')
     {
-        $this->id = '';
+        $this->id = $id;
         $this->value = '';
         $this->label = '';
 

@@ -24,9 +24,12 @@ class Environment implements JsonSerializable
      */
     protected $isProduction;
 
-    public function __construct()
+    /**
+     * @param string $id
+     */
+    public function __construct($id = '')
     {
-        $this->id = '';
+        $this->id = $id;
         $this->name = '';
         $this->consulServer = '';
         $this->consulToken = '';

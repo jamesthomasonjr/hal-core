@@ -23,26 +23,36 @@ class AuditLog
     protected $created;
 
     /**
-     * @type User
-     */
-    protected $user;
-
-    /**
      * @type string
      */
     protected $entity;
     protected $action;
     protected $data;
 
-    public function __construct()
+    /**
+     * @type User
+     */
+    protected $user;
+
+    /**
+     * @type Application
+     */
+    protected $application;
+
+    /**
+     * @param string $id
+     */
+    public function __construct($id = '')
     {
-        $this->id = '';
+        $this->id = $id;
         $this->created = null;
-        $this->user = null;
 
         $this->entity = '';
         $this->action = '';
         $this->data = '';
+
+        $this->user = null;
+        $this->application = null;
     }
 
     /**
@@ -62,22 +72,6 @@ class AuditLog
     }
 
     /**
-     * @return User
-     */
-    public function user()
-    {
-        return $this->user;
-    }
-
-    /**
-     * @return string
-     */
-    public function action()
-    {
-        return $this->action;
-    }
-
-    /**
      * @return string
      */
     public function entity()
@@ -88,56 +82,129 @@ class AuditLog
     /**
      * @return string
      */
+    public function key()
+    {
+        return $this->key;
+    }
+
+    /**
+     * @return string
+     */
+    public function action()
+    {
+        return $this->action;
+    }
+
+
+    /**
+     * @return string
+     */
     public function data()
     {
         return $this->data;
     }
 
     /**
+     * @return User
+     */
+    public function user()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @return Application
+     */
+    public function application()
+    {
+        return $this->application;
+    }
+
+    /**
      * @param string $id
+     *
+     * @return self
      */
     public function withId($id)
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
      * @param Timepoint $created
+     *
+     * @return self
      */
     public function withCreated(Timepoint $created)
     {
         $this->created = $created;
-    }
-
-    /**
-     * @param User $user
-     */
-    public function withUser(User $user)
-    {
-        $this->user = $user;
-    }
-
-    /**
-     * @param string $action
-     */
-    public function withAction($action)
-    {
-        $this->action = $action;
+        return $this;
     }
 
     /**
      * @param string $entity
+     *
+     * @return self
      */
     public function withEntity($entity)
     {
         $this->entity = $entity;
+        return $this;
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return self
+     */
+    public function withKey($key)
+    {
+        $this->key = $key;
+        return $this;
+    }
+
+    /**
+     * @param string $action
+     *
+     * @return self
+     */
+    public function withAction($action)
+    {
+        $this->action = $action;
+        return $this;
     }
 
     /**
      * @param string $data
+     *
+     * @return self
      */
     public function withData($data)
     {
         $this->data = $data;
+        return $this;
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return self
+     */
+    public function withUser(User $user)
+    {
+        $this->user = $user;
+        return $this;
+    }
+
+    /**
+     * @param Application $application
+     *
+     * @return self
+     */
+    public function withApplication(Application $application)
+    {
+        $this->application = $application;
+        return $this;
     }
 }

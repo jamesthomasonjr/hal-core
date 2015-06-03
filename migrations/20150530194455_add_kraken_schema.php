@@ -61,10 +61,12 @@ class AddKrakenSchema extends AbstractMigration
             ->addColumn('AuditLogCreated', 'datetime')
 
             ->addColumn('AuditLogEntity', 'string', ['limit' => 100])
+            ->addColumn('AuditLogKey', 'string', ['limit' => 150])
             ->addColumn('AuditLogAction', 'string', ['limit' => 20])
             ->addColumn('AuditLogData', 'text', ['limit' => MysqlAdapter::TEXT_REGULAR, 'null' => true])
 
             ->addColumn('UserID', 'integer')
+            ->addColumn('ApplicationID', 'char', ['limit' => 32, 'null' => true])
 
             ->save();
     }

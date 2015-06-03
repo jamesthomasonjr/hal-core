@@ -32,9 +32,12 @@ class Target implements JsonSerializable
      */
     protected $configuration;
 
-    public function __construct()
+    /**
+     * @param string $id
+     */
+    public function __construct($id = '')
     {
-        $this->id = '';
+        $this->id = $id;
         $this->key = '';
 
         $this->application = null;

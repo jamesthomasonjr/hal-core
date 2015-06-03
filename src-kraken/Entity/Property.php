@@ -45,9 +45,12 @@ class Property implements JsonSerializable
      */
     protected $user;
 
-    public function __construct()
+    /**
+     * @param string $id
+     */
+    public function __construct($id = '')
     {
-        $this->id = '';
+        $this->id = $id;
         $this->value = '';
 
         $this->created = null;
