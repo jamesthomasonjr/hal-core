@@ -9,6 +9,7 @@ namespace QL\Kraken\Core\Listener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use MCP\DataType\Time\Clock;
+use QL\Kraken\Core\Entity\AuditLog;
 use QL\Kraken\Core\Entity\Configuration;
 use QL\Kraken\Core\Entity\Property;
 use QL\Kraken\Core\Entity\Schema;
@@ -68,6 +69,7 @@ class DoctrinePersistListener
      */
     private function isTimestampable($entity)
     {
+        if ($entity instanceof AuditLog) return true;
         if ($entity instanceof Configuration) return true;
         if ($entity instanceof Property) return true;
         if ($entity instanceof Schema) return true;
