@@ -53,9 +53,12 @@ class Build implements JsonSerializable
      */
     protected $logs;
 
-    public function __construct()
+    /**
+     * @param string $id
+     */
+    public function __construct($id = '')
     {
-        $this->id = null;
+        $this->id = $id;
 
         $this->created = null;
         $this->start = null;

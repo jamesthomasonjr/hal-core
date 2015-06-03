@@ -56,9 +56,12 @@ class Push implements JsonSerializable
      */
     protected $logs;
 
-    public function __construct()
+    /**
+     * @param string $id
+     */
+    public function __construct($id = '')
     {
-        $this->id = '';
+        $this->id = $id;
         $this->created = null;
         $this->start = null;
         $this->end = null;
