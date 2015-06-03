@@ -61,6 +61,7 @@ SQL;
 
         $query = $this->getEntityManager()
             ->createQuery(self::DQL_RECENT_APPLICATIONS)
+            ->setCacheable(true)
             ->setParameter('user', $user)
             ->setParameter('oldestbuild', $oldest);
 

@@ -37,6 +37,7 @@ SQL;
     {
         $query = $this->getEntityManager()
             ->createQuery(self::DQL_BY_REPOSITORY)
+            ->setCacheable(true)
             ->setParameter('application', $application);
 
         return $query->getResult();
