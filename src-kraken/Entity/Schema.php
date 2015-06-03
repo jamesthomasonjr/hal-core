@@ -229,7 +229,7 @@ class Schema implements JsonSerializable
             'created' => $this->created() ? $this->created()->format(DateTime::RFC3339, 'UTC') : null,
 
             'application' => $this->application() ? $this->application()->id() : null,
-            'user' => $this->user() ? $this->user()->getId() : null
+            'user' => $this->user() ? $this->user()->id() : null
         ];
 
         return $json;

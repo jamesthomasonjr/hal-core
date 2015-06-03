@@ -26,6 +26,7 @@ class AuditLog
      * @type string
      */
     protected $entity;
+    protected $key;
     protected $action;
     protected $data;
 
@@ -48,6 +49,7 @@ class AuditLog
         $this->created = null;
 
         $this->entity = '';
+        $this->key = '';
         $this->action = '';
         $this->data = '';
 

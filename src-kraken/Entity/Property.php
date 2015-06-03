@@ -207,7 +207,7 @@ class Property implements JsonSerializable
 
             'application' => $this->application() ? $this->application()->id() : null,
             'environment' => $this->environment() ? $this->environment()->id() : null,
-            'user' => $this->user() ? $this->user()->getId() : null,
+            'user' => $this->user() ? $this->user()->id() : null,
         ];
 
         return $json;

@@ -122,7 +122,7 @@ class Application implements JsonSerializable
             'name' => $this->name(),
             'coreId' => $this->coreId(),
 
-            'halApplication' => $this->halApplication() ? $this->halApplication()->getId() : null
+            'halApplication' => $this->halApplication() ? $this->halApplication()->id() : null
         ];
 
         return $json;
