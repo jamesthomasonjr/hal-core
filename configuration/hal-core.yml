@@ -128,5 +128,5 @@ services:
     # DOCTRINE HELPERS
     ####################################################################################################################
 
-    doctrine.random.id:
+    doctrine.random:
         class: 'QL\Hal\Core\RandomGenerator'
