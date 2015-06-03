@@ -54,10 +54,6 @@ class DoctrinePersistListener
 
         // Add created time
         if ($this->isTimestampable($entity)) {
-            if (!is_callable([$entity, 'created']) || !is_callable([$entity, 'withCreated'])) {
-                return;
-            }
-
             if (!$entity->created()) {
                 $created = $this->clock->read();
                 $entity->withCreated($created);

@@ -11,10 +11,8 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use MCP\DataType\Time\Clock;
 use QL\Hal\Core\Entity\AuditLog;
 use QL\Hal\Core\Entity\Build;
-use QL\Hal\Core\Entity\EncryptedProperty;
 use QL\Hal\Core\Entity\EventLog;
 use QL\Hal\Core\Entity\Push;
-use QL\Hal\Core\Entity\Token;
 
 /**
  * A doctrine event listener for:
@@ -23,10 +21,6 @@ use QL\Hal\Core\Entity\Token;
  *     - Build
  *     - Push
  *     - EventLog
- * - Add a random sha hash as the unique identifier.
- *     - EncryptedProperty
- *     - EventLog
- *     - Token
  *
  * It should be attached to the PrePersist event.
  *
@@ -39,19 +33,12 @@ class DoctrinePersistListener
      */
     private $clock;
 
-   /**
-     * @type callable
-     */
-    private $random;
-
     /**
      * @param Clock $clock
-     * @param callable $random
      */
-    public function __construct(Clock $clock, callable $random)
+    public function __construct(Clock $clock)
     {
         $this->clock = $clock;
-        $this->random = $random;
     }
 
     /**
@@ -66,28 +53,26 @@ class DoctrinePersistListener
         $entity = $event->getObject();
 
         // Add created time
-        if (
-            $entity instanceof EventLog ||
-            $entity instanceof AuditLog ||
-            $entity instanceof Build ||
-            $entity instanceof Push
-        ) {
+        if ($this->isTimestampable($entity)) {
             if (!$entity->created()) {
                 $created = $this->clock->read();
                 $entity->withCreated($created);
             }
         }
+    }
 
-        // Add unique generated id
-        if (
-            $entity instanceof EventLog ||
-            $entity instanceof EncryptedProperty ||
-            $entity instanceof Token
-        ) {
-            if (!$entity->id()) {
-                $id = call_user_func($this->random);
-                $entity->withId($id);
-            }
-        }
+    /**
+     * @param mixed $entity
+     *
+     * @return bool
+     */
+    private function isTimestampable($entity)
+    {
+        if ($entity instanceof EventLog) return true;
+        if ($entity instanceof AuditLog) return true;
+        if ($entity instanceof Build) return true;
+        if ($entity instanceof Push) return true;
+
+        return false;
     }
 }
