@@ -38,7 +38,7 @@ class ApplicationRepository extends EntityRepository
         }
 
         foreach ($applications as $app) {
-            $grouped[$app->group()->id()] = $app;
+            $grouped[$app->group()->id()][] = $app;
         }
 
         return $grouped;
