@@ -2,7 +2,7 @@ QL\Kraken\Core\Entity\Configuration:
     type: entity
     table: KrakenConfiguration
 
-    cache: {usage : READ_ONLY}
+    cache: {usage : NONSTRICT_READ_WRITE}
 
     id:
         id:
