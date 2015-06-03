@@ -210,6 +210,26 @@ class User implements JsonSerializable
     }
 
     /**
+     * @param Token $token
+     *
+     * @return void
+     */
+    public function addToken(Token $token)
+    {
+        return $this->tokens->add($token);
+    }
+
+    /**
+     * @param Token $token
+     *
+     * @return void
+     */
+    public function removeToken(Token $token)
+    {
+        return $this->tokens->removeElement($token);
+    }
+
+    /**
      * @return array
      */
     public function jsonSerialize()
