@@ -112,8 +112,6 @@ class AddKrakenSchema extends AbstractMigration
             ->addColumn('EnvironmentConsulToken', 'string', ['limit' => 100])
             ->addColumn('EnvironmentIsProduction', 'boolean', ['default' => false])
 
-            ->addColumn('HalApplicationID', 'integer', ['null' => true])
-
             ->save();
     }
 
