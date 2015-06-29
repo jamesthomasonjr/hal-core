@@ -16,11 +16,18 @@ class Environment implements JsonSerializable
      */
     protected $id;
     protected $name;
-    protected $consulServer;
+    protected $consulServiceURL;
     protected $consulToken;
 
     /**
      * @type string
+     */
+    protected $qksServiceURL;
+    protected $qksClientID;
+    protected $qksClientSecret;
+
+    /**
+     * @type bool
      */
     protected $isProduction;
 
@@ -31,8 +38,13 @@ class Environment implements JsonSerializable
     {
         $this->id = $id;
         $this->name = '';
-        $this->consulServer = '';
+
+        $this->consulServiceURL = '';
         $this->consulToken = '';
+
+        $this->qksServiceURL = '';
+        $this->qksClientID = '';
+        $this->qksClientSecret = '';
 
         $this->isProduction = false;
     }
@@ -64,9 +76,9 @@ class Environment implements JsonSerializable
     /**
      * @return string
      */
-    public function consulServer()
+    public function consulServiceURL()
     {
-        return $this->consulServer;
+        return $this->consulServiceURL;
     }
 
     /**
@@ -75,6 +87,30 @@ class Environment implements JsonSerializable
     public function consulToken()
     {
         return $this->consulToken;
+    }
+
+    /**
+     * @return string
+     */
+    public function qksServiceURL()
+    {
+        return $this->qksServiceURL;
+    }
+
+    /**
+     * @return string
+     */
+    public function qksClientID()
+    {
+        return $this->qksClientID;
+    }
+
+    /**
+     * @return string
+     */
+    public function qksClientSecret()
+    {
+        return $this->qksClientSecret;
     }
 
     /**
@@ -111,13 +147,13 @@ class Environment implements JsonSerializable
     }
 
     /**
-     * @param string $server
+     * @param string $url
      *
      * @return self
      */
-    public function withConsulServer($server)
+    public function withConsulServiceURL($url)
     {
-        $this->consulServer = $server;
+        $this->consulServiceURL = $url;
         return $this;
     }
 
@@ -133,6 +169,39 @@ class Environment implements JsonSerializable
     }
 
     /**
+     * @param string $url
+     *
+     * @return self
+     */
+    public function withQKSServiceURL($url)
+    {
+        $this->qksServiceURL = $url;
+        return $this;
+    }
+
+    /**
+     * @param string $clientID
+     *
+     * @return self
+     */
+    public function withQKSClientID($clientID)
+    {
+        $this->qksClientID = $clientID;
+        return $this;
+    }
+
+    /**
+     * @param string $clientSecret
+     *
+     * @return self
+     */
+    public function withQKSClientSecret($clientSecret)
+    {
+        $this->qksClientSecret = $clientSecret;
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function jsonSerialize()
@@ -142,8 +211,12 @@ class Environment implements JsonSerializable
             'name' => $this->name(),
             'isProduction' => $this->isProduction(),
 
-            'consulServer' => $this->consulServer(),
-            'consulToken' => $this->consulToken()
+            'consulServiceURL' => $this->consulServiceURL(),
+            // 'consulToken' => $this->consulToken(),
+
+            'qksServiceURL' => $this->qksServiceURL(),
+            'qksClientID' => $this->qksClientID(),
+            // 'qksClientSecret' => $this->qksClientSecret()
         ];
 
         return $json;
