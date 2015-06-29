@@ -40,7 +40,11 @@ SQL;
             ->setCacheable(true)
             ->setParameter('application', $application);
 
-        return $query->getResult();
+        $environments = $query->getResult();
+
+        usort($environments, $this->environmentSorter());
+
+        return $environments;
     }
 
     /**
