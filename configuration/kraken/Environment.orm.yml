@@ -24,7 +24,7 @@ QL\Kraken\Core\Entity\Environment:
         consulToken:
             column: EnvironmentConsulToken
             type: string
-            length: 100
+            length: 200
 
         qksServiceURL:
             column: EnvironmentQKSServiceURL
@@ -37,7 +37,7 @@ QL\Kraken\Core\Entity\Environment:
         qksClientSecret:
             column: EnvironmentQKSClientSecret
             type: string
-            length: 100
+            length: 200
 
         isProduction:
             column: EnvironmentIsProduction
