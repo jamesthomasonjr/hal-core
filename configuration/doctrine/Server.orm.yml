@@ -19,7 +19,7 @@ QL\Hal\Core\Entity\Server:
         name:
             column: ServerName
             type: string
-            length: 24
+            length: 60
 
     manyToOne:
 
