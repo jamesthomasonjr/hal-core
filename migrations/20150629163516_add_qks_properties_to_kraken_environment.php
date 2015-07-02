@@ -14,6 +14,7 @@ class AddQksPropertiesToKrakenEnvironment extends AbstractMigration
 
         $table
             ->addColumn('EnvironmentQKSServiceURL', 'string', ['limit' => 200, 'after' => 'EnvironmentConsulToken'])
+            ->addColumn('EnvironmentQKSEncryptionKey', 'char', ['limit' => 6, 'after' => 'EnvironmentQKSServiceURL'])
             ->addColumn('EnvironmentQKSClientID', 'string', ['limit' => 100, 'after' => 'EnvironmentQKSServiceURL'])
             ->addColumn('EnvironmentQKSClientSecret', 'string', ['limit' => 200, 'after' => 'EnvironmentQKSClientID'])
 
@@ -22,6 +23,12 @@ class AddQksPropertiesToKrakenEnvironment extends AbstractMigration
 
             ->addIndex(['EnvironmentName'], ['unique' => true]);
 
+        $table->save();
+
+
+        $table = $this->table(DatabaseMeta::DB_TARGET);
+        $table
+            ->changeColumn('TargetEncryptionKey', 'char', ['limit' => 6]);
         $table->save();
     }
 
@@ -33,6 +40,7 @@ class AddQksPropertiesToKrakenEnvironment extends AbstractMigration
         $table = $this->table(DatabaseMeta::DB_ENVIRONMENT);
         $table
             ->removeColumn('EnvironmentQKSServiceURL')
+            ->removeColumn('EnvironmentQKSEncryptionKey')
             ->removeColumn('EnvironmentQKSClientID')
             ->removeColumn('EnvironmentQKSClientSecret')
 
@@ -42,5 +50,11 @@ class AddQksPropertiesToKrakenEnvironment extends AbstractMigration
             ->removeIndex(['EnvironmentName']);
 
         $table->save();
+
+        $table = $this->table(DatabaseMeta::DB_TARGET);
+        $table
+            ->changeColumn('TargetEncryptionKey', 'string', ['limit' => 100]);
+        $table->save();
+
     }
 }

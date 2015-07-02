@@ -23,6 +23,7 @@ class Environment implements JsonSerializable
      * @type string
      */
     protected $qksServiceURL;
+    protected $qksEncryptionKey;
     protected $qksClientID;
     protected $qksClientSecret;
 
@@ -43,6 +44,7 @@ class Environment implements JsonSerializable
         $this->consulToken = '';
 
         $this->qksServiceURL = '';
+        $this->qksEncryptionKey = '';
         $this->qksClientID = '';
         $this->qksClientSecret = '';
 
@@ -95,6 +97,14 @@ class Environment implements JsonSerializable
     public function qksServiceURL()
     {
         return $this->qksServiceURL;
+    }
+
+    /**
+     * @return string
+     */
+    public function qksEncryptionKey()
+    {
+        return $this->qksEncryptionKey;
     }
 
     /**
@@ -180,6 +190,17 @@ class Environment implements JsonSerializable
     }
 
     /**
+     * @param string $key
+     *
+     * @return self
+     */
+    public function withQKSEncryptionKey($key)
+    {
+        $this->qksEncryptionKey = $key;
+        return $this;
+    }
+
+    /**
      * @param string $clientID
      *
      * @return self
@@ -215,6 +236,7 @@ class Environment implements JsonSerializable
             // 'consulToken' => $this->consulToken(),
 
             'qksServiceURL' => $this->qksServiceURL(),
+            'qksEncryptionKey' => $this->qksEncryptionKey(),
             'qksClientID' => $this->qksClientID(),
             // 'qksClientSecret' => $this->qksClientSecret()
         ];

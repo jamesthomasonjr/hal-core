@@ -30,6 +30,10 @@ QL\Kraken\Core\Entity\Environment:
             column: EnvironmentQKSServiceURL
             type: string
             length: 200
+        qksEncryptionKey:
+            column: EnvironmentQKSEncryptionKey
+            type: string
+            length: 6
         qksClientID:
             column: EnvironmentQKSClientID
             type: string

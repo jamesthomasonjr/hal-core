@@ -16,7 +16,7 @@ QL\Kraken\Core\Entity\Target:
         key:
             column: TargetEncryptionKey
             type: string
-            length: 100
+            length: 6
 
     manyToOne:
 
