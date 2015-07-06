@@ -3,10 +3,7 @@
     "description": "HAL9000 Shared Libraries, Services, Models, and Repositories",
     "license": "proprietary",
     "authors": [
-        {
-            "name": "IT Team Web Core",
-            "email": "itteamwebcore@quickenloans.com"
-        }
+        { "name": "IT Team Web Core", "email": "itteamwebcore@quickenloans.com" }
     ],
 
     "archive": {
