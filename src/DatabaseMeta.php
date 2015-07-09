@@ -27,4 +27,7 @@ class DatabaseMeta
     const DB_USER_TYPE = 'UserTypes';
     const DB_USER_PERMISSION = 'UserPermissions';
     const DB_TOKEN = 'Tokens';
+
+    const DB_DEPLOYMENT_POOL = 'DeploymentPools';
+    const DB_DEPLOYMENT_VIEW = 'DeploymentViews';
 }

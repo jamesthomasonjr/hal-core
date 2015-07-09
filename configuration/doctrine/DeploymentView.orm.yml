@@ -1,0 +1,50 @@
+QL\Hal\Core\Entity\DeploymentView:
+    type: entity
+    table: DeploymentViews
+
+    cache: {usage : NONSTRICT_READ_WRITE}
+
+    id:
+        id:
+            column: DeploymentViewId
+            type: string
+            length: 32
+            options: {fixed: true}
+
+    fields:
+
+        name:
+            column: DeploymentViewName
+            type: string
+            length: 100
+
+    manyToOne:
+
+        application:
+            cache: {usage : READ_ONLY}
+            targetEntity: Application
+            joinColumn:
+                name: ApplicationId
+                referencedColumnName: RepositoryId
+            nullable: true
+
+        environment:
+            cache: {usage : READ_ONLY}
+            targetEntity: Environment
+            joinColumn:
+                name: EnvironmentId
+                referencedColumnName: EnvironmentId
+
+        user:
+            cache: {usage : READ_ONLY}
+            targetEntity: User
+            joinColumn:
+                name: UserId
+                referencedColumnName: UserId
+            nullable: true
+
+    oneToMany:
+
+        pools:
+            targetEntity: DeploymentPool
+            mappedBy: view
