@@ -15,23 +15,22 @@
         ]
     },
     "autoload": {
-        "psr-4": {
-            "QL\\Hal\\Core\\": "src/",
-            "QL\\Kraken\\Core\\": "src-kraken/"
-        }
+        "psr-4": { "QL\\Hal\\Core\\": "src/", "QL\\Kraken\\Core\\": "src-kraken/" }
     },
     "repositories": [
-        {
-            "type": "composer",
-            "url": "http://composer/"
-        }
+        { "type": "composer", "url": "http://composer/" }
     ],
+
     "require": {
-        "doctrine/orm": ">=2.5",
+        "php-64bit": ">=5.5",
         "ext-openssl": "*",
-        "php-64bit": ">=5.4.0",
-        "ql/mcp-core": "*",
-        "ql/mcp-corp-account": "*"
+        "ext-pdo": "*",
+        "ext-pdo_sqlite": "*",
+        "ext-pdo_mysql": "*",
+        "ext-xmlwriter": "*",
+
+        "doctrine/orm": ">=2.5",
+        "ql/mcp-core": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "*",
