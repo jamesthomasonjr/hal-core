@@ -7,6 +7,7 @@
 
 namespace QL\Hal\Core\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use JsonSerializable;
 
 class DeploymentPool implements JsonSerializable
@@ -27,7 +28,7 @@ class DeploymentPool implements JsonSerializable
     protected $view;
 
     /**
-     * @type int[]
+     * @type ArrayCollection
      */
     protected $deployments;
 
@@ -40,7 +41,7 @@ class DeploymentPool implements JsonSerializable
         $this->name = '';
 
         $this->view = null;
-        $this->deployments = [];
+        $this->deployments = new ArrayCollection;
     }
 
     /**
@@ -68,25 +69,11 @@ class DeploymentPool implements JsonSerializable
     }
 
     /**
-     * @return int[]
+     * @return ArrayCollection
      */
     public function deployments()
     {
         return $this->deployments;
-    }
-
-    /**
-     * @param Deployment|int $deployment
-     *
-     * @return bool
-     */
-    public function inPool($deployment)
-    {
-        if ($deployment instanceof Deployment) {
-            $deployment = $deployment->id();
-        }
-
-        return in_array($deployment, $this->deployments, true);
     }
 
     /**
@@ -123,62 +110,6 @@ class DeploymentPool implements JsonSerializable
     }
 
     /**
-     * @param Deployment|int $deployment
-     *
-     * @return self
-     */
-    public function withDeployment($deployment)
-    {
-        if ($deployment instanceof Deployment) {
-            $deployment = $deployment->id();
-        }
-
-        if (is_int($deployment) && !in_array($deployment, $this->deployments, true)) {
-            $this->deployments[] = $deployment;
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param Deployment[]|int[] $deployments
-     *
-     * @return self
-     */
-    public function withDeployments(array $deployments)
-    {
-        $this->deployments = [];
-
-        foreach ($deployments as $deployment) {
-            $this->withDeployment($deployment);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param Deployment|int $deployment
-     *
-     * @return self
-     */
-    public function withoutDeployment($deployment)
-    {
-        if ($deployment instanceof Deployment) {
-            $deployment = $deployment->id();
-        }
-
-        $saved = array_fill_keys($this->deployments, true);
-
-        if (array_key_exists($deployment, $saved)) {
-            unset($saved[$deployment]);
-        }
-
-        $this->deployments = array_keys($saved);
-
-        return $this;
-    }
-
-    /**
      * @return array
      */
     public function jsonSerialize()
@@ -188,7 +119,7 @@ class DeploymentPool implements JsonSerializable
             'name' => $this->name(),
 
             'view' => $this->view() ? $this->view()->id() : null,
-            'deployments' => $this->deployments(),
+            // 'deployments' => $this->deployments(),
         ];
 
         return $json;

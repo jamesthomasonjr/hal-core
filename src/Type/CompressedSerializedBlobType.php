@@ -67,6 +67,6 @@ class CompressedSerializedBlobType extends BaseType
      */
     public function getSqlDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
-        return $platform->getBlobTypeDeclarationSQL();
+        return $platform->getBlobTypeDeclarationSQL($fieldDeclaration);
     }
 }

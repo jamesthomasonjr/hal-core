@@ -18,10 +18,6 @@ QL\Hal\Core\Entity\DeploymentPool:
             type: string
             length: 100
 
-        deployments:
-            column: DeploymentPoolDeployments
-            type: json_array
-
     manyToOne:
 
         view:
@@ -30,3 +26,19 @@ QL\Hal\Core\Entity\DeploymentPool:
             joinColumn:
                 name: DeploymentViewId
                 referencedColumnName: DeploymentViewId
+
+    manyToMany:
+
+        deployments:
+            # cache: {usage : READ_ONLY}
+            targetEntity: Deployment
+            fetch: EAGER
+            joinTable:
+                name: DeploymentPools_Deployments
+                joinColumns:
+                    RelationPoolId:
+                        referencedColumnName: DeploymentPoolId
+                inverseJoinColumns:
+                    RelationDeploymentId:
+                        referencedColumnName: DeploymentId
+
