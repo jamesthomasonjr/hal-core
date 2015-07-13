@@ -1,5 +1,6 @@
 QL\Hal\Core\Entity\DeploymentPool:
     type: entity
+    repositoryClass: QL\Hal\Core\Repository\DeploymentPoolRepository
     table: DeploymentPools
 
     cache: {usage : NONSTRICT_READ_WRITE}
