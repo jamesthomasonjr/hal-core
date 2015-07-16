@@ -29,7 +29,7 @@ class PrivateKeyCredential
      * @param string $path
      * @param string $file
      */
-    public function __construct($username, $path = '', $file = '')
+    public function __construct($username = '', $path = '', $file = '')
     {
         $this->username = $username;
 

@@ -48,8 +48,8 @@ class Credential implements JsonSerializable
         $this->type = '';
         $this->name = '';
 
-        $this->aws = null;
-        $this->privateKey = null;
+        $this->aws = new AWSCredential;
+        $this->privateKey = new PrivateKeyCredential;
     }
 
     /**
