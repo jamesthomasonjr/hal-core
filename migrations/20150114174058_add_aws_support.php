@@ -1,7 +1,7 @@
 <?php
 
 use Phinx\Migration\AbstractMigration;
-use QL\Hal\Core\Type\ServerEnumType;
+use QL\Hal\Core\Type\EnumType\ServerEnum;
 
 class AddAwsSupport extends AbstractMigration
 {
@@ -77,25 +77,15 @@ class AddAwsSupport extends AbstractMigration
     public function updateServers()
     {
         // unique constraint on server name will live in app logic
+        $types = ServerEnum::values();
+
         $this->table(self::TABLE_SERVERS)
+            ->addColumn('ServerType', 'enum', [
+                'values' => $types,
+                'default' => array_shift($types)
+            ])
             ->removeIndex(['ServerName'])
             ->save();
-
-        // Phinx (as of 0.4.1) does not support ENUM, so ENUM columns must be manually added
-        $types = array_map(function($type) {
-            return sprintf("'%s'", $type);
-        }, ServerEnumType::values());
-
-        $tbl = self::TABLE_SERVERS;
-        $default = reset($types);
-        $types = implode(", ", $types);
-
-        $this->execute("
-ALTER TABLE $tbl
-ADD COLUMN
-    ServerType ENUM($types) NOT NULL DEFAULT $default
-    AFTER ServerId
-");
     }
 
     /**

@@ -2,10 +2,10 @@
 
 use Phinx\Db\Adapter\MysqlAdapter;
 use Phinx\Migration\AbstractMigration;
-use QL\Hal\Core\Type\BuildStatusEnumType;
-use QL\Hal\Core\Type\PushStatusEnumType;
-use QL\Hal\Core\Type\EventEnumType;
-use QL\Hal\Core\Type\EventStatusEnumType;
+use QL\Hal\Core\EnumType\BuildStatusEnum;
+use QL\Hal\Core\EnumType\PushStatusEnum;
+use QL\Hal\Core\EnumType\EventEnum;
+use QL\Hal\Core\EnumType\EventStatusEnum;
 
 class InitialSchemaVersion23 extends AbstractMigration
 {
@@ -255,12 +255,17 @@ class InitialSchemaVersion23 extends AbstractMigration
             'primary_key' => 'BuildId'
         ]);
 
+        $statuses = BuildStatusEnum::values();
+
         $table
             ->addColumn('BuildId', 'char', ['limit' => 40])
             ->addColumn('BuildCreated', 'datetime')
             ->addColumn('BuildStart', 'datetime', ['null' => true])
             ->addColumn('BuildEnd', 'datetime', ['null' => true])
-            // ->addColumn('BuildStatus') -- see below
+            ->addColumn('BuildStatus', 'enum', [
+                'values' => $statuses,
+                'default' => array_shift($statuses)
+            ])
             ->addColumn('BuildBranch', 'string', ['limit' => 64])
             ->addColumn('BuildCommit', 'char', ['limit' => 40])
 
@@ -270,22 +275,6 @@ class InitialSchemaVersion23 extends AbstractMigration
             ->addColumn('EnvironmentId', 'integer')
 
             ->save();
-
-        // Phinx (as of 0.4.1) does not support ENUM, so ENUM columns must be manually added
-        $statuses = array_map(function($status) {
-            return sprintf("'%s'", $status);
-        }, BuildStatusEnumType::values());
-
-        $tbl = self::TABLE_BUILDS;
-        $default = reset($statuses);
-        $statuses = implode(", ", $statuses);
-
-        $this->execute("
-ALTER TABLE $tbl
-ADD COLUMN
-    BuildStatus ENUM($statuses) NOT NULL DEFAULT $default
-    AFTER BuildEnd
-");
     }
 
     private function createPushes()
@@ -299,35 +288,23 @@ ADD COLUMN
             'primary_key' => 'PushId'
         ]);
 
+        $statuses = PushStatusEnum::values();
+
         $table
             ->addColumn('PushId', 'char', ['limit' => 40])
             ->addColumn('PushCreated', 'datetime')
             ->addColumn('PushStart', 'datetime', ['null' => true])
             ->addColumn('PushEnd', 'datetime', ['null' => true])
-            // ->addColumn('PushStatus') -- see below
-
+            ->addColumn('PushStatus', 'enum', [
+                'values' => $statuses,
+                'default' => array_shift($statuses)
+            ])
             ->addColumn('UserId', 'integer', ['null' => true])
             ->addColumn('ConsumerId', 'integer', ['null' => true])
             ->addColumn('BuildId', 'char', ['limit' => 40])
             ->addColumn('DeploymentId', 'integer', ['null' => true])
 
             ->save();
-
-        // Phinx (as of 0.4.1) does not support ENUM, so ENUM columns must be manually added
-        $statuses = array_map(function($status) {
-            return sprintf("'%s'", $status);
-        }, PushStatusEnumType::values());
-
-        $tbl = self::TABLE_PUSHES;
-        $default = reset($statuses);
-        $statuses = implode(", ", $statuses);
-
-        $this->execute("
-ALTER TABLE $tbl
-ADD COLUMN
-    PushStatus ENUM($statuses) NOT NULL DEFAULT $default
-    AFTER PushEnd
-");
     }
 
     private function createAuditLogs()
@@ -362,48 +339,28 @@ ADD COLUMN
             'primary_key' => 'EventLogId'
         ]);
 
+        $events = EventEnum::values();
+        $statuses = EventStatusEnum::values();
+
         $table
             ->addColumn('EventLogId', 'char', ['limit' => 40])
-            // ->addColumn('Event') -- see below
+            ->addColumn('Event', 'enum', [
+                'values' => $events,
+                'default' => array_shift($events)
+            ])
+
             ->addColumn('EventOrder', 'integer')
             ->addColumn('EventLogCreated', 'datetime')
             ->addColumn('EventLogMessage', 'string', ['limit' => 255, 'null' => true])
-            // ->addColumn('EventLogStatus') -- see below
+            ->addColumn('EventLogStatus', 'enum', [
+                'values' => $statuses,
+                'default' => array_shift($statuses)
+            ])
             ->addColumn('EventLogData', 'binary', ['null' => true])
 
             ->addColumn('BuildId', 'char', ['limit' => 40, 'null' => true])
             ->addColumn('PushId', 'char', ['limit' => 40, 'null' => true])
 
             ->save();
-
-        // Phinx (as of 0.4.1) does not support ENUM, so ENUM columns must be manually added
-        $events = array_map(function($event) {
-            return sprintf("'%s'", $event);
-        }, EventEnumType::values());
-
-        $tbl = self::TABLE_EVENTS;
-        $default = end($events); // last enum value is default
-        $events = implode(", ", $events);
-
-        $this->execute("
-ALTER TABLE $tbl
-ADD COLUMN
-    Event ENUM($events) NOT NULL DEFAULT $default
-    AFTER EventLogId
-");
-
-        $statuses = array_map(function($status) {
-            return sprintf("'%s'", $status);
-        }, EventStatusEnumType::values());
-
-        $default = reset($statuses); // first enum value is default
-        $statuses = implode(", ", $statuses);
-
-        $this->execute("
-ALTER TABLE $tbl
-ADD COLUMN
-    EventLogStatus ENUM($statuses) NOT NULL DEFAULT $default
-    AFTER EventLogCreated
-");
     }
 }
