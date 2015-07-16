@@ -21,6 +21,13 @@ class Server implements JsonSerializable
      * @type string
      */
     protected $type;
+
+    /**
+     * Hostname for rsync servers
+     * Region for elasticbeanstalk,ec2,s3 servers
+     *
+     * @type string
+     */
     protected $name;
 
     /**

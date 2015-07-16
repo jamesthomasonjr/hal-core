@@ -7,7 +7,6 @@
 
 namespace QL\Hal\Core\Entity;
 
-use MCP\DataType\HttpUrl;
 use Doctrine\Common\Collections\ArrayCollection;
 use JsonSerializable;
 
@@ -19,8 +18,9 @@ class Deployment implements JsonSerializable
     protected $id;
 
     /**
-     * @type HttpUrl|null
+     * @type string
      */
+    protected $name;
     protected $url;
 
     /**
@@ -51,6 +51,24 @@ class Deployment implements JsonSerializable
     protected $ec2Pool;
 
     /**
+     * For S3
+     *
+     * The S3 bucket name
+     *
+     * @type string
+     */
+    protected $s3bucket;
+
+    /**
+     * For S3
+     *
+     * The S3 file name. If blank, the push id will be used.
+     *
+     * @type string
+     */
+    protected $s3file;
+
+    /**
      * @type Application
      */
     protected $application;
@@ -65,11 +83,15 @@ class Deployment implements JsonSerializable
     public function __construct()
     {
         $this->id = null;
-        $this->url = null;
+        $this->name = '';
+        $this->url = '';
 
         $this->path = null;
         $this->ebEnvironment = null;
         $this->ec2Pool = null;
+
+        $this->s3bucket = null;
+        $this->s3file = null;
 
         $this->application = null;
         $this->server = null;
@@ -81,6 +103,22 @@ class Deployment implements JsonSerializable
     public function id()
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function name()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function url()
+    {
+        return $this->url;
     }
 
     /**
@@ -108,11 +146,19 @@ class Deployment implements JsonSerializable
     }
 
     /**
-     * @return HttpUrl|null
+     * @return string
      */
-    public function url()
+    public function s3bucket()
     {
-        return $this->url;
+        return $this->s3bucket;
+    }
+
+    /**
+     * @return string
+     */
+    public function s3file()
+    {
+        return $this->s3file;
     }
 
     /**
@@ -124,7 +170,7 @@ class Deployment implements JsonSerializable
     }
 
     /**
-     * @return Server
+     * @return Server|null
      */
     public function server()
     {
@@ -143,11 +189,22 @@ class Deployment implements JsonSerializable
     }
 
     /**
-     * @param HttpUrl $url
+     * @param string $name
      *
      * @return self
      */
-    public function withUrl(HttpUrl $url)
+    public function withName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @param string $url
+     *
+     * @return self
+     */
+    public function withUrl($url)
     {
         $this->url = $url;
         return $this;
@@ -187,6 +244,28 @@ class Deployment implements JsonSerializable
     }
 
     /**
+     * @param string $s3bucket
+     *
+     * @return self
+     */
+    public function withS3Bucket($s3bucket)
+    {
+        $this->s3bucket = $s3bucket;
+        return $this;
+    }
+
+    /**
+     * @param string $s3file
+     *
+     * @return self
+     */
+    public function withS3File($s3file)
+    {
+        $this->s3file = $s3file;
+        return $this;
+    }
+
+    /**
      * @param Application $application
      *
      * @return self
@@ -216,11 +295,18 @@ class Deployment implements JsonSerializable
         $json = [
             'id' => $this->id(),
 
+            'name' => $this->name(),
+            'url' => $this->url(),
+
             'path' => $this->path(),
+
             'ebEnvironment' => $this->ebEnvironment(),
+
             'ec2Pool' => $this->ec2Pool(),
 
-            'url' => $this->url() ? $this->url()->asString() : null,
+            's3bucket' => $this->s3bucket(),
+            's3file' => $this->s3file(),
+
             'application' => $this->application() ? $this->application()->id() : null,
             'server' => $this->server() ? $this->server()->id() : null
         ];

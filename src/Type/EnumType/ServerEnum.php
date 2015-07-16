@@ -14,6 +14,7 @@ class ServerEnum extends BaseType
     const TYPE_RSYNC = 'rsync';
     const TYPE_EB = 'elasticbeanstalk';
     const TYPE_EC2 = 'ec2';
+    const TYPE_S3 = 's3';
 
     use EnumTypeTrait;
 
@@ -33,6 +34,7 @@ class ServerEnum extends BaseType
             self::TYPE_RSYNC,
             self::TYPE_EB,
             self::TYPE_EC2,
+            self::TYPE_S3,
         ];
     }
 }

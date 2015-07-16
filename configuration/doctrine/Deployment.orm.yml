@@ -14,21 +14,41 @@ QL\Hal\Core\Entity\Deployment:
 
     fields:
 
+        name:
+            column: DeploymentName
+            type: string
+            length: 80
+
         url:
             column: DeploymentUrl
-            type: url
+            type: string
+            length: 200
+
         path:
             column: DeploymentPath
             type: string
-            length: 255
+            length: 200
             nullable: true
+
         ebEnvironment:
             column: DeploymentEbEnvironment
             type: string
             length: 100
             nullable: true
+
         ec2Pool:
             column: DeploymentEc2Pool
+            type: string
+            length: 100
+            nullable: true
+
+        s3bucket:
+            column: DeploymentS3Bucket
+            type: string
+            length: 100
+            nullable: true
+        s3file:
+            column: DeploymentS3File
             type: string
             length: 100
             nullable: true
@@ -38,7 +58,6 @@ QL\Hal\Core\Entity\Deployment:
         application:
             cache: {usage : READ_ONLY}
             targetEntity: Application
-            inversedBy: deployments
             joinColumn:
                 name: RepositoryId
                 referencedColumnName: RepositoryId
