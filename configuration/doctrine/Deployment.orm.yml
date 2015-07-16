@@ -69,3 +69,10 @@ QL\Hal\Core\Entity\Deployment:
             joinColumn:
                 name: ServerId
                 referencedColumnName: ServerId
+
+        credential:
+            cache: {usage : NONSTRICT_READ_WRITE}
+            targetEntity: Credential
+            joinColumn:
+                name: CredentialId
+                referencedColumnName: CredentialId

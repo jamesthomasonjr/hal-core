@@ -11,6 +11,7 @@ use QL\Hal\Core\Type\CompressedSerializedBlobType;
 use QL\Hal\Core\Type\HttpUrlType;
 use QL\Hal\Core\Type\TimePointType;
 use QL\Hal\Core\Type\EnumType\BuildStatusEnum;
+use QL\Hal\Core\Type\EnumType\CredentialEnum;
 use QL\Hal\Core\Type\EnumType\EventEnum;
 use QL\Hal\Core\Type\EnumType\EventStatusEnum;
 use QL\Hal\Core\Type\EnumType\PushStatusEnum;
@@ -36,6 +37,8 @@ class DoctrineCustomTypes
             EventStatusEnum::TYPE => EventStatusEnum::CLASS,
 
             UserTypeEnum::TYPE => UserTypeEnum::CLASS,
+
+            CredentialEnum::TYPE => CredentialEnum::CLASS,
         ];
     }
 }

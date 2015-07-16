@@ -80,6 +80,11 @@ class Deployment implements JsonSerializable
      */
     protected $server;
 
+    /**
+     * @type Credential|null
+     */
+    protected $credential;
+
     public function __construct()
     {
         $this->id = null;
@@ -95,6 +100,8 @@ class Deployment implements JsonSerializable
 
         $this->application = null;
         $this->server = null;
+
+        $this->credential = null;
     }
 
     /**
@@ -175,6 +182,14 @@ class Deployment implements JsonSerializable
     public function server()
     {
         return $this->server;
+    }
+
+    /**
+     * @return Credential|null
+     */
+    public function credential()
+    {
+        return $this->credential;
     }
 
     /**
@@ -288,6 +303,17 @@ class Deployment implements JsonSerializable
     }
 
     /**
+     * @param Credential|null $credential
+     *
+     * @return self
+     */
+    public function withCredential(Credential $credential = null)
+    {
+        $this->credential = $credential;
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function jsonSerialize()
@@ -308,7 +334,8 @@ class Deployment implements JsonSerializable
             's3file' => $this->s3file(),
 
             'application' => $this->application() ? $this->application()->id() : null,
-            'server' => $this->server() ? $this->server()->id() : null
+            'server' => $this->server() ? $this->server()->id() : null,
+            'credential' => $this->credential() ? $this->credential()->id() : null,
         ];
 
         return $json;
