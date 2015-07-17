@@ -241,7 +241,7 @@ class Deployment implements JsonSerializable
      *
      * @return self
      */
-    public function withEbEnvironment($ebEnvironment)
+    public function withEBEnvironment($ebEnvironment)
     {
         $this->ebEnvironment = $ebEnvironment;
         return $this;
@@ -252,7 +252,7 @@ class Deployment implements JsonSerializable
      *
      * @return self
      */
-    public function withEc2Pool($ec2Pool)
+    public function withEC2Pool($ec2Pool)
     {
         $this->ec2Pool = $ec2Pool;
         return $this;
