@@ -99,14 +99,29 @@ trait SortingTrait
                 return 0;
             }
 
-            // put rsync at top
-            if ($a->type() === ServerEnum::TYPE_RSYNC xor $b->type() === ServerEnum::TYPE_RSYNC) {
-                return ($a->type() === ServerEnum::TYPE_RSYNC) ? -1 : 1;
-            }
+            if ($a->type() !== $b->type()) {
+                // put rsync at top
+                if ($a->type() === ServerEnum::TYPE_RSYNC) {
+                    return -1;
+                } elseif ($b->type() === ServerEnum::TYPE_RSYNC) {
+                    return 1;
+                }
 
-            // put eb above ec2
-            if ($a->type() !== ServerEnum::TYPE_RSYNC && $b->type() !== ServerEnum::TYPE_RSYNC) {
-                return ($a->type() === ServerEnum::TYPE_EB) ? -1 : 1;
+                if ($a->type() === ServerEnum::TYPE_EB) {
+                    return -1;
+                } elseif ($b->type() === ServerEnum::TYPE_EB) {
+                    return 1;
+                }
+
+                if ($a->type() === ServerEnum::TYPE_EC2) {
+                    return -1;
+                } elseif ($b->type() === ServerEnum::TYPE_EC2) {
+                    return 1;
+                }
+
+                if ($a->type() === ServerEnum::TYPE_S3) {
+                    return 1;
+                }
             }
 
             // Same servername, different port
