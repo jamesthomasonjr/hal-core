@@ -44,10 +44,20 @@ trait SortingTrait
             $serverA = $a->server();
             $serverB = $b->server();
 
+            $nameA = $a->name();
+            $nameB = $b->name();
+
+            // If at least one of the deployments are named, used name comparison
+            if ($nameA || $nameB) {
+                $nameA = $nameA ?: $serverA->name();
+                $nameB = $nameB ?: $serverB->name();
+                return strcasecmp($nameA, $nameB);
+            }
+
             // same server
             // there's a reason this doesn't compare obj to obj, but I dont remember why
             if ($serverA->id() === $serverB->id()) {
-                return strcmp($a->path(), $b->path());
+                return strcasecmp($a->path(), $b->path());
             }
 
             return $serverSorter($serverA, $serverB);
@@ -168,7 +178,7 @@ trait SortingTrait
 
             // One does not follow schema, move to bottom
             if (!$isA && !$isB) {
-                return strcmp($a, $b);
+                return strcasecmp($a, $b);
             } elseif ($isA xor $isB) {
                 return ($isA) ? -1 : 1;
             }
@@ -196,7 +206,7 @@ trait SortingTrait
             }
 
             // fall back to just straight comparison
-            return strcmp($a, $b);
+            return strcasecmp($a, $b);
         };
     }
 

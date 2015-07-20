@@ -50,6 +50,18 @@ class SortingTraitTest extends PHPUnit_Framework_TestCase
         $this->assertSame($after, $actual);
     }
 
+    public function testDeploymentWithNamesOrder()
+    {
+        $d = new SortingTraitDummy;
+
+        list($before, $after) = $this->deploymentWithNamesData();
+
+        $actual = $before;
+        usort($actual, $d->deploymentSorter());
+
+        $this->assertSame($after, $actual);
+    }
+
     public function testEnvironmentOrder()
     {
         $d = new SortingTraitDummy;
@@ -223,8 +235,8 @@ class SortingTraitTest extends PHPUnit_Framework_TestCase
                 $d,
                 $a,
                 $f,
-                $e,
                 $g,
+                $e,
             ]
         ];
     }
@@ -234,10 +246,10 @@ class SortingTraitTest extends PHPUnit_Framework_TestCase
         $serverA = (new Server)->withId('1')->withName('a');
         $serverB = (new Server)->withId('2')->withName('b');
 
-        $a = (new Deployment)->withPath('/same')->withServer($serverB);
-        $b = (new Deployment)->withPath('/same')->withServer($serverB);
-        $c = (new Deployment)->withPath('/herp')->withServer($serverA);
-        $d = (new Deployment)->withPath('/derp')->withServer($serverA);
+        $a = (new Deployment)->withId('d1')->withPath('/same')->withServer($serverA);
+        $b = (new Deployment)->withId('d2')->withPath('/same')->withServer($serverA);
+        $c = (new Deployment)->withId('d3')->withPath('/herp')->withServer($serverB);
+        $d = (new Deployment)->withId('d4')->withPath('/derp')->withServer($serverB);
 
         return [
             [
@@ -251,6 +263,32 @@ class SortingTraitTest extends PHPUnit_Framework_TestCase
                 $b,
                 $d,
                 $c,
+            ]
+        ];
+    }
+
+    public function deploymentWithNamesData()
+    {
+        $serverA = (new Server)->withId('1')->withName('d');
+        $serverB = (new Server)->withId('2')->withName('a');
+
+        $a = (new Deployment)->withId('d1')->withPath('/same')->withName('aaa')->withServer($serverA);
+        $b = (new Deployment)->withId('d2')->withPath('/same')->withServer($serverA);
+        $c = (new Deployment)->withId('d3')->withPath('/herp')->withName('abc')->withServer($serverB);
+        $d = (new Deployment)->withId('d4')->withPath('/derp')->withServer($serverB);
+
+        return [
+            [
+                $a,
+                $b,
+                $c,
+                $d,
+            ],
+            [
+                $d,
+                $a,
+                $c,
+                $b,
             ]
         ];
     }
