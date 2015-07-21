@@ -10,6 +10,7 @@ namespace QL\Hal\Core\Repository;
 use DateTime;
 use DateTimeZone;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use MCP\DataType\Time\TimePoint;
 use QL\Hal\Core\Entity\User;
 
@@ -36,6 +37,12 @@ SQL;
      FROM QL\Hal\Core\Entity\Push p
     WHERE
         p.user = :user
+SQL;
+
+    const DQL_GET_USERS = <<<SQL
+   SELECT u
+     FROM QL\Hal\Core\Entity\User u
+ ORDER BY u.name DESC
 SQL;
 
     /**
@@ -66,6 +73,24 @@ SQL;
             ->setParameter('oldestbuild', $oldest);
 
         return $query->getResult();
+    }
+
+    /**
+     * @param int $limit
+     * @param int $page
+     *
+     * @return Paginator
+     */
+    public function getPaginatedUsers($limit = 25, $page = 0)
+    {
+        $dql = self::DQL_GET_USERS;
+
+        $query = $this->getEntityManager()
+            ->createQuery($dql)
+            ->setMaxResults($limit)
+            ->setFirstResult($limit * $page);
+
+        return new Paginator($query);
     }
 
     /**
