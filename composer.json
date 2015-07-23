@@ -35,8 +35,8 @@
     "require-dev": {
         "phpunit/phpunit": "*",
         "robmorgan/phinx": "~0.4",
-        "symfony/dependency-injection": "*",
         "symfony/config": "*",
+        "symfony/dependency-injection": "*",
         "symfony/yaml": "*"
     }
 }
