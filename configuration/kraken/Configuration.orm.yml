@@ -1,5 +1,6 @@
 QL\Kraken\Core\Entity\Configuration:
     type: entity
+    repositoryClass: QL\Kraken\Core\Repository\ConfigurationRepository
     table: KrakenConfiguration
 
     cache: {usage : NONSTRICT_READ_WRITE}
