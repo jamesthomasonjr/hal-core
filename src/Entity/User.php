@@ -9,7 +9,6 @@ namespace QL\Hal\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use JsonSerializable;
-use MCP\DataType\HttpUrl;
 
 class User implements JsonSerializable
 {
@@ -24,11 +23,6 @@ class User implements JsonSerializable
     protected $handle;
     protected $name;
     protected $email;
-
-    /**
-     * @type HttpUrl|null
-     */
-    protected $pictureUrl;
 
     /**
      * The current user status
@@ -56,7 +50,6 @@ class User implements JsonSerializable
         $this->handle = '';
         $this->name = '';
         $this->email = '';
-        $this->pictureUrl = null;
 
         // hal settings
         $this->isActive = false;
@@ -95,14 +88,6 @@ class User implements JsonSerializable
     public function email()
     {
         return $this->email;
-    }
-
-    /**
-     * @return HttpUrl|null
-     */
-    public function pictureUrl()
-    {
-        return $this->pictureUrl;
     }
 
     /**
@@ -174,17 +159,6 @@ class User implements JsonSerializable
     }
 
     /**
-     * @param HttpUrl $pictureUrl
-     *
-     * @return self
-     */
-    public function withPictureUrl(HttpUrl $pictureUrl)
-    {
-        $this->pictureUrl = $pictureUrl;
-        return $this;
-    }
-
-    /**
      * @param bool $isActive
      *
      * @return self
@@ -217,7 +191,6 @@ class User implements JsonSerializable
             'handle' => $this->handle(),
             'name' => $this->name(),
             'email' => $this->email(),
-            'url' => $this->pictureUrl() ? $this->pictureUrl()->asString() : null,
             'isActive' => $this->isActive(),
             // 'githubToken' => $this->githubToken(),
         ];

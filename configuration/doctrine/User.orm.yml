@@ -26,9 +26,6 @@ QL\Hal\Core\Entity\User:
             column: UserEmail
             type: string
             length: 128
-        pictureUrl:
-            column: UserPictureUrl
-            type: url
         isActive:
             column: UserIsActive
             type: boolean

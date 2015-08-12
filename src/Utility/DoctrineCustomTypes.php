@@ -27,7 +27,6 @@ class DoctrineCustomTypes
     {
         return [
             CompressedSerializedBlobType::TYPE  => CompressedSerializedBlobType::CLASS,
-            HttpUrlType::TYPE => HttpUrlType::CLASS,
             TimePointType::TYPE => TimePointType::CLASS,
 
             ServerEnum::TYPE => ServerEnum::CLASS,
