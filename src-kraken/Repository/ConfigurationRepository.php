@@ -40,7 +40,7 @@ SQL;
     {
         $dql = self::DQL_GET_CONFIGURATIONS;
 
-        $query = $this->em
+        $query = $this->getEntityManager()
             ->createQuery($dql)
             ->setMaxResults($limit)
             ->setFirstResult($limit * $page)
@@ -61,7 +61,7 @@ SQL;
     {
         $dql = self::DQL_GET_CONFIGURATIONS_FOR_ENV;
 
-        $query = $this->em
+        $query = $this->getEntityManager()
             ->createQuery($dql)
             ->setMaxResults($limit)
             ->setFirstResult($limit * $page)
