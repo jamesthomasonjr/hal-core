@@ -9,6 +9,7 @@ namespace QL\Hal\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use JsonSerializable;
+use QL\Hal\Core\Type\EnumType\ServerEnum;
 
 class Deployment implements JsonSerializable
 {
@@ -311,6 +312,63 @@ class Deployment implements JsonSerializable
     {
         $this->credential = $credential;
         return $this;
+    }
+
+    /**
+     * Format a pretty name for the deployment
+     *
+     * @param bool $withDetails
+     *
+     * @return string
+     */
+    public function formatPretty($withDetails = false)
+    {
+        if ($this->name()) {
+            return $this->name();
+        }
+
+        if ($withDetails) {
+            $type = $this->server()->type();
+
+            if ($type === ServerEnum::TYPE_EB) {
+                return sprintf('EB (%s)', $this->ebEnvironment());
+
+            } elseif ($type === ServerEnum::TYPE_EC2) {
+                return sprintf('EC2 (%s)', $this->ec2Pool());
+
+            } elseif ($type === ServerEnum::TYPE_S3) {
+                return sprintf('S3 (%s)', $this->s3bucket());
+            }
+        }
+
+        return $this->server()->formatPretty();
+    }
+
+    /**
+     * Format a meta details
+     *
+     * @return string
+     */
+    public function formatMeta()
+    {
+        $type = $this->server()->type();
+
+        if ($type === ServerEnum::TYPE_EB) {
+            return $this->ebEnvironment();
+
+        } elseif ($type === ServerEnum::TYPE_EC2) {
+            return $this->ec2Pool();
+
+        } elseif ($type === ServerEnum::TYPE_S3) {
+            $s3 = $this->s3bucket();
+            if ($file = $this->s3file()) {
+                $s3 = sprintf('%s/%s', $s3, $file);
+            }
+
+            return $s3;
+        }
+
+        return $this->path();
     }
 
     /**

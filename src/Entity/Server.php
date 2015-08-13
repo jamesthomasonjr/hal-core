@@ -9,6 +9,7 @@ namespace QL\Hal\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use JsonSerializable;
+use QL\Hal\Core\Type\EnumType\ServerEnum;
 
 class Server implements JsonSerializable
 {
@@ -137,6 +138,28 @@ class Server implements JsonSerializable
     {
         $this->environment = $environment;
         return $this;
+    }
+
+    /**
+     * Format a pretty name for the server
+     *
+     * @return string
+     */
+    public function formatPretty()
+    {
+        $type = $this->type();
+
+        if ($type === ServerEnum::TYPE_EB) {
+            return sprintf('EB (%s)', $this->name());
+
+        } elseif ($type === ServerEnum::TYPE_EC2) {
+            return sprintf('EC2 (%s)', $this->name());
+
+        } elseif ($type === ServerEnum::TYPE_S3) {
+            return sprintf('S3 (%s)', $this->name());
+        }
+
+        return $this->name();
     }
 
     /**
