@@ -47,7 +47,7 @@ class TimePointType extends BaseType
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        if (!$value) {
+        if (!$value || !is_string($value)) {
             return null;
         }
 

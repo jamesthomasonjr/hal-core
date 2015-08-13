@@ -59,11 +59,15 @@ class JobIdGenerator
         if ($this->base < 2) {
             throw new InvalidArgumentException('You must use an alphabet with more than 1 character.');
         }
+
+        if ($fixedSize < 3 || $fixedSize > 6) {
+            throw new InvalidArgumentException('Randomized hash must be between 3 and 6 characters.');
+        }
     }
 
     /**
      * Template:
-     *     b{VERSION}.{TIME}{UNIQUE}
+     *     b{VERSION}.{TIME}{UNIQUE_OF_FIXED_SIZE}
      * Example:
      *     b2.1115555
      *
@@ -74,7 +78,6 @@ class JobIdGenerator
         $date = $this->timeHash();
         $unique = $this->randomHash($this->fixedSize);
 
-        // bVERSION.XXXYYYY
         return sprintf(
             'b%d.%s%s',
             $this->version,
@@ -85,7 +88,7 @@ class JobIdGenerator
 
     /**
      * Template:
-     *     p{VERSION}.{TIME}{UNIQUE}
+     *     p{VERSION}.{TIME}{UNIQUE_OF_FIXED_SIZE}
      * Example:
      *     p2.1115555
      *
@@ -95,7 +98,6 @@ class JobIdGenerator
     {
         $date = $this->timeHash();
         $unique = $this->randomHash($this->fixedSize);
-
 
         return sprintf(
             'p%d.%s%s',

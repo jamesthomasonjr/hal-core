@@ -32,6 +32,7 @@
         "ql/mcp-core": "*"
     },
     "require-dev": {
+        "mockery/mockery": "*",
         "phpunit/phpunit": "*",
         "robmorgan/phinx": "~0.4",
         "symfony/config": "*",

@@ -7,6 +7,7 @@
 
 namespace QL\Hal\Core\Listener;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\UnitOfWork;
@@ -54,6 +55,8 @@ class DoctrineChangeLogger
      * This listener will catch any entities or collections scheduled for insert, update, or removal.
      *
      * @param OnFlushEventArgs $event
+     *
+     * @return void
      */
     public function onFlush(OnFlushEventArgs $event)
     {
@@ -165,13 +168,13 @@ class DoctrineChangeLogger
     /**
      * Persist the audit log.
      *
-     * @param EntityManager $em
+     * @param ObjectManager $em
      * @param UnitOfWork $unit
      * @param AuditLog $log
      *
      * @return null
      */
-    private function persist(EntityManager $em, UnitOfWork $unit, AuditLog $log)
+    private function persist(ObjectManager $em, UnitOfWork $unit, AuditLog $log)
     {
         $em->persist($log);
 
