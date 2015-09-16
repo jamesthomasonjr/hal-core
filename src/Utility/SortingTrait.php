@@ -117,6 +117,12 @@ trait SortingTrait
                     return 1;
                 }
 
+                if ($a->type() === ServerEnum::TYPE_CD) {
+                    return -1;
+                } elseif ($b->type() === ServerEnum::TYPE_CD) {
+                    return 1;
+                }
+
                 if ($a->type() === ServerEnum::TYPE_EB) {
                     return -1;
                 } elseif ($b->type() === ServerEnum::TYPE_EB) {
