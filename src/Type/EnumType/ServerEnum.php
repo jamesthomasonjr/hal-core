@@ -12,7 +12,7 @@ use Doctrine\DBAL\Types\Type as BaseType;
 class ServerEnum extends BaseType
 {
     const TYPE_RSYNC = 'rsync';
-    const TYPE_EB = 'elasticbeanstalk';
+    const TYPE_EB = 'eb';
     const TYPE_EC2 = 'ec2';
     const TYPE_S3 = 's3';
     const TYPE_CD = 'cd';
