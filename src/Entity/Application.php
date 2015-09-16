@@ -43,13 +43,6 @@ class Application implements JsonSerializable
     protected $postPushCmd;
 
     /**
-     * The application name for elastic beanstalk
-     *
-     * @type string
-     */
-    protected $ebName;
-
-    /**
      * @type Group
      */
     protected $group;
@@ -71,8 +64,6 @@ class Application implements JsonSerializable
         $this->buildTransformCmd = '';
         $this->prePushCmd = '';
         $this->postPushCmd = '';
-
-        $this->ebName = '';
 
         $this->group = null;
     }
@@ -123,14 +114,6 @@ class Application implements JsonSerializable
     public function email()
     {
         return $this->email;
-    }
-
-    /**
-     * @return string
-     */
-    public function ebName()
-    {
-        return $this->ebName;
     }
 
     /**
@@ -207,17 +190,6 @@ class Application implements JsonSerializable
     }
 
     /**
-     * @param string $ebName
-     *
-     * @return self
-     */
-    public function withEbName($ebName)
-    {
-        $this->ebName = $ebName;
-        return $this;
-    }
-
-    /**
      * @param Group $group
      *
      * @return self
@@ -251,7 +223,6 @@ class Application implements JsonSerializable
             'githubOwner' => $this->githubOwner(),
             'githubRepo' => $this->githubRepo(),
             'email' => $this->email(),
-            'ebName' => $this->ebName(),
 
             'group' => $this->group() ? $this->group()->id() : null,
         ];
