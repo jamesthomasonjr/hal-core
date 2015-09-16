@@ -26,6 +26,7 @@ class Deployment implements JsonSerializable
 
     /**
      * For RSYNC
+     * For EC2
      *
      * The path
      *
@@ -34,12 +35,27 @@ class Deployment implements JsonSerializable
     protected $path;
 
     /**
+     * For CODE DEPLOY
+     *
+     * The CD application name
+     * The CD deployment group
+     * The CD configuration
+     *
+     * @type string
+     */
+    protected $cdName;
+    protected $cdGroup;
+    protected $cdConfiguration;
+
+    /**
      * For ELASTIC BEANSTALK
      *
+     * The EB application name
      * The EB environment ID
      *
      * @type string
      */
+    protected $ebName;
     protected $ebEnvironment;
 
     /**
@@ -53,6 +69,8 @@ class Deployment implements JsonSerializable
 
     /**
      * For S3
+     * For ELASTIC BEANSTALK
+     * For CODEDEPLOY
      *
      * The S3 bucket name
      *
@@ -75,8 +93,6 @@ class Deployment implements JsonSerializable
     protected $application;
 
     /**
-     * For RSYNC
-     *
      * @type Server|null
      */
     protected $server;
@@ -93,7 +109,14 @@ class Deployment implements JsonSerializable
         $this->url = '';
 
         $this->path = null;
+
+        $this->cdName = null;
+        $this->cdGroup = null;
+        $this->cdConfiguration = null;
+
+        $this->ebName = null;
         $this->ebEnvironment = null;
+
         $this->ec2Pool = null;
 
         $this->s3bucket = null;
@@ -135,6 +158,38 @@ class Deployment implements JsonSerializable
     public function path()
     {
         return $this->path;
+    }
+
+    /**
+     * @return string
+     */
+    public function cdName()
+    {
+        return $this->cdName;
+    }
+
+    /**
+     * @return string
+     */
+    public function cdGroup()
+    {
+        return $this->cdGroup;
+    }
+
+    /**
+     * @return string
+     */
+    public function cdConfiguration()
+    {
+        return $this->cdConfiguration;
+    }
+
+    /**
+     * @return string
+     */
+    public function ebName()
+    {
+        return $this->ebName;
     }
 
     /**
@@ -234,6 +289,50 @@ class Deployment implements JsonSerializable
     public function withPath($path)
     {
         $this->path = $path;
+        return $this;
+    }
+
+    /**
+     * @param string $cdName
+     *
+     * @return self
+     */
+    public function withCDName($cdName)
+    {
+        $this->cdName = $cdName;
+        return $this;
+    }
+
+    /**
+     * @param string $cdGroup
+     *
+     * @return self
+     */
+    public function withCDGroup($cdGroup)
+    {
+        $this->cdGroup = $cdGroup;
+        return $this;
+    }
+
+    /**
+     * @param string $cdConfiguration
+     *
+     * @return self
+     */
+    public function withCDConfiguration($cdConfiguration)
+    {
+        $this->cdConfiguration = $cdConfiguration;
+        return $this;
+    }
+
+    /**
+     * @param string $ebName
+     *
+     * @return self
+     */
+    public function withEBName($ebName)
+    {
+        $this->ebName = $ebName;
         return $this;
     }
 
@@ -338,6 +437,9 @@ class Deployment implements JsonSerializable
 
             } elseif ($type === ServerEnum::TYPE_S3) {
                 return sprintf('S3 (%s)', $this->s3bucket());
+
+            } elseif ($type === ServerEnum::TYPE_CD) {
+                return sprintf('CD (%s)', $this->cdGroup());
             }
         }
 
@@ -366,6 +468,9 @@ class Deployment implements JsonSerializable
             }
 
             return $s3;
+
+        } elseif ($type === ServerEnum::TYPE_CD) {
+            return $this->cdGroup();
         }
 
         return $this->path();
@@ -384,6 +489,11 @@ class Deployment implements JsonSerializable
 
             'path' => $this->path(),
 
+            'cdName' => $this->cdName(),
+            'cdGroup' => $this->cdGroup(),
+            'cdConfiguration' => $this->cdConfiguration(),
+
+            'ebName' => $this->ebName(),
             'ebEnvironment' => $this->ebEnvironment(),
 
             'ec2Pool' => $this->ec2Pool(),

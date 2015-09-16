@@ -30,6 +30,27 @@ QL\Hal\Core\Entity\Deployment:
             length: 200
             nullable: true
 
+        cdName:
+            column: DeploymentCDName
+            type: string
+            length: 100
+            nullable: true
+        cdGroup:
+            column: DeploymentCDGroup
+            type: string
+            length: 100
+            nullable: true
+        cdConfiguration:
+            column: DeploymentCDConfiguration
+            type: string
+            length: 100
+            nullable: true
+
+        ebName:
+            column: DeploymentEbName
+            type: string
+            length: 100
+            nullable: true
         ebEnvironment:
             column: DeploymentEbEnvironment
             type: string

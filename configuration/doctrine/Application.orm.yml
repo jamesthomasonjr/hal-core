@@ -53,11 +53,6 @@ QL\Hal\Core\Entity\Application:
             type: string
             length: 128
 
-        ebName:
-            column: RepositoryEbName
-            type: string
-            length: 255
-
     manyToOne:
 
         group:

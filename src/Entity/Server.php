@@ -157,9 +157,37 @@ class Server implements JsonSerializable
 
         } elseif ($type === ServerEnum::TYPE_S3) {
             return sprintf('S3 (%s)', $this->name());
+
+        } elseif ($type === ServerEnum::TYPE_CD) {
+            return sprintf('CD (%s)', $this->name());
         }
 
         return $this->name();
+    }
+
+    /**
+     * Format a human name for the server type
+     *
+     * @return string
+     */
+    public function formatHumanType()
+    {
+        $type = $this->type();
+
+        if ($type === ServerEnum::TYPE_EB) {
+            return 'Elastic Beanstalk';
+
+        } elseif ($type === ServerEnum::TYPE_EC2) {
+            return 'EC2 Autoscaling Pool';
+
+        } elseif ($type === ServerEnum::TYPE_S3) {
+            return 'S3';
+
+        } elseif ($type === ServerEnum::TYPE_CD) {
+            return 'CodeDeploy';
+        }
+
+        return 'Internal (Rsync)';
     }
 
     /**

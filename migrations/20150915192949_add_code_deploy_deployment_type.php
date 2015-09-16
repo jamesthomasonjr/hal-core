@@ -20,5 +20,47 @@ class AddCodeDeployDeploymentType extends AbstractMigration
                 'default' => array_shift($types)
             ])
             ->save();
+
+        $table = $this->table(DatabaseMeta::DB_REPO);
+        $table
+            ->removeColumn('RepositoryEbName')
+            ->save();
+
+        $table = $this->table(DatabaseMeta::DB_DEPLOYMENT);
+        $table
+            ->addColumn('DeploymentCDName', 'string', ['limit' => 100, 'null' => true, 'after' => 'DeploymentPath'])
+            ->addColumn('DeploymentCDGroup', 'string', ['limit' => 100, 'null' => true, 'after' => 'DeploymentCDName'])
+            ->addColumn('DeploymentCDConfiguration', 'string', ['limit' => 100, 'null' => true, 'after' => 'DeploymentCDGroup'])
+
+            ->addColumn('DeploymentEbName', 'string', ['limit' => 100, 'null' => true, 'after' => 'DeploymentCDConfiguration'])
+            ->save();
+
+        $table
+            ->addIndex(['DeploymentCDName', 'DeploymentCDGroup'], ['unique' => true]);
+    }
+
+    /**
+     * Migrate Down.
+     */
+    public function down()
+    {
+        $table = $this->table(DatabaseMeta::DB_REPO);
+        $table
+            ->addColumn('RepositoryEbName', 'string', ['limit' => 255, 'after' => 'RepositoryPostPushCmd'])
+            ->save();
+
+
+        $table = $this->table(DatabaseMeta::DB_DEPLOYMENT);
+        $table
+            ->removeColumn('DeploymentCDName')
+            ->removeColumn('DeploymentCDGroup')
+            ->removeColumn('DeploymentCDConfiguration')
+            ->removeColumn('DeploymentEbName')
+            ->save();
+
+
+        // indexes
+        $table
+            ->removeIndex(['DeploymentCDName', 'DeploymentCDGroup']);
     }
 }
