@@ -35,6 +35,7 @@ class AddCodeDeployDeploymentType extends AbstractMigration
             ->addColumn('DeploymentEbName', 'string', ['limit' => 100, 'null' => true, 'after' => 'DeploymentCDConfiguration'])
             ->save();
 
+        // indexes
         $table
             ->addIndex(['DeploymentCDName', 'DeploymentCDGroup'], ['unique' => true]);
     }
@@ -57,7 +58,6 @@ class AddCodeDeployDeploymentType extends AbstractMigration
             ->removeColumn('DeploymentCDConfiguration')
             ->removeColumn('DeploymentEbName')
             ->save();
-
 
         // indexes
         $table

@@ -234,9 +234,9 @@ class SortingTraitTest extends PHPUnit_Framework_TestCase
                 $c,
                 $d,
                 $a,
-                $f,
                 $g,
                 $e,
+                $f,
             ]
         ];
     }
