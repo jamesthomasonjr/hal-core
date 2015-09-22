@@ -57,6 +57,8 @@ SQL;
     {
         $dql = self::DQL_BUILD_COUNT;
 
+        $cacheID = sprintf('user-recent-apps-%s', $user->id());
+
         if ($oldest) {
             $oldest = $oldest->format('Y-m-d H:i:s', 'UTC');
         } else {
@@ -69,6 +71,7 @@ SQL;
         $query = $this->getEntityManager()
             ->createQuery(self::DQL_RECENT_APPLICATIONS)
             ->setCacheable(true)
+            ->setResultCacheId($cacheID)
             ->setParameter('user', $user)
             ->setParameter('oldestbuild', $oldest);
 

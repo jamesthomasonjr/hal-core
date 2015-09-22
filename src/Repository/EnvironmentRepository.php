@@ -35,9 +35,12 @@ SQL;
      */
     public function getBuildableEnvironmentsByApplication(Application $application)
     {
+        $cacheID = sprintf('buildable-env-%s', $application->id());
+
         $query = $this->getEntityManager()
             ->createQuery(self::DQL_BY_REPOSITORY)
             ->setCacheable(true)
+            ->setResultCacheId($cacheID)
             ->setParameter('application', $application);
 
         $environments = $query->getResult();
@@ -45,6 +48,25 @@ SQL;
         usort($environments, $this->environmentSorter());
 
         return $environments;
+    }
+
+    /**
+     * Get all buildable environments for a application
+     *
+     * @param Application $application
+     *
+     * @return void
+     */
+    public function clearBuildableEnvironmentsByApplication(Application $application)
+    {
+        $cacheID = sprintf('buildable-env-%s', $application->id());
+
+        $cache = $this
+            ->getEntityManager()
+            ->getConfiguration()
+            ->getResultCacheImpl();
+
+        $cache->delete($cacheID);
     }
 
     /**
