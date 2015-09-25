@@ -141,9 +141,9 @@ class Credential implements JsonSerializable
      *
      * @return self
      */
-    public function withPrivateKey(PrivateKeyCredential $key)
+    public function withPrivateKey(PrivateKeyCredential $privateKey)
     {
-        $this->key = $key;
+        $this->privateKey = $privateKey;
         return $this;
     }
 
