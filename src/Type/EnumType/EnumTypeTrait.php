@@ -8,6 +8,7 @@
 namespace QL\Hal\Core\Type\EnumType;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Platforms\SqlitePlatform;
 use InvalidArgumentException;
 
 trait EnumTypeTrait
@@ -59,6 +60,10 @@ trait EnumTypeTrait
      */
     public function getSqlDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
+        if ($platform instanceof SqlitePlatform) {
+            return $platform->getVarcharTypeDeclarationSQL($fieldDeclaration);
+        }
+
         return sprintf("ENUM(%s) COMMENT '(DC2Type:%s)'", $this->valuesAsString(), $this->getName());
     }
 
