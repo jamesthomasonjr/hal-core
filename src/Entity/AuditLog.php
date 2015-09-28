@@ -71,7 +71,6 @@ class AuditLog
         return $this->entity;
     }
 
-
     /**
      * @return string
      */
