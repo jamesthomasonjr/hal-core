@@ -22,14 +22,8 @@ class DeploymentPoolRepository extends EntityRepository
       AND :deployment MEMBER OF p.deployments
 SQL;
 
-    const DQL_BY_DEPLOYMENT = <<<SQL
-   SELECT p
-     FROM QL\Hal\Core\Entity\DeploymentPool p
-    WHERE :deployment MEMBER OF p.deployments
-SQL;
-
     /**
-     * Get all a deployment pool by View and deployment
+     * Get all a deployment pool by View and Deployment. Only really used for dupe checking when saving a relation.
      *
      * @param DeploymentView $view
      * @param Deployment $deployment
@@ -44,22 +38,5 @@ SQL;
             ->setParameter('deployment', $deployment);
 
         return $query->getResult();
-    }
-
-    /**
-     * Get all deployment pool by deployment
-     *
-     * @param DeploymentView $view
-     * @param Deployment $deployment
-     *
-     * @return DeploymentPool|null
-     */
-    public function getPoolForDeployment(Deployment $deployment)
-    {
-        $query = $this->getEntityManager()
-            ->createQuery(self::DQL_BY_DEPLOYMENT)
-            ->setParameter('deployment', $deployment);
-
-        return $query->getOneOrNullResult();
     }
 }
