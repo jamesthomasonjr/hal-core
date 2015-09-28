@@ -47,7 +47,6 @@ class AuditLog
         $this->data = '';
     }
 
-
     /**
      * @return int
      */

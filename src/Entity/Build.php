@@ -282,9 +282,9 @@ class Build implements JsonSerializable
         $json = [
             'id' => $this->id(),
 
-            'created' => $this->created() ? $this->created()->format(DateTime::RFC3339, 'UTC') : null,
-            'start' => $this->start() ? $this->start()->format(DateTime::RFC3339, 'UTC') : null,
-            'end' => $this->end() ? $this->end()->format(DateTime::RFC3339, 'UTC') : null,
+            'created' => $this->created(),
+            'start' => $this->start(),
+            'end' => $this->end(),
 
             'status' => $this->status(),
             'branch' => $this->branch(),

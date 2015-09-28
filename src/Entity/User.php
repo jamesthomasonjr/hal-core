@@ -165,7 +165,7 @@ class User implements JsonSerializable
      */
     public function withIsActive($isActive)
     {
-        $this->isActive = $isActive;
+        $this->isActive = (bool) $isActive;
         return $this;
     }
 

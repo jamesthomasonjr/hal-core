@@ -261,7 +261,7 @@ class EventLog implements JsonSerializable
         $json = [
             'id' => $this->id(),
 
-            'created' => $this->created() ? $this->created()->format(DateTime::RFC3339, 'UTC') : null,
+            'created' => $this->created(),
 
             'event' => $this->event(),
             'order' => $this->order(),

@@ -426,6 +426,10 @@ class Deployment implements JsonSerializable
             return $this->name();
         }
 
+        if (!$this->server()) {
+            return 'Unknown';
+        }
+
         if ($withDetails) {
             $type = $this->server()->type();
 
@@ -453,6 +457,10 @@ class Deployment implements JsonSerializable
      */
     public function formatMeta()
     {
+        if (!$this->server()) {
+            return 'Unknown';
+        }
+
         $type = $this->server()->type();
 
         if ($type === ServerEnum::TYPE_EB) {

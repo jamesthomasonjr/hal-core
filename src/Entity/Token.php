@@ -126,7 +126,7 @@ class Token implements JsonSerializable
             'label' => $this->label(),
             'value' => $this->value(),
 
-            'user' => $this->user()->id(),
+            'user' => $this->user() ? $this->user()->id() : null,
         ];
 
         return $json;
