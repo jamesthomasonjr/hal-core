@@ -11,7 +11,7 @@
             ".gitignore",
             "/bin",
             "/phpunit.xml.dist",
-            "/tests"
+            "/testing"
         ]
     },
     "autoload": {
