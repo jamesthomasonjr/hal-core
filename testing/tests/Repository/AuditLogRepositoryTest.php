@@ -75,6 +75,5 @@ class AuditLogRepositoryTest extends DoctrineTest
 
         $this->assertSame($log3, $raw[0]);
         $this->assertSame($log4, $raw[1]);
-
     }
 }
