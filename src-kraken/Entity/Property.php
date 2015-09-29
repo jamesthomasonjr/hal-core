@@ -203,7 +203,7 @@ class Property implements JsonSerializable
             'value' => $this->value(),
             'schema' => $this->schema() ? $this->schema()->id() : null,
 
-            'created' => $this->created() ? $this->created()->format(DateTime::RFC3339, 'UTC') : null,
+            'created' => $this->created(),
 
             'application' => $this->application() ? $this->application()->id() : null,
             'environment' => $this->environment() ? $this->environment()->id() : null,

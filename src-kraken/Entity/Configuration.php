@@ -203,7 +203,7 @@ class Configuration implements JsonSerializable
             'id' => $this->id(),
             'isSuccess' => $this->isSuccess(),
             'audit' => $this->audit(),
-            'created' => $this->created() ? $this->created()->format(DateTime::RFC3339, 'UTC') : null,
+            'created' => $this->created(),
 
             'application' => $this->application() ? $this->application()->id() : null,
             'environment' => $this->environment() ? $this->environment()->id() : null,

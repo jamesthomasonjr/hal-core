@@ -43,10 +43,13 @@ class User implements JsonSerializable
      */
     protected $tokens;
 
-    public function __construct()
+    /**
+     * @param int $id
+     */
+    public function __construct($id = null)
     {
         // from ldap
-        $this->id = null;
+        $this->id = $id;
         $this->handle = '';
         $this->name = '';
         $this->email = '';

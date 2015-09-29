@@ -226,7 +226,7 @@ class Schema implements JsonSerializable
 
             'isSecure' => $this->isSecure(),
 
-            'created' => $this->created() ? $this->created()->format(DateTime::RFC3339, 'UTC') : null,
+            'created' => $this->created(),
 
             'application' => $this->application() ? $this->application()->id() : null,
             'user' => $this->user() ? $this->user()->id() : null
