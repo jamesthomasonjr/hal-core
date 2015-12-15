@@ -13,6 +13,7 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 use QL\Hal\Core\Entity\Application;
 use QL\Hal\Core\Entity\Build;
 use QL\Hal\Core\Entity\Deployment;
+use QL\Hal\Core\Entity\Environment;
 use QL\Hal\Core\Entity\Push;
 use QL\Hal\Core\Entity\Server;
 use QL\Hal\Core\Entity\User;
@@ -61,6 +62,33 @@ SQL;
      FROM QL\Hal\Core\Entity\Push p
      JOIN p.build b
     WHERE p.application = :application
+      AND b.commit = :ref
+ ORDER BY p.created DESC
+SQL;
+
+    const DQL_BY_APPLICATION_AND_ENV = <<<SQL
+   SELECT p
+     FROM QL\Hal\Core\Entity\Push p
+     JOIN p.build b
+    WHERE p.application = :application
+      AND b.environment = :environment
+ ORDER BY p.created DESC
+SQL;
+    const DQL_BY_APPLICATION_AND_ENV_WITH_REF_FILTER = <<<SQL
+   SELECT p
+     FROM QL\Hal\Core\Entity\Push p
+     JOIN p.build b
+    WHERE p.application = :application
+      AND b.environment = :environment
+      AND b.branch = :ref
+ ORDER BY p.created DESC
+SQL;
+    const DQL_BY_APPLICATION_AND_ENV_WITH_SHA_FILTER = <<<SQL
+   SELECT p
+     FROM QL\Hal\Core\Entity\Push p
+     JOIN p.build b
+    WHERE p.application = :application
+      AND b.environment = :environment
       AND b.commit = :ref
  ORDER BY p.created DESC
 SQL;
@@ -166,6 +194,44 @@ SQL;
             ->createQuery($dql)
             ->setMaxResults($limit)
             ->setFirstResult($limit * $page)
+            ->setParameter('application', $application);
+
+        if ($filter) {
+            $query->setParameter('ref', $filter);
+        }
+
+        return new Paginator($query);
+    }
+
+    /**
+     * Get all builds for an application and environment.
+     *
+     * @param Application $application
+     * @param Environment $environment
+     * @param int $limit
+     * @param int $page
+     * @param string|null $filter
+     *
+     * @return Paginator
+     */
+    public function getByApplicationForEnvironment(Application $application, Environment $environment, $limit = 25, $page = 0, $filter = null)
+    {
+        $dql = self::DQL_BY_APPLICATION_AND_ENV;
+        if ($filter) {
+            $dql = self::DQL_BY_APPLICATION_AND_ENV_WITH_REF_FILTER;
+
+            // is a commit sha
+            if (preg_match(self::REGEX_COMMIT, $filter) === 1) {
+                $dql = self::DQL_BY_APPLICATION_AND_ENV_WITH_SHA_FILTER;
+                $filter = strtolower($filter);
+            }
+        }
+
+        $query = $this->getEntityManager()
+            ->createQuery($dql)
+            ->setMaxResults($limit)
+            ->setFirstResult($limit * $page)
+            ->setParameter('environment', $environment)
             ->setParameter('application', $application);
 
         if ($filter) {
