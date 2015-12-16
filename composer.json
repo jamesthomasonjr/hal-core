@@ -38,7 +38,7 @@
     "require-dev": {
         "mockery/mockery": "*",
         "phpunit/phpunit": "*",
-        "robmorgan/phinx": "~0.4",
+        "robmorgan/phinx": "~0.5",
         "symfony/config": "*",
         "symfony/dependency-injection": "*",
         "symfony/yaml": "*"
