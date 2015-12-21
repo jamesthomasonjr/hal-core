@@ -21,7 +21,7 @@ services:
 
     doctrine.proxy.generator:
         class: 'QL\Hal\Core\Utility\DoctrineProxyGenerator'
-        arguments: [@service_container]
+        arguments: ['@service_container']
 
     ####################################################################################################################
     # DOCTRINE PATHS
@@ -38,7 +38,7 @@ services:
     doctrine.proxy.dir:
         class: 'stdClass'
         factory: ['QL\Hal\Core\Utility\DoctrineFactory', 'proxyPath']
-        arguments: [%doctrine.proxy.dir%]
+        arguments: ['%doctrine.proxy.dir%']
 
     ####################################################################################################################
     # DOCTRINE EM
@@ -48,16 +48,16 @@ services:
         class: 'Doctrine\ORM\EntityManager'
         factory: ['Doctrine\ORM\EntityManager', 'create']
         arguments:
-            - %doctrine.connection%
-            - @doctrine.config
-            - @doctrine.em.events
-        configurator: [@doctrine.em.configurator, 'configure']
+            - '%doctrine.connection%'
+            - '@doctrine.config'
+            - '@doctrine.em.events'
+        configurator: ['@doctrine.em.configurator', 'configure']
 
     doctrine.em.configurator:
         class: 'QL\Hal\Core\Utility\DoctrineConfigurator'
         calls:
-            - ['addEntityMappings', [@doctrine.types.hal]]
-            - ['addEntityMappings', [@doctrine.types.kraken]]
+            - ['addEntityMappings', ['@doctrine.types.hal']]
+            - ['addEntityMappings', ['@doctrine.types.kraken']]
 
     doctrine.em.events:
         class: 'Doctrine\Common\EventManager'
@@ -70,17 +70,17 @@ services:
         class: 'Doctrine\ORM\Configuration'
         factory: ['Doctrine\ORM\Tools\Setup', 'createConfiguration']
         arguments:
-            - %doctrine.devmode%
-            - @doctrine.proxy.dir
-            - @doctrine.cache
+            - '%doctrine.devmode%'
+            - '@doctrine.proxy.dir'
+            - '@doctrine.cache'
         calls:
-            - ['setMetadataDriverImpl', [@doctrine.config.driver]]
-            - ['setSecondLevelCacheEnabled', [%doctrine.lvl2cache.enabled%]]
-            - ['setSecondLevelCacheConfiguration', [@doctrine.secondlevelcache.config]]
+            - ['setMetadataDriverImpl', ['@doctrine.config.driver']]
+            - ['setSecondLevelCacheEnabled', ['%doctrine.lvl2cache.enabled%']]
+            - ['setSecondLevelCacheConfiguration', ['@doctrine.secondlevelcache.config']]
 
     doctrine.config.driver:
         class: 'Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver'
-        arguments: [@doctrine.mapping.dirs]
+        arguments: ['@doctrine.mapping.dirs']
         calls:
             - ['setGlobalBasename', ['global']]
 
@@ -88,8 +88,8 @@ services:
         class: 'stdClass'
         factory: ['QL\Hal\Core\Utility\DoctrineFactory', 'buildConfigurationMapping']
         arguments:
-            - [@doctrine.mapping.dir.hal, 'QL\Hal\Core\Entity']
-            - [@doctrine.mapping.dir.kraken, 'QL\Kraken\Core\Entity']
+            - ['@doctrine.mapping.dir.hal', 'QL\Hal\Core\Entity']
+            - ['@doctrine.mapping.dir.kraken', 'QL\Kraken\Core\Entity']
 
     ####################################################################################################################
     # TYPES
@@ -114,15 +114,15 @@ services:
     doctrine.secondlevelcache.config:
         class: 'Doctrine\ORM\Cache\CacheConfiguration'
         calls:
-            - ['setCacheFactory', [@doctrine.secondlevelcache.factory]]
+            - ['setCacheFactory', ['@doctrine.secondlevelcache.factory']]
 
     doctrine.secondlevelcache.factory:
         class: 'Doctrine\ORM\Cache\DefaultCacheFactory'
-        arguments: [@doctrine.secondlevelcache.region.config, @doctrine.cache]
+        arguments: ['@doctrine.secondlevelcache.region.config', '@doctrine.cache']
 
     doctrine.secondlevelcache.region.config:
         class: 'Doctrine\ORM\Cache\RegionsConfiguration'
-        arguments: [%doctrine.lvl2cache.ttl%, %doctrine.lvl2cache.lock%]
+        arguments: ['%doctrine.lvl2cache.ttl%', '%doctrine.lvl2cache.lock%']
 
     ####################################################################################################################
     # DOCTRINE HELPERS
