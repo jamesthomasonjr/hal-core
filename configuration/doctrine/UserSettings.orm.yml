@@ -1,0 +1,29 @@
+QL\Hal\Core\Entity\UserSettings:
+    type: entity
+    table: UserSettings
+
+    cache: {usage : NONSTRICT_READ_WRITE}
+
+    id:
+        id:
+            column: UserSettingsId
+            type: string
+            length: 32
+            options: {fixed: true}
+
+    fields:
+
+        favoriteApplications:
+            column: UserSettingsFavoriteApplications
+            type: json_array
+
+    oneToOne:
+
+        user:
+            cache: {usage : READ_ONLY}
+            targetEntity: User
+            inversedBy: settings
+            joinColumn:
+                name: UserId
+                referencedColumnName: UserId
+                nullable: false

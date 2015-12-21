@@ -16,6 +16,7 @@ use QL\Hal\Core\Entity\AuditLog;
 use QL\Hal\Core\Entity\Build;
 use QL\Hal\Core\Entity\Push;
 use QL\Hal\Core\Entity\User;
+use QL\Hal\Core\Entity\UserSettings;
 
 class DoctrineChangeLogger
 {
@@ -111,6 +112,11 @@ class DoctrineChangeLogger
     {
         // prevent logging loop
         if ($entity instanceof AuditLog || $entity instanceof User) {
+            return;
+        }
+
+        // Skip this, we dont care
+        if ($entity instanceof UserSettings) {
             return;
         }
 

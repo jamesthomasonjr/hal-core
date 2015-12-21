@@ -44,6 +44,11 @@ class User implements JsonSerializable
     protected $tokens;
 
     /**
+     * @type UserSettings
+     */
+    protected $settings;
+
+    /**
      * @param int $id
      */
     public function __construct($id = null)
@@ -58,6 +63,7 @@ class User implements JsonSerializable
         $this->isActive = false;
         $this->githubToken = '';
 
+        $this->settings = null;
         $this->tokens = new ArrayCollection;
     }
 
@@ -115,6 +121,14 @@ class User implements JsonSerializable
     public function tokens()
     {
         return $this->tokens;
+    }
+
+    /**
+     * @return UserSettings|null
+     */
+    public function settings()
+    {
+        return $this->settings;
     }
 
     /**

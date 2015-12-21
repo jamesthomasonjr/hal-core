@@ -39,3 +39,10 @@ QL\Hal\Core\Entity\User:
         tokens:
             targetEntity: Token
             mappedBy: user
+
+    oneToOne:
+
+        settings:
+            cache: {usage : NONSTRICT_READ_WRITE}
+            targetEntity: UserSettings
+            mappedBy: user
