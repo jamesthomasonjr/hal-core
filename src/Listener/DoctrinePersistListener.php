@@ -12,6 +12,7 @@ use MCP\DataType\Time\Clock;
 use QL\Hal\Core\Entity\AuditLog;
 use QL\Hal\Core\Entity\Build;
 use QL\Hal\Core\Entity\EventLog;
+use QL\Hal\Core\Entity\Process;
 use QL\Hal\Core\Entity\Push;
 
 /**
@@ -21,6 +22,7 @@ use QL\Hal\Core\Entity\Push;
  *     - Build
  *     - Push
  *     - EventLog
+ *     - Process
  *
  * It should be attached to the PrePersist event.
  *
@@ -72,6 +74,7 @@ class DoctrinePersistListener
         if ($entity instanceof AuditLog) return true;
         if ($entity instanceof Build) return true;
         if ($entity instanceof Push) return true;
+        if ($entity instanceof Process) return true;
 
         return false;
     }

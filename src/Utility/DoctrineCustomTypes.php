@@ -14,6 +14,7 @@ use QL\Hal\Core\Type\EnumType\BuildStatusEnum;
 use QL\Hal\Core\Type\EnumType\CredentialEnum;
 use QL\Hal\Core\Type\EnumType\EventEnum;
 use QL\Hal\Core\Type\EnumType\EventStatusEnum;
+use QL\Hal\Core\Type\EnumType\ProcessStatusEnum;
 use QL\Hal\Core\Type\EnumType\PushStatusEnum;
 use QL\Hal\Core\Type\EnumType\ServerEnum;
 use QL\Hal\Core\Type\EnumType\UserTypeEnum;
@@ -34,6 +35,7 @@ class DoctrineCustomTypes
             PushStatusEnum::TYPE => PushStatusEnum::CLASS,
             EventEnum::TYPE => EventEnum::CLASS,
             EventStatusEnum::TYPE => EventStatusEnum::CLASS,
+            ProcessStatusEnum::TYPE => ProcessStatusEnum::CLASS,
 
             UserTypeEnum::TYPE => UserTypeEnum::CLASS,
 

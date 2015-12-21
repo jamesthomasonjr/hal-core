@@ -22,6 +22,7 @@ class DatabaseMeta
 
     const DB_BUILD = 'Builds';
     const DB_PUSH = 'Pushes';
+    const DB_PROCESS = 'Processes';
 
     const DB_USER = 'Users';
     const DB_USER_TYPE = 'UserTypes';

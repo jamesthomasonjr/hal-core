@@ -1,0 +1,58 @@
+QL\Hal\Core\Entity\Process:
+    type: entity
+    table: Processes
+
+    cache: {usage : NONSTRICT_READ_WRITE}
+
+    id:
+        id:
+            column: ProcessId
+            type: string
+            length: 40
+
+    fields:
+
+        created:
+            column: ProcessCreated
+            type: timepoint
+
+        status:
+            column: ProcessStatus
+            type: processstatusenum
+            length: 20
+            options:
+                default: 'Pending'
+        message:
+            column: ProcessMessage
+            type: string
+            length: 200
+        context:
+            column: ProcessContext
+            type: json_array
+
+        parent:
+            column: ProcessParentId
+            type: string
+            length: 40
+        parentType:
+            column: ProcessParentType
+            type: string
+            length: 40
+
+        child:
+            column: ProcessChildId
+            type: string
+            length: 40
+        childType:
+            column: ProcessChildType
+            type: string
+            length: 40
+
+    manyToOne:
+
+        user:
+            cache: {usage : READ_ONLY}
+            targetEntity: User
+            joinColumn:
+                name: UserId
+                referencedColumnName: UserId

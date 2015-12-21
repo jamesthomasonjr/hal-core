@@ -8,15 +8,9 @@
 namespace QL\Hal\Core\Type\EnumType;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
 use InvalidArgumentException;
 
-/**
- * @deprecated
- *
- * Use StringEnumTypeTrait instead.
- */
-trait EnumTypeTrait
+trait StringEnumTypeTrait
 {
     /**
      * Convert Enum to database value
@@ -43,6 +37,19 @@ trait EnumTypeTrait
         return $value;
     }
 
+
+    /**
+     * Get a string representation of valid enum values
+     *
+     * @return string
+     */
+    public static function getDefault()
+    {
+        $values = static::values();
+
+        return reset($values);
+    }
+
     /**
      *  Convert database value to string
      *
@@ -65,11 +72,7 @@ trait EnumTypeTrait
      */
     public function getSqlDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
-        if ($platform instanceof SqlitePlatform) {
-            return $platform->getVarcharTypeDeclarationSQL($fieldDeclaration);
-        }
-
-        return sprintf("ENUM(%s) COMMENT '(DC2Type:%s)'", $this->valuesAsString(), $this->getName());
+        return $platform->getVarcharTypeDeclarationSQL($fieldDeclaration);
     }
 
     /**
