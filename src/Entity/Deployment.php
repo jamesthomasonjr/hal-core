@@ -102,6 +102,11 @@ class Deployment implements JsonSerializable
      */
     protected $credential;
 
+    /**
+     * @type Push|null
+     */
+    protected $push;
+
     public function __construct()
     {
         $this->id = null;
@@ -126,6 +131,7 @@ class Deployment implements JsonSerializable
         $this->server = null;
 
         $this->credential = null;
+        $this->push = null;
     }
 
     /**
@@ -246,6 +252,14 @@ class Deployment implements JsonSerializable
     public function credential()
     {
         return $this->credential;
+    }
+
+    /**
+     * @return Push|null
+     */
+    public function push()
+    {
+        return $this->push;
     }
 
     /**
@@ -414,6 +428,17 @@ class Deployment implements JsonSerializable
     }
 
     /**
+     * @param Push|null $push
+     *
+     * @return self
+     */
+    public function withPush(Push $push = null)
+    {
+        $this->push = $push;
+        return $this;
+    }
+
+    /**
      * Format a pretty name for the deployment
      *
      * @param bool $withDetails
@@ -512,6 +537,7 @@ class Deployment implements JsonSerializable
             'application' => $this->application() ? $this->application()->id() : null,
             'server' => $this->server() ? $this->server()->id() : null,
             'credential' => $this->credential() ? $this->credential()->id() : null,
+            'push' => $this->push() ? $this->push()->id() : null,
         ];
 
         return $json;

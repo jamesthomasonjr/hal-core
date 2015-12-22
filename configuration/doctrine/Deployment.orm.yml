@@ -97,3 +97,10 @@ QL\Hal\Core\Entity\Deployment:
             joinColumn:
                 name: CredentialId
                 referencedColumnName: CredentialId
+
+        push:
+            cache: {usage : NONSTRICT_READ_WRITE}
+            targetEntity: Push
+            joinColumn:
+                name: PushId
+                referencedColumnName: PushId
