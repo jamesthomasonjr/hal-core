@@ -1,14 +1,13 @@
 <?php
 /**
- * @copyright ©2015 Quicken Loans Inc. All rights reserved. Trade Secret,
- *    Confidential and Proprietary. Any dissemination outside of Quicken Loans
- *    is strictly prohibited.
+ * @copyright (c) 2016 Quicken Loans Inc.
+ *
+ * For full license information, please view the LICENSE distributed with this source code.
  */
 
 namespace QL\Hal\Core\Utility;
 
 use QL\Hal\Core\Type\CompressedSerializedBlobType;
-use QL\Hal\Core\Type\HttpUrlType;
 use QL\Hal\Core\Type\TimePointType;
 use QL\Hal\Core\Type\EnumType\BuildStatusEnum;
 use QL\Hal\Core\Type\EnumType\CredentialEnum;

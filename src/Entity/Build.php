@@ -1,8 +1,8 @@
 <?php
 /**
- * @copyright ©2014 Quicken Loans Inc. All rights reserved. Trade Secret,
- *    Confidential and Proprietary. Any dissemination outside of Quicken Loans
- *    is strictly prohibited.
+ * @copyright (c) 2016 Quicken Loans Inc.
+ *
+ * For full license information, please view the LICENSE distributed with this source code.
  */
 
 namespace QL\Hal\Core\Entity;
@@ -64,7 +64,7 @@ class Build implements JsonSerializable
         $this->start = null;
         $this->end = null;
 
-        $this->status = null;
+        $this->status = 'Waiting';
         $this->branch = '';
         $this->commit = '';
 
