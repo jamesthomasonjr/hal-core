@@ -100,19 +100,6 @@ SQL;
 ORDER BY p.created DESC
 SQL;
 
-    const DQL_RECENT_PUSHES = <<<SQL
-  SELECT *
-    FROM Pushes p1
-   WHERE p1.PushId = (
-        SELECT p2.PushId
-          FROM Pushes p2
-         WHERE p2.DeploymentId = p1.DeploymentId
-           AND p2.DeploymentId IN (:deployments)
-         ORDER BY p2.PushCreated DESC
-         LIMIT 1
-        )
-SQL;
-
     const DQL_RECENT_SUCCESSFUL_PUSH = <<<SQL
    SELECT p
      FROM QL\Hal\Core\Entity\Push p
@@ -256,49 +243,6 @@ SQL;
             ->setParameter('deploy', $deployment);
 
         return $query->getOneOrNullResult();
-    }
-
-    /**
-     * WARNING! This query uses native SQL and may not be compatible with non-mysql databases!
-     *
-     * Get the most recent push for a list of deployments
-     *
-     * @param Deployment[] $deployments
-     *
-     * @return Push[]
-     */
-    public function getMostRecentByDeployments(array $deployments)
-    {
-        $rsm = new ResultSetMapping();
-        $rsm->addEntityResult(Push::CLASS, 'p');
-        $rsm->addFieldResult('p', 'PushId', 'id');
-
-        $ids = [];
-        foreach ($deployments as $deployment) {
-            $ids[] = $deployment->id();
-        }
-
-        $query = $this->getEntityManager()
-            ->createNativeQuery(self::DQL_RECENT_PUSHES, $rsm)
-            ->setParameter('deployments', $ids);
-
-        $ids = [];
-        foreach ($query->getScalarResult() as $push) {
-            $ids[] = array_shift($push);
-        }
-
-        $pushes = $this->findBy(['id' => $ids]);
-
-        $latest = [];
-        foreach ($pushes as $push) {
-            if (!$push->deployment()) {
-                continue;
-            }
-
-            $latest[$push->deployment()->id()] = $push;
-        }
-
-        return $latest;
     }
 
     /**
