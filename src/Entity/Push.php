@@ -155,6 +155,38 @@ class Push implements JsonSerializable
     }
 
     /**
+     * @return string
+     */
+    public function isPending()
+    {
+        return in_array($this->status(), ['Waiting', 'Pushing'], true);
+    }
+
+    /**
+     * @return string
+     */
+    public function isFinished()
+    {
+        return in_array($this->status(), ['Error', 'Removed', 'Success'], true);
+    }
+
+    /**
+     * @return string
+     */
+    public function isSuccess()
+    {
+        return $this->status() === 'Success';
+    }
+
+    /**
+     * @return string
+     */
+    public function isFailure()
+    {
+        return $this->status() === 'Error';
+    }
+
+    /**
      * @param int $id
      *
      * @return self
@@ -243,7 +275,7 @@ class Push implements JsonSerializable
     }
 
     /**
-     * @param User $user
+     * @param User|null $user
      *
      * @return self
      */
