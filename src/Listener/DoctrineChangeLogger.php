@@ -11,12 +11,12 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\UnitOfWork;
-use MCP\DataType\Time\Clock;
 use QL\Hal\Core\Entity\AuditLog;
 use QL\Hal\Core\Entity\Build;
 use QL\Hal\Core\Entity\Push;
 use QL\Hal\Core\Entity\User;
 use QL\Hal\Core\Entity\UserSettings;
+use QL\MCP\Common\Time\Clock;
 
 class DoctrineChangeLogger
 {

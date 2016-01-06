@@ -11,7 +11,7 @@ use QL\Hal\Core\Entity\Application;
 use QL\Hal\Core\Entity\Build;
 use QL\Hal\Core\Entity\Environment;
 use QL\Hal\Core\Testing\DoctrineTest;
-use MCP\DataType\Time\TimePoint;
+use QL\MCP\Common\Time\TimePoint;
 
 class BuildRepositoryTest extends DoctrineTest
 {

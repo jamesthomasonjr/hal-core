@@ -7,8 +7,8 @@
 
 namespace QL\Hal\Core\Entity;
 
-use MCP\DataType\Time\TimePoint;
 use PHPUnit_Framework_TestCase;
+use QL\MCP\Common\Time\TimePoint;
 
 class BuildTest extends PHPUnit_Framework_TestCase
 {

@@ -9,7 +9,7 @@ namespace QL\Hal\Core\Repository;
 
 use QL\Hal\Core\Entity\AuditLog;
 use QL\Hal\Core\Testing\DoctrineTest;
-use MCP\DataType\Time\TimePoint;
+use QL\MCP\Common\Time\TimePoint;
 
 class AuditLogRepositoryTest extends DoctrineTest
 {

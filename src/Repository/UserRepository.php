@@ -11,8 +11,8 @@ use DateTime;
 use DateTimeZone;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use MCP\DataType\Time\TimePoint;
 use QL\Hal\Core\Entity\User;
+use QL\MCP\Common\Time\TimePoint;
 
 class UserRepository extends EntityRepository
 {
@@ -49,7 +49,7 @@ SQL;
      * Get recent applications the user has built or pushed for
      *
      * @param User $user
-     * @param Timepoint|null $oldest
+     * @param TimePoint|null $oldest
      *
      * @return int
      */

@@ -12,7 +12,7 @@ use QL\Hal\Core\Entity\Build;
 use QL\Hal\Core\Entity\Push;
 use QL\Hal\Core\Entity\User;
 use QL\Hal\Core\Testing\DoctrineTest;
-use MCP\DataType\Time\TimePoint;
+use QL\MCP\Common\Time\TimePoint;
 
 class UserRepositoryTest extends DoctrineTest
 {

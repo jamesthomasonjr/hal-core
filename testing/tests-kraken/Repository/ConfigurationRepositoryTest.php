@@ -7,11 +7,11 @@
 
 namespace QL\Kraken\Core\Repository;
 
+use QL\Hal\Core\Testing\DoctrineTest;
 use QL\Kraken\Core\Entity\Application;
 use QL\Kraken\Core\Entity\Environment;
 use QL\Kraken\Core\Entity\Configuration;
-use QL\Hal\Core\Testing\DoctrineTest;
-use MCP\DataType\Time\TimePoint;
+use QL\MCP\Common\Time\TimePoint;
 
 class ConfigurationRepositoryTest extends DoctrineTest
 {

@@ -7,8 +7,8 @@
 
 namespace QL\Kraken\Core\Entity;
 
-use MCP\DataType\Time\TimePoint;
 use PHPUnit_Framework_TestCase;
+use QL\MCP\Common\Time\TimePoint;
 
 class SnapshotTest extends PHPUnit_Framework_TestCase
 {

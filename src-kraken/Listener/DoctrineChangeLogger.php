@@ -10,11 +10,11 @@ namespace QL\Kraken\Core\Listener;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\UnitOfWork;
-use MCP\DataType\Time\Clock;
+use QL\Hal\Core\Entity\User;
 use QL\Kraken\Core\Entity\AuditLog;
 use QL\Kraken\Core\Entity\Property;
 use QL\Kraken\Core\Entity\Schema;
-use QL\Hal\Core\Entity\User;
+use QL\MCP\Common\Time\Clock;
 
 class DoctrineChangeLogger
 {

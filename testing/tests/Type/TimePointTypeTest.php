@@ -8,9 +8,9 @@
 namespace QL\Hal\Core\Type;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use MCP\DataType\Time\TimePoint;
 use Mockery;
 use PHPUnit_Framework_TestCase;
+use QL\MCP\Common\Time\TimePoint;
 use stdClass;
 
 class TimePointTypeTest extends PHPUnit_Framework_TestCase

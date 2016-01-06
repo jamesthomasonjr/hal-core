@@ -8,12 +8,12 @@
 namespace QL\Kraken\Core\Listener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use MCP\DataType\Time\Clock;
 use QL\Kraken\Core\Entity\AuditLog;
 use QL\Kraken\Core\Entity\Configuration;
 use QL\Kraken\Core\Entity\Property;
 use QL\Kraken\Core\Entity\Schema;
 use QL\Kraken\Core\Entity\Snapshot;
+use QL\MCP\Common\Time\Clock;
 
 /**
  * A doctrine event listener for:

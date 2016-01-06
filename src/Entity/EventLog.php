@@ -9,7 +9,7 @@ namespace QL\Hal\Core\Entity;
 
 use DateTime;
 use JsonSerializable;
-use MCP\DataType\Time\TimePoint;
+use QL\MCP\Common\Time\TimePoint;
 
 /**
  * Build|Push Event Log Entity
@@ -32,7 +32,7 @@ class EventLog implements JsonSerializable
     protected $order;
 
     /**
-     * @type Timepoint
+     * @type TimePoint
      */
     protected $created;
 

@@ -13,7 +13,7 @@ use QL\Hal\Core\Entity\Deployment;
 use QL\Hal\Core\Entity\Environment;
 use QL\Hal\Core\Entity\Push;
 use QL\Hal\Core\Testing\DoctrineTest;
-use MCP\DataType\Time\TimePoint;
+use QL\MCP\Common\Time\TimePoint;
 
 class PushRepositoryTest extends DoctrineTest
 {

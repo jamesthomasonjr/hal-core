@@ -8,12 +8,12 @@
 namespace QL\Hal\Core\Listener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use MCP\DataType\Time\Clock;
 use QL\Hal\Core\Entity\AuditLog;
 use QL\Hal\Core\Entity\Build;
 use QL\Hal\Core\Entity\EventLog;
 use QL\Hal\Core\Entity\Process;
 use QL\Hal\Core\Entity\Push;
+use QL\MCP\Common\Time\Clock;
 
 /**
  * A doctrine event listener for:

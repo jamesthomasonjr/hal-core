@@ -7,7 +7,7 @@
 
 namespace QL\Hal\Core\Entity;
 
-use MCP\DataType\Time\TimePoint;
+use QL\MCP\Common\Time\TimePoint;
 
 class AuditLog
 {
@@ -17,7 +17,7 @@ class AuditLog
     protected $id;
 
     /**
-     * @type Timepoint
+     * @type TimePoint
      */
     protected $created;
 
@@ -56,7 +56,7 @@ class AuditLog
     }
 
     /**
-     * @return Timepoint
+     * @return TimePoint
      */
     public function created()
     {
@@ -107,7 +107,7 @@ class AuditLog
     }
 
     /**
-     * @param Timepoint $created
+     * @param TimePoint $created
      *
      * @return self
      */

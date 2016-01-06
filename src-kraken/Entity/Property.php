@@ -9,8 +9,8 @@ namespace QL\Kraken\Core\Entity;
 
 use DateTime;
 use JsonSerializable;
-use MCP\DataType\Time\Timepoint;
 use QL\Hal\Core\Entity\User;
+use QL\MCP\Common\Time\TimePoint;
 
 class Property implements JsonSerializable
 {
@@ -21,7 +21,7 @@ class Property implements JsonSerializable
     protected $value;
 
     /**
-     * @type Timepoint|null
+     * @type TimePoint|null
      */
     protected $created;
 
@@ -77,7 +77,7 @@ class Property implements JsonSerializable
     }
 
     /**
-     * @return Timepoint|null
+     * @return TimePoint|null
      */
     public function created()
     {
@@ -139,11 +139,11 @@ class Property implements JsonSerializable
     }
 
     /**
-     * @param Timepoint $created
+     * @param TimePoint $created
      *
      * @return self
      */
-    public function withCreated(Timepoint $created)
+    public function withCreated(TimePoint $created)
     {
         $this->created = $created;
         return $this;

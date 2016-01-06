@@ -7,11 +7,11 @@
 
 namespace QL\Hal\Core\Type;
 
-use Doctrine\DBAL\Types\Type as BaseType;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-use MCP\DataType\Time\TimePoint;
 use DateTime;
 use DateTimeZone;
+use Doctrine\DBAL\Types\Type as BaseType;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
+use QL\MCP\Common\Time\TimePoint;
 
 /**
  * Doctrine TimePoint Type

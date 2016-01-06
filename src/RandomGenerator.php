@@ -7,7 +7,7 @@
 
 namespace QL\Hal\Core;
 
-use MCP\DataType\GUID;
+use QL\MCP\Common\GUID;
 
 /**
  * Generate a unique id.

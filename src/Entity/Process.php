@@ -8,7 +8,7 @@
 namespace QL\Hal\Core\Entity;
 
 use JsonSerializable;
-use MCP\DataType\Time\TimePoint;
+use QL\MCP\Common\Time\TimePoint;
 use QL\Hal\Core\Type\EnumType\ProcessStatusEnum;
 
 class Process implements JsonSerializable

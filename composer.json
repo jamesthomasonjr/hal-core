@@ -1,6 +1,6 @@
 {
     "name": "ql/hal-core",
-    "description": "HAL9000 Shared Libraries, Services, Models, and Repositories",
+    "description": "HAL 9000 shared components and domain resources",
     "license": "proprietary",
     "authors": [
         { "name": "IT Team Web Core", "email": "itteamwebcore@quickenloans.com" }
@@ -30,11 +30,12 @@
         "ext-pdo_mysql": "*",
 
         "doctrine/orm": "~2.5",
-        "ql/mcp-core": "^1.0.3"
+        "ql/mcp-common": "~1.0"
     },
     "require-dev": {
         "mockery/mockery": "*",
         "phpunit/phpunit": "*",
+        "paragonie/random_compat": "~1.1",
         "robmorgan/phinx": "~0.5",
         "symfony/config": "*",
         "symfony/dependency-injection": "*",

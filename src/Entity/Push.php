@@ -10,7 +10,7 @@ namespace QL\Hal\Core\Entity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use JsonSerializable;
-use MCP\DataType\Time\TimePoint;
+use QL\MCP\Common\Time\TimePoint;
 
 class Push implements JsonSerializable
 {

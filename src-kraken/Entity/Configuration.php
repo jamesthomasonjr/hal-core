@@ -9,8 +9,8 @@ namespace QL\Kraken\Core\Entity;
 
 use DateTime;
 use JsonSerializable;
-use MCP\DataType\Time\TimePoint;
 use QL\Hal\Core\Entity\User;
+use QL\MCP\Common\Time\TimePoint;
 
 class Configuration implements JsonSerializable
 {
@@ -26,7 +26,7 @@ class Configuration implements JsonSerializable
     protected $isSuccess;
 
     /**
-     * @type Timepoint|null
+     * @type TimePoint|null
      */
     protected $created;
 
@@ -86,7 +86,7 @@ class Configuration implements JsonSerializable
     }
 
     /**
-     * @return Timepoint|null
+     * @return TimePoint|null
      */
     public function created()
     {
@@ -151,11 +151,11 @@ class Configuration implements JsonSerializable
     }
 
     /**
-     * @param Timepoint $created
+     * @param TimePoint $created
      *
      * @return self
      */
-    public function withCreated(Timepoint $created)
+    public function withCreated(TimePoint $created)
     {
         $this->created = $created;
         return $this;

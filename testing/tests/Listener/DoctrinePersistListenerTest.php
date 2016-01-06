@@ -8,8 +8,6 @@
 namespace QL\Hal\Core\Listener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use MCP\DataType\Time\Clock;
-use MCP\DataType\Time\TimePoint;
 use Mockery;
 use PHPUnit_Framework_TestCase;
 use QL\Hal\Core\Entity\AuditLog;
@@ -17,6 +15,8 @@ use QL\Hal\Core\Entity\Build;
 use QL\Hal\Core\Entity\EventLog;
 use QL\Hal\Core\Entity\Group;
 use QL\Hal\Core\Entity\Push;
+use QL\MCP\Common\Time\Clock;
+use QL\MCP\Common\Time\TimePoint;
 
 class DoctrinePersistListenerTest extends PHPUnit_Framework_TestCase
 {

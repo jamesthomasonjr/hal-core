@@ -7,9 +7,9 @@
 
 namespace QL\Kraken\Core\Entity;
 
-use MCP\DataType\Time\TimePoint;
 use PHPUnit_Framework_TestCase;
 use QL\Hal\Core\Entity\User;
+use QL\MCP\Common\Time\TimePoint;
 
 class PropertyTest extends PHPUnit_Framework_TestCase
 {

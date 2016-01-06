@@ -11,7 +11,6 @@ use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\UnitOfWork;
-use MCP\DataType\Time\Clock;
 use Mockery;
 use PHPUnit_Framework_TestCase;
 use QL\Hal\Core\Entity\AuditLog;
@@ -21,6 +20,7 @@ use QL\Hal\Core\Entity\Deployment;
 use QL\Hal\Core\Entity\Push;
 use QL\Hal\Core\Entity\Server;
 use QL\Hal\Core\Entity\User;
+use QL\MCP\Common\Time\Clock;
 use stdClass;
 
 class DoctrineChangeLoggerTest extends PHPUnit_Framework_TestCase
