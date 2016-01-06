@@ -21,9 +21,6 @@
             "QL\\Kraken\\Core\\": "src-kraken/"
         }
     },
-    "repositories": [
-        { "type": "composer", "url": "http://composer/" }
-    ],
 
     "require": {
         "php-64bit": ">=5.5",
