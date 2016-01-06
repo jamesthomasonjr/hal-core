@@ -21,7 +21,7 @@ class BuildTest extends PHPUnit_Framework_TestCase
         $this->assertSame(null, $build->start());
         $this->assertSame(null, $build->end());
 
-        $this->assertSame(null, $build->status());
+        $this->assertSame('Waiting', $build->status());
         $this->assertSame('', $build->branch());
         $this->assertSame('', $build->commit());
 
@@ -124,7 +124,7 @@ JSON;
     "created": null,
     "start": null,
     "end": null,
-    "status": null,
+    "status": "Waiting",
     "branch": "",
     "commit": "",
     "user": null,

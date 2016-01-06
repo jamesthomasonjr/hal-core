@@ -130,7 +130,8 @@ class DeploymentTest extends PHPUnit_Framework_TestCase
     "s3file": "myfile/myfile.tar.gz",
     "application": 1234,
     "server": 1234,
-    "credential": "abcdef"
+    "credential": "abcdef",
+    "push": null
 }
 JSON;
 
@@ -157,7 +158,8 @@ JSON;
     "s3file": null,
     "application": null,
     "server": null,
-    "credential": null
+    "credential": null,
+    "push": null
 }
 JSON;
 

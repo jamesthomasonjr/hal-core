@@ -21,7 +21,7 @@ class PushTest extends PHPUnit_Framework_TestCase
         $this->assertSame(null, $push->start());
         $this->assertSame(null, $push->end());
 
-        $this->assertSame('', $push->status());
+        $this->assertSame('Waiting', $push->status());
 
         $this->assertSame(null, $push->user());
         $this->assertSame(null, $push->build());
@@ -124,7 +124,7 @@ JSON;
     "created": null,
     "start": null,
     "end": null,
-    "status": "",
+    "status": "Waiting",
     "user": null,
     "build": null,
     "deployment": null,
