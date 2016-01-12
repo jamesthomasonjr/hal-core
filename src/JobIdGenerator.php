@@ -24,22 +24,22 @@ class JobIdGenerator
     const BASE58_6CHAR = 656356768;
 
     /**
-     * @type string
+     * @var string
      */
     private $version;
 
     /**
-     * @type int
+     * @var int
      */
     private $fixedSize;
 
     /**
-     * @type array
+     * @var array
      */
     private $alphabet;
 
     /**
-     * @type int
+     * @var int
      */
     private $base;
 

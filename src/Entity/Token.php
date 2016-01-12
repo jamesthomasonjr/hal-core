@@ -12,18 +12,18 @@ use JsonSerializable;
 class Token implements JsonSerializable
 {
     /**
-     * @type string
+     * @var string
      */
     protected $id;
 
     /**
-     * @type string
+     * @var string
      */
     protected $value;
     protected $label;
 
     /**
-     * @type User
+     * @var User
      */
     protected $user;
 

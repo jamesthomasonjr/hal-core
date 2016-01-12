@@ -12,22 +12,22 @@ use JsonSerializable;
 class UserType implements JsonSerializable
 {
     /**
-     * @type string
+     * @var string
      */
     protected $id;
 
     /**
-     * @type string
+     * @var string
      */
     protected $type;
 
     /**
-     * @type User
+     * @var User
      */
     protected $user;
 
     /**
-     * @type Application|null
+     * @var Application|null
      */
     protected $application;
 

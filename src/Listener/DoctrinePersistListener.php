@@ -31,7 +31,7 @@ use QL\MCP\Common\Time\Clock;
 class DoctrinePersistListener
 {
     /**
-     * @type Clock
+     * @var Clock
      */
     private $clock;
 

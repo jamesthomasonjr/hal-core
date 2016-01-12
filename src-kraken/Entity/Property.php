@@ -15,33 +15,33 @@ use QL\MCP\Common\Time\TimePoint;
 class Property implements JsonSerializable
 {
     /**
-     * @type string
+     * @var string
      */
     protected $id;
     protected $value;
 
     /**
-     * @type TimePoint|null
+     * @var TimePoint|null
      */
     protected $created;
 
     /**
-     * @type Schema
+     * @var Schema
      */
     protected $schema;
 
     /**
-     * @type Application
+     * @var Application
      */
     protected $application;
 
     /**
-     * @type Environment
+     * @var Environment
      */
     protected $environment;
 
     /**
-     * @type User|null
+     * @var User|null
      */
     protected $user;
 

@@ -23,17 +23,17 @@ class DoctrineChangeLogger
     const ACTION_DELETE = 'DELETE';
 
     /**
-     * @type Clock
+     * @var Clock
      */
     private $clock;
 
     /**
-     * @type Clock
+     * @var Clock
      */
     private $random;
 
     /**
-     * @type callable
+     * @var callable
      */
     private $lazyUser;
 

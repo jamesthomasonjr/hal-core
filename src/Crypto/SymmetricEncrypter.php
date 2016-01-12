@@ -16,7 +16,7 @@ class SymmetricEncrypter
     const CIPHER = 'aes-128-cbc';
 
     /**
-     * @type string
+     * @var string
      */
     private $password;
 

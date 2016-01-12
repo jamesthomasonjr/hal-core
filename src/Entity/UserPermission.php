@@ -12,22 +12,22 @@ use JsonSerializable;
 class UserPermission implements JsonSerializable
 {
     /**
-     * @type string
+     * @var string
      */
     protected $id;
 
     /**
-     * @type bool
+     * @var bool
      */
     protected $isProduction;
 
     /**
-     * @type User
+     * @var User
      */
     protected $user;
 
     /**
-     * @type Application
+     * @var Application
      */
     protected $application;
 

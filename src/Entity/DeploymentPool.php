@@ -13,22 +13,22 @@ use JsonSerializable;
 class DeploymentPool implements JsonSerializable
 {
     /**
-     * @type string
+     * @var string
      */
     protected $id;
 
     /**
-     * @type string
+     * @var string
      */
     protected $name;
 
     /**
-     * @type DeploymentView
+     * @var DeploymentView
      */
     protected $view;
 
     /**
-     * @type ArrayCollection
+     * @var ArrayCollection
      */
     protected $deployments;
 

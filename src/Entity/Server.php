@@ -14,12 +14,12 @@ use QL\Hal\Core\Type\EnumType\ServerEnum;
 class Server implements JsonSerializable
 {
     /**
-     * @type int
+     * @var int
      */
     protected $id;
 
     /**
-     * @type string
+     * @var string
      */
     protected $type;
 
@@ -27,19 +27,19 @@ class Server implements JsonSerializable
      * Hostname for rsync servers
      * Region for elasticbeanstalk,ec2,s3 servers
      *
-     * @type string
+     * @var string
      */
     protected $name;
 
     /**
-     * @type Environment
+     * @var Environment
      */
     protected $environment;
 
     /**
      * Deployments for the server
      *
-     * @type ArrayCollection
+     * @var ArrayCollection
      */
     protected $deployments;
 

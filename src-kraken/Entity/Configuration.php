@@ -15,33 +15,33 @@ use QL\MCP\Common\Time\TimePoint;
 class Configuration implements JsonSerializable
 {
     /**
-     * @type string
+     * @var string
      */
     protected $id;
     protected $audit;
 
     /**
-     * @type bool
+     * @var bool
      */
     protected $isSuccess;
 
     /**
-     * @type TimePoint|null
+     * @var TimePoint|null
      */
     protected $created;
 
     /**
-     * @type Application
+     * @var Application
      */
     protected $application;
 
     /**
-     * @type Environment
+     * @var Environment
      */
     protected $environment;
 
     /**
-     * @type User|null
+     * @var User|null
      */
     protected $user;
 

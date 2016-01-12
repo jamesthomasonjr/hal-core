@@ -21,7 +21,7 @@ use QL\MCP\Common\Time\TimePoint;
 class Snapshot implements JsonSerializable
 {
     /**
-     * @type string
+     * @var string
      */
     protected $id;
     protected $key;
@@ -30,27 +30,27 @@ class Snapshot implements JsonSerializable
     protected $checksum;
 
     /**
-     * @type bool
+     * @var bool
      */
     protected $isSecure;
 
     /**
-     * @type TimePoint|null
+     * @var TimePoint|null
      */
     protected $created;
 
     /**
-     * @type Configuration
+     * @var Configuration
      */
     protected $configuration;
 
     /**
-     * @type Property|null
+     * @var Property|null
      */
     protected $property;
 
     /**
-     * @type Schema|null
+     * @var Schema|null
      */
     protected $schema;
 

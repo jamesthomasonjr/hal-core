@@ -10,12 +10,12 @@ namespace QL\Hal\Core\Entity\Credential;
 class AWSCredential
 {
     /**
-     * @type string
+     * @var string
      */
     protected $key;
 
     /**
-     * @type string
+     * @var string
      */
     protected $secret;
 

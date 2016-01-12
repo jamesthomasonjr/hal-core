@@ -13,29 +13,29 @@ use JsonSerializable;
 class Application implements JsonSerializable
 {
     /**
-     * @type int
+     * @var int
      */
     protected $id;
 
     /**
-     * @type string
+     * @var string
      */
     protected $key;
     protected $name;
 
     /**
-     * @type string
+     * @var string
      */
     protected $githubOwner;
     protected $githubRepo;
 
     /**
-     * @type string
+     * @var string
      */
     protected $email;
 
     /**
-     * @type string
+     * @var string
      */
     protected $buildCmd;
     protected $buildTransformCmd;
@@ -43,7 +43,7 @@ class Application implements JsonSerializable
     protected $postPushCmd;
 
     /**
-     * @type Group
+     * @var Group
      */
     protected $group;
 

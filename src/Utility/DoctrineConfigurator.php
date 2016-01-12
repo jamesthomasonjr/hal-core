@@ -20,7 +20,7 @@ use QL\Hal\Core\Type\EnumType\ServerEnum;
 class DoctrineConfigurator
 {
     /**
-     * @type array
+     * @var array
      */
     private $mapping;
 

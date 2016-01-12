@@ -10,17 +10,17 @@ namespace QL\Hal\Core\Entity\Credential;
 class PrivateKeyCredential
 {
     /**
-     * @type string
+     * @var string
      */
     protected $username;
 
     /**
-     * @type string
+     * @var string
      */
     protected $path;
 
     /**
-     * @type string
+     * @var string
      */
     protected $file;
 

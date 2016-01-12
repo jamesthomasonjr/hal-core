@@ -13,12 +13,12 @@ use JsonSerializable;
 class User implements JsonSerializable
 {
     /**
-     * @type int
+     * @var int
      */
     protected $id;
 
     /**
-     * @type string
+     * @var string
      */
     protected $handle;
     protected $name;
@@ -27,24 +27,24 @@ class User implements JsonSerializable
     /**
      * The current user status
      *
-     * @type boolean
+     * @var boolean
      */
     protected $isActive;
 
     /**
      * The github access token for the user
      *
-     * @type string
+     * @var string
      */
     protected $githubToken;
 
     /**
-     * @type ArrayCollection
+     * @var ArrayCollection
      */
     protected $tokens;
 
     /**
-     * @type UserSettings
+     * @var UserSettings
      */
     protected $settings;
 

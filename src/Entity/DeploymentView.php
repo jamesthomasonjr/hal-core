@@ -13,36 +13,36 @@ use JsonSerializable;
 class DeploymentView implements JsonSerializable
 {
     /**
-     * @type string
+     * @var string
      */
     protected $id;
 
     /**
-     * @type string
+     * @var string
      */
     protected $name;
 
     /**
      * Application is optional to possibly support global views.
      *
-     * @type Application|null
+     * @var Application|null
      */
     protected $application;
 
     /**
-     * @type Environment
+     * @var Environment
      */
     protected $environment;
 
     /**
      * Lack of an owner signifies this view can be edited by all.
      *
-     * @type User|null
+     * @var User|null
      */
     protected $user;
 
     /**
-     * @type ArrayCollection
+     * @var ArrayCollection
      */
     protected $pools;
 

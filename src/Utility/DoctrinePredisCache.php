@@ -17,12 +17,12 @@ class DoctrinePredisCache extends CacheProvider
     const KEY = 'doctrine:%s';
 
     /**
-     * @type Predis
+     * @var Predis
      */
     private $redis;
 
     /**
-     * @type int
+     * @var int
      */
     private $defaultTTL;
 

@@ -12,24 +12,24 @@ use QL\MCP\Common\Time\TimePoint;
 class AuditLog
 {
     /**
-     * @type int
+     * @var int
      */
     protected $id;
 
     /**
-     * @type TimePoint
+     * @var TimePoint
      */
     protected $created;
 
     /**
-     * @type string
+     * @var string
      */
     protected $entity;
     protected $action;
     protected $data;
 
     /**
-     * @type User
+     * @var User
      */
     protected $user;
 

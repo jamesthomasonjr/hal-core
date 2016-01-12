@@ -13,17 +13,17 @@ use JsonSerializable;
 class Group implements JsonSerializable
 {
     /**
-     * @type integer
+     * @var integer
      */
     protected $id;
 
     /**
-     * @type string
+     * @var string
      */
     protected $key;
 
     /**
-     * @type string
+     * @var string
      */
     protected $name;
 

@@ -15,41 +15,41 @@ use QL\MCP\Common\Time\TimePoint;
 class Build implements JsonSerializable
 {
     /**
-     * @type string
+     * @var string
      */
     protected $id;
 
     /**
-     * @type TimePoint|null
+     * @var TimePoint|null
      */
     protected $created;
     protected $start;
     protected $end;
 
     /**
-     * @type string
+     * @var string
      */
     protected $status;
     protected $branch;
     protected $commit;
 
     /**
-     * @type User|null
+     * @var User|null
      */
     protected $user;
 
     /**
-     * @type Application
+     * @var Application
      */
     protected $application;
 
     /**
-     * @type Environment
+     * @var Environment
      */
     protected $environment;
 
     /**
-     * @type ArrayCollection
+     * @var ArrayCollection
      */
     protected $logs;
 

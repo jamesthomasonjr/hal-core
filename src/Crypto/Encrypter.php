@@ -13,7 +13,7 @@ namespace QL\Hal\Core\Crypto;
 class Encrypter
 {
     /**
-     * @type string
+     * @var string
      */
     private $publickey;
 

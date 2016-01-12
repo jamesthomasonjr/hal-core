@@ -12,17 +12,17 @@ use JsonSerializable;
 class UserSettings implements JsonSerializable
 {
     /**
-     * @type string
+     * @var string
      */
     protected $id;
 
     /**
-     * @type User
+     * @var User
      */
     protected $user;
 
     /**
-     * @type array
+     * @var array
      */
     protected $favoriteApplications;
 

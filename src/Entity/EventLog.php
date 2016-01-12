@@ -17,27 +17,27 @@ use QL\MCP\Common\Time\TimePoint;
 class EventLog implements JsonSerializable
 {
     /**
-     * @type string
+     * @var string
      */
     protected $id;
 
     /**
-     * @type string
+     * @var string
      */
     protected $event;
 
     /**
-     * @type int
+     * @var int
      */
     protected $order;
 
     /**
-     * @type TimePoint
+     * @var TimePoint
      */
     protected $created;
 
     /**
-     * @type string
+     * @var string
      */
     protected $message;
     protected $status;
@@ -45,21 +45,21 @@ class EventLog implements JsonSerializable
     /**
      * The build for this event, optional.
      *
-     * @type Build
+     * @var Build
      */
     protected $build;
 
     /**
      * The push for this event, optional.
      *
-     * @type Push
+     * @var Push
      */
     protected $push;
 
     /**
      * The data associated with the event
      *
-     * @type array
+     * @var array
      */
     protected $data;
 

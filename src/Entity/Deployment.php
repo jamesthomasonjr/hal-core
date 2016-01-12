@@ -14,12 +14,12 @@ use QL\Hal\Core\Type\EnumType\ServerEnum;
 class Deployment implements JsonSerializable
 {
     /**
-     * @type int
+     * @var int
      */
     protected $id;
 
     /**
-     * @type string
+     * @var string
      */
     protected $name;
     protected $url;
@@ -30,7 +30,7 @@ class Deployment implements JsonSerializable
      *
      * The path
      *
-     * @type string
+     * @var string
      */
     protected $path;
 
@@ -41,7 +41,7 @@ class Deployment implements JsonSerializable
      * The CD deployment group
      * The CD configuration
      *
-     * @type string
+     * @var string
      */
     protected $cdName;
     protected $cdGroup;
@@ -53,7 +53,7 @@ class Deployment implements JsonSerializable
      * The EB application name
      * The EB environment ID
      *
-     * @type string
+     * @var string
      */
     protected $ebName;
     protected $ebEnvironment;
@@ -63,7 +63,7 @@ class Deployment implements JsonSerializable
      *
      * The EC2 autoscaling pool. EC2 Instances must be tagged with the pool they belong to. This is how HAL knows where to put code.
      *
-     * @type string
+     * @var string
      */
     protected $ec2Pool;
 
@@ -74,7 +74,7 @@ class Deployment implements JsonSerializable
      *
      * The S3 bucket name
      *
-     * @type string
+     * @var string
      */
     protected $s3bucket;
 
@@ -83,27 +83,27 @@ class Deployment implements JsonSerializable
      *
      * The S3 file name. If blank, the push id will be used.
      *
-     * @type string
+     * @var string
      */
     protected $s3file;
 
     /**
-     * @type Application
+     * @var Application
      */
     protected $application;
 
     /**
-     * @type Server|null
+     * @var Server|null
      */
     protected $server;
 
     /**
-     * @type Credential|null
+     * @var Credential|null
      */
     protected $credential;
 
     /**
-     * @type Push|null
+     * @var Push|null
      */
     protected $push;
 

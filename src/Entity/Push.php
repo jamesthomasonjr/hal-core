@@ -15,44 +15,44 @@ use QL\MCP\Common\Time\TimePoint;
 class Push implements JsonSerializable
 {
     /**
-     * @type string
+     * @var string
      */
     protected $id;
 
     /**
-     * @type TimePoint|null
+     * @var TimePoint|null
      */
     protected $created;
     protected $start;
     protected $end;
 
     /**
-     * @type string
+     * @var string
      */
     protected $status;
 
     /**
-     * @type User
+     * @var User
      */
     protected $user;
 
     /**
-     * @type Build
+     * @var Build
      */
     protected $build;
 
     /**
-     * @type Deployment
+     * @var Deployment
      */
     protected $deployment;
 
     /**
-     * @type Application
+     * @var Application
      */
     protected $application;
 
     /**
-     * @type ArrayCollection
+     * @var ArrayCollection
      */
     protected $logs;
 

@@ -13,14 +13,14 @@ use QL\Hal\Core\Entity\Application as HalApplication;
 class Application implements JsonSerializable
 {
     /**
-     * @type string
+     * @var string
      */
     protected $id;
     protected $name;
     protected $coreId;
 
     /**
-     * @type HalApplication|null
+     * @var HalApplication|null
      */
     protected $halApplication;
 

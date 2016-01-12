@@ -12,29 +12,29 @@ use JsonSerializable;
 class EncryptedProperty implements JsonSerializable
 {
     /**
-     * @type string
+     * @var string
      */
     protected $id;
 
     /**
-     * @type string
+     * @var string
      */
     protected $name;
 
     /**
-     * @type array
+     * @var array
      */
     protected $data;
 
     /**
-     * @type Application
+     * @var Application
      */
     protected $application;
 
     /**
      * The environment the encrypted property is for (NULL for all)
      *
-     * @type Environment|null
+     * @var Environment|null
      */
     protected $environment;
 

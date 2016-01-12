@@ -12,7 +12,7 @@ use JsonSerializable;
 class Environment implements JsonSerializable
 {
     /**
-     * @type string
+     * @var string
      */
     protected $id;
     protected $name;
@@ -20,7 +20,7 @@ class Environment implements JsonSerializable
     protected $consulToken;
 
     /**
-     * @type string
+     * @var string
      */
     protected $qksServiceURL;
     protected $qksEncryptionKey;
@@ -28,7 +28,7 @@ class Environment implements JsonSerializable
     protected $qksClientSecret;
 
     /**
-     * @type bool
+     * @var bool
      */
     protected $isProduction;
 

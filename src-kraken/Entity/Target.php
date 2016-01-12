@@ -12,23 +12,23 @@ use JsonSerializable;
 class Target implements JsonSerializable
 {
     /**
-     * @type string
+     * @var string
      */
     protected $id;
     protected $key;
 
     /**
-     * @type Application
+     * @var Application
      */
     protected $application;
 
     /**
-     * @type Environment
+     * @var Environment
      */
     protected $environment;
 
     /**
-     * @type Configuration
+     * @var Configuration
      */
     protected $configuration;
 

@@ -13,12 +13,12 @@ namespace QL\Hal\Core\Crypto;
 class CryptoFactory
 {
     /**
-     * @type callable
+     * @var callable
      */
     private $fileLoader;
 
     /**
-     * @type string|null
+     * @var string|null
      */
     private $asymKey;
 

@@ -14,27 +14,27 @@ use QL\Hal\Core\Entity\Credential\PrivateKeyCredential;
 class Credential implements JsonSerializable
 {
     /**
-     * @type string
+     * @var string
      */
     protected $id;
 
     /**
-     * @type string
+     * @var string
      */
     protected $type;
 
     /**
-     * @type string
+     * @var string
      */
     protected $name;
 
     /**
-     * @type AWSCredential|null
+     * @var AWSCredential|null
      */
     protected $aws;
 
     /**
-     * @type PrivateKeyCredential|null
+     * @var PrivateKeyCredential|null
      */
     protected $privateKey;
 

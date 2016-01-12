@@ -14,39 +14,39 @@ use QL\Hal\Core\Type\EnumType\ProcessStatusEnum;
 class Process implements JsonSerializable
 {
     /**
-     * @type string
+     * @var string
      */
     protected $id;
 
     /**
-     * @type TimePoint
+     * @var TimePoint
      */
     protected $created;
 
     /**
-     * @type User
+     * @var User
      */
     protected $user;
 
     /**
-     * @type string
+     * @var string
      */
     protected $status;
     protected $message;
 
     /**
-     * @type array
+     * @var array
      */
     protected $context;
 
     /**
-     * @type string
+     * @var string
      */
     protected $parent;
     protected $parentType;
 
     /**
-     * @type string
+     * @var string
      */
     protected $child;
     protected $childType;

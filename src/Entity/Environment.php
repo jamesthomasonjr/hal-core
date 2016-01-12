@@ -12,17 +12,17 @@ use JsonSerializable;
 class Environment implements JsonSerializable
 {
     /**
-     * @type integer
+     * @var integer
      */
     protected $id;
 
     /**
-     * @type string
+     * @var string
      */
     protected $name;
 
     /**
-     * @type bool
+     * @var bool
      */
     protected $isProduction;
 

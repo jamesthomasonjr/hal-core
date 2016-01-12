@@ -17,7 +17,7 @@ class Schema implements JsonSerializable
     const DEFAULT_IS_SECURE = true;
 
     /**
-     * @type string
+     * @var string
      */
     protected $id;
     protected $key;
@@ -25,22 +25,22 @@ class Schema implements JsonSerializable
     protected $description;
 
     /**
-     * @type TimePoint|null
+     * @var TimePoint|null
      */
     protected $created;
 
     /**
-     * @type bool
+     * @var bool
      */
     protected $isSecure;
 
     /**
-     * @type Application
+     * @var Application
      */
     protected $application;
 
     /**
-     * @type User|null
+     * @var User|null
      */
     protected $user;
 
