@@ -1,6 +1,6 @@
 {
     "name": "ql/hal-core",
-    "description": "HAL 9000 shared components and domain resources",
+    "description": "Hal shared components and domain resources",
     "license": "proprietary",
     "authors": [
         { "name": "IT Team Web Core", "email": "itteamwebcore@quickenloans.com" }

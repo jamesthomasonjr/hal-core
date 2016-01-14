@@ -1,8 +1,8 @@
-# HAL 9000 Core
+# Hal Core Components
 
 This library contains Common HAL 9000 dependencies between the frontend and agent.
 
-- HAL 9000 Entities
+- Hal Entities
 - Kraken Entities
 - Crypto for Encrypted Properties
 - Database Migrations
