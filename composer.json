@@ -17,8 +17,7 @@
     "autoload": {
         "psr-4": {
             "QL\\Hal\\Core\\": "src/",
-            "QL\\Hal\\Core\\Testing\\": "testing/src/",
-            "QL\\Kraken\\Core\\": "src-kraken/"
+            "QL\\Hal\\Core\\Testing\\": "testing/src/"
         }
     },
 

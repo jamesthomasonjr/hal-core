@@ -1,9 +1,8 @@
 # Hal Core Components
 
-This library contains Common HAL 9000 dependencies between the frontend and agent.
+This library contains common Hal dependencies between the frontend and agent.
 
 - Hal Entities
-- Kraken Entities
 - Crypto for Encrypted Properties
 - Database Migrations
 
@@ -11,9 +10,7 @@ This library contains Common HAL 9000 dependencies between the frontend and agen
 
 - Do not cache one-to-many relations!
 
-## Domain Model
-
-#### HAL 9000
+## Hal Domain Model
 
 - [Group](src/Entity/Group.php)
     - [Application](src/Entity/Application.php)
@@ -40,14 +37,3 @@ This library contains Common HAL 9000 dependencies between the frontend and agen
     - [UserSettings](src/Entity/UserSettings.php)
     - [UserType](src/Entity/UserType.php)
 - [AuditLog](src/Entity/AuditLog.php)
-
-#### Kraken
-
-- [Application](src-kraken/Entity/Application.php)
-    - [Target](src-kraken/Entity/Target.php)
-    - [Schema](src-kraken/Entity/Schema.php)
-        - [Property](src-kraken/Entity/Property.php)
-    - [Configuration](src-kraken/Entity/Configuration.php)
-    - [Snapshot](src-kraken/Entity/Snapshot.php)
-- [Environment](src-kraken/Entity/Environment.php)
-- [AuditLog](src-kraken/Entity/AuditLog.php)

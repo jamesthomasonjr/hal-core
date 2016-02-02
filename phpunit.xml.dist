@@ -27,7 +27,6 @@
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory>src</directory>
-            <directory>src-kraken</directory>
         </whitelist>
     </filter>
 
@@ -45,7 +44,6 @@
     <testsuites>
         <testsuite name="Unit Tests">
             <directory>testing/tests</directory>
-            <directory>testing/tests-kraken</directory>
         </testsuite>
     </testsuites>
 </phpunit>
