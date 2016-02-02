@@ -3,7 +3,7 @@
     "description": "Hal shared components and domain resources",
     "license": "proprietary",
     "authors": [
-        { "name": "IT Team Web Core", "email": "itteamwebcore@quickenloans.com" }
+        { "name": "Steve Kluck", "email": "stevekluck@quickenloans.com" }
     ],
 
     "archive": {
