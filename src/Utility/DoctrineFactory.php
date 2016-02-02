@@ -20,14 +20,6 @@ class DoctrineFactory
     /**
      * @return string
      */
-    public static function krakenYaml()
-    {
-        return self::root() . '/configuration/kraken';
-    }
-
-    /**
-     * @return string
-     */
     public static function proxyPath($dir = null)
     {
         $dir = $dir ?: '.doctrine';

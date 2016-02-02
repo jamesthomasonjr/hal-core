@@ -31,10 +31,6 @@ services:
         class: 'stdClass'
         factory: ['QL\Hal\Core\Utility\DoctrineFactory', 'halYaml']
 
-    doctrine.mapping.dir.kraken:
-        class: 'stdClass'
-        factory: ['QL\Hal\Core\Utility\DoctrineFactory', 'krakenYaml']
-
     doctrine.proxy.dir:
         class: 'stdClass'
         factory: ['QL\Hal\Core\Utility\DoctrineFactory', 'proxyPath']
@@ -57,7 +53,6 @@ services:
         class: 'QL\Hal\Core\Utility\DoctrineConfigurator'
         calls:
             - ['addEntityMappings', ['@doctrine.types.hal']]
-            - ['addEntityMappings', ['@doctrine.types.kraken']]
 
     doctrine.em.events:
         class: 'Doctrine\Common\EventManager'
@@ -89,7 +84,6 @@ services:
         factory: ['QL\Hal\Core\Utility\DoctrineFactory', 'buildConfigurationMapping']
         arguments:
             - ['@doctrine.mapping.dir.hal', 'QL\Hal\Core\Entity']
-            - ['@doctrine.mapping.dir.kraken', 'QL\Kraken\Core\Entity']
 
     ####################################################################################################################
     # TYPES
@@ -98,10 +92,6 @@ services:
     doctrine.types.hal:
         class: 'stdClass'
         factory: ['QL\Hal\Core\Utility\DoctrineCustomTypes', 'getMapping']
-
-    doctrine.types.kraken:
-        class: 'stdClass'
-        factory: ['QL\Kraken\Core\Utility\DoctrineCustomTypes', 'getMapping']
 
     ####################################################################################################################
     # DOCTRINE CACHE

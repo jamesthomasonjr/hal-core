@@ -15,7 +15,6 @@ use PHPUnit_Framework_TestCase;
 use QL\Hal\Core\Utility\DoctrineConfigurator;
 use QL\Hal\Core\Utility\DoctrineCustomTypes;
 use QL\Hal\Core\Utility\DoctrineFactory;
-use QL\Kraken\Core\Utility\DoctrineCustomTypes as KrakenDoctrineCustomTypes;
 
 class DoctrineTest extends PHPUnit_Framework_TestCase
 {
@@ -24,8 +23,7 @@ class DoctrineTest extends PHPUnit_Framework_TestCase
     public function getEntityManager()
     {
         $driver = new SimplifiedYamlDriver([
-            DoctrineFactory::halYaml() => 'QL\Hal\Core\Entity',
-            DoctrineFactory::krakenYaml() => 'QL\Kraken\Core\Entity',
+            DoctrineFactory::halYaml() => 'QL\Hal\Core\Entity'
         ]);
         $driver->setGlobalBasename('global');
 
@@ -34,7 +32,6 @@ class DoctrineTest extends PHPUnit_Framework_TestCase
 
         $configurator = new DoctrineConfigurator;
         $configurator->addEntityMappings(DoctrineCustomTypes::getMapping());
-        $configurator->addEntityMappings(KrakenDoctrineCustomTypes::getMapping());
 
         $em = EntityManager::create([
             'driver' => 'pdo_sqlite',
