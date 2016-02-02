@@ -22,16 +22,12 @@ class DoctrineTest extends PHPUnit_Framework_TestCase
 
     public function getEntityManager()
     {
-        $driver = new SimplifiedYamlDriver([
-            DoctrineFactory::halYaml() => 'QL\Hal\Core\Entity'
-        ]);
+        $driver = new SimplifiedYamlDriver($this->doctrineConfiguration());
+
         $driver->setGlobalBasename('global');
 
         $config = Setup::createConfiguration(true);
         $config->setMetadataDriverImpl($driver);
-
-        $configurator = new DoctrineConfigurator;
-        $configurator->addEntityMappings(DoctrineCustomTypes::getMapping());
 
         $em = EntityManager::create([
             'driver' => 'pdo_sqlite',
@@ -39,6 +35,11 @@ class DoctrineTest extends PHPUnit_Framework_TestCase
         ], $config);
 
         if (!self::$typesSet) {
+            $configurator = new DoctrineConfigurator;
+            foreach ($this->doctrineMapping() as $mapping) {
+                $configurator->addEntityMappings($mapping);
+            }
+
             $configurator->configure($em);
             self::$typesSet = true;
         }
@@ -55,4 +56,17 @@ class DoctrineTest extends PHPUnit_Framework_TestCase
         $tool->createSchema($metadatas);
     }
 
+    protected function doctrineConfiguration()
+    {
+        return [
+            DoctrineFactory::configurationPath() => 'QL\Hal\Core\Entity'
+        ];
+    }
+
+    protected function doctrineMapping()
+    {
+        return [
+            DoctrineCustomTypes::getMapping()
+        ];
+    }
 }

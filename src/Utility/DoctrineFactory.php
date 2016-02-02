@@ -9,22 +9,31 @@ namespace QL\Hal\Core\Utility;
 
 class DoctrineFactory
 {
+    const DEFAULT_CONFIGURATION_PATH = 'configuration/doctrine';
+    const DEFAULT_PROXY_PATH = '.doctrine';
+
     /**
+     * @param string|null $dir
+     *
      * @return string
      */
-    public static function halYaml()
+    public static function configurationPath($dir = null)
     {
-        return self::root() . '/configuration/doctrine';
+        $dir = $dir ?: static::DEFAULT_CONFIGURATION_PATH;
+
+        return static::root() . '/' . trim($dir, '/');
     }
 
     /**
+     * @param string|null $dir
+     *
      * @return string
      */
     public static function proxyPath($dir = null)
     {
-        $dir = $dir ?: '.doctrine';
+        $dir = $dir ?: tatic::DEFAULT_PROXY_PATH;
 
-        return self::root() . '/' . trim($dir, '/');
+        return static::root() . '/' . trim($dir, '/');
     }
 
     /**
@@ -45,7 +54,7 @@ class DoctrineFactory
     /**
      * @return string
      */
-    private static function root()
+    protected static function root()
     {
         return __DIR__ . '/../..';
     }

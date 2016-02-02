@@ -16,7 +16,7 @@ parameters:
 services:
 
     ####################################################################################################################
-    # DOCTRINE PATHS
+    # DOCTRINE PROXY
     ####################################################################################################################
 
     doctrine.proxy.generator:
@@ -29,7 +29,7 @@ services:
 
     doctrine.mapping.dir.hal:
         class: 'stdClass'
-        factory: ['QL\Hal\Core\Utility\DoctrineFactory', 'halYaml']
+        factory: ['QL\Hal\Core\Utility\DoctrineFactory', 'configurationPath']
 
     doctrine.proxy.dir:
         class: 'stdClass'
