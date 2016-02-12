@@ -58,8 +58,11 @@ class DoctrineTest extends PHPUnit_Framework_TestCase
 
     protected function doctrineConfiguration()
     {
+        $ns = array_slice(explode('\\', __NAMESPACE__), 0, -1);
+        $ns = implode('\\', array_merge($ns ,['Entity']));
+
         return [
-            DoctrineFactory::configurationPath() => 'QL\Hal\Core\Entity'
+            DoctrineFactory::configurationPath() => $ns
         ];
     }
 
