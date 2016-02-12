@@ -2,8 +2,6 @@ QL\Hal\Core\Entity\Process:
     type: entity
     table: Processes
 
-    cache: {usage : NONSTRICT_READ_WRITE}
-
     id:
         id:
             column: ProcessId
