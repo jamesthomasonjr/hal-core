@@ -10,11 +10,11 @@ class AddEncryptedProperties extends AbstractMigration
      */
     public function up()
     {
-        if ($this->hasTable(DatabaseMeta::TABLE_ENCRYPTED)) {
+        if ($this->hasTable(DatabaseMeta::DB_ENCRYPTED)) {
             return;
         }
 
-        $table = $this->table(DatabaseMeta::TABLE_ENCRYPTED, [
+        $table = $this->table(DatabaseMeta::DB_ENCRYPTED, [
             'id' => false,
             'primary_key' => 'EncryptedPropertyId'
         ]);
@@ -52,6 +52,6 @@ class AddEncryptedProperties extends AbstractMigration
      */
     public function down()
     {
-        $this->dropTable(DatabaseMeta::TABLE_ENCRYPTED);
+        $this->dropTable(DatabaseMeta::DB_ENCRYPTED);
     }
 }

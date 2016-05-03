@@ -2,10 +2,10 @@
 
 use Phinx\Db\Adapter\MysqlAdapter;
 use Phinx\Migration\AbstractMigration;
-use QL\Hal\Core\EnumType\BuildStatusEnum;
-use QL\Hal\Core\EnumType\PushStatusEnum;
-use QL\Hal\Core\EnumType\EventEnum;
-use QL\Hal\Core\EnumType\EventStatusEnum;
+use QL\Hal\Core\Type\EnumType\BuildStatusEnum;
+use QL\Hal\Core\Type\EnumType\PushStatusEnum;
+use QL\Hal\Core\Type\EnumType\EventEnum;
+use QL\Hal\Core\Type\EnumType\EventStatusEnum;
 
 class InitialSchemaVersion23 extends AbstractMigration
 {
