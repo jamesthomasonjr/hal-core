@@ -16,6 +16,8 @@ class EnvironmentRepository extends EntityRepository
 {
     use SortingTrait;
 
+    const ENV_QUERY_REGION = 'environment_region_appId_%s';
+
     const DQL_BY_REPOSITORY = <<<SQL
    SELECT e
      FROM QL\Hal\Core\Entity\Deployment d
@@ -35,12 +37,12 @@ SQL;
      */
     public function getBuildableEnvironmentsByApplication(Application $application)
     {
-        $cacheID = sprintf('buildable-env-%s', $application->id());
+        $regionId = sprintf(self::ENV_QUERY_REGION, $application->id());
 
         $query = $this->getEntityManager()
             ->createQuery(self::DQL_BY_REPOSITORY)
             ->setCacheable(true)
-            ->setResultCacheId($cacheID)
+            ->setCacheRegion($regionId)
             ->setParameter('application', $application);
 
         $environments = $query->getResult();
@@ -59,14 +61,11 @@ SQL;
      */
     public function clearBuildableEnvironmentsByApplication(Application $application)
     {
-        $cacheID = sprintf('buildable-env-%s', $application->id());
+        $regionId = sprintf(self::ENV_QUERY_REGION, $application->id());
 
-        $cache = $this
-            ->getEntityManager()
-            ->getConfiguration()
-            ->getResultCacheImpl();
-
-        $cache->delete($cacheID);
+        $cache = $this->getEntityManager()->getCache();
+        $envQueryCache = $cache->getQueryCache($regionId);
+        $envQueryCache->clear();
     }
 
     /**
