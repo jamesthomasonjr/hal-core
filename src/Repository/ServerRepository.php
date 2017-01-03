@@ -8,7 +8,7 @@
 namespace QL\Hal\Core\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Tools\Pagination\Paginator;
+use QL\Hal\Core\DoctrinePagination\Mysql57Paginator as Paginator;
 
 class ServerRepository extends EntityRepository
 {

@@ -8,7 +8,6 @@
 namespace QL\Hal\Core\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use QL\Hal\Core\Entity\Group;
 use QL\Hal\Core\Utility\SortingTrait;
 

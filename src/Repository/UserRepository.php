@@ -10,7 +10,7 @@ namespace QL\Hal\Core\Repository;
 use DateTime;
 use DateTimeZone;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Tools\Pagination\Paginator;
+use QL\Hal\Core\DoctrinePagination\Mysql57Paginator as Paginator;
 use QL\Hal\Core\Entity\User;
 use QL\MCP\Common\Time\TimePoint;
 

@@ -9,7 +9,7 @@ namespace QL\Hal\Core\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\ResultSetMapping;
-use Doctrine\ORM\Tools\Pagination\Paginator;
+use QL\Hal\Core\DoctrinePagination\Mysql57Paginator as Paginator;
 use QL\Hal\Core\Entity\Application;
 use QL\Hal\Core\Entity\Build;
 use QL\Hal\Core\Entity\Deployment;
