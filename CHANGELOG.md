@@ -1,7 +1,23 @@
 # Change Log
 All notable changes to this project will be documented in this file. See [keepachangelog.com](http://keepachangelog.com) for reference.
 
-## [2.9.0] - TBD
+## [2.10.0] - TBD
+
+### Entity Changes
+- **Deployment**
+    - Remove `$deployment->ec2Pool()`
+
+### Changed
+- Remove EC2 AutoScale Deployment support.
+- Remove `ServerEnum::TYPE_EC2`.
+- Remove schema constraint that enforces `server + deployment path` uniqueness (For rsync-based deployments).
+
+### Added
+- **Migrations**
+    - Add **RemoveDeploymentUniquenessIndex** - `20170109143814`
+    - Add **RemoveEc2AutoScaleDeployment** - `20170109172411`
+
+## [2.9.0] - 2016-02-12
 
 ### Entity Changes
 - **Build**
@@ -52,12 +68,12 @@ All notable changes to this project will be documented in this file. See [keepac
 
 Move kraken components to [hal/kraken-core](http://git/hal/kraken-core). See hal/hal#210
 
-## [2.8.3] - TBD
+## [2.8.3] - 2015-09-22
 
 ### Changed
 - Add **Cache ID** to cacheable queries to allow them to be flushed.
 
-## [2.8.2] - TBD
+## [2.8.2] - 2015-09-22
 
 ### Entity Changes
 - **Application**
@@ -79,7 +95,7 @@ Move kraken components to [hal/kraken-core](http://git/hal/kraken-core). See hal
 - **Migrations**
     - Add **AddCodeDeployDeploymentType** - `20150915192949`
 
-## [2.8.1] - TBD
+## [2.8.1] - 2015-08-13
 
 ### Entity Changes
 - **User**

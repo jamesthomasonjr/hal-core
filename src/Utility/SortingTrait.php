@@ -129,12 +129,6 @@ trait SortingTrait
                     return 1;
                 }
 
-                if ($a->type() === ServerEnum::TYPE_EC2) {
-                    return -1;
-                } elseif ($b->type() === ServerEnum::TYPE_EC2) {
-                    return 1;
-                }
-
                 if ($a->type() === ServerEnum::TYPE_S3) {
                     return 1;
                 }

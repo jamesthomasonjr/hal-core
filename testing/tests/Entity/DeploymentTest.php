@@ -28,7 +28,6 @@ class DeploymentTest extends PHPUnit_Framework_TestCase
         $this->assertSame(null, $deployment->ebName());
         $this->assertSame(null, $deployment->ebEnvironment());
 
-        $this->assertSame(null, $deployment->ec2Pool());
         $this->assertSame(null, $deployment->s3bucket());
         $this->assertSame(null, $deployment->s3file());
 
@@ -56,7 +55,6 @@ class DeploymentTest extends PHPUnit_Framework_TestCase
             ->withEBName('BeanstalkApp')
             ->withEBEnvironment('e-12345abcd')
 
-            ->withEC2Pool('pool_server_tag')
             ->withS3Bucket('bucket-name')
             ->withS3File('myfile/myfile.tar.gz')
 
@@ -76,7 +74,6 @@ class DeploymentTest extends PHPUnit_Framework_TestCase
         $this->assertSame('BeanstalkApp', $deployment->ebName());
         $this->assertSame('e-12345abcd', $deployment->ebEnvironment());
 
-        $this->assertSame('pool_server_tag', $deployment->ec2Pool());
         $this->assertSame('bucket-name', $deployment->s3Bucket());
         $this->assertSame('myfile/myfile.tar.gz', $deployment->s3File());
 
@@ -106,7 +103,6 @@ class DeploymentTest extends PHPUnit_Framework_TestCase
             ->withEBName('BeanstalkApp')
             ->withEBEnvironment('e-12345abcd')
 
-            ->withEC2Pool('pool_server_tag')
             ->withS3Bucket('bucket-name')
             ->withS3File('myfile/myfile.tar.gz')
 
@@ -125,7 +121,6 @@ class DeploymentTest extends PHPUnit_Framework_TestCase
     "cdConfiguration": "CodeDeployDefault.HalfAtATime",
     "ebName": "BeanstalkApp",
     "ebEnvironment": "e-12345abcd",
-    "ec2Pool": "pool_server_tag",
     "s3bucket": "bucket-name",
     "s3file": "myfile/myfile.tar.gz",
     "application": 1234,
@@ -153,7 +148,6 @@ JSON;
     "cdConfiguration": null,
     "ebName": null,
     "ebEnvironment": null,
-    "ec2Pool": null,
     "s3bucket": null,
     "s3file": null,
     "application": null,
@@ -221,26 +215,6 @@ JSON;
         $this->assertSame('EB (e-1234abcd)', $deployment->formatPretty(true));
     }
 
-    public function testPrettyFormatForEC2()
-    {
-        $deployment = (new Deployment)
-            ->withEC2Pool('pool_tag')
-            ->withPath('/app/path')
-            ->withServer((new Server)->withType('ec2')->withName('us-east-1'));
-
-        $this->assertSame('EC2 (us-east-1)', $deployment->formatPretty());
-    }
-
-    public function testPrettyFormatForEC2WithDetails()
-    {
-        $deployment = (new Deployment)
-            ->withEC2Pool('pool_tag')
-            ->withPath('/app/path')
-            ->withServer((new Server)->withType('ec2')->withName('us-east-1'));
-
-        $this->assertSame('EC2 (pool_tag)', $deployment->formatPretty(true));
-    }
-
     public function testPrettyFormatForS3()
     {
         $deployment = (new Deployment)
@@ -306,15 +280,6 @@ JSON;
             ->withServer((new Server)->withType('eb'));
 
         $this->assertSame('e-abcde1234', $deployment->formatMeta());
-    }
-
-    public function testFormatMetaEC2()
-    {
-        $deployment = (new Deployment)
-            ->withEC2Pool('server_tag')
-            ->withServer((new Server)->withType('ec2'));
-
-        $this->assertSame('server_tag', $deployment->formatMeta());
     }
 
     public function testFormatMetaS3()

@@ -25,7 +25,7 @@ class Server implements JsonSerializable
 
     /**
      * Hostname for rsync servers
-     * Region for elasticbeanstalk,ec2,s3 servers
+     * Region for elasticbeanstalk,cd,s3 servers
      *
      * @var string
      */
@@ -152,9 +152,6 @@ class Server implements JsonSerializable
         if ($type === ServerEnum::TYPE_EB) {
             return sprintf('EB (%s)', $this->name());
 
-        } elseif ($type === ServerEnum::TYPE_EC2) {
-            return sprintf('EC2 (%s)', $this->name());
-
         } elseif ($type === ServerEnum::TYPE_S3) {
             return sprintf('S3 (%s)', $this->name());
 
@@ -176,9 +173,6 @@ class Server implements JsonSerializable
 
         if ($type === ServerEnum::TYPE_EB) {
             return 'Elastic Beanstalk';
-
-        } elseif ($type === ServerEnum::TYPE_EC2) {
-            return 'EC2 Autoscaling Pool';
 
         } elseif ($type === ServerEnum::TYPE_S3) {
             return 'S3';

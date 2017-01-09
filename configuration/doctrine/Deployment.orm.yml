@@ -57,12 +57,6 @@ QL\Hal\Core\Entity\Deployment:
             length: 100
             nullable: true
 
-        ec2Pool:
-            column: DeploymentEc2Pool
-            type: string
-            length: 100
-            nullable: true
-
         s3bucket:
             column: DeploymentS3Bucket
             type: string

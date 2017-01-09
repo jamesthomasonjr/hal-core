@@ -215,9 +215,7 @@ class SortingTraitTest extends PHPUnit_Framework_TestCase
         $c = (new Server)->withId('2')->withType('rsync')->withName('localhost');
         $d = (new Server)->withId('4')->withType('rsync')->withName('localhost:240');
 
-        $e = (new Server)->withId('ec2_1')->withType('ec2');
         $f = (new Server)->withId('eb1')->withType('elasticbeanstalk');
-        $g = (new Server)->withId('ec2_2')->withType('ec2');
 
         return [
             [
@@ -225,17 +223,13 @@ class SortingTraitTest extends PHPUnit_Framework_TestCase
                 $b,
                 $c,
                 $d,
-                $e,
                 $f,
-                $g,
             ],
             [
                 $b,
                 $c,
                 $d,
                 $a,
-                $g,
-                $e,
                 $f,
             ]
         ];

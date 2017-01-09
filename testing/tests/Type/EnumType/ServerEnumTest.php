@@ -36,7 +36,7 @@ class ServerEnumTest extends PHPUnit_Framework_TestCase
         $type = ServerEnum::getType(ServerEnum::TYPE);
         $actual = $type->getSqlDeclaration([], $this->platform);
 
-        $expected = "ENUM('rsync', 'eb', 'ec2', 's3', 'cd') COMMENT '(DC2Type:serverenum)'";
+        $expected = "ENUM('rsync', 'eb', 's3', 'cd') COMMENT '(DC2Type:serverenum)'";
 
         $this->assertEquals($expected, $actual);
     }

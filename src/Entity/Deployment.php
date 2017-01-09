@@ -26,7 +26,6 @@ class Deployment implements JsonSerializable
 
     /**
      * For RSYNC
-     * For EC2
      *
      * The path
      *
@@ -57,15 +56,6 @@ class Deployment implements JsonSerializable
      */
     protected $ebName;
     protected $ebEnvironment;
-
-    /**
-     * For EC2
-     *
-     * The EC2 autoscaling pool. EC2 Instances must be tagged with the pool they belong to. This is how HAL knows where to put code.
-     *
-     * @var string
-     */
-    protected $ec2Pool;
 
     /**
      * For S3
@@ -121,8 +111,6 @@ class Deployment implements JsonSerializable
 
         $this->ebName = null;
         $this->ebEnvironment = null;
-
-        $this->ec2Pool = null;
 
         $this->s3bucket = null;
         $this->s3file = null;
@@ -204,14 +192,6 @@ class Deployment implements JsonSerializable
     public function ebEnvironment()
     {
         return $this->ebEnvironment;
-    }
-
-    /**
-     * @return string
-     */
-    public function ec2Pool()
-    {
-        return $this->ec2Pool;
     }
 
     /**
@@ -362,17 +342,6 @@ class Deployment implements JsonSerializable
     }
 
     /**
-     * @param string $ec2Pool
-     *
-     * @return self
-     */
-    public function withEC2Pool($ec2Pool)
-    {
-        $this->ec2Pool = $ec2Pool;
-        return $this;
-    }
-
-    /**
      * @param string $s3bucket
      *
      * @return self
@@ -461,9 +430,6 @@ class Deployment implements JsonSerializable
             if ($type === ServerEnum::TYPE_EB) {
                 return sprintf('EB (%s)', $this->ebEnvironment());
 
-            } elseif ($type === ServerEnum::TYPE_EC2) {
-                return sprintf('EC2 (%s)', $this->ec2Pool());
-
             } elseif ($type === ServerEnum::TYPE_S3) {
                 return sprintf('S3 (%s)', $this->s3bucket());
 
@@ -490,9 +456,6 @@ class Deployment implements JsonSerializable
 
         if ($type === ServerEnum::TYPE_EB) {
             return $this->ebEnvironment();
-
-        } elseif ($type === ServerEnum::TYPE_EC2) {
-            return $this->ec2Pool();
 
         } elseif ($type === ServerEnum::TYPE_S3) {
             $s3 = $this->s3bucket();
@@ -528,8 +491,6 @@ class Deployment implements JsonSerializable
 
             'ebName' => $this->ebName(),
             'ebEnvironment' => $this->ebEnvironment(),
-
-            'ec2Pool' => $this->ec2Pool(),
 
             's3bucket' => $this->s3bucket(),
             's3file' => $this->s3file(),
