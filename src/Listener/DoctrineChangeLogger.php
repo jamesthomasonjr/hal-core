@@ -11,11 +11,17 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\UnitOfWork;
+use QL\Hal\Core\Entity\Application;
 use QL\Hal\Core\Entity\AuditLog;
-use QL\Hal\Core\Entity\Build;
-use QL\Hal\Core\Entity\Push;
+use QL\Hal\Core\Entity\Credential;
+use QL\Hal\Core\Entity\Deployment;
+use QL\Hal\Core\Entity\EncryptedProperty;
+use QL\Hal\Core\Entity\Environment;
+use QL\Hal\Core\Entity\Group;
+use QL\Hal\Core\Entity\Server;
 use QL\Hal\Core\Entity\User;
-use QL\Hal\Core\Entity\UserSettings;
+use QL\Hal\Core\Entity\UserPermission;
+use QL\Hal\Core\Entity\UserType;
 use QL\MCP\Common\Time\Clock;
 
 class DoctrineChangeLogger
@@ -78,25 +84,50 @@ class DoctrineChangeLogger
 
         // Entity Insertions
         foreach ($uow->getScheduledEntityInsertions() as $entity) {
-            if ($log = $this->log($user, $entity, self::ACTION_CREATE)) {
+            if ($log = $this->log($user, $entity, $uow, self::ACTION_CREATE)) {
                 $this->persist($em, $uow, $log);
             }
         }
 
         // Entity Updates
         foreach ($uow->getScheduledEntityUpdates() as $entity) {
-            if ($log = $this->log($user, $entity, self::ACTION_UPDATE)) {
-                $this->addChangeset($log, $uow->getEntityChangeSet($entity));
+            if ($log = $this->log($user, $entity, $uow, self::ACTION_UPDATE)) {
                 $this->persist($em, $uow, $log);
             }
         }
 
         // Entity Deletions
         foreach ($uow->getScheduledEntityDeletions() as $entity) {
-            if ($log = $this->log($user, $entity, self::ACTION_DELETE)) {
+            if ($log = $this->log($user, $entity, $uow, self::ACTION_DELETE)) {
                 $this->persist($em, $uow, $log);
             }
         }
+    }
+
+
+
+    /**
+     * @param mixed $entity
+     *
+     * @return bool
+     */
+    private function shouldLog($entity)
+    {
+        if (
+            $entity instanceof Application ||
+            $entity instanceof Credential ||
+            $entity instanceof EncryptedProperty ||
+            $entity instanceof Environment ||
+            $entity instanceof Group ||
+            $entity instanceof Server ||
+            $entity instanceof UserPermission ||
+            $entity instanceof UserType ||
+            $entity instanceof Deployment
+        ) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -104,60 +135,56 @@ class DoctrineChangeLogger
      *
      * @param User $user
      * @param mixed $entity
+     * @param UnitOfWork $uow
      * @param string $action
      *
      * @return AuditLog|null
      */
-    private function log(User $user, $entity, $action)
+    private function log(User $user, $entity, UnitOfWork $uow, $action)
     {
-        // prevent logging loop
-        if ($entity instanceof AuditLog || $entity instanceof User) {
-            return;
-        }
-
-        // Skip this, we dont care
-        if ($entity instanceof UserSettings) {
-            return;
-        }
-
-        // Skip builds and pushes, since those are always attached to a user anyway.
-        if ($entity instanceof Build || $entity instanceof Push) {
+        if (!$this->shouldLog($entity)) {
             return;
         }
 
         $fqcn = explode('\\', get_class($entity));
         $classname = array_pop($fqcn);
-        $namespace = implode('\\', $fqcn);
-
-        // Only log entities in "QL\Hal\Core\Entity" namespace
-        if ($namespace !== 'QL\Hal\Core\Entity') {
-            return;
-        }
 
         // figure out the entity primary id
         $id = '?';
         $entityId = $entity->id() ? $entity->id() : '?';
         $object = sprintf('%s:%s', $classname, $entityId);
 
+        $data = json_encode($entity);
+        if ($action === self::ACTION_UPDATE) {
+            $changeset = $uow->getEntityChangeSet($entity);
+
+            // bomb out if deployment and only change is updating the push
+            if ($entity instanceof Deployment && array_keys($changeset) === ['push']) {
+                return;
+            }
+
+            $data = $this->withChangeset($data, $changeset);
+        }
+
         $id = call_user_func($this->random);
         $log = (new AuditLog($id))
             ->withEntity($object)
             ->withAction($action)
-            ->withData(json_encode($entity))
+            ->withData($data)
             ->withUser($user);
 
         return $log;
     }
 
     /**
-     * @param AuditLog $log
+     * @param string $data
      * @param array $changeset
      *
-     * @return null
+     * @return array
      */
-    private function addChangeset(AuditLog $log, array $changeset)
+    private function withChangeset($data, array $changeset)
     {
-        $data = json_decode($log->data(), true);
+        $data = json_decode($data, true);
 
         foreach ($changeset as $field => $properties) {
             if (isset($data[$field])) {
@@ -168,7 +195,7 @@ class DoctrineChangeLogger
             }
         }
 
-        $log->withData(json_encode($data));
+        return json_encode($data);
     }
 
     /**
