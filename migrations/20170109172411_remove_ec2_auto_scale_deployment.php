@@ -2,6 +2,7 @@
 
 use Phinx\Migration\AbstractMigration;
 use QL\Hal\Core\DatabaseMeta;
+use QL\Hal\Core\Type\EnumType\ServerEnum;
 
 class RemoveEc2AutoScaleDeployment extends AbstractMigration
 {
