@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file. See [keepac
 - Remove EC2 AutoScale Deployment support.
 - Remove `ServerEnum::TYPE_EC2`.
 - Remove schema constraint that enforces `server + deployment path` uniqueness (For rsync-based deployments).
+- Limited audit changelogging to only certain types of entities.
 
 ### Added
 - **Migrations**
