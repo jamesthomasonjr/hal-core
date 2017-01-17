@@ -173,7 +173,7 @@ class DoctrineChangeLoggerTest extends PHPUnit_Framework_TestCase
         $logger->onFlush($this->eventArgs);
 
         $expectedEncodedDeployment = <<<JSON
-{"id":null,"name":"","url":"","path":null,"cdName":null,"cdGroup":null,"cdConfiguration":null,"ebName":null,"ebEnvironment":null,"s3bucket":null,"s3file":null,"application":null,"server":null,"credential":null,"push":null}
+{"id":null,"name":"","url":"","path":null,"cdName":null,"cdGroup":null,"cdConfiguration":null,"ebName":null,"ebEnvironment":null,"s3bucket":null,"s3file":null,"scriptContext":null,"application":null,"server":null,"credential":null,"push":null}
 JSON;
 
         $expectedEncodedServer = <<<JSON
