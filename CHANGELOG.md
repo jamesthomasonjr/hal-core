@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file. See [keepac
 ### Entity Changes
 - **Deployment**
     - Remove `$deployment->ec2Pool()`
+- **Server**
+    - Add `$server->isAWS()`
 
 ### Changed
 - Remove EC2 AutoScale Deployment support.
