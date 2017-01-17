@@ -190,6 +190,17 @@ class Server implements JsonSerializable
         return 'On-premise (Rsync)';
     }
 
+
+    /**
+     * Is this server for AWS?
+     *
+     * @return bool
+     */
+    public function isAWS()
+    {
+        return in_array($this->type(), [ServerEnum::TYPE_CD, ServerEnum::TYPE_EB, ServerEnum::TYPE_S3]);
+    }
+
     /**
      * @return array
      */

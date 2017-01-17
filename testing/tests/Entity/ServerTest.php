@@ -43,6 +43,18 @@ class ServerTest extends PHPUnit_Framework_TestCase
         $this->assertCount(2, $server->deployments());
     }
 
+    public function testIsAWS()
+    {
+        $server = new Server;
+
+        $this->assertSame(true, $server->withType('cd')->isAWS());
+        $this->assertSame(true, $server->withType('eb')->isAWS());
+        $this->assertSame(true, $server->withType('s3')->isAWS());
+
+        $this->assertSame(false, $server->withType('rsync')->isAWS());
+        $this->assertSame(false, $server->withType('script')->isAWS());
+    }
+
     public function testSerialization()
     {
         $environment = (new Environment)->withId(9101);
