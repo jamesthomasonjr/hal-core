@@ -31,6 +31,8 @@ class DeploymentTest extends PHPUnit_Framework_TestCase
         $this->assertSame(null, $deployment->s3bucket());
         $this->assertSame(null, $deployment->s3file());
 
+        $this->assertSame(null, $deployment->scriptContext());
+
         $this->assertSame(null, $deployment->application());
         $this->assertSame(null, $deployment->server());
         $this->assertSame(null, $deployment->credential());
@@ -58,6 +60,8 @@ class DeploymentTest extends PHPUnit_Framework_TestCase
             ->withS3Bucket('bucket-name')
             ->withS3File('myfile/myfile.tar.gz')
 
+            ->withScriptContext('DATA_HERE')
+
             ->withApplication($application)
             ->withServer($server)
             ->withCredential($credential);
@@ -76,6 +80,8 @@ class DeploymentTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame('bucket-name', $deployment->s3Bucket());
         $this->assertSame('myfile/myfile.tar.gz', $deployment->s3File());
+
+        $this->assertSame('DATA_HERE', $deployment->scriptContext());
 
         $this->assertSame($application, $deployment->application());
         $this->assertSame($server, $deployment->server());
@@ -106,6 +112,8 @@ class DeploymentTest extends PHPUnit_Framework_TestCase
             ->withS3Bucket('bucket-name')
             ->withS3File('myfile/myfile.tar.gz')
 
+            ->withScriptContext('deployment1')
+
             ->withApplication($application)
             ->withServer($server)
             ->withCredential($credential);
@@ -123,6 +131,7 @@ class DeploymentTest extends PHPUnit_Framework_TestCase
     "ebEnvironment": "e-12345abcd",
     "s3bucket": "bucket-name",
     "s3file": "myfile/myfile.tar.gz",
+    "scriptContext": "deployment1",
     "application": 1234,
     "server": 1234,
     "credential": "abcdef",
@@ -150,6 +159,7 @@ JSON;
     "ebEnvironment": null,
     "s3bucket": null,
     "s3file": null,
+    "scriptContext": null,
     "application": null,
     "server": null,
     "credential": null,
@@ -257,6 +267,24 @@ JSON;
         $this->assertSame('CD (DemoFleet)', $deployment->formatPretty(true));
     }
 
+    public function testPrettyFormatForScript()
+    {
+        $deployment = (new Deployment)
+            ->withScriptContext('test1')
+            ->withServer((new Server)->withType('script'));
+
+        $this->assertSame('Script', $deployment->formatPretty());
+    }
+
+    public function testPrettyFormatForScriptWithDetails()
+    {
+        $deployment = (new Deployment)
+            ->withScriptContext('DemoApp')
+            ->withServer((new Server)->withType('script'));
+
+        $this->assertSame('Script', $deployment->formatPretty(true));
+    }
+
     public function testFormatMetaWithoutServer()
     {
         $deployment = new Deployment;
@@ -308,5 +336,14 @@ JSON;
             ->withServer((new Server)->withType('cd'));
 
         $this->assertSame('DemoFleet', $deployment->formatMeta());
+    }
+
+    public function testFormatMetaScript()
+    {
+        $deployment = (new Deployment)
+            ->withScriptContext('Demo')
+            ->withServer((new Server)->withType('script'));
+
+        $this->assertSame('Demo', $deployment->formatMeta());
     }
 }

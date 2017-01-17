@@ -15,6 +15,7 @@ class ServerEnum extends BaseType
     const TYPE_EB = 'eb';
     const TYPE_S3 = 's3';
     const TYPE_CD = 'cd';
+    const TYPE_SCRIPT = 'script';
 
     use EnumTypeTrait;
 
@@ -35,6 +36,7 @@ class ServerEnum extends BaseType
             self::TYPE_EB,
             self::TYPE_S3,
             self::TYPE_CD,
+            self::TYPE_SCRIPT
         ];
     }
 }

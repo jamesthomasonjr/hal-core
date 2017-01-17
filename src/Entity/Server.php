@@ -157,6 +157,9 @@ class Server implements JsonSerializable
 
         } elseif ($type === ServerEnum::TYPE_CD) {
             return sprintf('CD (%s)', $this->name());
+
+        } elseif ($type === ServerEnum::TYPE_SCRIPT) {
+            return 'Script';
         }
 
         return $this->name();
@@ -179,9 +182,12 @@ class Server implements JsonSerializable
 
         } elseif ($type === ServerEnum::TYPE_CD) {
             return 'CodeDeploy';
+
+        } elseif ($type === ServerEnum::TYPE_SCRIPT) {
+            return 'Script';
         }
 
-        return 'Internal (Rsync)';
+        return 'On-premise (Rsync)';
     }
 
     /**

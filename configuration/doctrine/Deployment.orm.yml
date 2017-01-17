@@ -68,6 +68,11 @@ QL\Hal\Core\Entity\Deployment:
             length: 100
             nullable: true
 
+        scriptContext:
+            column: DeploymentScriptContext
+            type: string
+            length: 100
+            nullable: true
     manyToOne:
 
         application:

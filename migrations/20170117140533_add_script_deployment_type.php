@@ -3,7 +3,7 @@
 use Phinx\Migration\AbstractMigration;
 use QL\Hal\Core\DatabaseMeta;
 
-class RemoveEc2AutoScaleDeployment extends AbstractMigration
+class AddScriptDeploymentType extends AbstractMigration
 {
     /**
      * Migrate Up.
@@ -13,14 +13,10 @@ class RemoveEc2AutoScaleDeployment extends AbstractMigration
         $table = $this->table(DatabaseMeta::DB_DEPLOYMENT);
 
         $table
-            ->removeIndex(['DeploymentEc2Pool'])
+            ->addColumn('DeploymentScriptContext', 'string', ['limit' => 100, 'null' => true, 'after' => 'DeploymentS3File'])
             ->save();
 
-        $table
-            ->removeColumn('DeploymentEc2Pool')
-            ->save();
-
-        $types = ['rsync', 'eb', 's3', 'cd'];
+        $types = ['rsync', 'eb', 's3', 'cd', 'script'];
         $this->table(DatabaseMeta::DB_SERVER)
             ->changeColumn('ServerType', 'enum', [
                 'values' => $types,
@@ -37,14 +33,10 @@ class RemoveEc2AutoScaleDeployment extends AbstractMigration
         $table = $this->table(DatabaseMeta::DB_DEPLOYMENT);
 
         $table
-            ->addColumn('DeploymentEc2Pool', 'string', ['limit' => 100, 'null' => true, 'after' => 'DeploymentEbEnvironment'])
+            ->removeColumn('DeploymentScriptContext')
             ->save();
 
-        $table
-            ->addIndex(['DeploymentEc2Pool'], ['unique' => true])
-            ->save();
-
-        $types = ['rsync', 'eb', 'ec2', 's3', 'cd'];
+        $types = ['rsync', 'eb', 's3', 'cd'];
         $this->table(DatabaseMeta::DB_SERVER)
             ->changeColumn('ServerType', 'enum', [
                 'values' => $types,

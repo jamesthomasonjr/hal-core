@@ -62,20 +62,19 @@ class Deployment implements JsonSerializable
      * For ELASTIC BEANSTALK
      * For CODEDEPLOY
      *
-     * The S3 bucket name
+     * The S3 bucket and filename name.
+     *
+     * (Blank s3 file will result in push id being used)
      *
      * @var string
      */
     protected $s3bucket;
+    protected $s3file;
 
     /**
-     * For S3
-     *
-     * The S3 file name. If blank, the push id will be used.
-     *
      * @var string
      */
-    protected $s3file;
+    protected $scriptContext;
 
     /**
      * @var Application
@@ -114,6 +113,8 @@ class Deployment implements JsonSerializable
 
         $this->s3bucket = null;
         $this->s3file = null;
+
+        $this->scriptContext = null;
 
         $this->application = null;
         $this->server = null;
@@ -208,6 +209,14 @@ class Deployment implements JsonSerializable
     public function s3file()
     {
         return $this->s3file;
+    }
+
+    /**
+     * @return string
+     */
+    public function scriptContext()
+    {
+        return $this->scriptContext;
     }
 
     /**
@@ -364,6 +373,17 @@ class Deployment implements JsonSerializable
     }
 
     /**
+     * @param string $context
+     *
+     * @return self
+     */
+    public function withScriptContext($context)
+    {
+        $this->scriptContext = $context;
+        return $this;
+    }
+
+    /**
      * @param Application $application
      *
      * @return self
@@ -435,6 +455,9 @@ class Deployment implements JsonSerializable
 
             } elseif ($type === ServerEnum::TYPE_CD) {
                 return sprintf('CD (%s)', $this->cdGroup());
+
+            } elseif ($type === ServerEnum::TYPE_SCRIPT) {
+                return 'Script';
             }
         }
 
@@ -467,6 +490,9 @@ class Deployment implements JsonSerializable
 
         } elseif ($type === ServerEnum::TYPE_CD) {
             return $this->cdGroup();
+
+        } elseif ($type === ServerEnum::TYPE_SCRIPT) {
+            return $this->scriptContext();
         }
 
         return $this->path();
@@ -494,6 +520,8 @@ class Deployment implements JsonSerializable
 
             's3bucket' => $this->s3bucket(),
             's3file' => $this->s3file(),
+
+            'scriptContext' => $this->scriptContext(),
 
             'application' => $this->application() ? $this->application()->id() : null,
             'server' => $this->server() ? $this->server()->id() : null,
