@@ -5,11 +5,11 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core;
+namespace Hal\Core;
 
 use PHPUnit_Framework_TestCase;
 
-class JobIdGeneratorTest extends PHPUnit_Framework_TestCase
+class JobGeneratorTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
@@ -26,7 +26,7 @@ class JobIdGeneratorTest extends PHPUnit_Framework_TestCase
      */
     public function testInvalidAlphabetThrowsException()
     {
-        $generator = new JobIdGenerator('1', 'a');
+        $generator = new JobGenerator('a');
     }
 
     /**
@@ -34,45 +34,42 @@ class JobIdGeneratorTest extends PHPUnit_Framework_TestCase
      */
     public function testInvalidSizeThrowsException()
     {
-        $generator = new JobIdGenerator('1', JobIdGenerator::BASE58, 2);
+        $generator = new JobGenerator(JobGenerator::BASE58, 2);
     }
 
     public function testIDIsGenerated()
     {
-        $generator = new JobIdGenerator('1', JobIdGenerator::BASE58);
+        $generator = new JobGenerator(JobGenerator::BASE58);
 
-        $actual = $generator->generateBuildId();
+        $actual = $generator->generateBuildID();
 
-        $version = substr($actual, 0, 3);
         $unique = substr($actual, 6);
 
-        $this->assertSame('b1.', $version);
-        $this->assertSame('Pdv3', $unique);
+        $this->assertSame('b', $actual[0]);
+        $this->assertSame('Pdv3f', $unique);
     }
 
     public function testLongIDIsGenerated()
     {
-        $generator = new JobIdGenerator('1', JobIdGenerator::BASE58, 6);
+        $generator = new JobGenerator(JobGenerator::BASE58, 6);
 
-        $actual = $generator->generateBuildId();
+        $actual = $generator->generateBuildID();
 
-        $version = substr($actual, 0, 3);
         $unique = substr($actual, 6);
 
-        $this->assertSame('b1.', $version);
+        $this->assertSame('b', $actual[0]);
         $this->assertSame('3QQsHh', $unique);
     }
 
-    public function testPushIDIsGenerated()
+    public function testReleaseIDIsGenerated()
     {
-        $generator = new JobIdGenerator('1', JobIdGenerator::BASE58, 5);
+        $generator = new JobGenerator(JobGenerator::BASE58, 5);
 
-        $actual = $generator->generatePushId();
+        $actual = $generator->generateReleaseID();
 
-        $version = substr($actual, 0, 3);
         $unique = substr($actual, 6);
 
-        $this->assertSame('p1.', $version);
+        $this->assertSame('r', $actual[0]);
         $this->assertSame('Pdv3f', $unique);
     }
 }

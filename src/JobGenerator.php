@@ -5,16 +5,16 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core;
+namespace Hal\Core;
 
 use InvalidArgumentException;
 
 /**
  * Unique ID Generator
  *
- * Generate random build and push IDs
+ * Generate random build and deploy IDs
  */
-class JobIdGenerator
+class JobGenerator
 {
     const BASE58 = '123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ';
 
@@ -22,11 +22,6 @@ class JobIdGenerator
     const BASE58_4CHAR = 195112;
     const BASE58_5CHAR = 11316496;
     const BASE58_6CHAR = 656356768;
-
-    /**
-     * @var string
-     */
-    private $version;
 
     /**
      * @var int
@@ -48,9 +43,8 @@ class JobIdGenerator
      * @param string $alphabet
      * @param int $fixedSize
      */
-    public function __construct($version, $alphabet, $fixedSize = 4)
+    public function __construct($alphabet, $fixedSize = 5)
     {
-        $this->version = $version;
         $this->fixedSize = $fixedSize;
 
         $this->alphabet = str_split($alphabet);
@@ -67,20 +61,19 @@ class JobIdGenerator
 
     /**
      * Template:
-     *     b{VERSION}.{TIME}{UNIQUE_OF_FIXED_SIZE}
+     *     b{TIME}{UNIQUE_OF_FIXED_SIZE}
      * Example:
-     *     b2.1115555
+     *     b1111-55555
      *
      * @return string
      */
-    public function generateBuildId()
+    public function generateBuildID()
     {
         $date = $this->timeHash();
         $unique = $this->randomHash($this->fixedSize);
 
         return sprintf(
-            'b%d.%s%s',
-            $this->version,
+            'b%s-%s',
             $this->encode($date),
             $this->encode($unique)
         );
@@ -88,20 +81,19 @@ class JobIdGenerator
 
     /**
      * Template:
-     *     p{VERSION}.{TIME}{UNIQUE_OF_FIXED_SIZE}
+     *     r{TIME}{UNIQUE_OF_FIXED_SIZE}
      * Example:
-     *     p2.1115555
+     *     r1111-5555
      *
      * @return string
      */
-    public function generatePushId()
+    public function generateReleaseID()
     {
         $date = $this->timeHash();
         $unique = $this->randomHash($this->fixedSize);
 
         return sprintf(
-            'p%d.%s%s',
-            $this->version,
+            'r%s-%s',
             $this->encode($date),
             $this->encode($unique)
         );
@@ -139,6 +131,7 @@ class JobIdGenerator
      * 5 char = 645 040 272 possibilities
      *
      * @param int $numChars
+     *
      * @return int
      */
     protected function randomHash($numChars)
@@ -164,15 +157,13 @@ class JobIdGenerator
      *
      * For a consistent prefix that increments and can be used to easily find builds from a certain time set.
      *
-     * The 2 digit year is used so that every time > 2010ish will consistently hash to 3 characters in base 58.
+     * The 4 digit year is used so it will consistently hash to 4 characters in base 58.
      *
-     * What happens in the year 2100? I don't care. I will be dead. <-- Planned obsolescence
-     *
-     * @return int (2 char)
+     * @return int
      */
     protected function timeHash()
     {
-        $day = date('y') . str_pad(date('z'), 3, '0', STR_PAD_LEFT);
+        $day = date('Y') . str_pad(date('z'), 3, '0', STR_PAD_LEFT);
         return (int) $day;
     }
 }

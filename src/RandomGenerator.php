@@ -5,7 +5,7 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core;
+namespace Hal\Core;
 
 use QL\MCP\Common\GUID;
 
@@ -16,7 +16,8 @@ class RandomGenerator
 {
     public function __invoke()
     {
-        $id = GUID::create()->asHex();
-        return strtolower($id);
+        $id = GUID::create()->format(GUID::STANDARD);
+
+        return $id;
     }
 }
