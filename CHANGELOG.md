@@ -1,11 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file. See [keepachangelog.com](http://keepachangelog.com) for reference.
 
-## [2.10.0] - TBD
+## [2.10.0] - 2017-01-19
 
 ### Entity Changes
 - **Deployment**
     - Remove `$deployment->ec2Pool()`
+    - Add `$deployment->scriptContext()`
 - **Server**
     - Add `$server->isAWS()`
 
@@ -13,12 +14,14 @@ All notable changes to this project will be documented in this file. See [keepac
 - Remove EC2 AutoScale Deployment support.
 - Remove `ServerEnum::TYPE_EC2`.
 - Remove schema constraint that enforces `server + deployment path` uniqueness (For rsync-based deployments).
+- Add `ServerEnum::TYPE_SCRIPT`.
 - Limited audit changelogging to only certain types of entities.
 
 ### Added
 - **Migrations**
     - Add **RemoveDeploymentUniquenessIndex** - `20170109143814`
     - Add **RemoveEc2AutoScaleDeployment** - `20170109172411`
+    - Add **AddScriptDeploymentType** - `20170117140533`
 
 ## [2.9.0] - 2016-02-12
 
