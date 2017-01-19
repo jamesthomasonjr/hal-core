@@ -14,7 +14,7 @@ environments:
         port: 3306
         charset: 'utf8'
 
-    test:
+    staging:
         adapter: 'mysql'
         host: '%%PHINX_TEST_SERVER%%'
         name: '%%PHINX_TEST_DATABASE%%'
