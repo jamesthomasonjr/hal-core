@@ -5,56 +5,52 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Listener;
+namespace Hal\Core\Listener;
 
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\UnitOfWork;
+use Hal\Core\Entity\Application;
+use Hal\Core\Entity\AuditEvent;
+use Hal\Core\Entity\Build;
+use Hal\Core\Entity\Environment;
+use Hal\Core\Entity\Organization;
+use Hal\Core\Entity\Release;
+use Hal\Core\Entity\User;
 use Mockery;
 use PHPUnit_Framework_TestCase;
-use QL\Hal\Core\Entity\AuditLog;
-use QL\Hal\Core\Entity\Build;
-use QL\Hal\Core\Entity\Group;
-use QL\Hal\Core\Entity\Deployment;
-use QL\Hal\Core\Entity\Push;
-use QL\Hal\Core\Entity\Server;
-use QL\Hal\Core\Entity\User;
-use QL\MCP\Common\Time\Clock;
 use stdClass;
 
 class DoctrineChangeLoggerTest extends PHPUnit_Framework_TestCase
 {
-    private $clock;
     private $user;
 
     private $uow;
     private $em;
     private $eventArgs;
 
-    private $random;
     private $lazyUser;
 
     public function setUp()
     {
-        $this->clock = Mockery::mock(Clock::CLASS);
-        $this->user = Mockery::mock(User::CLASS, [
-            'id' => 1234
+        $this->user = Mockery::mock(User::class, [
+            'id' => 1234,
+            'username' => 'testuser'
         ]);
 
-        $this->uow = Mockery::mock(UnitOfWork::CLASS, [
+        $this->uow = Mockery::mock(UnitOfWork::class, [
             'getScheduledEntityInsertions' => [],
             'getScheduledEntityUpdates' => [],
             'getScheduledEntityDeletions' => [],
         ]);
-        $this->em = Mockery::mock(EntityManagerInterface::CLASS, [
+        $this->em = Mockery::mock(EntityManagerInterface::class, [
             'getUnitOfWork' => $this->uow
         ]);
-        $this->eventArgs = Mockery::mock(OnFlushEventArgs::CLASS, [
+        $this->eventArgs = Mockery::mock(OnFlushEventArgs::class, [
             'getEntityManager' => $this->em
         ]);
 
-        $this->random = function() {return 2;};
         $this->lazyUser = function() {
             return $this->user;
         };
@@ -68,7 +64,7 @@ class DoctrineChangeLoggerTest extends PHPUnit_Framework_TestCase
             ->shouldReceive('find')
             ->never();
 
-        $logger = new DoctrineChangeLogger($this->clock, $this->random, $notfoundUser);
+        $logger = new DoctrineChangeLogger($notfoundUser);
         $logger->onFlush($this->eventArgs);
     }
 
@@ -80,7 +76,7 @@ class DoctrineChangeLoggerTest extends PHPUnit_Framework_TestCase
             ->shouldReceive('find')
             ->never();
 
-        $logger = new DoctrineChangeLogger($this->clock, $this->random, $invalidUser);
+        $logger = new DoctrineChangeLogger($invalidUser);
         $logger->onFlush($this->eventArgs);
     }
 
@@ -88,13 +84,13 @@ class DoctrineChangeLoggerTest extends PHPUnit_Framework_TestCase
     {
         $this->em
             ->shouldReceive('find')
-            ->with(User::CLASS, 1234)
+            ->with(User::class, 1234)
             ->andReturnNull();
         $this->uow
             ->shouldReceive('getScheduledEntityInsertions')
             ->never();
 
-        $logger = new DoctrineChangeLogger($this->clock, $this->random, $this->lazyUser);
+        $logger = new DoctrineChangeLogger($this->lazyUser);
         $logger->onFlush($this->eventArgs);
     }
 
@@ -102,21 +98,21 @@ class DoctrineChangeLoggerTest extends PHPUnit_Framework_TestCase
     {
         $this->em
             ->shouldReceive('find')
-            ->with(User::CLASS, 1234)
+            ->with(User::class, 1234)
             ->andReturn($this->user);
         $this->em
             ->shouldReceive('getClassMetadata')
-            ->with(AuditLog::CLASS)
-            ->andReturn(Mockery::mock(ClassMetadata::CLASS))
+            ->with(AuditEvent::class)
+            ->andReturn(Mockery::mock(ClassMetadata::class))
             ->once();
 
-        $deploymentSpy = null;
-        $serverSpy = null;
+        $appSpy = null;
+        $orgSpy = null;
         $this->em
             ->shouldReceive('persist')
-            ->with(Mockery::on(function ($v) use (&$deploymentSpy) {
-                if (stripos($v->entity(), 'Deployment') !== false) {
-                    $deploymentSpy = $v;
+            ->with(Mockery::on(function ($v) use (&$appSpy) {
+                if (stripos($v->entity(), 'Application') !== false) {
+                    $appSpy = $v;
                     return true;
                 }
             }))
@@ -124,9 +120,9 @@ class DoctrineChangeLoggerTest extends PHPUnit_Framework_TestCase
 
         $this->em
             ->shouldReceive('persist')
-            ->with(Mockery::on(function ($v) use (&$serverSpy) {
-                if (stripos($v->entity(), 'Server') !== false) {
-                    $serverSpy = $v;
+            ->with(Mockery::on(function ($v) use (&$orgSpy) {
+                if (stripos($v->entity(), 'Organization') !== false) {
+                    $orgSpy = $v;
                     return true;
                 }
             }))
@@ -136,13 +132,13 @@ class DoctrineChangeLoggerTest extends PHPUnit_Framework_TestCase
             ->shouldReceive('getScheduledEntityInsertions')
             ->andReturn([
                 // Skipped
-                new User,
-                new AuditLog,
-                new Build,
-                new Push,
+                new User('abc'),
+                new AuditEvent('def'),
+                new Build('ghi'),
+                new Release('jkl'),
 
                 // Logged
-                new Deployment,
+                new Application('mno'),
 
                 // Not Logged, invalid
                 new stdClass
@@ -152,13 +148,13 @@ class DoctrineChangeLoggerTest extends PHPUnit_Framework_TestCase
             ->shouldReceive('getScheduledEntityDeletions')
             ->andReturn([
                 // Skipped
-                new User,
-                new AuditLog,
-                new Build,
-                new Push,
+                new User('abc2'),
+                new AuditEvent('def2'),
+                new Build('ghi2'),
+                new Release('jkl2'),
 
                 // Logged
-                (new Server)->withId(5),
+                new Organization('mno2'),
 
                 // Not Logged, invalid
                 new stdClass
@@ -166,54 +162,53 @@ class DoctrineChangeLoggerTest extends PHPUnit_Framework_TestCase
 
         $this->uow
             ->shouldReceive('computeChangeSet')
-            ->with(Mockery::any(), Mockery::type(AuditLog::CLASS))
+            ->with(Mockery::any(), Mockery::type(AuditEvent::class))
             ->twice();
 
-        $logger = new DoctrineChangeLogger($this->clock, $this->random, $this->lazyUser);
+        $logger = new DoctrineChangeLogger($this->lazyUser);
         $logger->onFlush($this->eventArgs);
 
-        $expectedEncodedDeployment = <<<JSON
-{"id":null,"name":"","url":"","path":null,"cdName":null,"cdGroup":null,"cdConfiguration":null,"ebName":null,"ebEnvironment":null,"s3bucket":null,"s3file":null,"scriptContext":null,"application":null,"server":null,"credential":null,"push":null}
+        $expectedEncodedApp = <<<JSON
+{"id":"mno","identifier":"","name":"","github":null,"organization_id":null}
 JSON;
 
-        $expectedEncodedServer = <<<JSON
-{"id":5,"type":"","name":"","environment":null}
+        $expectedEncodedOrg = <<<JSON
+{"id":"mno2","identifier":"","name":""}
 JSON;
 
-        // Deployment log
-        $this->assertInstanceOf(AuditLog::CLASS, $deploymentSpy);
-        $this->assertSame('Deployment:?', $deploymentSpy->entity());
-        $this->assertSame('CREATE', $deploymentSpy->action());
-        $this->assertSame($expectedEncodedDeployment, $deploymentSpy->data());
-        $this->assertSame($this->user, $deploymentSpy->user());
+        // app event
+        $this->assertInstanceOf(AuditEvent::class, $appSpy);
+        $this->assertSame('Application:mno', $appSpy->entity());
+        $this->assertSame('create', $appSpy->action());
+        $this->assertSame($expectedEncodedApp, $appSpy->data());
+        $this->assertSame('testuser', $appSpy->owner());
 
-        // Server log
-        $this->assertInstanceOf(AuditLog::CLASS, $serverSpy);
-        $this->assertSame('Server:5', $serverSpy->entity());
-        $this->assertSame('DELETE', $serverSpy->action());
-        $this->assertSame($expectedEncodedServer, $serverSpy->data());
-        $this->assertSame($this->user, $serverSpy->user());
+        // org event
+        $this->assertInstanceOf(AuditEvent::class, $orgSpy);
+        $this->assertSame('Organization:mno2', $orgSpy->entity());
+        $this->assertSame('delete', $orgSpy->action());
+        $this->assertSame($expectedEncodedOrg, $orgSpy->data());
+        $this->assertSame('testuser', $orgSpy->owner());
     }
 
     public function testChangeSetRecorded()
     {
         $this->em
             ->shouldReceive('find')
-            ->with(User::CLASS, 1234)
+            ->with(User::class, 1234)
             ->andReturn($this->user);
         $this->em
             ->shouldReceive('getClassMetadata')
-            ->with(AuditLog::CLASS)
-            ->andReturn(Mockery::mock(ClassMetadata::CLASS))
+            ->with(AuditEvent::class)
+            ->andReturn(Mockery::mock(ClassMetadata::class))
             ->once();
 
-        $groupSpy = null;
-
+        $envSpy = null;
         $this->em
             ->shouldReceive('persist')
-            ->with(Mockery::on(function ($v) use (&$groupSpy) {
-                if (stripos($v->entity(), 'Group') !== false) {
-                    $groupSpy = $v;
+            ->with(Mockery::on(function ($v) use (&$envSpy) {
+                if (stripos($v->entity(), 'Environment') !== false) {
+                    $envSpy = $v;
                     return true;
                 }
             }))
@@ -224,10 +219,10 @@ JSON;
             ->andReturn([
                 // Skipped
                 new User,
-                new AuditLog,
+                new AuditEvent,
 
                 // Logged
-                (new Group)->withId(5),
+                new Environment('5'),
 
                 // Not Logged, invalid
                 new stdClass
@@ -235,28 +230,30 @@ JSON;
 
         $this->uow
             ->shouldReceive('computeChangeSet')
-            ->with(Mockery::any(), Mockery::type(AuditLog::CLASS))
+            ->with(Mockery::any(), Mockery::type(AuditEvent::class))
             ->once();
 
         $this->uow
             ->shouldReceive('getEntityChangeSet')
             ->andReturn([
-                'identifier' => ['derp', 'derp2'],
+                'is_production' => [true, false],
                 'name' => ['herp', 'herp2']
             ])
             ->once();
 
-        $logger = new DoctrineChangeLogger($this->clock, $this->random, $this->lazyUser);
+        $logger = new DoctrineChangeLogger($this->lazyUser);
         $logger->onFlush($this->eventArgs);
 
-        $expectedEncodedGroup = <<<JSON
-{"id":5,"identifier":{"current":"derp","new":"derp2"},"name":{"current":"herp","new":"herp2"}}
+        $expectedEncodedEnv = <<<JSON
+{"id":"5","name":{"current":"herp","new":"herp2"},"is_production":{"current":true,"new":false}}
 JSON;
-        // Deployment log
-        $this->assertInstanceOf(AuditLog::CLASS, $groupSpy);
-        $this->assertSame('Group:5', $groupSpy->entity());
-        $this->assertSame('UPDATE', $groupSpy->action());
-        $this->assertSame($expectedEncodedGroup, $groupSpy->data());
-        $this->assertSame($this->user, $groupSpy->user());
+        // env event
+        $this->assertInstanceOf(AuditEvent::class, $envSpy);
+
+        $this->assertSame('update', $envSpy->action());
+        $this->assertSame('testuser', $envSpy->owner());
+
+        $this->assertSame('Environment:5', $envSpy->entity());
+        $this->assertSame($expectedEncodedEnv, $envSpy->data());
     }
 }

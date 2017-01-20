@@ -5,16 +5,16 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Testing;
+namespace Hal\Core\Testing;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\Setup;
+use Hal\Core\Utility\DoctrineConfigurator;
+use Hal\Core\Utility\DoctrineCustomTypes;
+use Hal\Core\Utility\DoctrineFactory;
 use PHPUnit_Framework_TestCase;
-use QL\Hal\Core\Utility\DoctrineConfigurator;
-use QL\Hal\Core\Utility\DoctrineCustomTypes;
-use QL\Hal\Core\Utility\DoctrineFactory;
 
 class DoctrineTest extends PHPUnit_Framework_TestCase
 {
