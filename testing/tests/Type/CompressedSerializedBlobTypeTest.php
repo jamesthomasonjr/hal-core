@@ -5,7 +5,7 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Type;
+namespace Hal\Core\Type;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Mockery;

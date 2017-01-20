@@ -5,12 +5,13 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Type;
+namespace Hal\Core\Type;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\DateTimeType;
 use QL\MCP\Common\Time\Clock;
+use QL\MCP\Common\Time\TimePoint;
 
 class TimePointType extends DateTimeType
 {
