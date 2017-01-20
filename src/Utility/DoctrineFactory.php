@@ -5,7 +5,7 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Utility;
+namespace Hal\Core\Utility;
 
 class DoctrineFactory
 {
@@ -31,7 +31,7 @@ class DoctrineFactory
      */
     public static function proxyPath($dir = null)
     {
-        $dir = $dir ?: tatic::DEFAULT_PROXY_PATH;
+        $dir = $dir ?: static::DEFAULT_PROXY_PATH;
 
         return static::root() . '/' . trim($dir, '/');
     }

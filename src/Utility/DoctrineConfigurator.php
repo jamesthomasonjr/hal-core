@@ -5,7 +5,7 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Utility;
+namespace Hal\Core\Utility;
 
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManagerInterface;

@@ -5,10 +5,10 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Utility;
+namespace Hal\Core\Utility;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * This is a utility class used for generating proxies. Doctrine will attempt to

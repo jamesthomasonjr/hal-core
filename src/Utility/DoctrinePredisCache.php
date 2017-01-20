@@ -5,7 +5,7 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Utility;
+namespace Hal\Core\Utility;
 
 use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Cache\CacheProvider;
