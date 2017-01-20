@@ -5,7 +5,7 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Entity;
+namespace Hal\Core\Entity;
 
 use PHPUnit_Framework_TestCase;
 
@@ -15,7 +15,7 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
     {
         $settings = new UserSettings;
 
-        $this->assertSame('', $settings->id());
+        $this->assertStringMatchesFormat('%x', $settings->id());
         $this->assertSame(null, $settings->user());
 
         $this->assertSame([], $settings->favoriteApplications());
@@ -24,9 +24,9 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
     public function testProperties()
     {
         $user = new User;
-        $app1 = (new Application)->withId('app1');
-        $app2 = (new Application)->withId('app2');
-        $app3 = (new Application)->withId('app3');
+        $app1 = (new Application('app1'));
+        $app2 = (new Application('app2'));
+        $app3 = (new Application('app3'));
 
         $settings = (new UserSettings('1234'))
             ->withUser($user);
@@ -48,9 +48,9 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
 
     public function testIsFavorite()
     {
-        $app1 = (new Application)->withId('app1');
-        $app2 = (new Application)->withId('app2');
-        $app3 = (new Application)->withId('app3');
+        $app1 = (new Application('app1'));
+        $app2 = (new Application('app2'));
+        $app3 = (new Application('app3'));
 
         $settings = (new UserSettings)
             ->withFavoriteApplication($app1)
@@ -63,9 +63,9 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
 
     public function testSerialization()
     {
-        $user = new User;
-        $app1 = (new Application)->withId('app1');
-        $app2 = (new Application)->withId('app2');
+        $user = new User('5678');
+        $app1 = (new Application('app1'));
+        $app2 = (new Application('app2'));
 
         $settings = (new UserSettings('1234'))
             ->withUser($user)
@@ -75,11 +75,11 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
         $expected = <<<JSON
 {
     "id": "1234",
-    "favoriteApplications": [
+    "favorite_applications": [
         "app1",
         "app2"
     ],
-    "user": null
+    "user_id": "5678"
 }
 JSON;
 
@@ -88,13 +88,13 @@ JSON;
 
     public function testDefaultSerialization()
     {
-        $settings = new UserSettings;
+        $settings = new UserSettings('1');
 
         $expected = <<<JSON
 {
-    "id": "",
-    "favoriteApplications": [],
-    "user": null
+    "id": "1",
+    "favorite_applications": [],
+    "user_id": null
 }
 JSON;
 

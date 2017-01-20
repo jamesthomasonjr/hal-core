@@ -7,26 +7,29 @@
 
 namespace QL\Hal\Core\Type;
 
-use DateTime;
-use DateTimeZone;
-use Doctrine\DBAL\Types\Type as BaseType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use QL\MCP\Common\Time\TimePoint;
+use Doctrine\DBAL\Types\ConversionException;
+use Doctrine\DBAL\Types\DateTimeType;
+use QL\MCP\Common\Time\Clock;
 
-/**
- * Doctrine TimePoint Type
- */
-class TimePointType extends BaseType
+class TimePointType extends DateTimeType
 {
-    const TYPE = 'timepoint';
+    const NAME = 'timepoint';
+
+    private static $clock;
+
+    /**
+     * @inheritDoc
+     */
+    public function getName()
+    {
+        return self::NAME;
+    }
 
     /**
      * Convert TimePoint to database value
      *
-     * @param mixed $value
-     * @param AbstractPlatform $platform
-     *
-     * @return null|string
+     * @inheritDoc
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
@@ -40,10 +43,7 @@ class TimePointType extends BaseType
     /**
      * Convert database value to TimePoint
      *
-     * @param mixed $value
-     * @param AbstractPlatform $platform
-     *
-     * @return mixed|void
+     * @inheritDoc
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
@@ -51,41 +51,30 @@ class TimePointType extends BaseType
             return null;
         }
 
-        if (!$date = DateTime::createFromFormat('Y-m-d H:i:s', $value, new DateTimeZone('UTC'))) {
-            return null;
+        $timepoint = self::getParsingClock()->fromString($value, 'Y-m-d H:i:s');
+
+        if (!$timepoint) {
+            throw ConversionException::conversionFailedFormat($value, $this->getName(), $platform->getDateTimeFormatString());
         }
 
-        return new TimePoint(
-            $date->format('Y'),
-            $date->format('m'),
-            $date->format('d'),
-            $date->format('H'),
-            $date->format('i'),
-            $date->format('s'),
-            'UTC'
-        );
+        return $timepoint;
     }
 
     /**
-     * Get the type name
+     * @param Clock|null $clock
      *
-     * @return string
+     * @return Clock
      */
-    public function getName()
+    public static function getParsingClock(Clock $clock = null)
     {
-        return self::TYPE;
-    }
+        if (func_num_args()) {
+            self::$clock = $clock;
+        }
 
-    /**
-     * Get the Timepoint field declaration
-     *
-     * @param array $fieldDeclaration
-     * @param AbstractPlatform $platform
-     *
-     * @return string
-     */
-    public function getSqlDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
-    {
-        return $platform->getTimeTypeDeclarationSQL([]);
+        if (!self::$clock) {
+            self::$clock = new Clock('now', 'UTC');
+        }
+
+        return self::$clock;
     }
 }

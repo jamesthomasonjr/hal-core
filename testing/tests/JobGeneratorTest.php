@@ -43,20 +43,21 @@ class JobGeneratorTest extends PHPUnit_Framework_TestCase
 
         $actual = $generator->generateBuildID();
 
-        $unique = substr($actual, 6);
+        $unique = substr($actual, 5);
 
         $this->assertSame('b', $actual[0]);
         $this->assertSame('Pdv3f', $unique);
     }
 
-    public function testLongIDIsGenerated()
+    public function testBuildIDIsGenerated()
     {
         $generator = new JobGenerator(JobGenerator::BASE58, 6);
 
         $actual = $generator->generateBuildID();
 
-        $unique = substr($actual, 6);
+        $unique = substr($actual, 5);
 
+        $this->assertSame(11, strlen($actual));
         $this->assertSame('b', $actual[0]);
         $this->assertSame('3QQsHh', $unique);
     }
@@ -67,8 +68,9 @@ class JobGeneratorTest extends PHPUnit_Framework_TestCase
 
         $actual = $generator->generateReleaseID();
 
-        $unique = substr($actual, 6);
+        $unique = substr($actual, 5);
 
+        $this->assertSame(10, strlen($actual));
         $this->assertSame('r', $actual[0]);
         $this->assertSame('Pdv3f', $unique);
     }

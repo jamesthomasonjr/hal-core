@@ -5,38 +5,32 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Entity;
+namespace Hal\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Hal\Core\Utility\EntityIDTrait;
 use JsonSerializable;
 
 class User implements JsonSerializable
 {
+    use EntityIDTrait;
+
     /**
-     * @var int
+     * @var string
      */
     protected $id;
 
     /**
      * @var string
      */
-    protected $handle;
+    protected $username;
     protected $name;
     protected $email;
 
     /**
-     * The current user status
-     *
      * @var boolean
      */
-    protected $isActive;
-
-    /**
-     * The github access token for the user
-     *
-     * @var string
-     */
-    protected $githubToken;
+    protected $isDisabled;
 
     /**
      * @var ArrayCollection
@@ -49,26 +43,25 @@ class User implements JsonSerializable
     protected $settings;
 
     /**
-     * @param int $id
+     * @param string $id
+     * @param string $username
      */
-    public function __construct($id = null)
+    public function __construct($id = '', $username = '')
     {
-        // from ldap
-        $this->id = $id;
-        $this->handle = '';
+        $this->id = $id ?: $this->generateEntityID();
+        $this->username = $username ?: '';
+
         $this->name = '';
         $this->email = '';
 
-        // hal settings
-        $this->isActive = false;
-        $this->githubToken = '';
+        $this->isDisabled = false;
 
-        $this->settings = null;
+        $this->settings = (new UserSettings)->withUser($this);
         $this->tokens = new ArrayCollection;
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function id()
     {
@@ -78,9 +71,9 @@ class User implements JsonSerializable
     /**
      * @return string
      */
-    public function handle()
+    public function username()
     {
-        return $this->handle;
+        return $this->username;
     }
 
     /**
@@ -102,17 +95,9 @@ class User implements JsonSerializable
     /**
      * @return boolean
      */
-    public function isActive()
+    public function isDisabled()
     {
-        return $this->isActive;
-    }
-
-    /**
-     * @return string
-     */
-    public function githubToken()
-    {
-        return $this->githubToken;
+        return $this->isDisabled;
     }
 
     /**
@@ -124,7 +109,7 @@ class User implements JsonSerializable
     }
 
     /**
-     * @return UserSettings|null
+     * @return UserSettings
      */
     public function settings()
     {
@@ -136,20 +121,20 @@ class User implements JsonSerializable
      *
      * @return self
      */
-    public function withId($id)
+    public function withID($id)
     {
         $this->id = $id;
         return $this;
     }
 
     /**
-     * @param string $handle
+     * @param string $username
      *
      * @return self
      */
-    public function withHandle($handle)
+    public function withUsername($username)
     {
-        $this->handle = $handle;
+        $this->username = $username;
         return $this;
     }
 
@@ -176,24 +161,13 @@ class User implements JsonSerializable
     }
 
     /**
-     * @param bool $isActive
+     * @param bool $isDisabled
      *
      * @return self
      */
-    public function withIsActive($isActive)
+    public function withIsDisabled($isDisabled)
     {
-        $this->isActive = (bool) $isActive;
-        return $this;
-    }
-
-    /**
-     * @param string $githubToken
-     *
-     * @return self
-     */
-    public function withGithubToken($githubToken)
-    {
-        $this->githubToken = $githubToken;
+        $this->isDisabled = (bool) $isDisabled;
         return $this;
     }
 
@@ -205,11 +179,11 @@ class User implements JsonSerializable
         $json = [
             'id' => $this->id(),
 
-            'handle' => $this->handle(),
+            'username' => $this->username(),
             'name' => $this->name(),
             'email' => $this->email(),
-            'isActive' => $this->isActive(),
-            // 'githubToken' => $this->githubToken(),
+
+            'is_disabled' => $this->isDisabled(),
         ];
 
         return $json;

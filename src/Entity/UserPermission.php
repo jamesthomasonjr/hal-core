@@ -5,21 +5,32 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Entity;
+namespace Hal\Core\Entity;
 
+use Hal\Core\Type\UserPermissionEnum;
+use Hal\Core\Utility\EntityIDTrait;
 use JsonSerializable;
 
+/**
+ * Right now this is per user, but eventually we need to support permission roles.
+ *
+ * Instead of users having permission(s)
+ *
+ * Roles would have permission(s) and Users have role(s) AND individual permission(s).
+ */
 class UserPermission implements JsonSerializable
 {
+    use EntityIDTrait;
+
     /**
      * @var string
      */
     protected $id;
 
     /**
-     * @var bool
+     * @var string
      */
-    protected $isProduction;
+    protected $type;
 
     /**
      * @var User
@@ -27,20 +38,40 @@ class UserPermission implements JsonSerializable
     protected $user;
 
     /**
-     * @var Application
+     * The application this permission is restricted to. Optional.
+     *
+     * @var Application|null
      */
     protected $application;
 
     /**
-     * @param string $id
+     * The organization this permission is restricted to. Optional.
+     *
+     * @var Organization|null
      */
-    public function __construct($id = '')
+    protected $organization;
+
+    /**
+     * The environment this permission is restricted to. Optional.
+     *
+     * @var Environment|null
+     */
+    protected $environment;
+
+    /**
+     * @param string $id
+     * @param string $type
+     */
+    public function __construct($id = '', $type = '')
     {
-        $this->id = $id;
-        $this->isProduction = false;
+        $this->id = $id ?: $this->generateEntityID();
+        $this->type = $type ? UserPermissionEnum::ensureValid($type) : UserPermissionEnum::defaultOption();
 
         $this->user = null;
         $this->application = null;
+        $this->organization = null;
+
+        $this->environment = null;
     }
 
     /**
@@ -52,11 +83,11 @@ class UserPermission implements JsonSerializable
     }
 
     /**
-     * @return bool
+     * @return string
      */
-    public function isProduction()
+    public function type()
     {
-        return $this->isProduction;
+        return $this->type;
     }
 
     /**
@@ -68,7 +99,7 @@ class UserPermission implements JsonSerializable
     }
 
     /**
-     * @return Application
+     * @return Application|null
      */
     public function application()
     {
@@ -76,24 +107,40 @@ class UserPermission implements JsonSerializable
     }
 
     /**
+     * @return Organization|null
+     */
+    public function organization()
+    {
+        return $this->organization;
+    }
+
+    /**
+     * @return Environment|null
+     */
+    public function environment()
+    {
+        return $this->environment;
+    }
+
+    /**
      * @param string $id
      *
      * @return self
      */
-    public function withId($id)
+    public function withID($id)
     {
         $this->id = $id;
         return $this;
     }
 
     /**
-     * @param bool $isProduction
+     * @param string $type
      *
      * @return self
      */
-    public function withIsProduction($isProduction)
+    public function withType($type)
     {
-        $this->isProduction = $isProduction;
+        $this->type = UserPermissionEnum::ensureValid($type);
         return $this;
     }
 
@@ -109,13 +156,35 @@ class UserPermission implements JsonSerializable
     }
 
     /**
-     * @param Application $application
+     * @param Application|null $application
      *
      * @return self
      */
-    public function withApplication(Application $application)
+    public function withApplication(Application $application = null)
     {
         $this->application = $application;
+        return $this;
+    }
+
+    /**
+     * @param Organization|null $organization
+     *
+     * @return self
+     */
+    public function withOrganization(Organization $organization = null)
+    {
+        $this->organization = $organization;
+        return $this;
+    }
+
+    /**
+     * @param Environment|null $environment
+     *
+     * @return self
+     */
+    public function withEnvironment(Environment $environment = null)
+    {
+        $this->environment = $environment;
         return $this;
     }
 
@@ -126,10 +195,13 @@ class UserPermission implements JsonSerializable
     {
         $json = [
             'id' => $this->id(),
-            'isProduction' => $this->isProduction(),
+            'type' => $this->type(),
 
-            'user' => $this->user() ? $this->user()->id() : null,
-            'application' => $this->application() ? $this->application()->id() : null
+            'user_id' => $this->user() ? $this->user()->id() : null,
+            'application_id' => $this->application() ? $this->application()->id() : null,
+            'organization_id' => $this->organization() ? $this->organization()->id() : null,
+
+            'environment_id' => $this->environment() ? $this->environment()->id() : null
         ];
 
         return $json;

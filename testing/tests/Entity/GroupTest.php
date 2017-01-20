@@ -5,8 +5,9 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Entity;
+namespace Hal\Core\Entity;
 
+use Hal\Core\Type\EnumException;
 use PHPUnit_Framework_TestCase;
 
 class GroupTest extends PHPUnit_Framework_TestCase
@@ -15,35 +16,53 @@ class GroupTest extends PHPUnit_Framework_TestCase
     {
         $group = new Group;
 
-        $this->assertSame(null, $group->id());
-        $this->assertSame('', $group->key());
+        $this->assertStringMatchesFormat('%x', $group->id());
+        $this->assertSame('rsync', $group->type());
         $this->assertSame('', $group->name());
+
+        $this->assertSame(null, $group->environment());
     }
 
     public function testProperties()
     {
-        $group = (new Group)
-            ->withId(1234)
-            ->withKey('group-id')
-            ->withName('Group Name');
+        $environment = new Environment;
 
-        $this->assertSame(1234, $group->id());
-        $this->assertSame('group-id', $group->key());
-        $this->assertSame('Group Name', $group->name());
+        $group = (new Group)
+            ->withID('1234')
+            ->withType('rsync')
+            ->withName('hostname')
+            ->withEnvironment($environment);
+
+        $this->assertSame('1234', $group->id());
+        $this->assertSame('rsync', $group->type());
+        $this->assertSame('hostname', $group->name());
+    }
+
+    public function testIsAWS()
+    {
+        $group = new Group;
+
+        $this->assertSame(true, $group->withType('cd')->isAWS());
+        $this->assertSame(true, $group->withType('eb')->isAWS());
+        $this->assertSame(true, $group->withType('s3')->isAWS());
+
+        $this->assertSame(false, $group->withType('rsync')->isAWS());
+        $this->assertSame(false, $group->withType('script')->isAWS());
     }
 
     public function testSerialization()
     {
-        $group = (new Group)
-            ->withId(1234)
-            ->withKey('group-id')
-            ->withName('Group Name');
+        $group = (new Group('1234'))
+            ->withType('rsync')
+            ->withName('hostname')
+            ->withEnvironment(new Environment('9101'));
 
         $expected = <<<JSON
 {
-    "id": 1234,
-    "identifier": "group-id",
-    "name": "Group Name"
+    "id": "1234",
+    "type": "rsync",
+    "name": "hostname",
+    "environment_id": "9101"
 }
 JSON;
 
@@ -52,16 +71,26 @@ JSON;
 
     public function testDefaultSerialization()
     {
-        $group = new Group;
+        $group = new Group('2');
 
         $expected = <<<JSON
 {
-    "id": null,
-    "identifier": "",
-    "name": ""
+    "id": "2",
+    "type": "rsync",
+    "name": "",
+    "environment_id": null
 }
 JSON;
 
         $this->assertSame($expected, json_encode($group, JSON_PRETTY_PRINT));
+    }
+
+    public function testInvalidEnumThrowsException()
+    {
+        $this->expectException(EnumException::class);
+        $this->expectExceptionMessage('"derp" is not a valid group option.');
+
+        $group = new Group('id');
+        $group->withType('derp');
     }
 }

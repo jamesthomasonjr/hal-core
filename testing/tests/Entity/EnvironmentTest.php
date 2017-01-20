@@ -5,7 +5,7 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Entity;
+namespace Hal\Core\Entity;
 
 use PHPUnit_Framework_TestCase;
 
@@ -15,7 +15,7 @@ class EnvironmentTest extends PHPUnit_Framework_TestCase
     {
         $environment = new Environment;
 
-        $this->assertSame(null, $environment->id());
+        $this->assertStringMatchesFormat('%x', $environment->id());
         $this->assertSame('', $environment->name());
         $this->assertSame(false, $environment->isProduction());
     }
@@ -23,27 +23,26 @@ class EnvironmentTest extends PHPUnit_Framework_TestCase
     public function testProperties()
     {
         $environment = (new Environment)
-            ->withId(1234)
+            ->withID('1234')
             ->withName('env')
             ->withIsProduction(true);
 
-        $this->assertSame(1234, $environment->id());
+        $this->assertSame('1234', $environment->id());
         $this->assertSame('env', $environment->name());
         $this->assertSame(true, $environment->isProduction());
     }
 
     public function testSerialization()
     {
-        $environment = (new Environment)
-            ->withId(5678)
+        $environment = (new Environment('5678'))
             ->withName('env-test')
             ->withIsProduction(true);
 
         $expected = <<<JSON
 {
-    "id": 5678,
+    "id": "5678",
     "name": "env-test",
-    "isProduction": true
+    "is_production": true
 }
 JSON;
 
@@ -52,13 +51,13 @@ JSON;
 
     public function testDefaultSerialization()
     {
-        $environment = new Environment;
+        $environment = new Environment('1');
 
         $expected = <<<JSON
 {
-    "id": null,
+    "id": "1",
     "name": "",
-    "isProduction": false
+    "is_production": false
 }
 JSON;
 

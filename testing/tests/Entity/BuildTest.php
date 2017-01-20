@@ -5,8 +5,9 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Entity;
+namespace Hal\Core\Entity;
 
+use Hal\Core\Type\EnumException;
 use PHPUnit_Framework_TestCase;
 use QL\MCP\Common\Time\TimePoint;
 
@@ -16,19 +17,24 @@ class BuildTest extends PHPUnit_Framework_TestCase
     {
         $build = new Build;
 
-        $this->assertSame('', $build->id());
-        $this->assertSame(null, $build->created());
+        $this->assertSame(10, strlen($build->id()));
+        $this->assertInstanceOf(TimePoint::class, $build->created());
+
         $this->assertSame(null, $build->start());
         $this->assertSame(null, $build->end());
 
-        $this->assertSame('Waiting', $build->status());
-        $this->assertSame('', $build->branch());
+        $this->assertSame('pending', $build->status());
+        $this->assertSame('', $build->reference());
         $this->assertSame('', $build->commit());
 
         $this->assertSame(null, $build->user());
         $this->assertSame(null, $build->application());
         $this->assertSame(null, $build->environment());
-        $this->assertCount(0, $build->logs());
+
+        $this->assertSame(true, $build->inProgress());
+        $this->assertSame(false, $build->isFinished());
+        $this->assertSame(false, $build->isSuccess());
+        $this->assertSame(false, $build->isFailure());
     }
 
     public function testProperties()
@@ -46,38 +52,38 @@ class BuildTest extends PHPUnit_Framework_TestCase
             ->withStart($time2)
             ->withEnd($time3)
 
-            ->withStatus('Waiting')
-            ->withBranch('mybranch')
+            ->withStatus('success')
+            ->withReference('mybranch')
             ->withCommit('abcdef123456')
 
             ->withUser($user)
             ->withApplication($app)
             ->withEnvironment($env);
 
-        $build->logs()->add(new EventLog);
-        $build->logs()->add(new EventLog);
-
         $this->assertSame('1234', $build->id());
         $this->assertSame($time1, $build->created());
         $this->assertSame($time2, $build->start());
         $this->assertSame($time3, $build->end());
 
-        $this->assertSame('Waiting', $build->status());
-        $this->assertSame('mybranch', $build->branch());
+        $this->assertSame('success', $build->status());
+        $this->assertSame('mybranch', $build->reference());
         $this->assertSame('abcdef123456', $build->commit());
 
         $this->assertSame($user, $build->user());
         $this->assertSame($app, $build->application());
         $this->assertSame($env, $build->environment());
 
-        $this->assertCount(2, $build->logs());
+        $this->assertSame(false, $build->inProgress());
+        $this->assertSame(true, $build->isFinished());
+        $this->assertSame(true, $build->isSuccess());
+        $this->assertSame(false, $build->isFailure());
     }
 
     public function testSerialization()
     {
-        $user = (new User)->withId(1234);
-        $app = (new Application)->withId(5678);
-        $env = (new Environment)->withId(9101);
+        $user = new User('1234');
+        $app = new Application('5678');
+        $env = new Environment('9101');
 
         $time1 = new TimePoint(2015, 8, 15, 12, 0, 0, 'UTC');
         $time2 = new TimePoint(2014, 8, 15, 12, 0, 0, 'UTC');
@@ -88,8 +94,8 @@ class BuildTest extends PHPUnit_Framework_TestCase
             ->withStart($time2)
             ->withEnd($time3)
 
-            ->withStatus('Waiting')
-            ->withBranch('mybranch')
+            ->withStatus('Failure')
+            ->withReference('mybranch')
             ->withCommit('abcdef123456')
 
             ->withUser($user)
@@ -100,14 +106,14 @@ class BuildTest extends PHPUnit_Framework_TestCase
 {
     "id": "1234",
     "created": "2015-08-15T12:00:00Z",
+    "status": "failure",
     "start": "2014-08-15T12:00:00Z",
     "end": "2013-08-15T12:00:00Z",
-    "status": "Waiting",
-    "branch": "mybranch",
+    "reference": "mybranch",
     "commit": "abcdef123456",
-    "user": 1234,
-    "repository": 5678,
-    "environment": 9101
+    "user_id": "1234",
+    "application_id": "5678",
+    "environment_id": "9101"
 }
 JSON;
 
@@ -116,23 +122,64 @@ JSON;
 
     public function testDefaultSerialization()
     {
-        $build = new Build;
+        $time1 = new TimePoint(2017, 1, 25, 12, 0, 0, 'UTC');
+
+        $build = new Build('1', $time1);
 
         $expected = <<<JSON
 {
-    "id": "",
-    "created": null,
+    "id": "1",
+    "created": "2017-01-25T12:00:00Z",
+    "status": "pending",
     "start": null,
     "end": null,
-    "status": "Waiting",
-    "branch": "",
+    "reference": "",
     "commit": "",
-    "user": null,
-    "repository": null,
-    "environment": null
+    "user_id": null,
+    "application_id": null,
+    "environment_id": null
 }
 JSON;
 
         $this->assertSame($expected, json_encode($build, JSON_PRETTY_PRINT));
+    }
+
+
+    public function testConvenienceMethods()
+    {
+        $build = new Build('id');
+
+        $build->withStatus('pending');
+        $this->assertSame(true, $build->inProgress());
+        $this->assertSame(false, $build->isFinished());
+        $this->assertSame(false, $build->isSuccess());
+        $this->assertSame(false, $build->isFailure());
+
+        $build->withStatus('building');
+        $this->assertSame(true, $build->inProgress());
+        $this->assertSame(false, $build->isFinished());
+        $this->assertSame(false, $build->isSuccess());
+        $this->assertSame(false, $build->isFailure());
+
+        $build->withStatus('success');
+        $this->assertSame(false, $build->inProgress());
+        $this->assertSame(true, $build->isFinished());
+        $this->assertSame(true, $build->isSuccess());
+        $this->assertSame(false, $build->isFailure());
+
+        $build->withStatus('failure');
+        $this->assertSame(false, $build->inProgress());
+        $this->assertSame(true, $build->isFinished());
+        $this->assertSame(false, $build->isSuccess());
+        $this->assertSame(true, $build->isFailure());
+    }
+
+    public function testInvalidEnumThrowsException()
+    {
+        $this->expectException(EnumException::class);
+        $this->expectExceptionMessage('"derp" is not a valid status option.');
+
+        $build = new Build('id');
+        $build->withStatus('derp');
     }
 }

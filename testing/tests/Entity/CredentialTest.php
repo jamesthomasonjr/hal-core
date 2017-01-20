@@ -5,11 +5,12 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Entity;
+namespace Hal\Core\Entity;
 
+use Hal\Core\Entity\Credential\AWSCredential;
+use Hal\Core\Entity\Credential\PrivateKeyCredential;
+use Hal\Core\Type\EnumException;
 use PHPUnit_Framework_TestCase;
-use QL\Hal\Core\Entity\Credential\AWSCredential;
-use QL\Hal\Core\Entity\Credential\PrivateKeyCredential;
 
 class CredentialTest extends PHPUnit_Framework_TestCase
 {
@@ -17,12 +18,12 @@ class CredentialTest extends PHPUnit_Framework_TestCase
     {
         $credential = new Credential;
 
-        $this->assertSame('', $credential->id());
+        $this->assertStringMatchesFormat('%x', $credential->id());
         $this->assertSame('', $credential->name());
-        $this->assertSame('', $credential->type());
+        $this->assertSame('aws', $credential->type());
 
-        $this->assertInstanceOf(AWSCredential::CLASS, $credential->aws());
-        $this->assertInstanceOf(PrivateKeyCredential::CLASS, $credential->privateKey());
+        $this->assertInstanceOf(AWSCredential::class, $credential->aws());
+        $this->assertInstanceOf(PrivateKeyCredential::class, $credential->privateKey());
     }
 
     public function testProperties()
@@ -30,8 +31,7 @@ class CredentialTest extends PHPUnit_Framework_TestCase
         $aws = new AWSCredential;
         $privateKey = new PrivateKeyCredential;
 
-        $credential = (new Credential)
-            ->withId('X1234')
+        $credential = (new Credential('X1234'))
             ->withName('my secret credentials')
             ->withType('aws')
             ->withAWS($aws)
@@ -55,8 +55,8 @@ class CredentialTest extends PHPUnit_Framework_TestCase
         $expected = <<<JSON
 {
     "id": "X1234",
-    "type": "aws",
-    "name": "my secret credentials"
+    "name": "my secret credentials",
+    "type": "aws"
 }
 JSON;
 
@@ -65,16 +65,25 @@ JSON;
 
     public function testDefaultSerialization()
     {
-        $credential = new Credential;
+        $credential = new Credential('1');
 
         $expected = <<<JSON
 {
-    "id": "",
-    "type": "",
-    "name": ""
+    "id": "1",
+    "name": "",
+    "type": "aws"
 }
 JSON;
 
         $this->assertSame($expected, json_encode($credential, JSON_PRETTY_PRINT));
+    }
+
+    public function testInvalidEnumThrowsException()
+    {
+        $this->expectException(EnumException::class);
+        $this->expectExceptionMessage('"derp" is not a valid credential option.');
+
+        $credential = new Credential('id');
+        $credential->withType('derp');
     }
 }

@@ -5,7 +5,7 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Entity;
+namespace Hal\Core\Entity;
 
 use PHPUnit_Framework_TestCase;
 
@@ -15,34 +15,35 @@ class UserTest extends PHPUnit_Framework_TestCase
     {
         $user = new User;
 
-        $this->assertSame(null, $user->id());
-        $this->assertSame('', $user->handle());
+        $this->assertStringMatchesFormat('%x', $user->id());
+        $this->assertSame('', $user->username());
         $this->assertSame('', $user->name());
         $this->assertSame('', $user->email());
 
-        $this->assertSame(false, $user->isActive());
-        $this->assertSame('', $user->githubToken());
+        $this->assertSame(false, $user->isDisabled());
+
+        $this->assertInstanceOf(UserSettings::class, $user->settings());
+        $this->assertSame($user, $user->settings()->user());
 
         $this->assertCount(0, $user->tokens());
     }
 
     public function testProperties()
     {
-        $user = (new User)
-            ->withId(1234)
-            ->withHandle('BSmith1')
+        $user = (new User('1234'))
+            ->withUsername('BSmith1')
             ->withName('Smith, Bob')
             ->withEmail('name@quickenloans.com')
-            ->withIsActive(true);
+            ->withIsDisabled(true);
 
-        $user->tokens()->add(new Token);
-        $user->tokens()->add(new Token);
+        $user->tokens()->add(new UserToken);
+        $user->tokens()->add(new UserToken);
 
-        $this->assertSame(1234, $user->id());
-        $this->assertSame('BSmith1', $user->handle());
+        $this->assertSame('1234', $user->id());
+        $this->assertSame('BSmith1', $user->username());
         $this->assertSame('Smith, Bob', $user->name());
         $this->assertSame('name@quickenloans.com', $user->email());
-        $this->assertSame(true, $user->isActive());
+        $this->assertSame(true, $user->isDisabled());
 
         $this->assertCount(2, $user->tokens());
     }
@@ -50,19 +51,19 @@ class UserTest extends PHPUnit_Framework_TestCase
     public function testSerialization()
     {
         $user = (new User)
-            ->withId(1234)
-            ->withHandle('BSmith1')
+            ->withID('1234')
+            ->withUsername('BSmith1')
             ->withName('Smith, Bob')
             ->withEmail('name@quickenloans.com')
-            ->withIsActive(true);
+            ->withIsDisabled(true);
 
         $expected = <<<JSON
 {
-    "id": 1234,
-    "handle": "BSmith1",
+    "id": "1234",
+    "username": "BSmith1",
     "name": "Smith, Bob",
     "email": "name@quickenloans.com",
-    "isActive": true
+    "is_disabled": true
 }
 JSON;
 
@@ -71,15 +72,15 @@ JSON;
 
     public function testDefaultSerialization()
     {
-        $user = new User;
+        $user = new User('1');
 
         $expected = <<<JSON
 {
-    "id": null,
-    "handle": "",
+    "id": "1",
+    "username": "",
     "name": "",
     "email": "",
-    "isActive": false
+    "is_disabled": false
 }
 JSON;
 

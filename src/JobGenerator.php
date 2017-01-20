@@ -63,7 +63,7 @@ class JobGenerator
      * Template:
      *     b{TIME}{UNIQUE_OF_FIXED_SIZE}
      * Example:
-     *     b1111-55555
+     *     b111155555
      *
      * @return string
      */
@@ -73,7 +73,7 @@ class JobGenerator
         $unique = $this->randomHash($this->fixedSize);
 
         return sprintf(
-            'b%s-%s',
+            'b%s%s',
             $this->encode($date),
             $this->encode($unique)
         );
@@ -83,7 +83,7 @@ class JobGenerator
      * Template:
      *     r{TIME}{UNIQUE_OF_FIXED_SIZE}
      * Example:
-     *     r1111-5555
+     *     r111155555
      *
      * @return string
      */
@@ -93,7 +93,7 @@ class JobGenerator
         $unique = $this->randomHash($this->fixedSize);
 
         return sprintf(
-            'r%s-%s',
+            'r%s%s',
             $this->encode($date),
             $this->encode($unique)
         );

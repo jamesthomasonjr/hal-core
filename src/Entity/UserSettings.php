@@ -5,12 +5,15 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Entity;
+namespace Hal\Core\Entity;
 
+use Hal\Core\Utility\EntityIDTrait;
 use JsonSerializable;
 
 class UserSettings implements JsonSerializable
 {
+    use EntityIDTrait;
+
     /**
      * @var string
      */
@@ -22,7 +25,7 @@ class UserSettings implements JsonSerializable
     protected $user;
 
     /**
-     * @var array
+     * @var Application[]
      */
     protected $favoriteApplications;
 
@@ -31,13 +34,14 @@ class UserSettings implements JsonSerializable
      */
     public function __construct($id = '')
     {
-        $this->id = $id;
+        $this->id = $id ?: $this->generateEntityID();
+
         $this->user = null;
         $this->favoriteApplications = [];
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function id()
     {
@@ -45,7 +49,7 @@ class UserSettings implements JsonSerializable
     }
 
     /**
-     * @return array
+     * @return Application[]
      */
     public function favoriteApplications()
     {
@@ -65,7 +69,7 @@ class UserSettings implements JsonSerializable
      *
      * @return self
      */
-    public function withId($id)
+    public function withID($id)
     {
         $this->id = $id;
         return $this;
@@ -149,9 +153,9 @@ class UserSettings implements JsonSerializable
         $json = [
             'id' => $this->id(),
 
-            'favoriteApplications' => $this->favoriteApplications(),
+            'favorite_applications' => $this->favoriteApplications(),
 
-            'user' => $this->user() ? $this->user()->id() : null
+            'user_id' => $this->user() ? $this->user()->id() : null
         ];
 
         return $json;

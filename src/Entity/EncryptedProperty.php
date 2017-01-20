@@ -5,12 +5,15 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Entity;
+namespace Hal\Core\Entity;
 
+use Hal\Core\Utility\EntityIDTrait;
 use JsonSerializable;
 
 class EncryptedProperty implements JsonSerializable
 {
+    use EntityIDTrait;
+
     /**
      * @var string
      */
@@ -20,10 +23,6 @@ class EncryptedProperty implements JsonSerializable
      * @var string
      */
     protected $name;
-
-    /**
-     * @var array
-     */
     protected $data;
 
     /**
@@ -32,7 +31,7 @@ class EncryptedProperty implements JsonSerializable
     protected $application;
 
     /**
-     * The environment the encrypted property is for (NULL for all)
+     * Restricted to a specific environment. Optional.
      *
      * @var Environment|null
      */
@@ -43,7 +42,8 @@ class EncryptedProperty implements JsonSerializable
      */
     public function __construct($id = '')
     {
-        $this->id = $id;
+        $this->id = $id ?: $this->generateEntityID();
+
         $this->name = '';
         $this->data = '';
 
@@ -96,7 +96,7 @@ class EncryptedProperty implements JsonSerializable
      *
      * @return self
      */
-    public function withId($id)
+    public function withID($id)
     {
         $this->id = $id;
         return $this;
@@ -136,11 +136,11 @@ class EncryptedProperty implements JsonSerializable
     }
 
     /**
-     * @param Environment $environment
+     * @param Environment|null $environment
      *
      * @return self
      */
-    public function withEnvironment(Environment $environment)
+    public function withEnvironment(Environment $environment = null)
     {
         $this->environment = $environment;
         return $this;
@@ -155,11 +155,10 @@ class EncryptedProperty implements JsonSerializable
             'id' => $this->id(),
 
             'name' => $this->name(),
-            // 'data' => $this->data(),
             'data' => '**ENCRYPTED**',
 
-            'application' => $this->application() ? $this->application()->id() : null,
-            'environment' => $this->environment() ? $this->environment()->id() : null,
+            'application_id' => $this->application() ? $this->application()->id() : null,
+            'environment_id' => $this->environment() ? $this->environment()->id() : null,
         ];
 
         return $json;

@@ -5,71 +5,56 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Entity;
+namespace Hal\Core\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Hal\Core\Entity\Application\GitHubApplication;
+use Hal\Core\Utility\EntityIDTrait;
 use JsonSerializable;
 
 class Application implements JsonSerializable
 {
+    use EntityIDTrait;
+
     /**
-     * @var int
+     * @var string
      */
     protected $id;
 
     /**
      * @var string
      */
-    protected $key;
+    protected $identifier;
     protected $name;
 
     /**
-     * @var string
+     * @var GitHubApplication
      */
-    protected $githubOwner;
-    protected $githubRepo;
+    protected $gitHub;
 
     /**
-     * @var string
+     * @var Organization|null
      */
-    protected $email;
+    protected $organization;
 
     /**
-     * @var string
+     * @param string $id
+     * @param string $identifier
+     * @param string $name
      */
-    protected $buildCmd;
-    protected $buildTransformCmd;
-    protected $prePushCmd;
-    protected $postPushCmd;
-
-    /**
-     * @var Group
-     */
-    protected $group;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
+    public function __construct($id = '', $identifier = '', $name = '')
     {
-        $this->id = null;
-        $this->key = null;
-        $this->name = null;
+        $this->id = $id ?: $this->generateEntityID();
 
-        $this->githubOwner = '';
-        $this->githubRepo = '';
-        $this->email = '';
+        $this->identifier = $identifier ?: '';
+        $this->name = $name ?: '';
 
-        $this->buildCmd = '';
-        $this->buildTransformCmd = '';
-        $this->prePushCmd = '';
-        $this->postPushCmd = '';
+        $this->gitHub = new GitHubApplication;
 
-        $this->group = null;
+        $this->organization = null;
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function id()
     {
@@ -79,9 +64,9 @@ class Application implements JsonSerializable
     /**
      * @return string
      */
-    public function key()
+    public function identifier()
     {
-        return $this->key;
+        return $this->identifier;
     }
 
     /**
@@ -93,35 +78,19 @@ class Application implements JsonSerializable
     }
 
     /**
-     * @return string
+     * @return Organization|null
      */
-    public function githubOwner()
+    public function organization()
     {
-        return $this->githubOwner;
+        return $this->organization;
     }
 
     /**
-     * @return string
+     * @return GitHubApplication
      */
-    public function githubRepo()
+    public function gitHub()
     {
-        return $this->githubRepo;
-    }
-
-    /**
-     * @return string
-     */
-    public function email()
-    {
-        return $this->email;
-    }
-
-    /**
-     * @return Group
-     */
-    public function group()
-    {
-        return $this->group;
+        return $this->gitHub;
     }
 
     /**
@@ -129,20 +98,20 @@ class Application implements JsonSerializable
      *
      * @return self
      */
-    public function withId($id)
+    public function withID($id)
     {
         $this->id = $id;
         return $this;
     }
 
     /**
-     * @param string $key
+     * @param string $identifier
      *
      * @return self
      */
-    public function withKey($key)
+    public function withIdentifier($identifier)
     {
-        $this->key = $key;
+        $this->identifier = $identifier;
         return $this;
     }
 
@@ -158,57 +127,26 @@ class Application implements JsonSerializable
     }
 
     /**
-     * @param string $githubOwner
+     * @param GitHubApplication $gitHub
      *
      * @return self
      */
-    public function withGithubOwner($githubOwner)
+    public function withGitHub(GitHubApplication $gitHub)
     {
-        $this->githubOwner = $githubOwner;
-        return $this;
-    }
-    /**
-     * @param string $githubRepo
-     *
-     * @return self
-     */
-    public function withGithubRepo($githubRepo)
-    {
-        $this->githubRepo = $githubRepo;
+        $this->gitHub = $gitHub;
         return $this;
     }
 
     /**
-     * @param string $email
+     * @param Organization|null $organization
      *
      * @return self
      */
-    public function withEmail($email)
+    public function withOrganization(Organization $organization = null)
     {
-        $this->email = $email;
+        $this->organization = $organization;
         return $this;
     }
-
-    /**
-     * @param Group $group
-     *
-     * @return self
-     */
-    public function withGroup(Group $group)
-    {
-        $this->group = $group;
-        return $this;
-    }
-
-    public function getBuildCmd() {return $this->buildCmd;}
-    public function getBuildTransformCmd() {return $this->buildTransformCmd;}
-    public function getPrePushCmd() {return $this->prePushCmd;}
-    public function getPostPushCmd() {return $this->postPushCmd;}
-
-    public function setBuildCmd($buildCmd) {$this->buildCmd = $buildCmd;}
-    public function setBuildTransformCmd($buildTransformCmd) {$this->buildTransformCmd = $buildTransformCmd;}
-    public function setPrePushCmd($prePushCmd) {$this->prePushCmd = $prePushCmd;}
-    public function setPostPushCmd($postPushCmd) {$this->postPushCmd = $postPushCmd;}
 
     /**
      * @return array
@@ -218,13 +156,12 @@ class Application implements JsonSerializable
         $json = [
             'id' => $this->id(),
 
-            'identifier' => $this->key(),
+            'identifier' => $this->identifier(),
             'name' => $this->name(),
-            'githubOwner' => $this->githubOwner(),
-            'githubRepo' => $this->githubRepo(),
-            'email' => $this->email(),
 
-            'group' => $this->group() ? $this->group()->id() : null,
+            'github' => $this->gitHub(),
+
+            'organization_id' => $this->organization() ? $this->organization()->id() : null,
         ];
 
         return $json;

@@ -5,24 +5,32 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Entity;
+namespace Hal\Core\Entity;
 
-use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
+use Hal\Core\Utility\JobIDTrait;
+use Hal\Core\Utility\TimeCreatedTrait;
+use Hal\Core\Type\JobStatusEnum;
 use JsonSerializable;
 use QL\MCP\Common\Time\TimePoint;
 
 class Build implements JsonSerializable
 {
+    use JobIDTrait;
+    use TimeCreatedTrait;
+
     /**
      * @var string
      */
     protected $id;
 
     /**
-     * @var TimePoint|null
+     * @var TimePoint
      */
     protected $created;
+
+    /**
+     * @var TimePoint|null
+     */
     protected $start;
     protected $end;
 
@@ -30,7 +38,7 @@ class Build implements JsonSerializable
      * @var string
      */
     protected $status;
-    protected $branch;
+    protected $reference;
     protected $commit;
 
     /**
@@ -39,42 +47,36 @@ class Build implements JsonSerializable
     protected $user;
 
     /**
-     * @var Application
+     * @var Application|null
      */
     protected $application;
 
     /**
-     * @var Environment
+     * @var Environment|null
      */
     protected $environment;
 
     /**
-     * @var ArrayCollection
-     */
-    protected $logs;
-
-    /**
      * @param string $id
+     * @param TimePoint $created
      */
-    public function __construct($id = '')
+    public function __construct($id = '', TimePoint $created = null)
     {
-        $this->id = $id;
+        $this->id = $id ?: $this->generateBuildID();
+        $this->created = $created ?: $this->generateCreatedTime();
 
-        $this->created = null;
+        $this->status = JobStatusEnum::defaultOption();
+
         $this->start = null;
         $this->end = null;
 
-        $this->status = 'Waiting';
-        $this->branch = '';
+        $this->reference = '';
         $this->commit = '';
 
         $this->user = null;
-        $this->repository = null;
+        $this->application = null;
         $this->environment = null;
-
-        $this->logs = new ArrayCollection;
     }
-
 
     /**
      * @return string
@@ -85,7 +87,7 @@ class Build implements JsonSerializable
     }
 
     /**
-     * @return TimePoint|null
+     * @return TimePoint
      */
     public function created()
     {
@@ -119,9 +121,9 @@ class Build implements JsonSerializable
     /**
      * @return string
      */
-    public function branch()
+    public function reference()
     {
-        return $this->branch;
+        return $this->reference;
     }
 
     /**
@@ -141,7 +143,7 @@ class Build implements JsonSerializable
     }
 
     /**
-     * @return Application
+     * @return Application|null
      */
     public function application()
     {
@@ -149,7 +151,7 @@ class Build implements JsonSerializable
     }
 
     /**
-     * @return Environment
+     * @return Environment|null
      */
     public function environment()
     {
@@ -157,62 +159,22 @@ class Build implements JsonSerializable
     }
 
     /**
-     * @return ArrayCollection
-     */
-    public function logs()
-    {
-        return $this->logs;
-    }
-
-    /**
-     * @return string
-     */
-    public function isPending()
-    {
-        return in_array($this->status(), ['Waiting', 'Building'], true);
-    }
-
-    /**
-     * @return string
-     */
-    public function isFinished()
-    {
-        return in_array($this->status(), ['Error', 'Removed', 'Success'], true);
-    }
-
-    /**
-     * @return string
-     */
-    public function isSuccess()
-    {
-        return $this->status() === 'Success';
-    }
-
-    /**
-     * @return string
-     */
-    public function isFailure()
-    {
-        return $this->status() === 'Error';
-    }
-
-    /**
      * @param string $id
      *
      * @return self
      */
-    public function withId($id)
+    public function withID($id)
     {
         $this->id = $id;
         return $this;
     }
 
     /**
-     * @param TimePoint|null $created
+     * @param TimePoint $created
      *
      * @return self
      */
-    public function withCreated(TimePoint $created = null)
+    public function withCreated(TimePoint $created)
     {
         $this->created = $created;
         return $this;
@@ -247,18 +209,18 @@ class Build implements JsonSerializable
      */
     public function withStatus($status)
     {
-        $this->status = $status;
+        $this->status = JobStatusEnum::ensureValid($status);
         return $this;
     }
 
     /**
-     * @param string $branch
+     * @param string $ref
      *
      * @return self
      */
-    public function withBranch($branch)
+    public function withReference($ref)
     {
-        $this->branch = $branch;
+        $this->reference = $ref;
         return $this;
     }
 
@@ -285,25 +247,57 @@ class Build implements JsonSerializable
     }
 
     /**
-     * @param Application $application
+     * @param Application|null $application
      *
      * @return self
      */
-    public function withApplication(Application $application)
+    public function withApplication(Application $application = null)
     {
         $this->application = $application;
         return $this;
     }
 
     /**
-     * @param Environment $environment
+     * @param Environment|null $environment
      *
      * @return self
      */
-    public function withEnvironment(Environment $environment)
+    public function withEnvironment(Environment $environment = null)
     {
         $this->environment = $environment;
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function inProgress()
+    {
+        return in_array($this->status(), [JobStatusEnum::TYPE_PENDING, JobStatusEnum::TYPE_BUILDING], true);
+    }
+
+    /**
+     * @return string
+     */
+    public function isFinished()
+    {
+        return in_array($this->status(), [JobStatusEnum::TYPE_SUCCESS, JobStatusEnum::TYPE_FAILURE, JobStatusEnum::TYPE_REMOVED], true);
+    }
+
+    /**
+     * @return string
+     */
+    public function isSuccess()
+    {
+        return $this->status() === JobStatusEnum::TYPE_SUCCESS;
+    }
+
+    /**
+     * @return string
+     */
+    public function isFailure()
+    {
+        return $this->status() === JobStatusEnum::TYPE_FAILURE;
     }
 
     /**
@@ -315,18 +309,18 @@ class Build implements JsonSerializable
             'id' => $this->id(),
 
             'created' => $this->created(),
+            'status' => $this->status(),
+
             'start' => $this->start(),
             'end' => $this->end(),
 
-            'status' => $this->status(),
-            'branch' => $this->branch(),
+            'reference' => $this->reference(),
             'commit' => $this->commit(),
 
-            'user' => $this->user() ? $this->user()->id() : null,
-            'repository' => $this->application() ? $this->application()->id() : null,
-            'environment' => $this->environment() ? $this->environment()->id() : null,
+            'user_id' => $this->user() ? $this->user()->id() : null,
+            'application_id' => $this->application() ? $this->application()->id() : null,
 
-            // 'logs' => $this->logs() ? $this->logs()->getKeys() : []
+            'environment_id' => $this->environment() ? $this->environment()->id() : null,
         ];
 
         return $json;

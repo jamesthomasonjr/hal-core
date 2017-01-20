@@ -5,7 +5,7 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Entity;
+namespace Hal\Core\Entity;
 
 use PHPUnit_Framework_TestCase;
 
@@ -15,7 +15,7 @@ class EncryptedPropertyTest extends PHPUnit_Framework_TestCase
     {
         $property = new EncryptedProperty;
 
-        $this->assertSame('', $property->id());
+        $this->assertStringMatchesFormat('%x', $property->id());
         $this->assertSame('', $property->name());
         $this->assertSame('', $property->data());
 
@@ -44,8 +44,8 @@ class EncryptedPropertyTest extends PHPUnit_Framework_TestCase
 
     public function testSerialization()
     {
-        $application = (new Application)->withId(1234);
-        $environment = (new Environment)->withId(5678);
+        $application = new Application('1234');
+        $environment = new Environment('5678');
 
         $property = (new EncryptedProperty('abcdef'))
             ->withName('property_name')
@@ -58,8 +58,8 @@ class EncryptedPropertyTest extends PHPUnit_Framework_TestCase
     "id": "abcdef",
     "name": "property_name",
     "data": "**ENCRYPTED**",
-    "application": 1234,
-    "environment": 5678
+    "application_id": "1234",
+    "environment_id": "5678"
 }
 JSON;
 
@@ -68,15 +68,15 @@ JSON;
 
     public function testDefaultSerialization()
     {
-        $property = new EncryptedProperty;
+        $property = new EncryptedProperty('1');
 
         $expected = <<<JSON
 {
-    "id": "",
+    "id": "1",
     "name": "",
     "data": "**ENCRYPTED**",
-    "application": null,
-    "environment": null
+    "application_id": null,
+    "environment_id": null
 }
 JSON;
 

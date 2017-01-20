@@ -5,14 +5,18 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Entity;
+namespace Hal\Core\Entity;
 
+use Hal\Core\Entity\Credential\AWSCredential;
+use Hal\Core\Entity\Credential\PrivateKeyCredential;
+use Hal\Core\Type\CredentialEnum;
+use Hal\Core\Utility\EntityIDTrait;
 use JsonSerializable;
-use QL\Hal\Core\Entity\Credential\AWSCredential;
-use QL\Hal\Core\Entity\Credential\PrivateKeyCredential;
 
 class Credential implements JsonSerializable
 {
+    use EntityIDTrait;
+
     /**
      * @var string
      */
@@ -21,12 +25,8 @@ class Credential implements JsonSerializable
     /**
      * @var string
      */
-    protected $type;
-
-    /**
-     * @var string
-     */
     protected $name;
+    protected $type;
 
     /**
      * @var AWSCredential|null
@@ -43,10 +43,10 @@ class Credential implements JsonSerializable
      */
     public function __construct($id = '')
     {
-        $this->id = $id;
+        $this->id = $id ?: $this->generateEntityID();
 
-        $this->type = '';
         $this->name = '';
+        $this->type = CredentialEnum::defaultOption();
 
         $this->aws = new AWSCredential;
         $this->privateKey = new PrivateKeyCredential;
@@ -63,17 +63,17 @@ class Credential implements JsonSerializable
     /**
      * @return string
      */
-    public function type()
+    public function name()
     {
-        return $this->type;
+        return $this->name;
     }
 
     /**
      * @return string
      */
-    public function name()
+    public function type()
     {
-        return $this->name;
+        return $this->type;
     }
 
     /**
@@ -97,7 +97,7 @@ class Credential implements JsonSerializable
      *
      * @return self
      */
-    public function withId($id)
+    public function withID($id)
     {
         $this->id = $id;
         return $this;
@@ -110,7 +110,7 @@ class Credential implements JsonSerializable
      */
     public function withType($type)
     {
-        $this->type = $type;
+        $this->type = CredentialEnum::ensureValid($type);
         return $this;
     }
 
@@ -155,8 +155,8 @@ class Credential implements JsonSerializable
         $json = [
             'id' => $this->id(),
 
-            'type' => $this->type(),
             'name' => $this->name(),
+            'type' => $this->type(),
 
             // 'aws' => $this->aws(),
             // 'privateKey' => $this->privateKey(),

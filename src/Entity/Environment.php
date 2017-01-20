@@ -5,20 +5,19 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Entity;
+namespace Hal\Core\Entity;
 
+use Hal\Core\Utility\EntityIDTrait;
 use JsonSerializable;
 
 class Environment implements JsonSerializable
 {
-    /**
-     * @var integer
-     */
-    protected $id;
+    use EntityIDTrait;
 
     /**
      * @var string
      */
+    protected $id;
     protected $name;
 
     /**
@@ -26,15 +25,20 @@ class Environment implements JsonSerializable
      */
     protected $isProduction;
 
-    public function __construct()
+    /**
+     * @param string $id
+     * @param string $name
+     */
+    public function __construct($id = '', $name = '')
     {
-        $this->id = null;
-        $this->name = '';
+        $this->id = $id ?: $this->generateEntityID();
+        $this->name = $name ?: '';
+
         $this->isProduction = false;
     }
 
     /**
-     * @return integer
+     * @return string
      */
     public function id()
     {
@@ -58,11 +62,11 @@ class Environment implements JsonSerializable
     }
 
     /**
-     * @param integer $id
+     * @param string $id
      *
      * @return self
      */
-    public function withId($id)
+    public function withID($id)
     {
         $this->id = $id;
         return $this;
@@ -99,7 +103,7 @@ class Environment implements JsonSerializable
             'id' => $this->id(),
 
             'name' => $this->name(),
-            'isProduction' => $this->isProduction(),
+            'is_production' => $this->isProduction(),
         ];
 
         return $json;

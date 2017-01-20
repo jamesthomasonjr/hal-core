@@ -5,7 +5,7 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Entity;
+namespace Hal\Core\Entity;
 
 use PHPUnit_Framework_TestCase;
 
@@ -15,45 +15,57 @@ class UserPermissionTest extends PHPUnit_Framework_TestCase
     {
         $perm = new UserPermission;
 
-        $this->assertSame('', $perm->id());
+        $this->assertStringMatchesFormat('%x', $perm->id());
+        $this->assertSame('member', $perm->type());
 
-        $this->assertSame(false, $perm->isProduction());
         $this->assertSame(null, $perm->user());
         $this->assertSame(null, $perm->application());
+        $this->assertSame(null, $perm->organization());
     }
 
     public function testProperties()
     {
         $user = new User;
         $application = new Application;
+        $organization = new Organization;
+        $environment = new Environment;
 
-        $perm = (new UserPermission('abcd'))
+        $perm = (new UserPermission('abcd', 'admin'))
             ->withUser($user)
             ->withApplication($application)
-            ->withIsProduction(true);
+            ->withOrganization($organization)
+            ->withEnvironment($environment);
 
         $this->assertSame('abcd', $perm->id());
+        $this->assertSame('admin', $perm->type());
+
         $this->assertSame($user, $perm->user());
         $this->assertSame($application, $perm->application());
-        $this->assertSame(true, $perm->isProduction());
+        $this->assertSame($organization, $perm->organization());
+        $this->assertSame($environment, $perm->environment());
     }
 
     public function testSerialization()
     {
-        $user = (new User)->withId(1234);
-        $application = (new Application)->withId(5678);
+        $user = new User('1234');
+        $application = new Application('5678');
+        $organization = new Organization('9101');
+        $environment = new Environment('1112');
 
-        $perm = (new UserPermission('abcd'))
+        $perm = (new UserPermission('abcd', 'admin'))
             ->withUser($user)
             ->withApplication($application)
-            ->withIsProduction(true);
+            ->withOrganization($organization)
+            ->withEnvironment($environment);
 
         $expected = <<<JSON
 {
     "id": "abcd",
-    "isProduction": true,
-    "user": 1234,
-    "application": 5678
+    "type": "admin",
+    "user_id": "1234",
+    "application_id": "5678",
+    "organization_id": "9101",
+    "environment_id": "1112"
 }
 JSON;
 
@@ -62,14 +74,16 @@ JSON;
 
     public function testDefaultSerialization()
     {
-        $perm = new UserPermission;
+        $perm = new UserPermission('1');
 
         $expected = <<<JSON
 {
-    "id": "",
-    "isProduction": false,
-    "user": null,
-    "application": null
+    "id": "1",
+    "type": "member",
+    "user_id": null,
+    "application_id": null,
+    "organization_id": null,
+    "environment_id": null
 }
 JSON;
 

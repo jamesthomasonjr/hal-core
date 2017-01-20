@@ -5,8 +5,9 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Entity;
+namespace Hal\Core\Entity;
 
+use Hal\Core\Entity\Application\GitHubApplication;
 use PHPUnit_Framework_TestCase;
 
 class ApplicationTest extends PHPUnit_Framework_TestCase
@@ -15,60 +16,53 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
     {
         $application = new Application;
 
-        $this->assertSame(null, $application->id());
-        $this->assertSame(null, $application->key());
-        $this->assertSame(null, $application->name());
-        $this->assertSame('', $application->githubOwner());
-        $this->assertSame('', $application->githubRepo());
-        $this->assertSame('', $application->email());
-        $this->assertSame(null, $application->group());
+        $this->assertStringMatchesFormat('%x', $application->id());
+        $this->assertSame('', $application->identifier());
+        $this->assertSame('', $application->name());
+        $this->assertSame('', $application->gitHub()->owner());
+        $this->assertSame('', $application->gitHub()->repository());
+        $this->assertSame(null, $application->organization());
     }
 
     public function testProperties()
     {
-        $group = new Group;
+        $org = new Organization;
 
-        $application = (new Application)
-            ->withId(1234)
-            ->withKey('app-ident')
+        $application = (new Application('1234'))
+            ->withIdentifier('app-ident')
             ->withName('My Test App')
-            ->withGithubOwner('web-core')
-            ->withGithubRepo('hal-core')
-            ->withEmail('email@quickenloans.com')
-            ->withGroup($group);
+            ->withGitHub(new GitHubApplication('hal-platform', 'hal-core'))
+            ->withOrganization($org);
 
-        $this->assertSame(1234, $application->id());
-        $this->assertSame('app-ident', $application->key());
+        $this->assertSame('1234', $application->id());
+        $this->assertSame('app-ident', $application->identifier());
         $this->assertSame('My Test App', $application->name());
-        $this->assertSame('web-core', $application->githubOwner());
-        $this->assertSame('hal-core', $application->githubRepo());
-        $this->assertSame('email@quickenloans.com', $application->email());
-        $this->assertSame($group, $application->group());
+        $this->assertSame('hal-platform', $application->gitHub()->owner());
+        $this->assertSame('hal-core', $application->gitHub()->repository());
+        $this->assertSame($org, $application->organization());
     }
 
     public function testSerialization()
     {
-        $group = (new Group)
-            ->withId(5678);
+        $org = new Organization('5678');
 
         $application = (new Application)
-            ->withId(1234)
-            ->withKey('app-ident')
+            ->withID('1234')
+            ->withIdentifier('app-ident')
             ->withName('My Test App')
-            ->withGithubOwner('web-core')
-            ->withGithubRepo('hal-core')
-            ->withEmail('email@quickenloans.com')
-            ->withGroup($group);
+            ->withGitHub(new GitHubApplication('hal-platform', 'hal-core'))
+            ->withOrganization($org);
 
         $expected = <<<JSON
 {
-    "id": 1234,
+    "id": "1234",
     "identifier": "app-ident",
     "name": "My Test App",
-    "githubOwner": "web-core",
-    "githubRepo": "hal-core",
-    "email": "email@quickenloans.com",
-    "group": 5678
+    "github": {
+        "owner": "hal-platform",
+        "repository": "hal-core"
+    },
+    "organization_id": "5678"
 }
 JSON;
 
@@ -77,17 +71,18 @@ JSON;
 
     public function testDefaultSerialization()
     {
-        $application = new Application;
+        $application = new Application("1");
 
         $expected = <<<JSON
 {
-    "id": null,
-    "identifier": null,
-    "name": null,
-    "githubOwner": "",
-    "githubRepo": "",
-    "email": "",
-    "group": null
+    "id": "1",
+    "identifier": "",
+    "name": "",
+    "github": {
+        "owner": "",
+        "repository": ""
+    },
+    "organization_id": null
 }
 JSON;
 

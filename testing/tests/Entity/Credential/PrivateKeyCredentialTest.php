@@ -5,7 +5,7 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Entity\Credential;
+namespace Hal\Core\Entity\Credential;
 
 use PHPUnit_Framework_TestCase;
 
