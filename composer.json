@@ -3,7 +3,7 @@
     "description": "Core domain entities and shared resources for Hal UI and Agent.",
     "license": "MIT",
     "authors": [
-        { "name": "Steve Kluck", "email": "stevekluck@quickenloans.com" }
+        { "name": "Steve Kluck", "email": "steve@kluck.engineering" }
     ],
 
     "archive": {
@@ -32,12 +32,13 @@
         "ql/mcp-common": "~1.1"
     },
     "require-dev": {
-        "mockery/mockery": "*",
-        "phpunit/phpunit": "*",
+        "mockery/mockery": "~0.9",
+        "phpunit/phpunit": "~5.7",
         "paragonie/random_compat": "~1.1",
-        "robmorgan/phinx": "~0.5",
-        "symfony/config": "*",
-        "symfony/dependency-injection": "*",
-        "symfony/yaml": "*"
+        "robmorgan/phinx": "~0.6",
+
+        "symfony/config": "~2.8",
+        "symfony/dependency-injection": "~2.8",
+        "symfony/yaml": "~2.8"
     }
 }
