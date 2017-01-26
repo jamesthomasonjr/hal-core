@@ -5,62 +5,57 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Utility;
+namespace Hal\Core\Utility;
 
-use QL\Hal\Core\Entity\Application;
-use QL\Hal\Core\Entity\Deployment;
-use QL\Hal\Core\Entity\Environment;
-use QL\Hal\Core\Entity\Group;
-use QL\Hal\Core\Type\EnumType\ServerEnum;
+use Hal\Core\Entity\Application;
+use Hal\Core\Entity\Group;
+use Hal\Core\Entity\Environment;
+use Hal\Core\Entity\Organization;
+use Hal\Core\Entity\Target;
+use Hal\Core\Type\GroupEnum;
 
+/**
+ * Provides sorting methods for entities. Designed to be used with usort
+ *
+ * - groupSorter
+ * - targetSorter
+ * - environmentSorter
+ * - applicationSorter
+ * - organizationSorter
+ */
 trait SortingTrait
 {
     private $sortingHelperEnvironmentOrder = [
         'dev' => 0,
-        'test' => 1,
-        'beta' => 2,
-        'prod' => 3,
+        'staging' => 1,
+        'test' => 2,
+        'beta' => 3,
+        'prod' => 4,
 
-        'dev-aws' => 4,
-        'test-aws' => 5,
-        'beta-aws' => 6,
-        'prod-aws' => 7,
+        'dev-aws' => 10,
+        'staging-aws' => 11,
+        'test-aws' => 12,
+        'beta-aws' => 13,
+        'prod-aws' => 14,
 
         // not used?
-        'devaws' => 8,
-        'testaws' => 9,
-        'betaaws' => 10,
-        'prodaws' => 11
+        'devaws' => 20,
+        'stagingaws' => 21,
+        'testaws' => 22,
+        'betaaws' => 23,
+        'prodaws' => 24
     ];
 
     /**
      * @return callable
      */
-    public function deploymentSorter()
+    public function targetSorter()
     {
-        $serverSorter = $this->serverSorter();
+        return function(Target $a, Target $b) {
+            $formattedA = $a->format();
+            $formattedB = $b->format();
 
-        return function(Deployment $a, Deployment $b) use ($serverSorter) {
-            $serverA = $a->server();
-            $serverB = $b->server();
-
-            $nameA = $a->name();
-            $nameB = $b->name();
-
-            // If at least one of the deployments are named, used name comparison
-            if ($nameA || $nameB) {
-                $nameA = $nameA ?: $serverA->name();
-                $nameB = $nameB ?: $serverB->name();
-                return strcasecmp($nameA, $nameB);
-            }
-
-            // same server
-            // there's a reason this doesn't compare obj to obj, but I dont remember why
-            if ($serverA->id() === $serverB->id()) {
-                return strcasecmp($a->path(), $b->path());
-            }
-
-            return $serverSorter($serverA, $serverB);
+            return strcasecmp($formattedA, $formattedB);
         };
     }
 
@@ -90,19 +85,13 @@ trait SortingTrait
     /**
      * @return callable
      */
-    public function serverSorter()
+    public function groupSorter()
     {
-        $serverNameSorter = $this->serverNameSorter();
+        $hostnameSorter = $this->hostnameSorter();
 
-        return function($a, $b) use ($serverNameSorter) {
+        return function($a, $b) use ($hostnameSorter) {
             $serverA = $a->name();
             $serverB = $b->name();
-
-            $serverA = strtok($serverA, ':');
-            $portA = strtok(':');
-
-            $serverB = strtok($serverB, ':');
-            $portB = strtok(':');
 
             // same server
             if ($a->id() === $b->id()) {
@@ -110,29 +99,19 @@ trait SortingTrait
             }
 
             if ($a->type() !== $b->type()) {
-                // put rsync at top
-                if ($a->type() === ServerEnum::TYPE_RSYNC) {
-                    return -1;
-                } elseif ($b->type() === ServerEnum::TYPE_RSYNC) {
-                    return 1;
-                }
-
-                if ($a->type() === ServerEnum::TYPE_CD) {
-                    return -1;
-                } elseif ($b->type() === ServerEnum::TYPE_CD) {
-                    return 1;
-                }
-
-                if ($a->type() === ServerEnum::TYPE_EB) {
-                    return -1;
-                } elseif ($b->type() === ServerEnum::TYPE_EB) {
-                    return 1;
-                }
-
-                if ($a->type() === ServerEnum::TYPE_S3) {
-                    return 1;
-                }
+                return strcasecmp($a->type(), $b->type());
             }
+
+            if ($a->type() !== GroupEnum::TYPE_RSYNC) {
+                return strcasecmp($a->name(), $b->name());
+            }
+
+            // In case hostname contains a port number
+            $serverA = strtok($serverA, ':');
+            $portA = strtok(':');
+
+            $serverB = strtok($serverB, ':');
+            $portB = strtok(':');
 
             // Same servername, different port
             if ($serverA === $serverB) {
@@ -143,7 +122,7 @@ trait SortingTrait
                 }
             }
 
-            return $serverNameSorter($serverA, $serverB);
+            return $hostnameSorter($serverA, $serverB);
         };
     }
 
@@ -162,7 +141,7 @@ trait SortingTrait
      *
      * @return callable
      */
-    public function serverNameSorter()
+    public function hostnameSorter()
     {
         $regex = '#' .
             '([a-z]{1,8})' . // Some letters. Maybe be environment, or "ql" for internal servers.
@@ -223,9 +202,9 @@ trait SortingTrait
     /**
      * @return Closure
      */
-    public function groupSorter()
+    public function organizationSorter()
     {
-        return function(Group $a, Group $b) {
+        return function(Organization $a, Organization $b) {
             return strcasecmp($a->name(), $b->name());
         };
     }

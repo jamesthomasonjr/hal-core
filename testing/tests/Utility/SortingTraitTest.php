@@ -5,47 +5,47 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Utility;
+namespace Hal\Core\Utility;
 
 use PHPUnit_Framework_TestCase;
-use QL\Hal\Core\Entity\Deployment;
-use QL\Hal\Core\Entity\Environment;
-use QL\Hal\Core\Entity\Server;
+use Hal\Core\Entity\Environment;
+use Hal\Core\Entity\Group;
+use Hal\Core\Entity\Target;
 
 class SortingTraitTest extends PHPUnit_Framework_TestCase
 {
-    public function testServerNameOrder()
+    public function testHostnameOrder()
     {
         $d = new SortingTraitDummy;
 
-        list($before, $after) = $this->serverNameData();
+        list($before, $after) = $this->hostnamesData();
 
         $actual = $before;
-        usort($actual, $d->serverNameSorter());
+        usort($actual, $d->hostnameSorter());
 
         $this->assertSame($after, $actual);
     }
 
-    public function testServerOrder()
+    public function testGroupOrder()
     {
         $d = new SortingTraitDummy;
 
-        list($before, $after) = $this->serverData();
+        list($before, $after) = $this->groupData();
 
         $actual = $before;
-        usort($actual, $d->serverSorter());
+        usort($actual, $d->groupSorter());
 
         $this->assertSame($after, $actual);
     }
 
-    public function testDeploymentOrder()
+    public function testTargetOrder()
     {
         $d = new SortingTraitDummy;
 
-        list($before, $after) = $this->deploymentData();
+        list($before, $after) = $this->targetData();
 
         $actual = $before;
-        usort($actual, $d->deploymentSorter());
+        usort($actual, $d->targetSorter());
 
         $this->assertSame($after, $actual);
     }
@@ -54,10 +54,10 @@ class SortingTraitTest extends PHPUnit_Framework_TestCase
     {
         $d = new SortingTraitDummy;
 
-        list($before, $after) = $this->deploymentWithNamesData();
+        list($before, $after) = $this->targetWithNamesData();
 
         $actual = $before;
-        usort($actual, $d->deploymentSorter());
+        usort($actual, $d->targetSorter());
 
         $this->assertSame($after, $actual);
     }
@@ -74,7 +74,7 @@ class SortingTraitTest extends PHPUnit_Framework_TestCase
         $this->assertSame($after, $actual);
     }
 
-    public function serverNameData()
+    public function hostnamesData()
     {
         return [
             [
@@ -208,14 +208,14 @@ class SortingTraitTest extends PHPUnit_Framework_TestCase
         ];
     }
 
-    public function serverData()
+    public function groupData()
     {
-        $a = (new Server)->withId('3')->withType('rsync')->withName('localhost:340');
-        $b = (new Server)->withId('1')->withType('rsync')->withName('localhost');
-        $c = (new Server)->withId('2')->withType('rsync')->withName('localhost');
-        $d = (new Server)->withId('4')->withType('rsync')->withName('localhost:240');
+        $a = (new Group(null, 'rsync'))->withName('localhost:340');
+        $b = (new Group(null, 'rsync'))->withName('localhost');
+        $c = (new Group(null, 'rsync'))->withName('localhost');
+        $d = (new Group(null, 'rsync'))->withName('localhost:240');
 
-        $f = (new Server)->withId('eb1')->withType('elasticbeanstalk');
+        $f = new Group(null, 'eb');
 
         return [
             [
@@ -226,50 +226,24 @@ class SortingTraitTest extends PHPUnit_Framework_TestCase
                 $f,
             ],
             [
-                $b,
-                $c,
-                $d,
-                $a,
                 $f,
+                $c,
+                $b,
+                $d,
+                $a,
             ]
         ];
     }
 
-    public function deploymentData()
+    public function targetData()
     {
-        $serverA = (new Server)->withId('1')->withName('a');
-        $serverB = (new Server)->withId('2')->withName('b');
+        $groupA = (new Group)->withName('a');
+        $groupB = (new Group)->withName('b');
 
-        $a = (new Deployment)->withId('d1')->withPath('/same')->withServer($serverA);
-        $b = (new Deployment)->withId('d2')->withPath('/same')->withServer($serverA);
-        $c = (new Deployment)->withId('d3')->withPath('/herp')->withServer($serverB);
-        $d = (new Deployment)->withId('d4')->withPath('/derp')->withServer($serverB);
-
-        return [
-            [
-                $a,
-                $b,
-                $c,
-                $d,
-            ],
-            [
-                $a,
-                $b,
-                $d,
-                $c,
-            ]
-        ];
-    }
-
-    public function deploymentWithNamesData()
-    {
-        $serverA = (new Server)->withId('1')->withName('d');
-        $serverB = (new Server)->withId('2')->withName('a');
-
-        $a = (new Deployment)->withId('d1')->withPath('/same')->withName('aaa')->withServer($serverA);
-        $b = (new Deployment)->withId('d2')->withPath('/same')->withServer($serverA);
-        $c = (new Deployment)->withId('d3')->withPath('/herp')->withName('abc')->withServer($serverB);
-        $d = (new Deployment)->withId('d4')->withPath('/derp')->withServer($serverB);
+        $a = (new Target)->withParameter('path', '/same')->withGroup($groupA);
+        $b = (new Target)->withParameter('path', '/same')->withGroup($groupA);
+        $c = (new Target)->withParameter('path', '/herp')->withGroup($groupB);
+        $d = (new Target)->withParameter('path', '/derp')->withGroup($groupB);
 
         return [
             [
@@ -280,8 +254,34 @@ class SortingTraitTest extends PHPUnit_Framework_TestCase
             ],
             [
                 $d,
+                $c,
+                $b,
+                $a,
+            ]
+        ];
+    }
+
+    public function targetWithNamesData()
+    {
+        $groupA = (new Group)->withName('d');
+        $groupB = (new Group)->withName('a');
+
+        $a = (new Target)->withParameter('path', '/same')->withGroup($groupA)->withName('aaa');
+        $b = (new Target)->withParameter('path', '/same')->withGroup($groupA);
+        $c = (new Target)->withParameter('path', '/herp')->withGroup($groupB)->withName('abc');
+        $d = (new Target)->withParameter('path', '/derp')->withGroup($groupB);
+
+        return [
+            [
+                $a,
+                $b,
+                $c,
+                $d,
+            ],
+            [
                 $a,
                 $c,
+                $d,
                 $b,
             ]
         ];
