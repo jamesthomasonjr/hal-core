@@ -17,7 +17,7 @@
  * <http://www.doctrine-project.org>.
  */
 
-namespace QL\Hal\Core\DoctrinePagination;
+namespace Hal\Core\DoctrinePagination;
 
 use Doctrine\DBAL\Platforms\DB2Platform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
