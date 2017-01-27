@@ -5,7 +5,7 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace Hal\Core\Listener;
+namespace Hal\Core\DoctrineUtility;
 
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,7 +22,7 @@ use Mockery;
 use PHPUnit_Framework_TestCase;
 use stdClass;
 
-class DoctrineChangeLoggerTest extends PHPUnit_Framework_TestCase
+class DoctrineChangeListenerTest extends PHPUnit_Framework_TestCase
 {
     private $user;
 
@@ -64,7 +64,7 @@ class DoctrineChangeLoggerTest extends PHPUnit_Framework_TestCase
             ->shouldReceive('find')
             ->never();
 
-        $logger = new DoctrineChangeLogger($notfoundUser);
+        $logger = new DoctrineChangeListener($notfoundUser);
         $logger->onFlush($this->eventArgs);
     }
 
@@ -76,7 +76,7 @@ class DoctrineChangeLoggerTest extends PHPUnit_Framework_TestCase
             ->shouldReceive('find')
             ->never();
 
-        $logger = new DoctrineChangeLogger($invalidUser);
+        $logger = new DoctrineChangeListener($invalidUser);
         $logger->onFlush($this->eventArgs);
     }
 
@@ -90,7 +90,7 @@ class DoctrineChangeLoggerTest extends PHPUnit_Framework_TestCase
             ->shouldReceive('getScheduledEntityInsertions')
             ->never();
 
-        $logger = new DoctrineChangeLogger($this->lazyUser);
+        $logger = new DoctrineChangeListener($this->lazyUser);
         $logger->onFlush($this->eventArgs);
     }
 
@@ -165,11 +165,11 @@ class DoctrineChangeLoggerTest extends PHPUnit_Framework_TestCase
             ->with(Mockery::any(), Mockery::type(AuditEvent::class))
             ->twice();
 
-        $logger = new DoctrineChangeLogger($this->lazyUser);
+        $logger = new DoctrineChangeListener($this->lazyUser);
         $logger->onFlush($this->eventArgs);
 
         $expectedEncodedApp = <<<JSON
-{"id":"mno","identifier":"","name":"","github":null,"organization_id":null}
+{"id":"mno","identifier":"","name":"","github":{"owner":"","repository":""},"organization_id":null}
 JSON;
 
         $expectedEncodedOrg = <<<JSON
@@ -241,7 +241,7 @@ JSON;
             ])
             ->once();
 
-        $logger = new DoctrineChangeLogger($this->lazyUser);
+        $logger = new DoctrineChangeListener($this->lazyUser);
         $logger->onFlush($this->eventArgs);
 
         $expectedEncodedEnv = <<<JSON

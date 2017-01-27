@@ -5,7 +5,7 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace Hal\Core\Listener;
+namespace Hal\Core\DoctrineUtility;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
@@ -18,7 +18,7 @@ use Hal\Core\Entity\Organization;
 use Hal\Core\Entity\User;
 use Hal\Core\Type\AuditActionEnum;
 
-class DoctrineChangeLogger
+class DoctrineChangeListener
 {
     /**
      * @var callable
@@ -32,6 +32,7 @@ class DoctrineChangeLogger
     {
         $this->ownerFetcher = $ownerFetcher;
     }
+
     /**
      * Listen for Doctrine flush events.
      *

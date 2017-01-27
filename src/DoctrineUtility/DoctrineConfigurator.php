@@ -5,17 +5,10 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace Hal\Core\Utility;
+namespace Hal\Core\DoctrineUtility;
 
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManagerInterface;
-use QL\Hal\Core\Type\CompressedSerializedBlobType;
-use QL\Hal\Core\Type\TimePointType;
-use QL\Hal\Core\Type\EnumType\BuildStatusEnum;
-use QL\Hal\Core\Type\EnumType\EventEnum;
-use QL\Hal\Core\Type\EnumType\EventStatusEnum;
-use QL\Hal\Core\Type\EnumType\PushStatusEnum;
-use QL\Hal\Core\Type\EnumType\ServerEnum;
 
 class DoctrineConfigurator
 {
