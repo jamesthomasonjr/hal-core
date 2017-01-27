@@ -5,31 +5,33 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Repository;
+namespace Hal\Core\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use QL\Hal\Core\Entity\Application;
-use QL\Hal\Core\Entity\Environment;
-use QL\Hal\Core\Utility\SortingTrait;
+use Hal\Core\Entity\Application;
+use Hal\Core\Entity\Environment;
+use Hal\Core\Entity\Group;
+use Hal\Core\Entity\Target;
+use Hal\Core\Utility\SortingTrait;
 
 class EnvironmentRepository extends EntityRepository
 {
     use SortingTrait;
 
-    const ENV_QUERY_REGION = 'environment_region_appId_%s';
+    const ENV_QUERY_REGION = 'environment_region_app_%s';
 
-    const DQL_BY_REPOSITORY = <<<SQL
-   SELECT e
-     FROM QL\Hal\Core\Entity\Deployment d
+    const DQL_BY_APPLICATION = <<<SQL
+   SELECT env
+     FROM %s target
 
-     JOIN QL\Hal\Core\Entity\Server s WITH s = d.server
-     JOIN QL\Hal\Core\Entity\Environment e WITH e = s.environment
+     JOIN %s grp WITH grp = target.group
+     JOIN %s env WITH env = grp.environment
 
-    WHERE d.application = :application
+    WHERE target.application = :application
 SQL;
 
     /**
-     * Get all buildable environments for a application
+     * Get all buildable environments for an application.
      *
      * @param Application $application
      *
@@ -37,12 +39,14 @@ SQL;
      */
     public function getBuildableEnvironmentsByApplication(Application $application)
     {
-        $regionId = sprintf(self::ENV_QUERY_REGION, $application->id());
+        $region = sprintf(self::ENV_QUERY_REGION, $application->id());
+
+        $dql = sprintf(self::DQL_BY_APPLICATION, Target::class, Group::class, Environment::class);
 
         $query = $this->getEntityManager()
-            ->createQuery(self::DQL_BY_REPOSITORY)
+            ->createQuery($dql)
             ->setCacheable(true)
-            ->setCacheRegion($regionId)
+            ->setCacheRegion($region)
             ->setParameter('application', $application);
 
         $environments = $query->getResult();
@@ -53,7 +57,7 @@ SQL;
     }
 
     /**
-     * Get all buildable environments for a application
+     * Clear cache for buildable environments for an application.
      *
      * @param Application $application
      *
@@ -61,11 +65,15 @@ SQL;
      */
     public function clearBuildableEnvironmentsByApplication(Application $application)
     {
-        $regionId = sprintf(self::ENV_QUERY_REGION, $application->id());
+        $region = sprintf(self::ENV_QUERY_REGION, $application->id());
 
-        $cache = $this->getEntityManager()->getCache();
-        $envQueryCache = $cache->getQueryCache($regionId);
-        $envQueryCache->clear();
+        $cache = $this
+            ->getEntityManager()
+            ->getCache();
+
+        $cache
+            ->getQueryCache($region)
+            ->clear();
     }
 
     /**

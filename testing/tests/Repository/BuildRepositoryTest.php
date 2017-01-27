@@ -5,12 +5,13 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Repository;
+namespace Hal\Core\Repository;
 
-use QL\Hal\Core\Entity\Application;
-use QL\Hal\Core\Entity\Build;
-use QL\Hal\Core\Entity\Environment;
-use QL\Hal\Core\Testing\DoctrineTest;
+use Hal\Core\Entity\Application;
+use Hal\Core\Entity\Organization;
+use Hal\Core\Entity\Build;
+use Hal\Core\Entity\Environment;
+use Hal\Core\Testing\DoctrineTest;
 use QL\MCP\Common\Time\TimePoint;
 
 class BuildRepositoryTest extends DoctrineTest
@@ -18,22 +19,21 @@ class BuildRepositoryTest extends DoctrineTest
     public function testRepositoryIsCorrect()
     {
         $em = $this->getEntityManager();
-        $repo = $em->getRepository(Build::CLASS);
+        $repo = $em->getRepository(Build::class);
 
-        $this->assertSame(BuildRepository::CLASS, get_class($repo));
-        $this->assertSame(Build::CLASS, $repo->getClassName());
+        $this->assertSame(BuildRepository::class, get_class($repo));
+        $this->assertSame(Build::class, $repo->getClassName());
     }
 
     public function testGetBuildsWithNoBuildsFound()
     {
         $em = $this->getEntityManager();
-        $repo = $em->getRepository(Build::CLASS);
+        $repo = $em->getRepository(Build::class);
 
-        $app = (new Application)
-            ->withKey('app1')
-            ->withName('my app');
+        $org = new Organization;
+        $app = (new Application(null, 'app1', 'my app'))->withOrganization($org);
 
-        $this->persist($em, [$app]);
+        $this->persist($em, [$app, $org]);
 
         $builds = $repo->getByApplication($app);
 
@@ -43,14 +43,13 @@ class BuildRepositoryTest extends DoctrineTest
     public function testGetBuildsWithoutFilter()
     {
         $em = $this->getEntityManager();
-        $repo = $em->getRepository(Build::CLASS);
+        $repo = $em->getRepository(Build::class);
 
-        $app = (new Application)
-            ->withKey('app1')
-            ->withName('my app');
+        $org = new Organization;
+        $app = (new Application(null, 'app1', 'my app'))->withOrganization($org);
 
         $builds = $this->getMockBuilds($app);
-        $this->persist($em, array_merge([$app], $builds));
+        $this->persist($em, array_merge([$app, $org], $builds));
 
         $results = $repo->getByApplication($app, 2, 1);
 
@@ -70,14 +69,13 @@ class BuildRepositoryTest extends DoctrineTest
     public function testGetBuildsWithFilter()
     {
         $em = $this->getEntityManager();
-        $repo = $em->getRepository(Build::CLASS);
+        $repo = $em->getRepository(Build::class);
 
-        $app = (new Application)
-            ->withKey('app1')
-            ->withName('my app');
+        $org = new Organization;
+        $app = (new Application(null, 'app1', 'my app'))->withOrganization($org);
 
         $builds = $this->getMockBuilds($app);
-        $this->persist($em, array_merge([$app], $builds));
+        $this->persist($em, array_merge([$app, $org], $builds));
 
         $results = $repo->getByApplication($app, 25, 0, 'pull/50');
 
@@ -97,14 +95,13 @@ class BuildRepositoryTest extends DoctrineTest
     public function testWithCommitFilter()
     {
         $em = $this->getEntityManager();
-        $repo = $em->getRepository(Build::CLASS);
+        $repo = $em->getRepository(Build::class);
 
-        $app = (new Application)
-            ->withKey('app1')
-            ->withName('my app');
+        $org = new Organization;
+        $app = (new Application(null, 'app1', 'my app'))->withOrganization($org);
 
         $builds = $this->getMockBuilds($app);
-        $this->persist($em, array_merge([$app], $builds));
+        $this->persist($em, array_merge([$app, $org], $builds));
 
         $results = $repo->getByApplication($app, 25, 0, '1bcde12345abcde12345abcde12345abcde12345');
 
@@ -123,20 +120,15 @@ class BuildRepositoryTest extends DoctrineTest
     public function testGetEnvironmentBuildsWithNoBuildsFound()
     {
         $em = $this->getEntityManager();
-        $repo = $em->getRepository(Build::CLASS);
+        $repo = $em->getRepository(Build::class);
 
-        $app = (new Application)
-            ->withKey('app1')
-            ->withName('my app');
-        $env = (new Environment)
-            ->withId(1234)
-            ->withName('test');
-        $env2 = (new Environment)
-            ->withId(5678)
-            ->withName('beta');
+        $org = new Organization;
+        $app = (new Application(null, 'app1', 'my app'))->withOrganization($org);
+        $env = new Environment(null, 'test');
+        $env2 = new Environment(null, 'beta');
 
         $builds = $this->getMockBuilds($app, $env);
-        $this->persist($em, array_merge([$app, $env], $builds));
+        $this->persist($em, array_merge([$app, $org, $env], $builds));
 
         $builds = $repo->getByApplicationForEnvironment($app, $env2);
 
@@ -146,17 +138,14 @@ class BuildRepositoryTest extends DoctrineTest
     public function testGetEnvironmentBuildsWithBuildsFound()
     {
         $em = $this->getEntityManager();
-        $repo = $em->getRepository(Build::CLASS);
+        $repo = $em->getRepository(Build::class);
 
-        $app = (new Application)
-            ->withKey('app1')
-            ->withName('my app');
-        $env = (new Environment)
-            ->withId(1234)
-            ->withName('test');
+        $org = new Organization;
+        $app = (new Application(null, 'app1', 'my app'))->withOrganization($org);
+        $env = new Environment(null, 'test');
 
         $builds = $this->getMockBuilds($app, $env);
-        $this->persist($em, array_merge([$app, $env], $builds));
+        $this->persist($em, array_merge([$app, $org, $env], $builds));
 
         $builds = $repo->getByApplicationForEnvironment($app, $env);
 
@@ -166,19 +155,16 @@ class BuildRepositoryTest extends DoctrineTest
     public function testGetEnvironmentBuildsWithFilterWithBuildsFound()
     {
         $em = $this->getEntityManager();
-        $repo = $em->getRepository(Build::CLASS);
+        $repo = $em->getRepository(Build::class);
 
-        $app = (new Application)
-            ->withKey('app1')
-            ->withName('my app');
-        $env = (new Environment)
-            ->withId(1234)
-            ->withName('test');
+        $org = new Organization;
+        $app = (new Application(null, 'app1', 'my app'))->withOrganization($org);
+        $env = new Environment(null, 'test');
 
         $builds = $this->getMockBuilds($app, $env);
-        $this->persist($em, array_merge([$app, $env], $builds));
+        $this->persist($em, array_merge([$app, $org, $env], $builds));
 
-        $builds = $repo->getByApplicationForEnvironment($app, $env, 25, 0, '1BCDE12345ABCDE12345ABCDE12345ABCDE12345');
+        $builds = $repo->getByApplicationForEnvironment($app, $env, 25, 0, '2bcde12345abcde12345abcde12345abcde12345');
 
         $this->assertCount(1, $builds);
     }
@@ -194,40 +180,35 @@ class BuildRepositoryTest extends DoctrineTest
 
     public function getMockBuilds(Application $app, Environment $environment = null)
     {
-        $build1 = (new Build('ab'))
-            ->withCreated(new TimePoint(2015, 08, 15, 12, 0, 0, 'UTC'))
+        $build1 = (new Build('ab', new TimePoint(2015, 08, 15, 12, 0, 0, 'UTC')))
             ->withApplication($app)
-            ->withStatus('Waiting')
+            ->withStatus('pending')
             ->withCommit('1bcde12345abcde12345abcde12345abcde12345')
-            ->withBranch('master');
+            ->withReference('master');
 
-        $build2 = (new Build('cd'))
-            ->withCreated(new TimePoint(2015, 08, 15, 15, 0, 0, 'UTC'))
+        $build2 = (new Build('cd', new TimePoint(2015, 08, 15, 15, 0, 0, 'UTC')))
             ->withApplication($app)
-            ->withStatus('Waiting')
+            ->withStatus('pending')
             ->withCommit('2bcde12345abcde12345abcde12345abcde12345')
-            ->withBranch('pull/50');
+            ->withReference('pull/50');
 
-        $build3 = (new Build('ef'))
-            ->withCreated(new TimePoint(2015, 08, 15, 14, 0, 0, 'UTC'))
+        $build3 = (new Build('ef', new TimePoint(2015, 08, 15, 14, 0, 0, 'UTC')))
             ->withApplication($app)
-            ->withStatus('Building')
+            ->withStatus('building')
             ->withCommit('3bcde12345abcde12345abcde12345abcde12345')
-            ->withBranch('mybranch');
+            ->withReference('mybranch');
 
-        $build4 = (new Build('gh'))
-            ->withCreated(new TimePoint(2015, 08, 15, 13, 0, 0, 'UTC'))
+        $build4 = (new Build('gh', new TimePoint(2015, 08, 15, 13, 0, 0, 'UTC')))
             ->withApplication($app)
-            ->withStatus('Building')
+            ->withStatus('building')
             ->withCommit('4bcde12345abcde12345abcde12345abcde12345')
-            ->withBranch('master');
+            ->withReference('master');
 
-        $build5 = (new Build('ij'))
-            ->withCreated(new TimePoint(2015, 08, 15, 20, 0, 0, 'UTC'))
+        $build5 = (new Build('ij', new TimePoint(2015, 08, 15, 20, 0, 0, 'UTC')))
             ->withApplication($app)
-            ->withStatus('Success')
+            ->withStatus('success')
             ->withCommit('5bcde12345abcde12345abcde12345abcde12345')
-            ->withBranch('pull/50');
+            ->withReference('pull/50');
 
         if ($environment) {
             $build1->withEnvironment($environment);

@@ -5,39 +5,39 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Repository;
+namespace Hal\Core\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use QL\Hal\Core\Entity\Group;
-use QL\Hal\Core\Utility\SortingTrait;
+use Hal\Core\Entity\Organization;
+use Hal\Core\Utility\SortingTrait;
 
 class ApplicationRepository extends EntityRepository
 {
     use SortingTrait;
 
     /**
-     * Get all applications sorted into groups.
+     * Get all applications sorted into organizations.
      *
      * @return array
      */
     public function getGroupedApplications()
     {
-        $groups = $this->getEntityManager()
-            ->getRepository(Group::CLASS)
+        $organizations = $this->getEntityManager()
+            ->getRepository(Organization::class)
             ->findAll();
 
         $applications = $this->findAll();
 
         usort($applications, $this->applicationSorter());
-        usort($groups, $this->groupSorter());
+        usort($organizations, $this->organizationSorter());
 
         $grouped = [];
-        foreach ($groups as $group) {
-            $grouped[$group->id()] = [];
+        foreach ($organizations as $org) {
+            $grouped[$org->id()] = [];
         }
 
         foreach ($applications as $app) {
-            $grouped[$app->group()->id()][] = $app;
+            $grouped[$app->organization()->id()][] = $app;
         }
 
         return $grouped;

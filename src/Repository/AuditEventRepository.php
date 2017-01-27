@@ -8,21 +8,21 @@
 namespace Hal\Core\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Hal\Core\Entity\User;
+use Hal\Core\Entity\AuditEvent;
 use Hal\Core\Utility\PagedResultsTrait;
 
-class UserRepository extends EntityRepository
+class AuditEventRepository extends EntityRepository
 {
     use PagedResultsTrait;
 
-    const DQL_GET_USERS = <<<SQL
-   SELECT user
-     FROM %s user
- ORDER BY user.name DESC
+    const DQL_GET_PAGED = <<<SQL
+  SELECT event
+    FROM %s event
+ORDER BY event.created DESC
 SQL;
 
     /**
-     * Get all users, paged.
+     * Get all audit events, paged.
      *
      * @param int $limit
      * @param int $page
@@ -31,8 +31,7 @@ SQL;
      */
     public function getPagedResults($limit = 50, $page = 0)
     {
-        $dql = sprintf(self::DQL_GET_USERS, User::class);
-
+        $dql = sprintf(self::DQL_GET_PAGED, AuditEvent::class);
         return $this->getPaginator($dql, $limit, $page);
     }
 }

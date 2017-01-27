@@ -11,9 +11,9 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\Setup;
-use Hal\Core\Utility\DoctrineConfigurator;
-use Hal\Core\Utility\DoctrineCustomTypes;
-use Hal\Core\Utility\DoctrineFactory;
+use Hal\Core\DoctrineUtility\DoctrineConfigurator;
+use Hal\Core\DoctrineUtility\DoctrineCustomTypes;
+use Hal\Core\DoctrineUtility\DoctrineFactory;
 use PHPUnit_Framework_TestCase;
 
 class DoctrineTest extends PHPUnit_Framework_TestCase

@@ -5,71 +5,64 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Repository;
+namespace Hal\Core\Repository;
 
-use QL\Hal\Core\Entity\Application;
-use QL\Hal\Core\Entity\Deployment;
-use QL\Hal\Core\Entity\Environment;
-use QL\Hal\Core\Entity\Server;
-use QL\Hal\Core\Testing\DoctrineTest;
+use Hal\Core\Entity\Application;
+use Hal\Core\Entity\Environment;
+use Hal\Core\Entity\Group;
+use Hal\Core\Entity\Organization;
+use Hal\Core\Entity\Target;
+use Hal\Core\Testing\DoctrineTest;
 
 class EnvironmentRepositoryTest extends DoctrineTest
 {
     public function testRepositoryIsCorrect()
     {
         $em = $this->getEntityManager();
-        $repo = $em->getRepository(Environment::CLASS);
+        $repo = $em->getRepository(Environment::class);
 
-        $this->assertSame(EnvironmentRepository::CLASS, get_class($repo));
-        $this->assertSame(Environment::CLASS, $repo->getClassName());
+        $this->assertSame(EnvironmentRepository::class, get_class($repo));
+        $this->assertSame(Environment::class, $repo->getClassName());
     }
 
     public function testGetBuildableEnvironments()
     {
         $em = $this->getEntityManager();
-        $repo = $em->getRepository(Environment::CLASS);
+        $repo = $em->getRepository(Environment::class);
 
-        $application = (new Application)
-            ->withId(12)
-            ->withKey('app1')
-            ->withName('app name');
+        $org = new Organization;
+        $app = (new Application('ab', 'app1', 'app name'))
+            ->withOrganization($org);
 
-        $env1 = (new Environment)
-            ->withId(12)
-            ->withName('test');
-        $env2 = (new Environment)
-            ->withId(34)
-            ->withName('beta');
+        $env1 = new Environment('12', 'test');
+        $env2 = new Environment('34', 'beta');
 
-        $server1 = (new Server)
-            ->withId(12)
+        $group1 = (new Group('7'))
             ->withType('rsync')
             ->withEnvironment($env1);
-        $server2 = (new Server)
-            ->withId(34)
+        $group2 = (new Group('8'))
             ->withType('eb')
             ->withEnvironment($env2);
 
-        $deployment1 = (new Deployment)
-            ->withId(1234)
-            ->withApplication($application)
-            ->withServer($server1);
-        $deployment2 = (new Deployment)
-            ->withId(5678)
-            ->withApplication($application)
-            ->withServer($server1);
+        $target1 = (new Target('1234'))
+            ->withApplication($app)
+            ->withGroup($group1);
+        $target2 = (new Target('5678'))
+            ->withApplication($app)
+            ->withGroup($group1);
 
-        $em->persist($application);
+        $em->persist($org);
+        $em->persist($app);
         $em->persist($env1);
         $em->persist($env2);
-        $em->persist($server1);
-        $em->persist($server2);
+        $em->persist($group1);
+        $em->persist($group2);
 
-        $em->persist($deployment1);
-        $em->persist($deployment2);
+        $em->persist($target1);
+        $em->persist($target2);
         $em->flush();
 
-        $environments = $repo->getBuildableEnvironmentsByApplication($application);
+        $environments = $repo->getBuildableEnvironmentsByApplication($app);
 
         $this->assertSame([$env1], $environments);
     }
@@ -77,20 +70,12 @@ class EnvironmentRepositoryTest extends DoctrineTest
     public function testGetSortedEnvironments()
     {
         $em = $this->getEntityManager();
-        $repo = $em->getRepository(Environment::CLASS);
+        $repo = $em->getRepository(Environment::class);
 
-        $env1 = (new Environment)
-            ->withId(34)
-            ->withName('alpha');
-        $env2 = (new Environment)
-            ->withId(34)
-            ->withName('prod');
-        $env3 = (new Environment)
-            ->withId(12)
-            ->withName('test');
-        $env4 = (new Environment)
-            ->withId(34)
-            ->withName('beta');
+        $env1 = new Environment('12', 'alpha');
+        $env2 = new Environment('34', 'prod');
+        $env3 = new Environment('56', 'test');
+        $env4 = new Environment('78', 'beta');
 
         $em->persist($env1);
         $em->persist($env2);

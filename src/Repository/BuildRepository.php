@@ -5,133 +5,96 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Repository;
+namespace Hal\Core\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use QL\Hal\Core\DoctrinePagination\Mysql57Paginator as Paginator;
-use QL\Hal\Core\Entity\Application;
-use QL\Hal\Core\Entity\Environment;
+use Hal\Core\Entity\Application;
+use Hal\Core\Entity\Build;
+use Hal\Core\Entity\Environment;
+use Hal\Core\Utility\PagedResultsTrait;
 
 class BuildRepository extends EntityRepository
 {
-    const REGEX_COMMIT = '#^[0-9a-f]{40}$#i';
+    use PagedResultsTrait;
 
     const DQL_BY_APPLICATION = <<<SQL
-   SELECT b
-     FROM QL\Hal\Core\Entity\Build b
-    WHERE b.application = :application
- ORDER BY b.created DESC
+   SELECT build
+     FROM %s build
+    WHERE build.application = :application
+ ORDER BY build.created DESC
 SQL;
     const DQL_BY_APPLICATION_WITH_REF_FILTER = <<<SQL
-   SELECT b
-     FROM QL\Hal\Core\Entity\Build b
-    WHERE b.application = :application
-      AND b.branch = :ref
- ORDER BY b.created DESC
-SQL;
-    const DQL_BY_APPLICATION_WITH_SHA_FILTER = <<<SQL
-   SELECT b
-     FROM QL\Hal\Core\Entity\Build b
-    WHERE b.application = :application
-      AND b.commit = :ref
- ORDER BY b.created DESC
+   SELECT build
+     FROM %s build
+    WHERE build.application = :application
+      AND (build.reference = :ref OR build.commit = :ref)
+ ORDER BY build.created DESC
 SQL;
 
     const DQL_BY_APPLICATION_AND_ENV = <<<SQL
-   SELECT b
-     FROM QL\Hal\Core\Entity\Build b
-    WHERE b.application = :application
-      AND b.environment = :environment
- ORDER BY b.created DESC
+   SELECT build
+     FROM %s build
+    WHERE build.application = :application
+      AND build.environment = :environment
+ ORDER BY build.created DESC
 SQL;
     const DQL_BY_APPLICATION_AND_ENV_WITH_REF_FILTER = <<<SQL
-   SELECT b
-     FROM QL\Hal\Core\Entity\Build b
-    WHERE b.application = :application
-      AND b.environment = :environment
-      AND b.branch = :ref
- ORDER BY b.created DESC
-SQL;
-    const DQL_BY_APPLICATION_AND_ENV_WITH_SHA_FILTER = <<<SQL
-   SELECT b
-     FROM QL\Hal\Core\Entity\Build b
-    WHERE b.application = :application
-      AND b.environment = :environment
-      AND b.commit = :ref
- ORDER BY b.created DESC
+   SELECT build
+     FROM %s build
+    WHERE build.application = :application
+      AND build.environment = :environment
+      AND (build.reference = :ref OR build.commit = :ref)
+ ORDER BY build.created DESC
 SQL;
 
     /**
-     * Get all builds for an application.
+     * Get all builds for an application, paged.
      *
      * @param Application $application
      * @param int $limit
      * @param int $page
-     * @param string|null $filter
+     * @param string $filter
      *
      * @return Paginator
      */
-    public function getByApplication(Application $application, $limit = 25, $page = 0, $filter = null)
+    public function getByApplication(Application $application, $limit = 25, $page = 0, $filter = '')
     {
-        $dql = self::DQL_BY_APPLICATION;
-        if ($filter) {
-            $dql = self::DQL_BY_APPLICATION_WITH_REF_FILTER;
+        $template = ($filter) ? self::DQL_BY_APPLICATION_WITH_REF_FILTER : self::DQL_BY_APPLICATION;
+        $dql = sprintf($template, Build::class);
 
-            // is a commit sha
-            if (preg_match(self::REGEX_COMMIT, $filter) === 1) {
-                $dql = self::DQL_BY_APPLICATION_WITH_SHA_FILTER;
-                $filter = strtolower($filter);
-            }
+        $params = ['application' => $application];
+        if ($filter) {
+            $params['ref'] = $filter;
         }
 
-        $query = $this->getEntityManager()
-            ->createQuery($dql)
-            ->setMaxResults($limit)
-            ->setFirstResult($limit * $page)
-            ->setParameter('application', $application);
-
-        if ($filter) {
-            $query->setParameter('ref', $filter);
-        }
-
-        return new Paginator($query);
+        return $this->getPaginator($dql, $limit, $page, $params);
     }
 
     /**
-     * Get all builds for an application and environment.
+     * Get all builds for an application and environment, paged.
      *
      * @param Application $application
      * @param Environment $environment
      * @param int $limit
      * @param int $page
-     * @param string|null $filter
+     * @param string $filter
      *
      * @return Paginator
      */
-    public function getByApplicationForEnvironment(Application $application, Environment $environment, $limit = 25, $page = 0, $filter = null)
+    public function getByApplicationForEnvironment(Application $application, Environment $environment, $limit = 25, $page = 0, $filter = '')
     {
-        $dql = self::DQL_BY_APPLICATION_AND_ENV;
-        if ($filter) {
-            $dql = self::DQL_BY_APPLICATION_AND_ENV_WITH_REF_FILTER;
+        $template = ($filter) ? self::DQL_BY_APPLICATION_AND_ENV_WITH_REF_FILTER : self::DQL_BY_APPLICATION_AND_ENV;
+        $dql = sprintf($template, Build::class);
 
-            // is a commit sha
-            if (preg_match(self::REGEX_COMMIT, $filter) === 1) {
-                $dql = self::DQL_BY_APPLICATION_AND_ENV_WITH_SHA_FILTER;
-                $filter = strtolower($filter);
-            }
-        }
-
-        $query = $this->getEntityManager()
-            ->createQuery($dql)
-            ->setMaxResults($limit)
-            ->setFirstResult($limit * $page)
-            ->setParameter('environment', $environment)
-            ->setParameter('application', $application);
+        $params = [
+            'application' => $application,
+            'environment' => $environment
+        ];
 
         if ($filter) {
-            $query->setParameter('ref', $filter);
+            $params['ref'] = $filter;
         }
 
-        return new Paginator($query);
+        return $this->getPaginator($dql, $limit, $page, $params);
     }
 }
