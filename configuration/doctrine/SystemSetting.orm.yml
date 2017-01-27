@@ -1,0 +1,20 @@
+'Hal\Core\Entity\SystemSetting':
+    table: 'system_settings'
+    type: 'entity'
+
+    cache: {usage : READ_ONLY}
+
+    id:
+        id:
+            column: 'id'
+            type: 'guid'
+
+    fields:
+
+        name:
+            column: 'name'
+            type: 'string'
+            length: 100
+        value:
+            column: 'value'
+            type: 'string'

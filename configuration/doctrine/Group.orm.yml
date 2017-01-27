@@ -1,24 +1,33 @@
-QL\Hal\Core\Entity\Group:
-    type: entity
-    table: Groups
+'Hal\Core\Entity\Group':
+    table: 'groups'
+    repositoryClass: 'Hal\Core\Repository\GroupRepository'
+    type: 'entity'
 
     cache: {usage : NONSTRICT_READ_WRITE}
 
     id:
         id:
-            column: GroupId
-            type: integer
-            generator:
-                strategy: AUTO
+            column: 'id'
+            type: 'guid'
 
     fields:
 
-        key:
-            column: GroupKey
-            type: string
-            length: 24
-            unique: true
+        type:
+            column: 'type'
+            type: 'string'
+            length: 20
+            options: {default: 'rsync'} # See GroupEnum for list of options
         name:
-            column: GroupName
-            type: string
-            length: 48
+            column: 'name'
+            type: 'string'
+            length: 60
+
+    manyToOne:
+
+        environment:
+            cache: {usage : READ_ONLY}
+            targetEntity: 'Environment'
+            joinColumn:
+                name: 'environment_id'
+                referencedColumnName: 'id'
+                nullable: true

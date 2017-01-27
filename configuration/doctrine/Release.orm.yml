@@ -1,6 +1,6 @@
-'Hal\Core\Entity\Build':
-    table: 'builds'
-    repositoryClass: 'Hal\Core\Repository\BuildRepository'
+'Hal\Core\Entity\Release':
+    table: 'releases'
+    repositoryClass: 'Hal\Core\Repository\ReleaseRepository'
     type: 'entity'
 
     id:
@@ -29,17 +29,15 @@
             length: 20
             options: {default: 'pending'} # See JobStatusEnum for list of options
 
-        reference:
-            column: 'reference'
-            column: 'status'
-            type: 'string'
-            length: 80
-        commit:
-            column: 'commit_sha'
-            type: 'string'
-            length: 40
-
     manyToOne:
+
+        build:
+            cache: {usage : READ_ONLY}
+            targetEntity: 'Build'
+            joinColumn:
+                name: 'build_id'
+                referencedColumnName: 'id'
+                nullable: false
 
         user:
             cache: {usage : READ_ONLY}
@@ -57,10 +55,11 @@
                 referencedColumnName: 'id'
                 nullable: true
 
-        environment:
+        target:
             cache: {usage : READ_ONLY}
-            targetEntity: 'Environment'
+            targetEntity: 'Target'
             joinColumn:
-                name: 'environment_id'
+                name: 'target_id'
                 referencedColumnName: 'id'
                 nullable: true
+

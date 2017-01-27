@@ -1,5 +1,5 @@
-'Hal\Core\Entity\UserSettings':
-    table: 'users_settings'
+'Hal\Core\Entity\UserToken':
+    table: 'users_tokens'
     type: 'entity'
 
     cache: {usage : NONSTRICT_READ_WRITE}
@@ -11,18 +11,21 @@
 
     fields:
 
-        favoriteApplications:
-            column: 'favorite_applications'
-            type: json_array
+        name:
+            column: 'name'
+            type: 'string'
+            length: 100
+        value:
+            column: 'value'
+            type: 'string'
+            length: 100
 
-    oneToOne:
+    manyToOne:
 
         user:
             cache: {usage : READ_ONLY}
             targetEntity: 'User'
-            inversedBy: 'settings'
             joinColumn:
                 name: 'user_id'
                 referencedColumnName: 'id'
                 nullable: false
-

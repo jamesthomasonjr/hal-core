@@ -1,36 +1,52 @@
-QL\Hal\Core\Entity\UserPermission:
-    type: entity
-    table: UserPermissions
+'Hal\Core\Entity\UserPermission':
+    table: 'users_permissions'
+    type: 'entity'
 
     cache: {usage : NONSTRICT_READ_WRITE}
 
     id:
         id:
-            column: UserPermissionId
-            type: string
-            length: 32
-            options: {fixed: true}
+            column: 'id'
+            type: 'guid'
 
     fields:
 
-        isProduction:
-            column: UserPermissionIsProduction
-            type: boolean
-            options: {default: false}
+        type:
+            column: 'type'
+            type: 'string'
+            length: 20
+            options: {default: 'member'} # See UserPermissionEnum for list of options
 
     manyToOne:
 
         user:
             cache: {usage : READ_ONLY}
-            targetEntity: User
+            targetEntity: 'User'
             joinColumn:
-                name: UserId
-                referencedColumnName: UserId
+                name: 'user_id'
+                referencedColumnName: 'id'
+                nullable: false
 
         application:
             cache: {usage : READ_ONLY}
-            targetEntity: Application
+            targetEntity: 'Application'
             joinColumn:
-                name: ApplicationId
-                referencedColumnName: RepositoryId
+                name: 'application_id'
+                referencedColumnName: 'id'
+                nullable: true
+
+        organization:
+            cache: {usage : READ_ONLY}
+            targetEntity: 'Organization'
+            joinColumn:
+                name: 'organization_id'
+                referencedColumnName: 'id'
+                nullable: true
+
+        environment:
+            cache: {usage : READ_ONLY}
+            targetEntity: 'Environment'
+            joinColumn:
+                name: 'environment_id'
+                referencedColumnName: 'id'
                 nullable: true

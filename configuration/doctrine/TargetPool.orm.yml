@@ -1,0 +1,44 @@
+'Hal\Core\Entity\TargetPool':
+    table: 'targets_pools'
+    repositoryClass: 'Hal\Core\Repository\TargetPoolRepository'
+    type: 'entity'
+
+    cache: {usage : NONSTRICT_READ_WRITE}
+
+    id:
+        id:
+            column: 'id'
+            type: 'guid'
+
+    fields:
+
+        name:
+            column: 'name'
+            type: 'string'
+            length: 100
+
+    manyToOne:
+
+        view:
+            cache: {usage : READ_ONLY}
+            targetEntity: 'TargetView'
+            joinColumn:
+                name: 'view_id'
+                referencedColumnName: 'id'
+                nullable: false
+
+    manyToMany:
+
+        targets:
+            # cache: {usage : READ_ONLY}
+            targetEntity: 'Target'
+            fetch: EAGER
+            joinTable:
+                name: 'target_pools_targets'
+                joinColumns:
+                    pool_id:
+                        referencedColumnName: 'id'
+                inverseJoinColumns:
+                    target_id:
+                        referencedColumnName: 'id'
+

@@ -1,0 +1,51 @@
+'Hal\Core\Entity\JobProcess':
+    table: 'jobs_processes'
+    type: 'entity'
+
+    id:
+        id:
+            column: 'id'
+            type: 'guid'
+
+    fields:
+
+        created:
+            column: 'created'
+            type: 'timepoint'
+
+        status:
+            column: 'status'
+            type: 'string'
+            length: 20
+            options: {default: 'pending'} # See JobProcessStatusEnum for list of options
+
+        message:
+            column: 'message'
+            type: 'string'
+            length: 200
+        parameters:
+            column: 'parameters'
+            type: 'json_array'
+
+        parentID:
+            column: 'parent_id'
+            type: 'guid'
+
+        childID:
+            column: 'child_id'
+            type: 'guid'
+
+        childType:
+            column: 'child_type'
+            type: 'string'
+            length: 40
+
+    manyToOne:
+
+        user:
+            cache: {usage : READ_ONLY}
+            targetEntity: 'User'
+            joinColumn:
+                name: 'user_id'
+                referencedColumnName: 'id'
+                nullable: true

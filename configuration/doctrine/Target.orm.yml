@@ -1,0 +1,59 @@
+'Hal\Core\Entity\Target':
+    table: 'targets'
+    repositoryClass: 'Hal\Core\Repository\TargetRepository'
+    type: 'entity'
+
+    cache: {usage : NONSTRICT_READ_WRITE}
+
+    id:
+        id:
+            column: 'id'
+            type: 'guid'
+
+    fields:
+
+        name:
+            column: 'name'
+            type: 'string'
+            length: '80'
+        url:
+            column: 'url'
+            type: 'string'
+            length: 200
+        parameters:
+            column: 'parameters'
+            type: 'json_array'
+
+    manyToOne:
+
+        application:
+            cache: {usage : READ_ONLY}
+            targetEntity: 'Application'
+            joinColumn:
+                name: 'application_id'
+                referencedColumnName: 'id'
+                nullable: true
+
+        group:
+            cache: {usage : READ_ONLY}
+            targetEntity: 'Group'
+            joinColumn:
+                name: 'group_id'
+                referencedColumnName: 'id'
+                nullable: true
+
+        credential:
+            cache: {usage : READ_ONLY}
+            targetEntity: 'Credential'
+            joinColumn:
+                name: 'credential_id'
+                referencedColumnName: 'id'
+                nullable: true
+
+        release:
+            cache: {usage : READ_ONLY}
+            targetEntity: 'Release'
+            joinColumn:
+                name: 'release_id'
+                referencedColumnName: 'id'
+                nullable: true

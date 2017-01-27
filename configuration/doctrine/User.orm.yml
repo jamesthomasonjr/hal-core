@@ -1,48 +1,45 @@
-QL\Hal\Core\Entity\User:
-    type: entity
-    repositoryClass: QL\Hal\Core\Repository\UserRepository
-    table: Users
+'Hal\Core\Entity\User':
+    table: 'users'
+    repositoryClass: 'Hal\Core\Repository\UserRepository'
+    type: 'entity'
 
     cache: {usage : NONSTRICT_READ_WRITE}
 
     id:
         id:
-            column: UserId
-            type: integer
-            unique: true
+            column: 'id'
+            type: 'guid'
 
     fields:
 
-        handle:
-            column: UserHandle
-            type: string
+        username:
+            column: 'username'
+            type: 'string'
             length: 32
             unique: true
         name:
-            column: UserName
-            type: string
-            length: 128
+            column: 'name'
+            type: 'string'
+            length: 100
         email:
-            column: UserEmail
-            type: string
-            length: 128
-        isActive:
-            column: UserIsActive
+            column: 'email'
+            type: 'string'
+            length: 200
+        isDisabled:
+            column: 'is_disabled'
             type: boolean
-        githubToken:
-            column: UserGithubToken
-            type: string
-            length: 128
+            options: {default: false}
 
     oneToMany:
 
         tokens:
-            targetEntity: Token
-            mappedBy: user
+            targetEntity: 'UserToken'
+            mappedBy: 'user'
 
     oneToOne:
 
         settings:
             cache: {usage : NONSTRICT_READ_WRITE}
-            targetEntity: UserSettings
-            mappedBy: user
+            targetEntity: 'UserSettings'
+            mappedBy: 'user'
+            cascade: ['all']

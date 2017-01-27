@@ -1,25 +1,23 @@
-QL\Hal\Core\Entity\Environment:
-    type: entity
-    repositoryClass: QL\Hal\Core\Repository\EnvironmentRepository
-    table: Environments
+'Hal\Core\Entity\Environment':
+    table: 'environments'
+    repositoryClass: 'Hal\Core\Repository\EnvironmentRepository'
+    type: 'entity'
 
     cache: {usage : NONSTRICT_READ_WRITE}
 
     id:
         id:
-            column: EnvironmentId
-            type: integer
-            generator:
-                strategy: AUTO
+            column: 'id'
+            type: 'guid'
 
     fields:
 
         name:
-            column: EnvironmentKey
-            type: string
-            length: 24
+            column: 'name'
+            type: 'string'
+            length: 20
             unique: true
         isProduction:
-            column: EnvironmentIsProduction
-            type: boolean
+            column: 'is_production'
+            type: 'boolean'
             options: {default: false}

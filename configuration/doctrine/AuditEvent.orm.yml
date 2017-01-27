@@ -1,0 +1,35 @@
+'Hal\Core\Entity\AuditEvent':
+    table: 'audit_events'
+    repositoryClass: 'Hal\Core\Repository\AuditEventRepository'
+    type: 'entity'
+
+    cache: {usage : READ_ONLY}
+
+    id:
+        id:
+            column: 'id'
+            type: 'guid'
+
+    fields:
+
+        created:
+            column: 'created'
+            type: 'timepoint'
+        action:
+            column: 'action'
+            type: 'string'
+            length: 20
+            options: {default: 'create'} # See AuditActionEnum for list of options
+
+        owner:
+            column: 'owner'
+            type: 'string'
+            length: 100
+        entity:
+            column: 'entity'
+            type: 'string'
+            length: 100
+
+        data:
+            column: 'data'
+            type: 'string'
