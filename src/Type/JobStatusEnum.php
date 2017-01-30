@@ -14,7 +14,7 @@ class JobStatusEnum
     const ERR_INVALID = '"%s" is not a valid status option.';
 
     const TYPE_PENDING = 'pending';
-    const TYPE_BUILDING = 'building';
+    const TYPE_RUNNING = 'running';
     const TYPE_DEPLOYING = 'deploying';
 
     const TYPE_SUCCESS = 'success';
@@ -37,7 +37,7 @@ class JobStatusEnum
         return [
             self::TYPE_PENDING,
 
-            self::TYPE_BUILDING,
+            self::TYPE_RUNNING,
             self::TYPE_DEPLOYING,
 
             self::TYPE_SUCCESS,

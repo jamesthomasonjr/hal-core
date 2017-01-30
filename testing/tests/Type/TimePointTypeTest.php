@@ -24,7 +24,8 @@ class TimePointTypeTest extends PHPUnit_Framework_TestCase
         }
 
         $this->platform = Mockery::mock(AbstractPlatform::CLASS, [
-            'getDateTimeFormatString' => 'Y-m-d H:i:s'
+            'getDateTimeFormatString' => 'Y-m-d H:i:s',
+            'getDateTimeTypeDeclarationSQL' => 'DATETIME'
         ]);
     }
 
@@ -39,12 +40,12 @@ class TimePointTypeTest extends PHPUnit_Framework_TestCase
     {
         $this->platform
             ->shouldReceive('getTimeTypeDeclarationSQL')
-            ->andReturn('datetime');
+            ->andReturn('DATETIME');
 
         $type = TimePointType::getType('timepoint');
         $actual = $type->getSqlDeclaration([], $this->platform);
 
-        $this->assertEquals('datetime', $actual);
+        $this->assertEquals('DATETIME', $actual);
     }
 
     public function testConvertingTimepointToDB()

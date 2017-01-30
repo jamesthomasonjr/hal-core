@@ -32,9 +32,12 @@ trait EnumTrait
      */
     public static function ensureValid($option)
     {
-        $option = strtolower($option);
+        if (is_string($option)) {
+            $option = strtolower($option);
+        }
 
         if (!self::isValid($option)) {
+            $option = is_scalar($option) ? $option : gettype($option);
             throw new EnumException(sprintf(static::ERR_INVALID, $option));
         }
 

@@ -11,26 +11,24 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Mockery;
 use PHPUnit_Framework_TestCase;
 
-class CompressedSerializedBlobTypeTest extends PHPUnit_Framework_TestCase
+class CompressedJSONArrayTypeTest extends PHPUnit_Framework_TestCase
 {
     private $platform;
 
     public function setUp()
     {
-        if (!CompressedSerializedBlobType::hasType('compressedserialized')) {
-            CompressedSerializedBlobType::addType('compressedserialized', CompressedSerializedBlobType::CLASS);
+        if (!CompressedJSONArrayType::hasType('compressed_json_array')) {
+            CompressedJSONArrayType::addType('compressed_json_array', CompressedJSONArrayType::class);
         }
 
-        $this->platform = Mockery::mock(AbstractPlatform::CLASS, [
-            'getDateTimeFormatString' => 'Y-m-d H:i:s'
-        ]);
+        $this->platform = Mockery::mock(AbstractPlatform::class);
     }
 
     public function testName()
     {
-        $type = CompressedSerializedBlobType::getType('compressedserialized');
+        $type = CompressedJSONArrayType::getType('compressed_json_array');
 
-        $this->assertSame('compressedserialized', $type->getName());
+        $this->assertSame('compressed_json_array', $type->getName());
     }
 
     public function testSQLDeclaration()
@@ -39,37 +37,37 @@ class CompressedSerializedBlobTypeTest extends PHPUnit_Framework_TestCase
             ->shouldReceive('getBlobTypeDeclarationSQL')
             ->andReturn('mediumblob');
 
-        $type = CompressedSerializedBlobType::getType('compressedserialized');
+        $type = CompressedJSONArrayType::getType('compressed_json_array');
         $actual = $type->getSqlDeclaration([], $this->platform);
 
         $this->assertEquals('mediumblob', $actual);
     }
 
-    public function testConvertingTimepointToDB()
+    public function testConvertingArrayToDB()
     {
         $value = [
             'a' => 'test1',
             'b' => 'test2'
         ];
 
-        $expected = base64_decode('eJxLtDKyqi62MrRSSlSyLrYytVIqSS0uMQSxgWJJSGJGSta1AC48DQo=');
+        $expected = gzcompress(json_encode($value));
 
-        $type = CompressedSerializedBlobType::getType('compressedserialized');
+        $type = CompressedJSONArrayType::getType('compressed_json_array');
         $actual = $type->convertToDatabaseValue($value, $this->platform);
 
         $this->assertSame($expected, $actual);
     }
 
-    public function testGettingStringDatetimeFromDB()
+    public function testGettingArrayFromDB()
     {
-        $value = base64_decode('eJxLtDKyqi62MrRSSlSyLrYytVIqSS0uMQSxgWJJSGJGSta1AC48DQo=');
-
         $expected = [
             'a' => 'test1',
             'b' => 'test2'
         ];
 
-        $type = CompressedSerializedBlobType::getType('compressedserialized');
+        $value = gzcompress(json_encode($expected));
+
+        $type = CompressedJSONArrayType::getType('compressed_json_array');
         $actual = $type->convertToPHPValue($value, $this->platform);
 
         $this->assertEquals($expected, $actual);

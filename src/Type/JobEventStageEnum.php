@@ -17,7 +17,7 @@ class JobEventStageEnum
 
     const TYPE_BUILD_CREATE = 'build.created';
     const TYPE_BUILD_START = 'build.start';
-    const TYPE_BUILD_BUILD = 'build.building';
+    const TYPE_BUILD_RUN = 'build.running';
 
     const TYPE_BUILD_END = 'build.end';
     const TYPE_BUILD_SUCCESS = 'build.success';
@@ -49,7 +49,7 @@ class JobEventStageEnum
 
             self::TYPE_BUILD_CREATE,
             self::TYPE_BUILD_START,
-            self::TYPE_BUILD_BUILD,
+            self::TYPE_BUILD_RUN,
             self::TYPE_BUILD_END,
             self::TYPE_BUILD_SUCCESS,
             self::TYPE_BUILD_FAILURE,
