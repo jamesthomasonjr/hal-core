@@ -5,7 +5,7 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace Hal\Core\DoctrineUtility;
+namespace Hal\Core\Database\DoctrineUtility;
 
 class DoctrineFactory
 {
@@ -56,6 +56,6 @@ class DoctrineFactory
      */
     protected static function root()
     {
-        return __DIR__ . '/../..';
+        return __DIR__ . '/../../..';
     }
 }

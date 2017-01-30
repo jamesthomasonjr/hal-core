@@ -7,7 +7,7 @@
 
 namespace Hal\Core\Utility;
 
-use Hal\Core\DoctrinePagination\Mysql57Paginator as Paginator;
+use Hal\Core\Database\DoctrinePagination\Mysql57Paginator as Paginator;
 
 /**
  * This trait expects the parent to provide "$this->getEntityManager()".

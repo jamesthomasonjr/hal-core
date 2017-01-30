@@ -17,7 +17,7 @@
  * <http://www.doctrine-project.org>.
  */
 
-namespace Hal\Core\DoctrinePagination;
+namespace Hal\Core\Database\DoctrinePagination;
 
 use Doctrine\ORM\Query\Parser;
 use Doctrine\ORM\QueryBuilder;

@@ -22,7 +22,7 @@ services:
     ####################################################################################################################
 
     doctrine.proxy.generator:
-        class: 'Hal\Core\DoctrineUtility\DoctrineProxyGenerator'
+        class: 'Hal\Core\Database\DoctrineUtility\DoctrineProxyGenerator'
         arguments: ['@service_container']
 
     ####################################################################################################################
@@ -31,11 +31,11 @@ services:
 
     doctrine.mapping.dir.hal:
         class: 'stdClass'
-        factory: ['Hal\Core\DoctrineUtility\DoctrineFactory', 'configurationPath']
+        factory: ['Hal\Core\Database\DoctrineUtility\DoctrineFactory', 'configurationPath']
 
     doctrine.proxy.dir:
         class: 'stdClass'
-        factory: ['Hal\Core\DoctrineUtility\DoctrineFactory', 'proxyPath']
+        factory: ['Hal\Core\Database\DoctrineUtility\DoctrineFactory', 'proxyPath']
         arguments: ['%doctrine.proxy.dir%']
 
     ####################################################################################################################
@@ -52,7 +52,7 @@ services:
         configurator: ['@doctrine.em.configurator', 'configure']
 
     doctrine.em.configurator:
-        class: 'Hal\Core\DoctrineUtility\DoctrineConfigurator'
+        class: 'Hal\Core\Database\DoctrineUtility\DoctrineConfigurator'
         calls:
             - ['addEntityMappings', ['@doctrine.types.hal']]
 
@@ -83,7 +83,7 @@ services:
 
     doctrine.mapping.dirs:
         class: 'stdClass'
-        factory: ['Hal\Core\DoctrineUtility\DoctrineFactory', 'buildConfigurationMapping']
+        factory: ['Hal\Core\Database\DoctrineUtility\DoctrineFactory', 'buildConfigurationMapping']
         arguments:
             - ['@doctrine.mapping.dir.hal', '%doctrine.hal.namespace%']
 
@@ -93,7 +93,7 @@ services:
 
     doctrine.types.hal:
         class: 'stdClass'
-        factory: ['Hal\Core\DoctrineUtility\DoctrineCustomTypes', 'getMapping']
+        factory: ['Hal\Core\Database\DoctrineUtility\DoctrineCustomTypes', 'getMapping']
 
     ####################################################################################################################
     # DOCTRINE CACHE

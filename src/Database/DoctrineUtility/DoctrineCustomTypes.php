@@ -5,7 +5,7 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace Hal\Core\DoctrineUtility;
+namespace Hal\Core\Database\DoctrineUtility;
 
 use Hal\Core\Type\CompressedJSONArrayType;
 use Hal\Core\Type\TimePointType;
