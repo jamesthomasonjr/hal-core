@@ -5,7 +5,7 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace QL\Hal\Core\Crypto;
+namespace Hal\Core\Crypto;
 
 use Exception as BaseException;
 
