@@ -2,7 +2,7 @@ paths:
     migrations: '%%PHINX_CONFIG_DIR%%/migrations'
 
 environments:
-    default_migration_table: 'PhinxLog'
+    default_migration_table: 'phinx'
     default_database: 'dev'
 
     dev:
@@ -16,10 +16,10 @@ environments:
 
     staging:
         adapter: 'mysql'
-        host: '%%PHINX_TEST_SERVER%%'
-        name: '%%PHINX_TEST_DATABASE%%'
-        user: '%%PHINX_TEST_USERNAME%%'
-        pass: '%%PHINX_TEST_PASS%%'
+        host: '%%PHINX_STAGING_SERVER%%'
+        name: '%%PHINX_STAGING_DATABASE%%'
+        user: '%%PHINX_STAGING_USERNAME%%'
+        pass: '%%PHINX_STAGING_PASS%%'
         port: 3306
         charset: 'utf8'
 
