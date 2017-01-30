@@ -1,9 +1,11 @@
+# secrets
+/phinx.config
+
 # unit testing artifacts
 /phpunit.xml
 /.phpunit/
 
 # compiled configuration, package manager installation
-/bin/phinx.config
 /.doctrine/
 /vendor/
 /composer.lock
