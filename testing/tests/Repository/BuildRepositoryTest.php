@@ -194,13 +194,13 @@ class BuildRepositoryTest extends DoctrineTest
 
         $build3 = (new Build('ef', new TimePoint(2015, 08, 15, 14, 0, 0, 'UTC')))
             ->withApplication($app)
-            ->withStatus('building')
+            ->withStatus('running')
             ->withCommit('3bcde12345abcde12345abcde12345abcde12345')
             ->withReference('mybranch');
 
         $build4 = (new Build('gh', new TimePoint(2015, 08, 15, 13, 0, 0, 'UTC')))
             ->withApplication($app)
-            ->withStatus('building')
+            ->withStatus('running')
             ->withCommit('4bcde12345abcde12345abcde12345abcde12345')
             ->withReference('master');
 

@@ -273,7 +273,7 @@ class Build implements JsonSerializable
      */
     public function inProgress()
     {
-        return in_array($this->status(), [JobStatusEnum::TYPE_PENDING, JobStatusEnum::TYPE_BUILDING], true);
+        return in_array($this->status(), [JobStatusEnum::TYPE_PENDING, JobStatusEnum::TYPE_RUNNING], true);
     }
 
     /**

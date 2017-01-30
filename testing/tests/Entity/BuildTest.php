@@ -155,7 +155,7 @@ JSON;
         $this->assertSame(false, $build->isSuccess());
         $this->assertSame(false, $build->isFailure());
 
-        $build->withStatus('building');
+        $build->withStatus('running');
         $this->assertSame(true, $build->inProgress());
         $this->assertSame(false, $build->isFinished());
         $this->assertSame(false, $build->isSuccess());
