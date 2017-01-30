@@ -1,5 +1,5 @@
 'Hal\Core\Entity\Release':
-    table: 'releases'
+    table: 'jobs_releases'
     repositoryClass: 'Hal\Core\Repository\ReleaseRepository'
     type: 'entity'
 

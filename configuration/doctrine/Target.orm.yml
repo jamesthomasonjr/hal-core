@@ -15,7 +15,7 @@
         name:
             column: 'name'
             type: 'string'
-            length: '80'
+            length: 100
         url:
             column: 'url'
             type: 'string'

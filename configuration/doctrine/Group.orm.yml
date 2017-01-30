@@ -20,7 +20,7 @@
         name:
             column: 'name'
             type: 'string'
-            length: 60
+            length: 100
 
     manyToOne:
 

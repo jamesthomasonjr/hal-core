@@ -1,5 +1,5 @@
 'Hal\Core\Entity\Build':
-    table: 'builds'
+    table: 'jobs_builds'
     repositoryClass: 'Hal\Core\Repository\BuildRepository'
     type: 'entity'
 
@@ -33,7 +33,7 @@
             column: 'reference'
             column: 'status'
             type: 'string'
-            length: 80
+            length: 100
         commit:
             column: 'commit_sha'
             type: 'string'

@@ -19,4 +19,4 @@
         name:
             column: 'name'
             type: 'string'
-            length: 80
+            length: 100
