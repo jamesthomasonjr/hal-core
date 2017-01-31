@@ -1,0 +1,23 @@
+#!/usr/bin/env php
+<?php
+/**
+ * @copyright (c) 2016 Quicken Loans Inc.
+ *
+ * For full license information, please view the LICENSE distributed with this source code.
+ */
+namespace Hal\Core\Bin;
+
+use Hal\Core\JobGenerator;
+
+$autoload = realpath(__DIR__ . '/../../../../vendor/autoload.php');
+if (!$autoload) {
+    $autoload = __DIR__ . '/../vendor/autoload.php';
+}
+
+if (!$composer = @include $autoload) {
+    echo "Composer autoloader could not be found.\n";
+    exit(1);
+}
+
+$generator = new JobGenerator(JobGenerator::BASE58, 5);
+echo $generator->generateBuildID() . "\n";
