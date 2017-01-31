@@ -1,15 +1,30 @@
 #!/usr/bin/env php
 <?php
 
-namespace QL\Hal\Bootstrap;
+namespace QL\Hal\Bin;
 
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-$root = __DIR__ . '/..';
-if (!$container = @include $root . '/configuration/bootstrap.php') {
+$root = realpath(__DIR__ . '/..');
+
+if (!$container = @include $root . '/vendor/autoload.php') {
     echo "Boom goes the dynamite.\n";
     exit(1);
-};
+}
 
-$helperSet = ConsoleRunner::createHelperSet($container->get('doctrine.em'));
+// Set Timezone to UTC
+ini_set('date.timezone', 'UTC');
+date_default_timezone_set('UTC');
+error_reporting(E_ALL | E_STRICT);
+
+$di = new ContainerBuilder;
+$builder = new YamlFileLoader($di, new FileLocator($root));
+$builder->load('configuration/hal-core.yml');
+
+$di->compile();
+
+$helperSet = ConsoleRunner::createHelperSet($di->get('doctrine.em'));
 ConsoleRunner::run($helperSet, []);
