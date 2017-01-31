@@ -1,14 +1,20 @@
 # Hal Core Components
 
-This library contains common Hal dependencies between the frontend and agent.
+Core domain entities and shared resources for Hal UI and Agent.
 
-- Hal Entities
+- Hal Doctrine Entities
+- Phinx Database Migrations
 - Crypto for Encrypted Properties
-- Database Migrations
 
 ## Doctrine
 
 - Do not cache one-to-many relations!
+
+### Set up DB for development
+
+- `createdb hal`
+- `createuser hal --superuser`
+- `bin/phinx migrate`
 
 ## Hal Domain Model
 
