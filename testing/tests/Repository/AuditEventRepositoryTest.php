@@ -37,11 +37,11 @@ class AuditEventRepositoryTest extends DoctrineTest
         $em = $this->getEntityManager();
         $repo = $em->getRepository(AuditEvent::class);
 
-        $log1 = new AuditEvent('ab', new TimePoint(2015, 08, 15, 12, 0, 0, 'UTC'));
-        $log2 = new AuditEvent('cd', new TimePoint(2015, 08, 15, 15, 0, 0, 'UTC'));
-        $log3 = new AuditEvent('ef', new TimePoint(2015, 08, 15, 14, 0, 0, 'UTC'));
-        $log4 = new AuditEvent('gh', new TimePoint(2015, 08, 15, 13, 0, 0, 'UTC'));
-        $log5 = new AuditEvent('ij', new TimePoint(2015, 08, 15, 20, 0, 0, 'UTC'));
+        $log1 = new AuditEvent('ab', new TimePoint(2015, 8, 15, 12, 0, 0, 'UTC'));
+        $log2 = new AuditEvent('cd', new TimePoint(2015, 8, 15, 15, 0, 0, 'UTC'));
+        $log3 = new AuditEvent('ef', new TimePoint(2015, 8, 15, 14, 0, 0, 'UTC'));
+        $log4 = new AuditEvent('gh', new TimePoint(2015, 8, 15, 13, 0, 0, 'UTC'));
+        $log5 = new AuditEvent('ij', new TimePoint(2015, 8, 15, 20, 0, 0, 'UTC'));
 
         $em->persist($log1);
         $em->persist($log2);

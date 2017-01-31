@@ -11,16 +11,6 @@ use PHPUnit_Framework_TestCase;
 
 class JobGeneratorTest extends PHPUnit_Framework_TestCase
 {
-    public function setUp()
-    {
-        mt_srand(1234);
-    }
-
-    public function tearDown()
-    {
-        mt_srand();
-    }
-
     /**
      * @expectedException InvalidArgumentException
      */
@@ -37,18 +27,6 @@ class JobGeneratorTest extends PHPUnit_Framework_TestCase
         $generator = new JobGenerator(JobGenerator::BASE58, 2);
     }
 
-    public function testIDIsGenerated()
-    {
-        $generator = new JobGenerator(JobGenerator::BASE58);
-
-        $actual = $generator->generateBuildID();
-
-        $unique = substr($actual, 5);
-
-        $this->assertSame('b', $actual[0]);
-        $this->assertSame('Pdv3f', $unique);
-    }
-
     public function testBuildIDIsGenerated()
     {
         $generator = new JobGenerator(JobGenerator::BASE58, 6);
@@ -59,7 +37,10 @@ class JobGeneratorTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame(11, strlen($actual));
         $this->assertSame('b', $actual[0]);
-        $this->assertSame('3QQsHh', $unique);
+
+        foreach (str_split($actual) as $letter) {
+            $this->assertSame(true, strpos(JobGenerator::BASE58, $letter) !== false);
+        }
     }
 
     public function testReleaseIDIsGenerated()
@@ -72,6 +53,9 @@ class JobGeneratorTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame(10, strlen($actual));
         $this->assertSame('r', $actual[0]);
-        $this->assertSame('Pdv3f', $unique);
+
+        foreach (str_split($actual) as $letter) {
+            $this->assertSame(true, strpos(JobGenerator::BASE58, $letter) !== false);
+        }
     }
 }

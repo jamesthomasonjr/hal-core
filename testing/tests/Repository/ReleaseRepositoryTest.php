@@ -160,7 +160,7 @@ class ReleaseRepositoryTest extends DoctrineTest
             ->withApplication($application1)
             ->withTarget($target1)
             ->withBuild($build1)
-            ->withCreated(new TimePoint(2015, 8, 09, 12, 0, 0, 'UTC'))
+            ->withCreated(new TimePoint(2015, 8, 9, 12, 0, 0, 'UTC'))
             ->withStatus('failure');
 
         $release2 = (new Release('2abcd'))
@@ -196,7 +196,7 @@ class ReleaseRepositoryTest extends DoctrineTest
             ->withApplication($application2)
             ->withTarget($target2)
             ->withBuild($build2)
-            ->withCreated(new TimePoint(2015, 8, 08, 12, 0, 0, 'UTC'))
+            ->withCreated(new TimePoint(2015, 8, 8, 12, 0, 0, 'UTC'))
             ->withStatus('pending');
 
         $target1->withApplication($application1);

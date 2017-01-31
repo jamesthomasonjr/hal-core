@@ -240,8 +240,8 @@ class SortingTraitTest extends PHPUnit_Framework_TestCase
         $groupA = (new Group)->withName('a');
         $groupB = (new Group)->withName('b');
 
-        $a = (new Target)->withParameter('path', '/same')->withGroup($groupA);
-        $b = (new Target)->withParameter('path', '/same')->withGroup($groupA);
+        $a = (new Target)->withParameter('path', '/same2')->withGroup($groupA);
+        $b = (new Target)->withParameter('path', '/same1')->withGroup($groupA);
         $c = (new Target)->withParameter('path', '/herp')->withGroup($groupB);
         $d = (new Target)->withParameter('path', '/derp')->withGroup($groupB);
 

@@ -34,7 +34,7 @@
             targetEntity: 'Target'
             fetch: EAGER
             joinTable:
-                name: 'target_pools_targets'
+                name: 'targets_pools_targets'
                 joinColumns:
                     pool_id:
                         referencedColumnName: 'id'

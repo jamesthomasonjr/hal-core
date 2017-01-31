@@ -180,31 +180,31 @@ class BuildRepositoryTest extends DoctrineTest
 
     public function getMockBuilds(Application $app, Environment $environment = null)
     {
-        $build1 = (new Build('ab', new TimePoint(2015, 08, 15, 12, 0, 0, 'UTC')))
+        $build1 = (new Build('ab', new TimePoint(2015, 8, 15, 12, 0, 0, 'UTC')))
             ->withApplication($app)
             ->withStatus('pending')
             ->withCommit('1bcde12345abcde12345abcde12345abcde12345')
             ->withReference('master');
 
-        $build2 = (new Build('cd', new TimePoint(2015, 08, 15, 15, 0, 0, 'UTC')))
+        $build2 = (new Build('cd', new TimePoint(2015, 8, 15, 15, 0, 0, 'UTC')))
             ->withApplication($app)
             ->withStatus('pending')
             ->withCommit('2bcde12345abcde12345abcde12345abcde12345')
             ->withReference('pull/50');
 
-        $build3 = (new Build('ef', new TimePoint(2015, 08, 15, 14, 0, 0, 'UTC')))
+        $build3 = (new Build('ef', new TimePoint(2015, 8, 15, 14, 0, 0, 'UTC')))
             ->withApplication($app)
             ->withStatus('running')
             ->withCommit('3bcde12345abcde12345abcde12345abcde12345')
             ->withReference('mybranch');
 
-        $build4 = (new Build('gh', new TimePoint(2015, 08, 15, 13, 0, 0, 'UTC')))
+        $build4 = (new Build('gh', new TimePoint(2015, 8, 15, 13, 0, 0, 'UTC')))
             ->withApplication($app)
             ->withStatus('running')
             ->withCommit('4bcde12345abcde12345abcde12345abcde12345')
             ->withReference('master');
 
-        $build5 = (new Build('ij', new TimePoint(2015, 08, 15, 20, 0, 0, 'UTC')))
+        $build5 = (new Build('ij', new TimePoint(2015, 8, 15, 20, 0, 0, 'UTC')))
             ->withApplication($app)
             ->withStatus('success')
             ->withCommit('5bcde12345abcde12345abcde12345abcde12345')
