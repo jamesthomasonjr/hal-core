@@ -1,5 +1,165 @@
 # Change Log
-All notable changes to this project will be documented in this file. See [keepachangelog.com](http://keepachangelog.com) for reference.
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](http://keepachangelog.com/).
+
+## [Unreleased]
+
+Sections: (`Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`, `Security`)
+
+## [3.0.0] - TBD
+
+### Please note
+The database schema and models for 3.0 are incompatible with the schema from 2.9 and no migration is possible.
+
+### Added
+- **JobMeta**
+    - `->id(): string`
+    - `->created(): TimePoint`
+    - `->parentID(): string`
+    - `->name(): string`
+    - `->value(): string`
+- **SystemSetting**
+    - `->id(): string`
+    - `->name(): string`
+    - `->value(): string`
+- Added the following migrations:
+    - Add **Initial** - `20170130010000`
+    - Add **InitialSchemaFor3** - `20170130020000`
+    - Add **InitialIndexesFor3** - `20170130030000`
+
+### Removed
+- **AuditLog** removed and replaced with **AuditEvent**.
+- **Deployment** removed and replaced with **Target**.
+- **DeploymentPool** removed and replaced with **TargetPool**.
+- **DeploymentView** removed and replaced with **TargetView**.
+- **EventLog** removed and replaced with **JobEvent**.
+- **Group** removed and replaced with **Organization**.
+- **Process** removed and replaced with **JobProcess**.
+- **Push** removed and replaced with **Release**.
+- **Server** removed and replaced with **Group**.
+- **Token** removed and replaced with **UserToken**.
+- **UserType** removed and combined into **UserPermission**.
+- Removed **DoctrinePersistListener**
+    - **IDs** and **Created Times** are now added in entity constructors instead of in a doctrine listener.
+- Removed all previous migrations
+
+### Changed
+- Primary IDs
+    - All entities now use 32-character random UUID for primary keys.
+    - Builds and Releases use a 10-character ID based on the date and random salt.
+- **DoctrineChangeListener** renamed to **DoctrineChangeListener**.
+    - Currently AuditEvents are only created for changes to the following entities:
+        - **Application**
+        - **Environment**
+        - **Organization**
+- Default to PostgreSQL adapters for database connections.
+- Crypto
+    - Remove asymmetric crypto (public key).
+    - Combine **SymmetricDecrypter** and **SymmetricEncrypter** into `Hal\Core\Crypto\Encryption`.
+- Types
+    - **AuditActionEnum** (Used by AuditEvent)
+        - options: `create, update, delete`
+    - **JobStatusEnum** (Used by Build, Release)
+        - options: `pending, running, deploying, success, failure, removed`
+    - **CredentialEnum** (Used by Credential)
+        - options: `aws, privatekey`
+    - **GroupEnum** (Used by Group)
+        - options: `rsync, cd, eb, s3, script`
+    - **JobEventStageEnum** (Used by JobEvent)
+        - options: `unknown`
+        - options: `build.created, build.start, build.running, build.end, build.success, build.failure`
+        - options: `release.created, release.start, release.deploying, release.end, release.success, release.failure`
+    - **JobEventStatusEnum** (Used by JobEvent)
+        - options: `info, success, failure`
+    - **JobProcessStatusEnum** (Used by JobProcess)
+        - options: `pending, aborted, launched`
+    - **UserPermissionEnum** (Used by UserPermission)
+        - options: `member, owner, admin, super`
+- **Application**
+    - Added `->gitHub(): GitHubApplication`.
+        - `->gitHub()->owner(): string`
+        - `->gitHub()->repository(): string`
+    - Changed `->key()` to `->identifier()`.
+    - Changed `->group(): Group` to `->organization(): ?Organization`.
+    - Removed `->email()`.
+    - Removed `->githubOwner()`.
+    - Removed `->githubRepo()`.
+- **AuditEvent** replaces **AuditLog**.
+    - Changed `->user(): User` to `->owner(): string`.
+    - Changed `->action(): string` enum to **AuditActionEnum**.
+- **Build**
+    - Added `->inProgress(): bool`
+    - Changed `->branch()` to `->reference(): string`.
+    - Changed `->application()` and `->environment()` to nullable.
+    - Changed `->status(): string` enum to **JobStatusEnum**.
+    - Removed `->logs()`.
+    - Removed `->isPending()`.
+- **Credential**
+    - Changed `->type(): string` enum to **CredentialEnum**.
+- **Group** replaces **Server**.
+    - Changed `->type(): string` enum to **GroupEnum**.
+    - Removed `->deployments()`.
+- **JobEvent** replaces **EventLog**.
+    - Added `->parent(): string` to replace `->build()` and `->push()`.
+    - Changed `->event()` to `->stage(): string` enum as **JobEventStageEnum**.
+    - Changed `->status(): string` enum to **JobEventStatusEnum**.
+    - Removed `->build()`.
+    - Removed `->push()`.
+- **JobProcess** replaces **Process**.
+    - Changed `->type(): string` enum to **JobProcessStatusEnum**.
+    - Changed `->context()` to `->parameters(): array`.
+    - Changed `->parent()` to `->parentID(): string`.
+    - Changed `->child()` to `->childID(): string`.
+    - Removed `->parentType()`.
+- **Organization** replaces **Group**.
+    - Changed `->key()` to `->identifier()`.
+- **Release** replaces **Push**.
+    - Changed `->status(): string` enum to **JobStatusEnum**.
+    - Changed `->deployment()` to `->target(): ?Target`.
+    - Changed `->application()` and `->target()` to nullable.
+    - Removed `->logs()`.
+- **Target** replaces **Deployment**.
+    - Changed `->push()` to `->release(): ?Release`.
+    - Changed `->server()` to `->group(): ?Group`.
+    - Added `->parameters(): array`.
+        - Group-specific config is now encapsulated within parameters:
+            - `group` (CodeDeploy)
+            - `configuration` (CodeDeploy)
+            - `application` (CodeDeploy, Elastic Beanstalk)
+            - `environment` (Elastic Beanstalk)
+            - `bucket` (S3, CodeDeploy, Elastic Beanstalk)
+            - `path` (S3, CodeDeploy, Elastic Beanstalk)
+            - `context` (Script)
+    - Added `->parameter($name): ?string`
+    - Removed `->path()`.
+    - Removed `->cdName()`.
+    - Removed `->cdGroup()`.
+    - Removed `->cdConfiguration()`.
+    - Removed `->ebName()`.
+    - Removed `->ebEnvironment()`.
+    - Removed `->s3bucket()`.
+    - Removed `->s3file()`.
+    - Removed `->s3file()`.
+    - Removed `->scriptContext()`.
+- **TargetPool** replaces **DeploymentPool**.
+    - Changed `->deployments()` to `->targets()`.
+- **TargetView** replaces **DeploymentView**.
+- **User**
+    - Changed `->handle()` to `->username(): string`.
+    - Changed `->isActive()` to `->isDisabled(): bool`.
+    - Changed `->settings()` to not nullable.
+    - Removed `->githubToken()`.
+- **UserPermission**
+    - Added `->type(): string` enum to **UserPermissionEnum**.
+    - Added `->organization(): ?Organization`.
+    - Added `->environment(): ?Environment`.
+    - Changed `->application()` to nullable.
+    - Removed `->isProduction()`
+- **UserToken** replaces **Token**.
+    - Added `->organization(): ?Organization`.
+    - Changed `->label()` to `->name()`.
+    - Changed `->user()`  to nullable.
 
 ## [2.10.0] - 2017-01-19
 
