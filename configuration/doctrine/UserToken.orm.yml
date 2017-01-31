@@ -25,6 +25,7 @@
         user:
             cache: {usage : READ_ONLY}
             targetEntity: 'User'
+            inversedBy: 'tokens'
             joinColumn:
                 name: 'user_id'
                 referencedColumnName: 'id'
