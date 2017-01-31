@@ -58,7 +58,7 @@ Core domain entities and shared resources for Hal UI and Agent.
     > An action or process that can be triggered by a job. Currently only used
       to auto-kickoff a release after a successful build.
 
-### Deployment Destinations
+### Deployment Management
 
 - [Environment](src/Entity/Environment.php)
     > An environment in the system.
