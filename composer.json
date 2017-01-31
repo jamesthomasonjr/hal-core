@@ -28,10 +28,12 @@
 
     "require": {
         "php-64bit": "~7.0",
+
         "ext-libsodium": "~1.0",
         "ext-pdo": "*",
-        "ext-pdo_sqlite": "*",
         "ext-pdo_mysql": "*",
+        "ext-pdo_pgsql": "*",
+        "ext-pdo_sqlite": "*",
         "ext-zlib": "*",
 
         "doctrine/orm": "~2.5.6",
@@ -40,11 +42,10 @@
     "require-dev": {
         "mockery/mockery": "~0.9",
         "phpunit/phpunit": "~5.7",
-        "paragonie/random_compat": "~1.1",
         "robmorgan/phinx": "~0.6",
 
-        "symfony/config": "~2.8",
-        "symfony/dependency-injection": "~2.8",
-        "symfony/yaml": "~2.8"
+        "symfony/config": "~2.8 || ~3.0",
+        "symfony/dependency-injection": "~2.8 || ~3.0",
+        "symfony/yaml": "~2.8 || ~3.0"
     }
 }
