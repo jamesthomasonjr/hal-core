@@ -3,9 +3,9 @@ parameters:
     doctrine.devmode: false
     doctrine.proxy.dir: '.doctrine'
     doctrine.connection:
-        driver: 'pdo_mysql'
+        driver: 'pdo_pgsql'
         host: 'localhost'
-        user: 'root'
+        user: 'hal'
         password: ''
         dbname: 'hal'
 
