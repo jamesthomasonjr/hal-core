@@ -8,7 +8,7 @@
 namespace Hal\Core\Database\DoctrineUtility;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\UnitOfWork;
 use Hal\Core\Entity\Application;
@@ -47,19 +47,7 @@ class DoctrineChangeListener
         $em = $event->getEntityManager();
         $uow = $em->getUnitOfWork();
 
-        if (!$user = call_user_func($this->ownerFetcher)) {
-            return;
-        }
-
-        if (!$user instanceof User) {
-            return;
-        }
-
-        if (!$user = $em->find(User::class, $user->id())) {
-            return;
-        }
-
-        $owner = $user->username();
+        $owner = $this->getOwner($em);
 
         // Entity Insertions
         foreach ($uow->getScheduledEntityInsertions() as $entity) {
@@ -82,6 +70,26 @@ class DoctrineChangeListener
                 $this->saveAudit($em, $uow, $audit);
             }
         }
+    }
+
+    /**
+     * @param EntityManagerInterface $em
+     *
+     * @return string
+     */
+    private function getOwner(EntityManagerInterface $em)
+    {
+        $user = call_user_func($this->ownerFetcher);
+
+        if (!$user instanceof User) {
+            return 'Unknown';
+        }
+
+        if ($user = $em->find(User::class, $user->id())) {
+            return $user->username();
+        }
+
+        return 'Unknown';
     }
 
     /**

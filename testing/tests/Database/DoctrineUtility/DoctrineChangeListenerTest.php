@@ -56,19 +56,7 @@ class DoctrineChangeListenerTest extends PHPUnit_Framework_TestCase
         };
     }
 
-    public function testNoUserFoundDoesNothing()
-    {
-        $notfoundUser = function() {};
-
-        $this->em
-            ->shouldReceive('find')
-            ->never();
-
-        $logger = new DoctrineChangeListener($notfoundUser);
-        $logger->onFlush($this->eventArgs);
-    }
-
-    public function testNoValidUserFoundDoesNothing()
+    public function testNoValidUserFoundOwnerIsUnknown()
     {
         $invalidUser = function() {return 1;};
 
@@ -76,22 +64,65 @@ class DoctrineChangeListenerTest extends PHPUnit_Framework_TestCase
             ->shouldReceive('find')
             ->never();
 
+        $this->uow
+            ->shouldReceive('getScheduledEntityInsertions')
+            ->andReturn([new Application('mno')]);
+        $this->uow
+            ->shouldReceive('computeChangeSet')
+            ->once();
+
+        $spy = null;
+        $this->em
+            ->shouldReceive('persist')
+            ->with(Mockery::on(function ($v) use (&$spy) {
+                    $spy = $v;
+                    return true;
+            }))
+            ->once();
+        $this->em
+            ->shouldReceive('getClassMetadata')
+            ->with(AuditEvent::class)
+            ->andReturn(Mockery::mock(ClassMetadata::class))
+            ->once();
+
         $logger = new DoctrineChangeListener($invalidUser);
         $logger->onFlush($this->eventArgs);
+
+        $this->assertSame('Unknown', $spy->owner());
     }
 
-    public function testNoValidDBUserFoundDoesNothing()
+    public function testNoValidDBUserFoundOwnerIsUnknown()
     {
         $this->em
             ->shouldReceive('find')
             ->with(User::class, 1234)
             ->andReturnNull();
+
+        $spy = null;
+        $this->em
+            ->shouldReceive('persist')
+            ->with(Mockery::on(function ($v) use (&$spy) {
+                    $spy = $v;
+                    return true;
+            }))
+            ->once();
+        $this->em
+            ->shouldReceive('getClassMetadata')
+            ->with(AuditEvent::class)
+            ->andReturn(Mockery::mock(ClassMetadata::class))
+            ->once();
+
         $this->uow
             ->shouldReceive('getScheduledEntityInsertions')
-            ->never();
+            ->andReturn([new Application('mno')]);
+        $this->uow
+            ->shouldReceive('computeChangeSet')
+            ->once();
 
         $logger = new DoctrineChangeListener($this->lazyUser);
         $logger->onFlush($this->eventArgs);
+
+        $this->assertSame('Unknown', $spy->owner());
     }
 
     public function testMultipleInsertsAndDeletionsLogged()
