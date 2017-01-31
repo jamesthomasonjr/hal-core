@@ -1,8 +1,8 @@
 <?php
 
-use Phinx\Migration\AbstractMigration;
+use Hal\Core\Database\PhinxMigration;
 
-class InitialIndexesFor3 extends AbstractMigration
+class Initial extends PhinxMigration
 {
     /**
      * Change Method.

@@ -1,11 +1,22 @@
 paths:
     migrations: '%%PHINX_CONFIG_DIR%%/migrations'
 
+migration_base_class: 'Hal\Core\Database\PhinxMigration'
+
 environments:
     default_migration_table: 'phinx'
     default_database: 'dev'
 
     dev:
+        adapter: 'pgsql'
+        host: 'localhost'
+        name: 'hal'
+        user: 'hal'
+        pass: ''
+        port: 5432
+        charset: 'utf8'
+
+    dev_mysql:
         adapter: 'mysql'
         host: 'localhost'
         name: 'hal'
@@ -15,19 +26,19 @@ environments:
         charset: 'utf8'
 
     staging:
-        adapter: 'mysql'
+        adapter: 'pgsql'
         host: '%%PHINX_STAGING_SERVER%%'
         name: '%%PHINX_STAGING_DATABASE%%'
         user: '%%PHINX_STAGING_USERNAME%%'
         pass: '%%PHINX_STAGING_PASS%%'
-        port: 3306
+        port: 5432
         charset: 'utf8'
 
     prod:
-        adapter: 'mysql'
+        adapter: 'pgsql'
         host: '%%PHINX_PROD_SERVER%%'
         name: '%%PHINX_PROD_DATABASE%%'
         user: '%%PHINX_PROD_USERNAME%%'
         pass: '%%PHINX_PROD_PASS%%'
-        port: 3306
+        port: 5432
         charset: 'utf8'
