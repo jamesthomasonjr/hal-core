@@ -18,7 +18,7 @@ environments:
 
     dev_mysql:
         adapter: 'mysql'
-        host: 'localhost'
+        host: '127.0.0.1'
         name: 'hal'
         user: 'root'
         pass: ''
