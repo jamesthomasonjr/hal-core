@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/hal-platform/hal-core.png)](https://travis-ci.org/hal-platform/hal-core)
+[![Latest Stable Version](https://poser.pugx.org/hal/hal-core/version)](https://packagist.org/packages/hal/hal-core)
+[![License](https://poser.pugx.org/hal/hal-core/license)](https://packagist.org/packages/hal/hal-core)
+
 # Hal Core Components
 
 Core domain entities and shared resources for Hal UI and Agent.
@@ -6,7 +10,7 @@ Core domain entities and shared resources for Hal UI and Agent.
 - Phinx Database Migrations
 - Crypto for Encrypted Properties
 
-The ORM used by Hal is [Doctrine](http://www.doctrine-project.org/) and migrations are handled with [Phinx](https://phinx.org)
+The ORM used by Hal is [Doctrine](http://www.doctrine-project.org/) and migrations are handled with [Phinx](https://phinx.org).
 
 ## Database
 
@@ -15,13 +19,13 @@ The ORM used by Hal is [Doctrine](http://www.doctrine-project.org/) and migratio
 
 ### Handling migrations
 
-Configuration for the migration tool is stored in [phinx.yml](phinx.yml). This project contains `phinx.yml.dist` with default
+Configuration for the migration tool is stored in `phinx.yml`. This project contains [phinx.yml.dist](phinx.yml.dist) with default
 settings for dev only. Make sure to copy this file to `phinx.yml` and add additional settings for managing other environments.
 
-The included script `bin/phinx` will run Phinx and also an **env** file `phinx.secrets`, Phinx will automatically replace
+The included script `bin/phinx` will run Phinx and also an **env** file `phinx.secrets`. Phinx will automatically replace
 environment variables prepended with `PHINX_`.
 
-See the following for an example, which stores production database password in `phinx.secrets`
+See the following for an example, which stores production database password in `phinx.secrets`:
 
 `phinx.secrets`:
 ```sh
