@@ -7,6 +7,6 @@
 
 # compiled configuration, package manager installation
 /.doctrine/
-/vendor/
 /composer.lock
+/vendor/
 
