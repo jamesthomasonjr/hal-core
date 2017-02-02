@@ -1,5 +1,5 @@
 # migration configuration
-/phinx.config
+/phinx.secrets
 /phinx.yml
 
 # unit testing artifacts

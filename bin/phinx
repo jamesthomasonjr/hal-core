@@ -10,9 +10,9 @@ rootdir="$curdir/../"
 
 # script
 
-# Include phinx config if present in app root
-if [ -f  "$rootdir/phinx.config" ] ; then
-    source "$rootdir/phinx.config"
+# Include phinx secrets if present in app root
+if [ -f  "$rootdir/phinx.secrets" ] ; then
+    source "$rootdir/phinx.secrets"
 fi
 
 "$rootdir/vendor/bin/phinx" $@
