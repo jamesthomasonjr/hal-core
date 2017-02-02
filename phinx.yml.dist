@@ -7,6 +7,10 @@ environments:
     default_migration_table: 'phinx'
     default_database: 'dev_postgres'
 
+    dev_sqlite:
+        adapter: 'sqlite'
+        name: './database.sqlite'
+
     dev_postgres:
         adapter: 'pgsql'
         host: 'localhost'

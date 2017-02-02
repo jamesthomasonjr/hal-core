@@ -6,13 +6,50 @@ Core domain entities and shared resources for Hal UI and Agent.
 - Phinx Database Migrations
 - Crypto for Encrypted Properties
 
+The ORM used by Hal is [Doctrine](http://www.doctrine-project.org/) and migrations are handled with [Phinx](https://phinx.org)
+
 ## Database
 
 ### Doctrine Protips
 - Do not cache one-to-many relations!
 
-### Set up DB for development
+### Handling migrations
 
+Configuration for the migration tool is stored in [phinx.yml](phinx.yml). This project contains `phinx.yml.dist` with default
+settings for dev only. Make sure to copy this file to `phinx.yml` and add additional settings for managing other environments.
+
+The included script `bin/phinx` will run Phinx and also an **env** file `phinx.secrets`, Phinx will automatically replace
+environment variables prepended with `PHINX_`.
+
+See the following for an example, which stores production database password in `phinx.secrets`
+
+`phinx.secrets`:
+```sh
+#!/usr/bin/env sh
+
+export PHINX_PROD_PASSWORD='my-secret-password'
+```
+
+`phinx.yml`:
+```yml
+# include other config from phinx.yml.dist here
+
+environments:
+    prod:
+        adapter: 'pgsql'
+        host: 'prod_database_server'
+        name: 'prod_database_name'
+        user: 'prod_database_username'
+        pass: '%%PHINX_PROD_PASSWORD%%'
+        port: 5432
+        charset: 'utf8'
+```
+
+Check out the official Phinx documentation for handling configuration: [docs.phinx.org](http://docs.phinx.org/en/latest/configuration.html#external-variables)
+
+### Set up Postgres DB for development
+
+- `cp phinx.yml.dist phinx.yml`
 - `createdb hal`
 - `createuser hal --superuser`
 - `bin/phinx migrate`
