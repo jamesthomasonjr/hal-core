@@ -1,9 +1,10 @@
-# secrets
+# migration configuration
 /phinx.config
+/phinx.yml
 
 # unit testing artifacts
-/phpunit.xml
 /.phpunit/
+/phpunit.xml
 
 # compiled configuration, package manager installation
 /.doctrine/
