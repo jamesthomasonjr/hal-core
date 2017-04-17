@@ -4,10 +4,10 @@
     fields:
 
         owner:
-            column: 'github_owner'
+            column: 'owner'
             type: 'string'
             length: 100
         repository:
-            column: 'github_repository'
+            column: 'repository'
             type: 'string'
             length: 100
