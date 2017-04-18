@@ -60,9 +60,11 @@ class InitialSchemaFor3 extends PhinxMigration
 
         // applications
         $this->createUUIDTable('applications')
-            ->addColumn('identifier',      'string',  ['limit' => 30])
-            ->addColumn('name',            'string',  ['limit' => 100])
-            ->addColumn('organization_id', 'uuid',    [])
+            ->addColumn('identifier',        'string',  ['limit' => 30])
+            ->addColumn('name',              'string',  ['limit' => 100])
+            ->addColumn('organization_id',   'uuid',    [])
+            ->addColumn('github_owner',      'string',  ['limit' => 100])
+            ->addColumn('github_repository', 'string',  ['limit' => 100])
             ->update();
 
         // credentials

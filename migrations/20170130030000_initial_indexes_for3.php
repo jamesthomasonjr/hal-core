@@ -27,6 +27,15 @@ class InitialIndexesFor3 extends PhinxMigration
      */
     public function change()
     {
+        // Handle unique columns
+        foreach ($this->uniqueColumns() as $table => $columns) {
+            $table = $this->table($table);
+
+            $table = $table->addIndex($columns, ['unique' => true]);
+
+            $table->update();
+        }
+
         // Handle searchable columns
         foreach ($this->searchableColumns() as $table => $columns) {
             $table = $this->table($table);
@@ -48,6 +57,16 @@ class InitialIndexesFor3 extends PhinxMigration
                     ->update();
             }
         }
+    }
+
+    protected function uniqueColumns()
+    {
+        return [
+            'users' =>            ['username'],
+            'organizations' =>    ['identifier'],
+            'environments' =>     ['name'],
+            'applications' =>     ['identifier'],
+        ];
     }
 
     protected function searchableColumns()
