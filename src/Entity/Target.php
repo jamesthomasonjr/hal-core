@@ -23,6 +23,7 @@ class Target implements JsonSerializable
 
     const PARAM_BUCKET = 'bucket';          // s3, cd, eb
     const PARAM_PATH = 'path';              // s3, cd, eb, rsync
+    const PARAM_SOURCE = 'source';          // s3, cd, eb
     const PARAM_CONTEXT = 'context';        // script
 
     /**
@@ -330,6 +331,10 @@ class Target implements JsonSerializable
                 $bucket = $this->parameter('bucket') ?: '???';
                 if ($path = $this->parameter('path')) {
                     $bucket = sprintf('%s/%s', $bucket, $path);
+
+                    if ($source = $this->parameter('source')) {
+                        $bucket = sprintf('%s:%s', $source, $bucket);
+                    }
                 }
 
                 return $bucket;

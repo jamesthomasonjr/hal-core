@@ -129,7 +129,8 @@ The database schema and models for 3.0 are incompatible with the schema from 2.9
             - `application` (CodeDeploy, Elastic Beanstalk)
             - `environment` (Elastic Beanstalk)
             - `bucket` (S3, CodeDeploy, Elastic Beanstalk)
-            - `path` (S3, CodeDeploy, Elastic Beanstalk)
+            - `path` (S3, CodeDeploy, Elastic Beanstalk, RSync)
+            - `source` (S3, CodeDeploy, Elastic Beanstalk)
             - `context` (Script)
     - Added `->parameter($name): ?string`
     - Removed `->path()`.

@@ -211,6 +211,20 @@ JSON;
         $this->assertSame('bucket-name', $target->formatParameters());
     }
 
+    public function testFormatS3WithSource()
+    {
+        $group = (new Group(null, 's3'))->withName('us-west-1');
+        $target = (new Target)
+            ->withParameter('bucket', 'bucket-name')
+            ->withParameter('path', 'file.tar.gz')
+            ->withParameter('source', 'appdist/folder')
+            ->withGroup($group);
+
+        $this->assertSame('S3 (appdist/folder:bucket-name/file.tar.gz)', $target->format());
+        $this->assertSame('S3', $target->format(true));
+        $this->assertSame('appdist/folder:bucket-name/file.tar.gz', $target->formatParameters());
+    }
+
     public function testFormatForCD()
     {
         $group = (new Group(null, 'cd'))->withName('us-west-1');
