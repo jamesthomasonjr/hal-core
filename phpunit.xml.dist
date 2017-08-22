@@ -9,7 +9,7 @@
         convertWarningsToExceptions="true"
         forceCoversAnnotation="false"
         mapTestClassNameToCoveredClassName="true"
-        printerClass="PHPUnit_TextUI_ResultPrinter"
+        printerClass="PHPUnit\TextUI\ResultPrinter"
         processIsolation="false"
         stopOnError="true"
         stopOnFailure="true"
@@ -43,7 +43,7 @@
 
     <testsuites>
         <testsuite name="Unit Tests">
-            <directory>testing/tests</directory>
+            <directory>tests/unit</directory>
         </testsuite>
     </testsuites>
 </phpunit>
