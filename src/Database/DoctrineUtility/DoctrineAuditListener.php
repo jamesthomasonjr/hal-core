@@ -18,17 +18,17 @@ use Hal\Core\Entity\Organization;
 use Hal\Core\Entity\User;
 use Hal\Core\Type\AuditActionEnum;
 
-class DoctrineChangeListener
+class DoctrineAuditListener
 {
     /**
-     * @var callable
+     * @var callable|null
      */
     private $ownerFetcher;
 
     /**
      * @param callable $ownerFetcher
      */
-    public function __construct(callable $ownerFetcher)
+    public function setLazyOwnerFetcher(callable $ownerFetcher)
     {
         $this->ownerFetcher = $ownerFetcher;
     }
@@ -79,6 +79,10 @@ class DoctrineChangeListener
      */
     private function getOwner(EntityManagerInterface $em)
     {
+        if (!$this->ownerFetcher) {
+            return 'Unknown';
+        }
+
         $user = call_user_func($this->ownerFetcher);
 
         if (!$user instanceof User) {

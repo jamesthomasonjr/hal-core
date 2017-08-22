@@ -15,26 +15,14 @@ class DoctrineConfigurator
     /**
      * @var array
      */
-    private $mapping;
+    private $typeClasses;
 
     /**
-     * @param array mapping
+     * @param array $typeClasses
      */
-    public function __construct(array $mapping = [])
+    public function __construct(array $typeClasses = [])
     {
-        $this->mapping = $mapping;
-    }
-
-    /**
-     * @param array $mapping
-     *
-     * @return void
-     */
-    public function addEntityMappings(array $mapping)
-    {
-        foreach ($mapping as $type => $fq) {
-            $this->mapping[$type] = $fq;
-        }
+        $this->typeClasses = $typeClasses;
     }
 
     /**
@@ -46,11 +34,18 @@ class DoctrineConfigurator
     {
         $platform = $em->getConnection()->getDatabasePlatform();
 
-        foreach ($this->mapping as $type => $fullyQualified) {
-            Type::addType($type, $fullyQualified);
+        foreach ($this->typeClasses as $fqcn) {
+
+            $name = constant("${fqcn}::NAME");
+
+            if (Type::hasType($name, $fqcn)) {
+                continue;
+            }
+
+            Type::addType($name, $fqcn);
 
             // Register with platform
-            $platform->registerDoctrineTypeMapping(sprintf('db_%s', $type), $type);
+            $platform->registerDoctrineTypeMapping(sprintf('db_%s', $name), $name);
         }
     }
 }
