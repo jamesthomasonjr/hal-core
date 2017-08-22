@@ -1,0 +1,27 @@
+# https://circleci.com/docs/2.0/language-php/
+# https://circleci.com/docs/2.0/circleci-images/
+version: 2
+jobs:
+  build:
+    docker:
+      - 'image': 'circleci/php:7.1.5'
+
+    working_directory: '~/repo'
+
+    steps:
+      - 'checkout'
+
+      # Download and cache dependencies
+      - 'restore_cache':
+          keys:
+            - 'v1-dependencies-{{ checksum "composer.json" }}'
+            - 'v1-dependencies-' # fallback to using the latest cache if no exact match is found
+
+      - 'run': 'composer install -n --prefer-dist'
+
+      - 'save_cache':
+          key: 'v1-dependencies-{{ checksum "composer.json" }}'
+          paths:
+            - './vendor'
+
+      - 'run': 'phpunit'
