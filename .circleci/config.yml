@@ -2,29 +2,37 @@
 # https://circleci.com/docs/2.0/circleci-images/
 version: 2
 jobs:
-  build:
-    docker:
-      - 'image': 'circleci/php:7.1.8'
+    build:
+        docker:
+            - 'image': 'halplatform/php:latest'
 
-    working_directory: '~/project'
+        working_directory: '~/project'
 
-    steps:
-      - 'checkout'
+        steps:
+            - checkout
 
-      - 'run': 'pecl install libsodium'
+            - restore_cache:
+                keys:
+                    - 'v1-dependencies-{{ checksum "composer.json" }}'
+                    - 'v1-dependencies-' # fallback to using the latest cache if no exact match is found
 
-      # Download and cache dependencies
-      - 'restore_cache':
-          keys:
-            - 'v1-dependencies-{{ checksum "composer.json" }}'
-            - 'v1-dependencies-' # fallback to using the latest cache if no exact match is found
+            - run:
+                name: 'Update Composer'
+                command: 'composer self-update'
 
-      - 'run': 'composer self-update'
-      - 'run': 'composer --no-interaction --no-progress install'
+            - run:
+                name: 'Install packages'
+                command: 'composer --no-interaction --no-progress install'
 
-      - 'save_cache':
-          key: 'v1-dependencies-{{ checksum "composer.json" }}'
-          paths:
-            - './vendor'
+            - run:
+                name: 'List installed packages'
+                command: 'composer show'
 
-      - 'run': './vendor/bin/phpunit'
+            - save_cache:
+                key: 'v1-dependencies-{{ checksum "composer.json" }}'
+                paths:
+                    - './vendor'
+
+            - run:
+                name: 'Run tests'
+                command: './vendor/bin/phpunit'
