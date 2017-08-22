@@ -4,12 +4,14 @@ version: 2
 jobs:
   build:
     docker:
-      - 'image': 'circleci/php:7.1.5'
+      - 'image': 'circleci/php:7.1.8'
 
-    working_directory: '~/repo'
+    working_directory: '~/project'
 
     steps:
       - 'checkout'
+
+      - 'run': 'pecl install libsodium'
 
       # Download and cache dependencies
       - 'restore_cache':
@@ -17,11 +19,12 @@ jobs:
             - 'v1-dependencies-{{ checksum "composer.json" }}'
             - 'v1-dependencies-' # fallback to using the latest cache if no exact match is found
 
-      - 'run': 'composer install -n --prefer-dist'
+      - 'run': 'composer self-update'
+      - 'run': 'composer --no-interaction --no-progress install'
 
       - 'save_cache':
           key: 'v1-dependencies-{{ checksum "composer.json" }}'
           paths:
             - './vendor'
 
-      - 'run': 'phpunit'
+      - 'run': './vendor/bin/phpunit'
