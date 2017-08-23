@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/hal-platform/hal-core.png)](https://travis-ci.org/hal-platform/hal-core)
+[![CircleCI](https://circleci.com/gh/hal-platform/hal-core.svg?style=svg)](https://circleci.com/gh/hal-platform/hal-core)
 [![Latest Stable Version](https://poser.pugx.org/hal/hal-core/version)](https://packagist.org/packages/hal/hal-core)
 [![License](https://poser.pugx.org/hal/hal-core/license)](https://packagist.org/packages/hal/hal-core)
 
