@@ -7,11 +7,11 @@
 
 namespace Hal\Core\Crypto;
 
-use const Sodium\CRYPTO_SECRETBOX_KEYBYTES;
-use const Sodium\CRYPTO_SECRETBOX_NONCEBYTES;
-use function Sodium\crypto_secretbox;
-use function Sodium\crypto_secretbox_open;
-use function Sodium\randombytes_buf;
+use const SODIUM_CRYPTO_SECRETBOX_KEYBYTES;
+use const SODIUM_CRYPTO_SECRETBOX_NONCEBYTES;
+use function random_bytes;
+use function sodium_crypto_secretbox;
+use function sodium_crypto_secretbox_open;
 
 /**
  * Symmetric encryption using Libsodium
@@ -37,8 +37,8 @@ class Encryption
     {
         $this->key = $key;
 
-        if (strlen($this->key) !== CRYPTO_SECRETBOX_KEYBYTES) {
-            throw new CryptoException(sprintf(self::ERR_INVALID_KEY, CRYPTO_SECRETBOX_KEYBYTES));
+        if (strlen($this->key) !== SODIUM_CRYPTO_SECRETBOX_KEYBYTES) {
+            throw new CryptoException(sprintf(self::ERR_INVALID_KEY, SODIUM_CRYPTO_SECRETBOX_KEYBYTES));
         }
     }
 
@@ -55,8 +55,8 @@ class Encryption
             return null;
         }
 
-        $nonce = randombytes_buf(CRYPTO_SECRETBOX_NONCEBYTES);
-        $cipher = crypto_secretbox($data, $nonce, $this->key);
+        $nonce = random_bytes(SODIUM_CRYPTO_SECRETBOX_NONCEBYTES);
+        $cipher = sodium_crypto_secretbox($data, $nonce, $this->key);
 
         return base64_encode($nonce . $cipher);
     }
@@ -79,12 +79,12 @@ class Encryption
             return null;
         }
 
-        if (strlen($decoded) < CRYPTO_SECRETBOX_NONCEBYTES) {
+        if (strlen($decoded) < SODIUM_CRYPTO_SECRETBOX_NONCEBYTES) {
             return null;
         }
 
-        $nonce = substr($decoded, 0, CRYPTO_SECRETBOX_NONCEBYTES);
-        $cipher = substr($decoded, CRYPTO_SECRETBOX_NONCEBYTES);
+        $nonce = substr($decoded, 0, SODIUM_CRYPTO_SECRETBOX_NONCEBYTES);
+        $cipher = substr($decoded, SODIUM_CRYPTO_SECRETBOX_NONCEBYTES);
 
         $decrypted = crypto_secretbox_open($cipher, $nonce, $this->key);
 
