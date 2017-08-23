@@ -86,7 +86,7 @@ class Encryption
         $nonce = substr($decoded, 0, SODIUM_CRYPTO_SECRETBOX_NONCEBYTES);
         $cipher = substr($decoded, SODIUM_CRYPTO_SECRETBOX_NONCEBYTES);
 
-        $decrypted = crypto_secretbox_open($cipher, $nonce, $this->key);
+        $decrypted = sodium_crypto_secretbox_open($cipher, $nonce, $this->key);
 
         if ($decrypted === false) {
             return null;

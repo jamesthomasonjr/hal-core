@@ -9,8 +9,6 @@ namespace Hal\Core\Crypto;
 
 use PHPUnit\Framework\TestCase;
 
-use const Sodium\CRYPTO_SECRETBOX_KEYBYTES;
-
 class CryptoFilesystemFactoryTest extends TestCase
 {
     public $unencrypted;
