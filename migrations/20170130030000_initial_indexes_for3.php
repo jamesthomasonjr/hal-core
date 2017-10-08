@@ -131,7 +131,6 @@ class InitialIndexesFor3 extends PhinxMigration
                 'targets'
             ],
             'targets/target_id' => [
-                'targets_pools_targets',
                 'jobs_releases',
             ],
 
@@ -140,12 +139,6 @@ class InitialIndexesFor3 extends PhinxMigration
             ],
             'jobs_releases/release_id' => [
                 'targets'
-            ],
-            'targets_views/view_id' => [
-                'targets_pools'
-            ],
-            'targets_pools/pool_id' => [
-                'targets_pools_targets'
             ]
         ];
     }

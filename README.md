@@ -112,12 +112,6 @@ Check out the official Phinx documentation for handling configuration: [docs.phi
     > Configuration for a group in a environment. Applications can have many targets for a single group or environment.
     > Example: "Target for CodeDeploy `group` with CodeDeploy application name `test-app` and S3 bucket `dev-releases`".
 
-- [Target Pool](src/Entity/TargetPool.php)
-    > Used in the UI the help users organize targets.
-
-- [Target View](src/Entity/TargetView.php)
-    > Used in the UI the help users organize targets.
-
 - [Credential](src/Entity/Credential.php)
     > Security credentials used to connect to a target such as access tokens or private keys.
 

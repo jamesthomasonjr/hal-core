@@ -139,31 +139,6 @@ class InitialSchemaFor3 extends PhinxMigration
             ->addColumn('credential_id',  'uuid',     [])
             ->addColumn('release_id',     'string',   ['limit' => 20])
             ->update();
-
-        // targets - views
-        $this->createUUIDTable('targets_views')
-            ->addColumn('name',           'string',   ['limit' => 100])
-            ->addColumn('application_id', 'uuid',     [])
-            ->addColumn('environment_id', 'uuid',     [])
-            ->addColumn('user_id',        'uuid',     [])
-            ->update();
-
-        // targets - pools
-        $this->createUUIDTable('targets_pools')
-            ->addColumn('name',    'string',    ['limit' => 100])
-            ->addColumn('view_id', 'uuid',      [])
-            ->update();
-
-        // relation - pools * targets
-        $poolsTargets = $this->table('targets_pools_targets', [
-            'id' => false,
-            'primary_key' => ['pool_id', 'target_id']
-        ]);
-
-        $poolsTargets
-            ->addColumn('pool_id',   'uuid',    [])
-            ->addColumn('target_id', 'uuid',    [])
-            ->create();
     }
 
     public function createJobTables()
