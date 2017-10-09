@@ -7,7 +7,8 @@
 
 namespace Hal\Core\Entity;
 
-use Hal\Core\Entity\Credential\AWSCredential;
+use Hal\Core\Entity\Credential\AWSRoleCredential;
+use Hal\Core\Entity\Credential\AWSStaticCredential;
 use Hal\Core\Entity\Credential\PrivateKeyCredential;
 use Hal\Core\Type\CredentialEnum;
 use Hal\Core\Utility\EntityIDTrait;
@@ -29,9 +30,21 @@ class Credential implements JsonSerializable
     protected $type;
 
     /**
-     * @var AWSCredential|null
+     * Signifies a credential is internal and can be edited only by administrators.
+     *
+     * @var bool
      */
-    protected $aws;
+    protected $isInternal;
+
+    /**
+     * @var AWSRoleCredential|null
+     */
+    protected $awsRole;
+
+    /**
+     * @var AWSStaticCredential|null
+     */
+    protected $awsStatic;
 
     /**
      * @var PrivateKeyCredential|null
@@ -47,8 +60,10 @@ class Credential implements JsonSerializable
 
         $this->name = '';
         $this->type = CredentialEnum::defaultOption();
+        $this->isInternal = false;
 
-        $this->aws = new AWSCredential;
+        $this->awsRole = new AWSRoleCredential;
+        $this->awsStatic = new AWSStaticCredential;
         $this->privateKey = new PrivateKeyCredential;
     }
 
@@ -69,6 +84,14 @@ class Credential implements JsonSerializable
     }
 
     /**
+     * @return bool
+     */
+    public function isInternal()
+    {
+        return $this->isInternal;
+    }
+
+    /**
      * @return string
      */
     public function type()
@@ -77,19 +100,21 @@ class Credential implements JsonSerializable
     }
 
     /**
-     * @return AWSCredential|null
+     * @return AWSRoleCredential|AWSStaticCredentia|PrivateKeyCredential|null
      */
-    public function aws()
+    public function details()
     {
-        return $this->aws;
-    }
+        if ($this->type() === CredentialEnum::TYPE_AWS_ROLE) {
+            return $this->awsRole;
 
-    /**
-     * @return PrivateKeyCredential|null
-     */
-    public function privateKey()
-    {
-        return $this->privateKey;
+        } elseif ($this->type() === CredentialEnum::TYPE_AWS_STATIC) {
+            return $this->awsStatic;
+
+        } elseif ($this->type() === CredentialEnum::TYPE_PRIVATEKEY) {
+            return $this->privateKey;
+        }
+
+        return null;
     }
 
     /**
@@ -126,24 +151,48 @@ class Credential implements JsonSerializable
     }
 
     /**
-     * @param AWSCredential $aws
+     * @param bool $isInternal
      *
      * @return self
      */
-    public function withAWS(AWSCredential $aws)
+    public function withIsInternal($isInternal)
     {
-        $this->aws = $aws;
+        $this->isInternal = (bool) $isInternal;
         return $this;
     }
 
     /**
-     * @param PrivateKeyCredential $key
+     * @param AWSRoleCredential|AWSStaticCredential|PrivateKeyCredential $info
      *
      * @return self
      */
-    public function withPrivateKey(PrivateKeyCredential $privateKey)
+    public function withDetails($info)
     {
-        $this->privateKey = $privateKey;
+        if ($info instanceof AWSRoleCredential) {
+            $this->withType(CredentialEnum::TYPE_AWS_ROLE);
+            $this->awsAssume = $info;
+            $this->awsStatic = new AWSStaticCredential;
+            $this->privateKey = new PrivateKeyCredential;
+
+        } elseif ($info instanceof AWSStaticCredential) {
+            $this->withType(CredentialEnum::TYPE_AWS_STATIC);
+            $this->awsAssume = new AWSRoleCredential;
+            $this->awsStatic = $info;
+            $this->privateKey = new PrivateKeyCredential;
+
+        } elseif ($info instanceof PrivateKeyCredential) {
+            $this->withType(CredentialEnum::TYPE_PRIVATEKEY);
+            $this->awsAssume = new AWSRoleCredential;
+            $this->awsStatic = new AWSStaticCredential;
+            $this->privateKey = $info;
+
+        } else {
+            $this->withType(CredentialEnum::TYPE_AWS_STATIC);
+            $this->awsAssume = new AWSRoleCredential;
+            $this->awsStatic = new AWSStaticCredential;
+            $this->privateKey = new PrivateKeyCredential;
+        }
+
         return $this;
     }
 
@@ -157,9 +206,9 @@ class Credential implements JsonSerializable
 
             'name' => $this->name(),
             'type' => $this->type(),
+            'isInternal' => $this->isInternal(),
 
-            // 'aws' => $this->aws(),
-            // 'privateKey' => $this->privateKey(),
+            'details' => $this->details()
         ];
 
         return $json;

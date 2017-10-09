@@ -7,7 +7,8 @@
 
 namespace Hal\Core\Entity;
 
-use Hal\Core\Entity\Credential\AWSCredential;
+use Hal\Core\Entity\Credential\AWSRoleCredential;
+use Hal\Core\Entity\Credential\AWSStaticCredential;
 use Hal\Core\Entity\Credential\PrivateKeyCredential;
 use Hal\Core\Type\EnumException;
 use PHPUnit\Framework\TestCase;
@@ -20,29 +21,33 @@ class CredentialTest extends TestCase
 
         $this->assertStringMatchesFormat('%x', $credential->id());
         $this->assertSame('', $credential->name());
-        $this->assertSame('aws', $credential->type());
+        $this->assertSame('aws_static', $credential->type());
+        $this->assertSame(false, $credential->isInternal());
 
-        $this->assertInstanceOf(AWSCredential::class, $credential->aws());
-        $this->assertInstanceOf(PrivateKeyCredential::class, $credential->privateKey());
+        $this->assertInstanceOf(AWSStaticCredential::class, $credential->details());
     }
 
     public function testProperties()
     {
-        $aws = new AWSCredential;
+        $role = new AWSRoleCredential;
+        $static = new AWSStaticCredential;
         $privateKey = new PrivateKeyCredential;
 
         $credential = (new Credential('X1234'))
             ->withName('my secret credentials')
-            ->withType('aws')
-            ->withAWS($aws)
-            ->withPrivateKey($privateKey);
+            ->withDetails($role);
 
         $this->assertSame('X1234', $credential->id());
         $this->assertSame('my secret credentials', $credential->name());
-        $this->assertSame('aws', $credential->type());
+        $this->assertSame('aws_role', $credential->type());
 
-        $this->assertSame($aws, $credential->aws());
-        $this->assertSame($privateKey, $credential->privateKey());
+        $this->assertInstanceOf(AWSRoleCredential::class, $credential->details());
+
+        $credential->withDetails($static);
+        $this->assertInstanceOf(AWSStaticCredential::class, $credential->details());
+
+        $credential->withDetails($privateKey);
+        $this->assertInstanceOf(PrivateKeyCredential::class, $credential->details());
     }
 
     public function testSerialization()
@@ -50,13 +55,18 @@ class CredentialTest extends TestCase
         $credential = (new Credential)
             ->withId('X1234')
             ->withName('my secret credentials')
-            ->withType('aws');
+            ->withType('aws_static')
+            ->withIsInternal(true);
 
         $expected = <<<JSON
 {
     "id": "X1234",
     "name": "my secret credentials",
-    "type": "aws"
+    "type": "aws_static",
+    "isInternal": true,
+    "details": {
+        "key": ""
+    }
 }
 JSON;
 
@@ -71,7 +81,11 @@ JSON;
 {
     "id": "1",
     "name": "",
-    "type": "aws"
+    "type": "aws_static",
+    "isInternal": false,
+    "details": {
+        "key": ""
+    }
 }
 JSON;
 

@@ -7,7 +7,9 @@
 
 namespace Hal\Core\Entity\Credential;
 
-class AWSCredential
+use JsonSerializable;
+
+class AWSStaticCredential implements JsonSerializable
 {
     /**
      * @var string
@@ -45,5 +47,18 @@ class AWSCredential
     public function secret()
     {
         return $this->secret;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        $json = [
+            'key' => $this->key(),
+            // 'secret' => $this->secret(),
+        ];
+
+        return $json;
     }
 }

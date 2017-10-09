@@ -7,7 +7,9 @@
 
 namespace Hal\Core\Entity\Credential;
 
-class PrivateKeyCredential
+use JsonSerializable;
+
+class PrivateKeyCredential implements JsonSerializable
 {
     /**
      * @var string
@@ -64,24 +66,17 @@ class PrivateKeyCredential
     }
 
     /**
-     * @param string $path
-     *
-     * @return self
+     * @return array
      */
-    public function withPath($path)
+    public function jsonSerialize()
     {
-        $this->path = $path;
-        return $this;
-    }
+        $json = [
+            'username' => $this->username(),
 
-    /**
-     * @param string $file
-     *
-     * @return self
-     */
-    public function withFile($file)
-    {
-        $this->file = $file;
-        return $this;
+            'path' => $this->path(),
+            // 'file' => $this->file(),
+        ];
+
+        return $json;
     }
 }

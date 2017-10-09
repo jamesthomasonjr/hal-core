@@ -13,13 +13,14 @@ class CredentialEnumTest extends TestCase
 {
     public function testDefaultOption()
     {
-        $this->assertSame('aws', CredentialEnum::defaultOption());
+        $this->assertSame('aws_static', CredentialEnum::defaultOption());
     }
 
     public function testTypes()
     {
         $expected = [
-            'aws',
+            'aws_role',
+            'aws_static',
             'privatekey'
         ];
 
@@ -33,16 +34,17 @@ class CredentialEnumTest extends TestCase
         $this->assertSame(false, CredentialEnum::isValid(1234));
         $this->assertSame(false, CredentialEnum::isValid(['derp', 'herp']));
 
-        $this->assertSame(true, CredentialEnum::isValid('aws'));
+        $this->assertSame(true, CredentialEnum::isValid('aws_static'));
         $this->assertSame(true, CredentialEnum::isValid('privatekey'));
     }
 
     public function testEnsureValidWhenValidReturnsNormalizedValue()
     {
-        $this->assertSame('aws', CredentialEnum::ensureValid('aws'));
+        $this->assertSame('aws_static', CredentialEnum::ensureValid('aws_static'));
         $this->assertSame('privatekey', CredentialEnum::ensureValid('privatekey'));
 
-        $this->assertSame('aws', CredentialEnum::ensureValid('AWS'));
+        $this->assertSame('aws_static', CredentialEnum::ensureValid('AWS_STATic'));
+        $this->assertSame('aws_role', CredentialEnum::ensureValid('AWS_ROLE'));
         $this->assertSame('privatekey', CredentialEnum::ensureValid('PrivateKey'));
     }
 

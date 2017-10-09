@@ -9,11 +9,11 @@ namespace Hal\Core\Entity\Credential;
 
 use PHPUnit\Framework\TestCase;
 
-class AWSCredentialTest extends TestCase
+class AWSStaticCredentialTest extends TestCase
 {
     public function testDefaultValues()
     {
-        $cred = new AWSCredential;
+        $cred = new AWSStaticCredential;
 
         $this->assertSame('', $cred->key());
         $this->assertSame('', $cred->secret());
@@ -21,9 +21,22 @@ class AWSCredentialTest extends TestCase
 
     public function testProperties()
     {
-        $cred = new AWSCredential('key1', 'secret2');
+        $cred = new AWSStaticCredential('key1', 'secret2');
 
         $this->assertSame('key1', $cred->key());
         $this->assertSame('secret2', $cred->secret());
+    }
+
+    public function testSerialization()
+    {
+        $cred = new AWSStaticCredential('key1', 'secret2');
+
+        $expected = <<<JSON
+{
+    "key": "key1"
+}
+JSON;
+
+        $this->assertSame($expected, json_encode($cred, JSON_PRETTY_PRINT));
     }
 }

@@ -29,18 +29,17 @@ class PrivateKeyCredentialTest extends TestCase
         $this->assertSame('actual_key', $cred->file());
     }
 
-    public function testPathAndFileCanBeChanged()
+    public function testSerialization()
     {
-        $cred = new PrivateKeyCredential('', 'path/to/key', 'actual_key');
+        $cred = new PrivateKeyCredential('user', 'path/to/key', 'actual_key');
 
-        $this->assertSame('path/to/key', $cred->path());
-        $this->assertSame('actual_key', $cred->file());
+        $expected = <<<JSON
+{
+    "username": "user",
+    "path": "path\/to\/key"
+}
+JSON;
 
-        $cred
-            ->withPath('path2')
-            ->withFile('key2');
-
-        $this->assertSame('path2', $cred->path());
-        $this->assertSame('key2', $cred->file());
+        $this->assertSame($expected, json_encode($cred, JSON_PRETTY_PRINT));
     }
 }

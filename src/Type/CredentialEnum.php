@@ -13,7 +13,8 @@ class CredentialEnum
 
     const ERR_INVALID = '"%s" is not a valid credential option.';
 
-    const TYPE_AWS = 'aws';
+    const TYPE_AWS_ROLE = 'aws_role';
+    const TYPE_AWS_STATIC = 'aws_static';
     const TYPE_PRIVATEKEY = 'privatekey';
 
     /**
@@ -21,7 +22,7 @@ class CredentialEnum
      */
     public static function defaultOption()
     {
-        return self::TYPE_AWS;
+        return self::TYPE_AWS_STATIC;
     }
 
     /**
@@ -30,7 +31,8 @@ class CredentialEnum
     public static function options()
     {
         return [
-            self::TYPE_AWS,
+            self::TYPE_AWS_ROLE,
+            self::TYPE_AWS_STATIC,
             self::TYPE_PRIVATEKEY,
         ];
     }

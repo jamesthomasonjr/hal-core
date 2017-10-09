@@ -69,10 +69,13 @@ class InitialSchemaFor3 extends PhinxMigration
 
         // credentials
         $this->createUUIDTable('credentials')
-            ->addColumn('type',                'string',    $this->enumOptions('aws'))
+            ->addColumn('type',                'string',    $this->enumOptions('aws_static'))
             ->addColumn('name',                'string',    ['limit' => 100])
-            ->addColumn('aws_key',             'string',    ['limit' => 100])
-            ->addColumn('aws_secret',          'text',      $this->textOptions('64kb'))
+            ->addColumn('is_internal',         'boolean',   ['default' => false])
+            ->addColumn('awsstatic_key',       'string',    ['limit' => 100])
+            ->addColumn('awsstatic_secret',    'text',      $this->textOptions('64kb'))
+            ->addColumn('awsrole_account',     'string',    ['limit' => 25])
+            ->addColumn('awsrole_role',        'string',    ['limit' => 100])
             ->addColumn('privatekey_username', 'string',    ['limit' => 100])
             ->addColumn('privatekey_path',     'string',    ['limit' => 200])
             ->addColumn('privatekey_file',     'text',      $this->textOptions('64kb'))
