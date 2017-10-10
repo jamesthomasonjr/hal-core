@@ -2,7 +2,7 @@
 
 use Hal\Core\Database\PhinxMigration;
 
-class InitialSchemaFor3 extends PhinxMigration
+class InitialSchema extends PhinxMigration
 {
     /**
      * Change Method.

@@ -2,7 +2,7 @@
 
 use Hal\Core\Database\PhinxMigration;
 
-class InitialIndexesFor3 extends PhinxMigration
+class InitialIndexes extends PhinxMigration
 {
     /**
      * Change Method.
@@ -64,19 +64,15 @@ class InitialIndexesFor3 extends PhinxMigration
         return [
             'users' =>            ['username'],
             'organizations' =>    ['identifier'],
-            'environments' =>     ['name'],
             'applications' =>     ['identifier'],
+            'environments' =>     ['name'],
         ];
     }
 
     protected function searchableColumns()
     {
         return [
-            'users' =>            ['username'],
             'users_tokens' =>     ['value'],
-            'applications' =>     ['identifier'],
-            'organizations' =>    ['identifier'],
-            'environments' =>     ['name'],
             'system_settings' =>  ['name'],
 
             'audit_events' =>     ['created'],
@@ -103,7 +99,6 @@ class InitialIndexesFor3 extends PhinxMigration
                 'users_settings',
                 'users_tokens',
                 'users_permissions',
-                'targets_views',
                 'jobs_builds',
                 'jobs_releases',
                 'jobs_processes'
@@ -112,7 +107,6 @@ class InitialIndexesFor3 extends PhinxMigration
                 'users_permissions',
                 'encrypted_properties',
                 'targets',
-                'targets_views',
                 'jobs_builds',
                 'jobs_releases',
             ],
@@ -124,7 +118,6 @@ class InitialIndexesFor3 extends PhinxMigration
                 'users_permissions',
                 'encrypted_properties',
                 'groups',
-                'targets_views',
                 'jobs_builds',
             ],
             'credentials/credential_id' => [
