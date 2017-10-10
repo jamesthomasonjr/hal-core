@@ -3,10 +3,12 @@ parameters:
     # DEFAULTS FOR RUNTIME CONFIGURATION
     ############################################################################
 
+    env(HAL_ROOT): '.'
+
     env(HAL_ORM_CACHE): 'memory'
     env(HAL_ORM_DEVMODE_ON): false
-    env(HAL_ORM_PROXY_DIR): '%env(PWD)%/.doctrine'
-    env(HAL_ORM_CONFIG_DIR): '%env(PWD)%/config/doctrine'
+    env(HAL_ORM_PROXY_DIR): '%env(HAL_ROOT)%/.doctrine'
+    env(HAL_ORM_CONFIG_DIR): '%env(HAL_ROOT)%/config/doctrine'
 
     ############################################################################
     # RUNTIME CONFIGURATION

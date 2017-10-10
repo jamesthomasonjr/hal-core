@@ -18,9 +18,8 @@ class SymfonyIntegrationTest extends TestCase
     public function testContainerCompiles()
     {
         $root = realpath(__DIR__ . '/../../');
+        putenv("HAL_ROOT=${root}");
         putenv('HAL_DI_DISABLE_CACHE_ON=1');
-        putenv("HAL_ORM_PROXY_DIR=${root}/.doctrine");
-        putenv("HAL_ORM_CONFIG_DIR=${root}/config/doctrine");
 
         putenv('HAL_DB_USER=NA');
         putenv('HAL_DB_PASSWORD=NA');
