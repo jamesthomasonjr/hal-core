@@ -85,8 +85,8 @@ class InitialSchema extends PhinxMigration
         $this->createUUIDTable('encrypted_properties')
             ->addColumn('name',            'string',  ['limit' => 100])
             ->addColumn('data',            'text',    $this->textOptions('64kb'))
-            ->addColumn('application_id',  'uuid',    [])
-            ->addColumn('environment_id',  'uuid',    [])
+            ->addColumn('application_id',  'uuid',    ['null' => true])
+            ->addColumn('environment_id',  'uuid',    ['null' => true])
             ->update();
     }
 
@@ -117,9 +117,9 @@ class InitialSchema extends PhinxMigration
         $this->createUUIDTable('users_permissions')
             ->addColumn('type',            'string',  $this->enumOptions('member'))
             ->addColumn('user_id',         'uuid',    [])
-            ->addColumn('application_id',  'uuid',    [])
-            ->addColumn('organization_id', 'uuid',    [])
-            ->addColumn('environment_id',  'uuid',    [])
+            ->addColumn('application_id',  'uuid',    ['null' => true])
+            ->addColumn('organization_id', 'uuid',    ['null' => true])
+            ->addColumn('environment_id',  'uuid',    ['null' => true])
             ->update();
     }
 
@@ -129,7 +129,7 @@ class InitialSchema extends PhinxMigration
         $this->createUUIDTable('groups')
             ->addColumn('type',           'string',    $this->enumOptions('rsync'))
             ->addColumn('name',           'string',    ['limit' => 100])
-            ->addColumn('environment_id', 'uuid',      [])
+            ->addColumn('environment_id', 'uuid',      ['null' => true])
             ->update();
 
         // targets
@@ -137,10 +137,10 @@ class InitialSchema extends PhinxMigration
             ->addColumn('name',           'string',   ['limit' => 100])
             ->addColumn('url',            'string',   ['limit' => 200])
             ->addColumn('parameters',     'json',     [])
-            ->addColumn('application_id', 'uuid',     [])
-            ->addColumn('group_id',       'uuid',     [])
-            ->addColumn('credential_id',  'uuid',     [])
-            ->addColumn('release_id',     'string',   ['limit' => 20])
+            ->addColumn('application_id', 'uuid',     ['null' => true])
+            ->addColumn('group_id',       'uuid',     ['null' => true])
+            ->addColumn('credential_id',  'uuid',     ['null' => true])
+            ->addColumn('release_id',     'string',   ['limit' => 20, 'null' => true])
             ->update();
     }
 
@@ -158,14 +158,14 @@ class InitialSchema extends PhinxMigration
 
         $builds
             ->addColumn('created',        'datetime',   [])
-            ->addColumn('start',          'datetime',   [])
-            ->addColumn('end',            'datetime',   [])
+            ->addColumn('start',          'datetime',   ['null' => true])
+            ->addColumn('end',            'datetime',   ['null' => true])
             ->addColumn('status',         'string',     $this->enumOptions('pending'))
             ->addColumn('reference',      'string',     ['limit' => 100])
             ->addColumn('commit_sha',     'string',     ['limit' => 40])
-            ->addColumn('user_id',        'uuid',       [])
-            ->addColumn('application_id', 'uuid',       [])
-            ->addColumn('environment_id', 'uuid',       [])
+            ->addColumn('user_id',        'uuid',       ['null' => true])
+            ->addColumn('application_id', 'uuid',       ['null' => true])
+            ->addColumn('environment_id', 'uuid',       ['null' => true])
             ->update();
 
         // jobs - releases
@@ -180,13 +180,13 @@ class InitialSchema extends PhinxMigration
 
         $releases
             ->addColumn('created',        'datetime',   [])
-            ->addColumn('start',          'datetime',   [])
-            ->addColumn('end',            'datetime',   [])
+            ->addColumn('start',          'datetime',   ['null' => true])
+            ->addColumn('end',            'datetime',   ['null' => true])
             ->addColumn('status',         'string',     $this->enumOptions('pending'))
             ->addColumn('build_id',       'string',     ['limit' => 20])
-            ->addColumn('user_id',        'uuid',       [])
-            ->addColumn('application_id', 'uuid',       [])
-            ->addColumn('target_id',      'uuid',       [])
+            ->addColumn('user_id',        'uuid',       ['null' => true])
+            ->addColumn('application_id', 'uuid',       ['null' => true])
+            ->addColumn('target_id',      'uuid',       ['null' => true])
             ->update();
 
         // jobs - events
@@ -218,7 +218,7 @@ class InitialSchema extends PhinxMigration
             ->addColumn('parent_id',    'string',     ['limit' => 20])
             ->addColumn('child_id',     'string',     ['limit' => 20])
             ->addColumn('child_type',   'string',     ['limit' => 40])
-            ->addColumn('user_id',      'uuid',       [])
+            ->addColumn('user_id',      'uuid',       ['null' => true])
             ->update();
     }
 }
