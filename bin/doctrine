@@ -22,9 +22,9 @@ error_reporting(E_ALL | E_STRICT);
 
 $di = new ContainerBuilder;
 $builder = new YamlFileLoader($di, new FileLocator($root));
-$builder->load('configuration/hal-core.yml');
+$builder->load('config/config.yaml');
 
-$di->compile();
+$di->compile(true);
 
 $helperSet = ConsoleRunner::createHelperSet($di->get('doctrine.em'));
 ConsoleRunner::run($helperSet, []);
