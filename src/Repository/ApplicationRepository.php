@@ -37,7 +37,8 @@ class ApplicationRepository extends EntityRepository
         }
 
         foreach ($applications as $app) {
-            $grouped[$app->organization()->id()][] = $app;
+            $orgID = $app->organization() ? $app->organization()->id() : 'none';
+            $grouped[$orgID][] = $app;
         }
 
         return $grouped;
