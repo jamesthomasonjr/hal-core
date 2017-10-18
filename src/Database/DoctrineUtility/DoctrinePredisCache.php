@@ -14,7 +14,8 @@ use Predis\Collection\Iterator\Keyspace;
 
 class DoctrinePredisCache extends CacheProvider
 {
-    const KEY = 'doctrine:%s';
+    const DEFAULT_DELIMITER = ':';
+    const NAMESPACE = 'doctrine';
 
     /**
      * @var Predis
@@ -27,13 +28,21 @@ class DoctrinePredisCache extends CacheProvider
     private $defaultTTL;
 
     /**
+     * @var string
+     */
+    private $keyPattern;
+
+    /**
      * @param Predis $redis
      * @param int $defaultTTL
+     * @param string $keyDelimiter
      */
-    public function __construct(Predis $redis, $defaultTTL)
+    public function __construct(Predis $redis, $defaultTTL, $keyDelimiter = self::DEFAULT_DELIMITER)
     {
         $this->redis = $redis;
         $this->defaultTTL = (int) $defaultTTL;
+
+        $this->keyPattern = self::NAMESPACE . $keyDelimiter . '%s';
     }
 
     /**
@@ -41,7 +50,7 @@ class DoctrinePredisCache extends CacheProvider
      */
     protected function doFetch($id)
     {
-        $key = sprintf(self::KEY, $id);
+        $key = sprintf($this->keyPattern, $id);
 
         if (!$cached = $this->redis->get($key)) {
             return false;
@@ -55,7 +64,7 @@ class DoctrinePredisCache extends CacheProvider
      */
     protected function doContains($id)
     {
-        $key = sprintf(self::KEY, $id);
+        $key = sprintf($this->keyPattern, $id);
 
         return $this->redis->exists($id);
     }
@@ -65,7 +74,7 @@ class DoctrinePredisCache extends CacheProvider
      */
     protected function doSave($id, $data, $lifeTime = 0)
     {
-        $key = sprintf(self::KEY, $id);
+        $key = sprintf($this->keyPattern, $id);
 
         $ttl = ($lifeTime > 0) ? $lifeTime : $this->defaultTTL;
         $serialized = serialize($data);
@@ -79,7 +88,7 @@ class DoctrinePredisCache extends CacheProvider
      */
     protected function doDelete($id)
     {
-        $key = sprintf(self::KEY, $id);
+        $key = sprintf($this->keyPattern, $id);
 
         $response = $this->redis->del($key);
         return ($response > 0);
@@ -90,7 +99,7 @@ class DoctrinePredisCache extends CacheProvider
      */
     protected function doFlush()
     {
-        $match = '*' . sprintf(self::KEY, '*');
+        $match = '*' . sprintf($this->keyPattern, '*');
 
         $keys = [];
         foreach (new Keyspace($this->redis, $match) as $key) {
