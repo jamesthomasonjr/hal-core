@@ -170,25 +170,25 @@ class Credential implements JsonSerializable
     {
         if ($info instanceof AWSRoleCredential) {
             $this->withType(CredentialEnum::TYPE_AWS_ROLE);
-            $this->awsAssume = $info;
+            $this->awsRole = $info;
             $this->awsStatic = new AWSStaticCredential;
             $this->privateKey = new PrivateKeyCredential;
 
         } elseif ($info instanceof AWSStaticCredential) {
             $this->withType(CredentialEnum::TYPE_AWS_STATIC);
-            $this->awsAssume = new AWSRoleCredential;
+            $this->awsRole = new AWSRoleCredential;
             $this->awsStatic = $info;
             $this->privateKey = new PrivateKeyCredential;
 
         } elseif ($info instanceof PrivateKeyCredential) {
             $this->withType(CredentialEnum::TYPE_PRIVATEKEY);
-            $this->awsAssume = new AWSRoleCredential;
+            $this->awsRole = new AWSRoleCredential;
             $this->awsStatic = new AWSStaticCredential;
             $this->privateKey = $info;
 
         } else {
             $this->withType(CredentialEnum::TYPE_AWS_STATIC);
-            $this->awsAssume = new AWSRoleCredential;
+            $this->awsRole = new AWSRoleCredential;
             $this->awsStatic = new AWSStaticCredential;
             $this->privateKey = new PrivateKeyCredential;
         }
