@@ -26,6 +26,7 @@
 
         gitHub:
             class: 'Hal\Core\Entity\Application\GitHubApplication'
+            columnPrefix: false
 
     manyToOne:
 
