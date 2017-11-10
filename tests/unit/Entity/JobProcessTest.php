@@ -140,4 +140,43 @@ JSON;
         $process = new JobProcess('id');
         $process->withStatus('derp');
     }
+
+    public function testChildTypeSetCorrectly()
+    {
+        $user = new User('456');
+        $build = new Build('abcd');
+        $release = new Release('efgh');
+
+        $time = new TimePoint(2015, 8, 15, 12, 0, 0, 'UTC');
+
+        $processWithRelease = (new JobProcess('1234'))
+            ->withCreated($time)
+            ->withUser($user)
+
+            ->withStatus('Aborted')
+            ->withMessage('test message')
+            ->withParameters([
+                'test1' => 'abcdef',
+                'test2' => '123456'
+            ])
+
+            ->withParent($build)
+            ->withChild($release);
+
+        $processWithBuild = (new JobProcess('1234'))
+            ->withCreated($time)
+            ->withUser($user)
+
+            ->withStatus('Aborted')
+            ->withMessage('test message')
+            ->withParameters([
+                'test1' => 'abcdef',
+                'test2' => '123456'
+            ])
+
+            ->withChild($build);
+
+        $this->assertSame('Release', $processWithRelease->childType());
+        $this->assertSame('Build', $processWithBuild->childType());
+    }
 }

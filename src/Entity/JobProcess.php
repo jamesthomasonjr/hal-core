@@ -241,7 +241,7 @@ class JobProcess implements JsonSerializable
     public function withChild($child)
     {
         if ($child instanceof Build) {
-            $this->withParentType('Build');
+            $this->withChildType('Build');
             $child = $child->id();
 
         } elseif ($child instanceof Release) {
