@@ -19,7 +19,7 @@
             type: 'timepoint'
             nullable: true
         end:
-            column: 'end'
+            column: '`end`'
             type: 'timepoint'
             nullable: true
 

@@ -196,7 +196,7 @@ class InitialSchema extends PhinxMigration
             ->addColumn('status',         'string',     $this->enumOptions('info'))
             ->addColumn('event_order',    'integer',    [])
             ->addColumn('message',        'string',     ['limit' => 200])
-            ->addColumn('parameters',     'blob',       $this->blobOptions('16mb'))
+            ->addColumn('parameters',     'binary',     $this->blobOptions('16mb'))
             ->addColumn('parent_id',      'string',     ['limit' => 20])
             ->update();
 
