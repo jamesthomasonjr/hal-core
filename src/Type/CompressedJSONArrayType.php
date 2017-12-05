@@ -12,8 +12,11 @@
 namespace Hal\Core\Type;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Types\JsonArrayType;
 use Doctrine\DBAL\Types\ConversionException;
+use function pg_escape_bytea;
+
 
 /**
  * A Doctrine Type that stores JSON Arrays with string compression into BLOBs
@@ -38,7 +41,7 @@ class CompressedJSONArrayType extends JsonArrayType
      */
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
-        return $platform->getBlobTypeDeclarationSQL($fieldDeclaration);
+        return $platform->getBinaryTypeDeclarationSQLSnippet($fieldDeclaration);
     }
 
     /**
@@ -66,12 +69,17 @@ class CompressedJSONArrayType extends JsonArrayType
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
         if ($value === null) {
-          return null;
+            return null;
         }
 
         $converted = gzcompress(parent::convertToDatabaseValue($value, $platform));
+
         if (false === $converted) {
             throw ConversionException::conversionFailed($value, $this->getName());
+        }
+
+        if ($platform instanceof PostgreSqlPlatform) {
+            $converted = pg_escape_bytea($converted);
         }
 
         return $converted;
