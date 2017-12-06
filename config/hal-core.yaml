@@ -6,7 +6,7 @@ parameters:
     env(HAL_ROOT): '.'
 
     env(HAL_ORM_CACHE): 'memory'
-    env(HAL_ORM_DEVMODE_ON): false
+    env(HAL_ORM_DEVMODE_ON): '0'
     env(HAL_ORM_PROXY_DIR): '%env(HAL_ROOT)%/.doctrine'
     env(HAL_ORM_CONFIG_DIR): '%env(HAL_ROOT)%/config/doctrine'
 
@@ -57,6 +57,7 @@ services:
     ############################################################################
 
     doctrine.em.proxy:
+        public: true
         class: 'Doctrine\ORM\EntityManager'
         factory: ['Doctrine\ORM\EntityManager', 'create']
         arguments:

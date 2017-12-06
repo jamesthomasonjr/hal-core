@@ -9,7 +9,6 @@ namespace Hal\Core;
 
 use Doctrine\Common\Cache\Cache;
 use Doctrine\ORM\EntityManagerInterface;
-
 use Hal\Core\DI;
 use PHPUnit\Framework\TestCase;
 
