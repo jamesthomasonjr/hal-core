@@ -34,7 +34,7 @@ class CompressedJSONArrayTypeTest extends TestCase
     public function testSQLDeclaration()
     {
         $this->platform
-            ->shouldReceive('getBlobTypeDeclarationSQL')
+            ->shouldReceive('getBinaryTypeDeclarationSQL')
             ->andReturn('mediumblob');
 
         $type = CompressedJSONArrayType::getType('compressed_json_array');
@@ -50,7 +50,7 @@ class CompressedJSONArrayTypeTest extends TestCase
             'b' => 'test2'
         ];
 
-        $expected = gzcompress(json_encode($value));
+        $expected = base64_encode(gzcompress(json_encode($value)));
 
         $type = CompressedJSONArrayType::getType('compressed_json_array');
         $actual = $type->convertToDatabaseValue($value, $this->platform);
@@ -65,7 +65,7 @@ class CompressedJSONArrayTypeTest extends TestCase
             'b' => 'test2'
         ];
 
-        $value = gzcompress(json_encode($expected));
+        $value = base64_encode(gzcompress(json_encode($expected)));
 
         $type = CompressedJSONArrayType::getType('compressed_json_array');
         $actual = $type->convertToPHPValue($value, $this->platform);

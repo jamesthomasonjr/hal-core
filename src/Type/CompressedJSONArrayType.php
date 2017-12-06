@@ -15,8 +15,6 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Types\JsonArrayType;
 use Doctrine\DBAL\Types\ConversionException;
-use function pg_escape_bytea;
-
 
 /**
  * A Doctrine Type that stores JSON Arrays with string compression into BLOBs
@@ -41,7 +39,7 @@ class CompressedJSONArrayType extends JsonArrayType
      */
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
-        return $platform->getBinaryTypeDeclarationSQLSnippet($fieldDeclaration);
+        return $platform->getBinaryTypeDeclarationSQL($fieldDeclaration);
     }
 
     /**
@@ -49,18 +47,20 @@ class CompressedJSONArrayType extends JsonArrayType
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        if (null !== $value) {
-
-            $converted = gzuncompress($value);
-            if (false === $converted) {
-                throw ConversionException::conversionFailed($value, $this->getName());
-            }
-
-        } else {
-            $converted = null;
+        if ($value === null) {
+            return parent::convertToPHPValue(null, $platform);
         }
 
-        return parent::convertToPHPValue($converted, $platform);
+        if (is_resource($value)) {
+            $value = stream_get_contents($value);
+        }
+
+        $decompressed = $this->deserialize($value);
+        if ($decompressed === false) {
+            throw ConversionException::conversionFailed($value, $this->getName());
+        }
+
+        return parent::convertToPHPValue($decompressed, $platform);
     }
 
     /**
@@ -72,16 +72,45 @@ class CompressedJSONArrayType extends JsonArrayType
             return null;
         }
 
-        $converted = gzcompress(parent::convertToDatabaseValue($value, $platform));
+        $converted = parent::convertToDatabaseValue($value, $platform);
 
-        if (false === $converted) {
+        $compressed = $this->serialize($converted);
+        if ($compressed === false) {
             throw ConversionException::conversionFailed($value, $this->getName());
         }
 
-        if ($platform instanceof PostgreSqlPlatform) {
-            $converted = pg_escape_bytea($converted);
+        return $compressed;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return string|bool
+     */
+    private function serialize($value)
+    {
+        $compressed = gzcompress($value);
+        if ($compressed === false) {
+            return false;
         }
 
-        return $converted;
+        $encoded = base64_encode($compressed);
+        return $encoded;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return string|bool
+     */
+    private function deserialize($value)
+    {
+        $decoded = base64_decode($value, true);
+        if ($decoded === false) {
+            return false;
+        }
+
+        $decompressed = gzuncompress($decoded);
+        return $decompressed;
     }
 }
