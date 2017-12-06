@@ -76,28 +76,11 @@ class DI
         }
 
         $cacheDisabled = getenv(static::ENV_CACHE_DISABLED);
-
         if ($cacheDisabled) {
-
-            $container = static::buildDI($root, !static::BUILD_AND_CACHE);
-
-            if (static::BUILD_AND_CACHE) {
-                $cached = static::cacheDI($container, $options);
-
-                $content = str_replace('<?php', '', $cached);
-                eval($content);
-                $container = new $class;
-            }
-
-        } else {
-            if (!class_exists($class)) {
-                throw new RuntimeException("DI Cached Container class not found: \"${class}\"");
-            }
-
-            $container = new $class;
+            return self::buildContainer($root, $class, $options);
         }
 
-        return $container;
+        return self::getCachedContainer($class);
     }
 
     /**
@@ -119,11 +102,58 @@ class DI
             'namespace' => implode('\\', $exploded)
         ]);
 
+        $dumper = self::buildDumper($container);
+        return $dumper->dump($config);
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     *
+     * @return PhpDumper
+     */
+    private function buildDumper(ContainerBuilder $container)
+    {
         $dumper = new PhpDumper($container);
         if (class_exists(PhpDumper::class)) {
             $dumper->setProxyDumper(new ProxyDumper);
         }
 
-        return $dumper->dump($config);
+        return $dumper;
+    }
+
+    /**
+     * @param string $class
+     *
+     * @return ContainerInterface
+     */
+    private static function getCachedContainer($class)
+    {
+        if (!class_exists($class)) {
+            throw new RuntimeException("DI Cached Container class not found: \"${class}\"");
+        }
+
+        return new $class;
+    }
+
+    /**
+     * @param string $root
+     * @param string $class
+     * @param array $options
+     *
+     * @return ContainerInterface
+     */
+    private static function buildContainer($root, $class, $options)
+    {
+        $container = static::buildDI($root, !static::BUILD_AND_CACHE);
+
+        if (static::BUILD_AND_CACHE) {
+            $cached = static::cacheDI($container, $options);
+
+            $content = str_replace('<?php', '', $cached);
+            eval($content);
+            $container = new $class;
+        }
+
+        return $container;
     }
 }
