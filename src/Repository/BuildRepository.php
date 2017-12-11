@@ -46,6 +46,11 @@ SQL;
       AND (build.reference = :ref OR build.commit = :ref)
  ORDER BY build.created DESC
 SQL;
+    const DQL_ALL = <<<SQL
+   SELECT build
+     FROM %s build
+ ORDER BY build.created DESC
+SQL;
 
     /**
      * Get all builds for an application, paged.
@@ -96,5 +101,19 @@ SQL;
         }
 
         return $this->getPaginator($dql, $limit, $page, $params);
+    }
+
+    /**
+     * @param int $limit
+     * @param int $page
+     *
+     * @return Paginator
+     */
+    public function getPagedResults($limit = 25, $page = 0)
+    {
+        $template = self::DQL_ALL;
+        $dql = sprintf($template, Build::class);
+
+        return $this->getPaginator($dql, $limit, $page, []);
     }
 }
