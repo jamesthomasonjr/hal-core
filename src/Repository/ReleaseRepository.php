@@ -74,6 +74,11 @@ SQL;
       AND (build.reference = :ref OR build.commit = :ref)
  ORDER BY release.created DESC
 SQL;
+    const DQL_ALL = <<<SQL
+   SELECT release
+     FROM %s release
+ ORDER BY release.created DESC
+SQL;
 
     /**
      * Get all releases that can be used as a rollback, paged.
@@ -168,5 +173,19 @@ SQL;
         }
 
         return $this->getPaginator($dql, $limit, $page, $params);
+    }
+
+    /**
+     * @param int $limit
+     * @param int $page
+     *
+     * @return Paginator
+     */
+    public function getPagedResults($limit = 25, $page = 0)
+    {
+        $template = self::DQL_ALL;
+        $dql = sprintf($template, Release::class);
+
+        return $this->getPaginator($dql, $limit, $page, []);
     }
 }

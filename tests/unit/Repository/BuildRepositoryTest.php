@@ -169,6 +169,27 @@ class BuildRepositoryTest extends DoctrineTest
         $this->assertCount(1, $builds);
     }
 
+    public function testGetPagedResults()
+    {
+        $em = $this->getEntityManager();
+        $repo = $em->getRepository(Build::class);
+
+        $org = new Organization;
+        $app = (new Application(null, 'app1', 'my app'))->withOrganization($org);
+        $env = new Environment(null, 'test');
+
+        $builds = $this->getMockBuilds($app, $env);
+        $this->persist($em, array_merge([$app, $org, $env], $builds));
+
+        $builds = $repo->getPagedResults(2);
+
+        $raw = [];
+        foreach ($builds as $build) $raw[] = $build;
+
+        $this->assertCount(2, $raw);
+        $this->assertCount(5, $builds);
+    }
+
     public function persist($em, array $resources)
     {
         foreach ($resources as $r) {
