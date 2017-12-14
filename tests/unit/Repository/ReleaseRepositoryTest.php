@@ -126,6 +126,27 @@ class ReleaseRepositoryTest extends DoctrineTest
         $this->assertSame($releases[1], $actual[0]);
     }
 
+    public function testGetPagedResults()
+    {
+        $em = $this->getEntityManager();
+        $repo = $em->getRepository(Release::class);
+
+        $target1 = new Target;
+        $target2 = new Target;
+
+        $env = new Environment('1234', 'test');
+
+        $releases = $this->getMockReleases($em, $target1, $target2, $env);
+
+        $releases = $repo->getPagedResults(5);
+
+        $raw = [];
+        foreach ($releases as $release) $raw[] = $release;
+
+        $this->assertCount(5, $raw);
+        $this->assertCount(6, $releases);
+    }
+
     public function getMockReleases($em, Target $target1, Target $target2, Environment $environment = null)
     {
         $org = new Organization;
