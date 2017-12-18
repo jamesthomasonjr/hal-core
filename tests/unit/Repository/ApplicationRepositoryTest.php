@@ -61,9 +61,38 @@ class ApplicationRepositoryTest extends DoctrineTest
         $this->assertCount(2, $apps);
     }
 
+    public function testGetPagedResults()
+    {
+        $em = $this->getEntityManager();
+        $repo = $em->getRepository(Application::class);
+
+        $app1 = new Application(null, 'app1', 'abc name');
+        $app2 = new Application(null, 'app2', 'def name');
+        $app3 = new Application(null, 'app3', 'ghi name');
+        $this->persist($em, [$app1, $app2, $app3]);
+
+        $apps = $repo->getPagedResults(2);
+
+        $raw = [];
+        foreach ($apps as $app) $raw[] = $app;
+
+        $this->assertCount(2, $raw);
+        $this->assertCount(3, $apps);
+    }
+
     public function buildApplication($identifier, $name, Organization $org)
     {
         return (new Application(null, $identifier, $name))
             ->withOrganization($org);
     }
+
+    public function persist($em, array $resources)
+    {
+        foreach ($resources as $r) {
+            $em->persist($r);
+        }
+
+        $em->flush();
+    }
+
 }
