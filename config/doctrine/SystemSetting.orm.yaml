@@ -2,7 +2,7 @@
     table: 'system_settings'
     type: 'entity'
 
-    cache: {usage : READ_ONLY}
+    cache: {usage : NONSTRICT_READ_WRITE}
 
     id:
         id:
