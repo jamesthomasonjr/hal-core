@@ -1,5 +1,6 @@
 # db migration configuration
 /database.sqlite
+/.phinx
 /phinx.secrets
 /phinx.yml
 
