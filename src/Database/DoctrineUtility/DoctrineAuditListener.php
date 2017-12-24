@@ -89,11 +89,13 @@ class DoctrineAuditListener
             return 'Unknown';
         }
 
-        if ($user = $em->find(User::class, $user->id())) {
-            return $user->username();
+        $user = $em->find(User::class, $user->id());
+
+        if (!$user instanceof User) {
+            return 'Unknown';
         }
 
-        return 'Unknown';
+        return $user->username();
     }
 
     /**

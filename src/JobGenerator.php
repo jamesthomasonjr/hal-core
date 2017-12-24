@@ -39,7 +39,6 @@ class JobGenerator
     private $base;
 
     /**
-     * @param string $version
      * @param string $alphabet
      * @param int $fixedSize
      */
