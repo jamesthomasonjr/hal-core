@@ -8,6 +8,7 @@
 namespace Hal\Core\Database;
 
 use Phinx\Db\Adapter\MysqlAdapter;
+use Phinx\Db\Table;
 use Phinx\Migration\AbstractMigration;
 
 /**
@@ -92,5 +93,4 @@ class PhinxMigration extends AbstractMigration
 
         return $this->getAdapter() instanceof MysqlAdapter ? ['limit' => $limit] : [];
     }
-
 }

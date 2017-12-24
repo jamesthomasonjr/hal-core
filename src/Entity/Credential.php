@@ -100,7 +100,7 @@ class Credential implements JsonSerializable
     }
 
     /**
-     * @return AWSRoleCredential|AWSStaticCredentia|PrivateKeyCredential|null
+     * @return AWSRoleCredential|AWSStaticCredential|PrivateKeyCredential|null
      */
     public function details()
     {

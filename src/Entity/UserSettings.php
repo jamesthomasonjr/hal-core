@@ -168,7 +168,7 @@ class UserSettings implements JsonSerializable
      */
     private function removeApplication(Application $application)
     {
-        $filter = function($appID) use ($application) {
+        $filter = function ($appID) use ($application) {
             // Remove IDs that match
             if ($appID === $application->id()) {
                 return false;

@@ -8,6 +8,7 @@
 namespace Hal\Core\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Hal\Core\Entity\Application;
 use Hal\Core\Entity\Organization;
 use Hal\Core\Utility\PagedResultsTrait;

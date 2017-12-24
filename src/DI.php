@@ -10,8 +10,9 @@ namespace Hal\Core;
 use RuntimeException;
 use Symfony\Bridge\ProxyManager\LazyProxy\PhpDumper\ProxyDumper;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 class DI
@@ -111,7 +112,7 @@ class DI
      *
      * @return PhpDumper
      */
-    private function buildDumper(ContainerBuilder $container)
+    private static function buildDumper(ContainerBuilder $container)
     {
         $dumper = new PhpDumper($container);
         if (class_exists(PhpDumper::class)) {

@@ -9,4 +9,6 @@ namespace Hal\Core\Type;
 
 use Exception as BaseException;
 
-class EnumException extends BaseException {}
+class EnumException extends BaseException
+{
+}

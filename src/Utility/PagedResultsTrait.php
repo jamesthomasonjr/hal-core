@@ -37,5 +37,4 @@ trait PagedResultsTrait
 
         return new Paginator($query);
     }
-
 }

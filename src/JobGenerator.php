@@ -108,7 +108,7 @@ class JobGenerator
     public function encode($num)
     {
         $encoded = '';
-        while($num > 0) {
+        while ($num > 0) {
             $encoded = $this->alphabet[$num % $this->base] . $encoded;
             $num = floor($num / $this->base);
         }

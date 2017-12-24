@@ -35,10 +35,9 @@ class DoctrineConfigurator
         $platform = $em->getConnection()->getDatabasePlatform();
 
         foreach ($this->typeClasses as $fqcn) {
-
             $name = constant("${fqcn}::NAME");
 
-            if (Type::hasType($name, $fqcn)) {
+            if (Type::hasType($name)) {
                 continue;
             }
 

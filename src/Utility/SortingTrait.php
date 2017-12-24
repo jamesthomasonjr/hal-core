@@ -51,7 +51,7 @@ trait SortingTrait
      */
     public function targetSorter()
     {
-        return function(Target $a, Target $b) {
+        return function (Target $a, Target $b) {
             $formattedA = $a->format();
             $formattedB = $b->format();
 
@@ -66,7 +66,7 @@ trait SortingTrait
     {
         $order = $this->sortingHelperEnvironmentOrder;
 
-        return function(Environment $a, Environment $b) use ($order) {
+        return function (Environment $a, Environment $b) use ($order) {
 
             $aName = strtolower($a->name());
             $bName = strtolower($b->name());
@@ -89,7 +89,7 @@ trait SortingTrait
     {
         $hostnameSorter = $this->hostnameSorter();
 
-        return function($a, $b) use ($hostnameSorter) {
+        return function ($a, $b) use ($hostnameSorter) {
             $serverA = $a->name();
             $serverB = $b->name();
 
@@ -151,7 +151,7 @@ trait SortingTrait
             '([a-z]*)' . // random letters, because thats apparently a thing now.
             '#';
 
-        return function($a, $b) use ($regex) {
+        return function ($a, $b) use ($regex) {
             $isA = preg_match($regex, $a, $matchesA);
             $isB = preg_match($regex, $b, $matchesB);
 
@@ -194,7 +194,7 @@ trait SortingTrait
      */
     public function applicationSorter()
     {
-        return function(Application $a, Application $b) {
+        return function (Application $a, Application $b) {
             return strcasecmp($a->name(), $b->name());
         };
     }
@@ -204,7 +204,7 @@ trait SortingTrait
      */
     public function organizationSorter()
     {
-        return function(Organization $a, Organization $b) {
+        return function (Organization $a, Organization $b) {
             return strcasecmp($a->name(), $b->name());
         };
     }

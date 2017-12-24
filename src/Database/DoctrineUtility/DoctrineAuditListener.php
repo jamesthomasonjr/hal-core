@@ -154,7 +154,7 @@ class DoctrineAuditListener
      * @param AuditEvent $event
      * @param UnitOfWork $uow
      *
-     * @return AudiEvent
+     * @return AuditEvent
      */
     private function withChangeset($entity, AuditEvent $event, UnitOfWork $uow)
     {
