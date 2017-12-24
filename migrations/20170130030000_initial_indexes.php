@@ -1,6 +1,7 @@
 <?php
 
 use Hal\Core\Database\PhinxMigration;
+if (!class_exists(PhinxMigration::class)) { require_once __DIR__ . '/../src/Database/PhinxMigration.php'; }
 
 class InitialIndexes extends PhinxMigration
 {
