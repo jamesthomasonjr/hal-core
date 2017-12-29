@@ -119,7 +119,7 @@ class CredentialProvider
     }
 
     /**
-     * @param AWSStaticCredential|null $credential
+     * @param AWSStaticCredential $credential
      *
      * @return array|null
      */
@@ -137,7 +137,7 @@ class CredentialProvider
     }
 
     /**
-     * @param AWSRoleCredential|null $credential
+     * @param AWSRoleCredential $credential
      * @param string $region
      *
      * @return CredentialProvider|callable|null
@@ -180,7 +180,7 @@ class CredentialProvider
             ->getRepository(Credential::class)
             ->findOneBy(['isInternal' => true, 'name' => $this->credentialName]);
 
-        if (!$credentials) {
+        if (!$credentials instanceof Credential) {
             $this->logger->critical(sprintf(self::ERR_INVALID_INTERNAL_CREDENTIALS, $this->credentialName));
             return null;
         }

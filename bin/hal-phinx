@@ -1,0 +1,75 @@
+#!/usr/bin/env sh
+
+set -eo pipefail
+
+# declare variables
+work_dir="$( pwd )"
+cur_dir="$( cd "$( dirname "$0" )" && pwd )"
+root_dir="${cur_dir}/.."
+phinx_dir="${root_dir}/.phinx"
+
+box_version="${HAL_BOX_VERSION:-2.7.5}"
+phinx_version="${HAL_PHINX_VERSION:-0.9.2}"
+# fyi box is bugged in 0.9.2 release: 12358597d62913858cd19757d49f020fa17c0b88
+
+if [ ! -d "${phinx_dir}" ] ; then
+    mkdir "${phinx_dir}"
+fi
+
+target_phinx="${phinx_dir}/phinx-${phinx_version}.phar"
+
+if [ ! -f "${target_phinx}" ] ; then
+
+    # download and install box
+    echo ; echo "> Installing box ${box_version} (https://github.com/box-project/box2)"
+    echo
+
+    curl -LSs \
+        -o "${phinx_dir}/box.phar" \
+        "https://github.com/box-project/box2/releases/download/${box_version}/box-${box_version}.phar"
+
+    chmod +x "${phinx_dir}/box.phar"
+
+    # download and install phinx
+    echo ; echo "> Installing phinx ${phinx_version} (https://github.com/cakephp/phinx)"
+    echo
+
+    # due to bugged 0.9.2 - remove in next version
+    if [ "${phinx_version}" == "0.9.2" ] ; then
+        git clone \
+            "https://github.com/cakephp/phinx.git" \
+            "${phinx_dir}/phinx-${phinx_version}"
+        cd "${phinx_dir}/phinx-${phinx_version}"
+
+        git tag -d "v0.9.2"
+        git tag "v0.9.2" "12358597d62913858cd19757d49f020fa17c0b88"
+        git checkout "v0.9.2"
+    else
+        git clone \
+            --branch "v${phinx_version}" --depth 1 \
+            "https://github.com/cakephp/phinx.git" \
+            "${phinx_dir}/phinx-${phinx_version}"
+    fi
+
+    cd "${phinx_dir}/phinx-${phinx_version}"
+    composer --no-interaction --no-progress install
+
+    echo ; echo "> Building phinx box"
+    echo
+
+    "${phinx_dir}/box.phar" build
+
+    mv "${phinx_dir}/phinx-${phinx_version}/phinx-v${phinx_version}.phar" \
+       "${target_phinx}"
+
+    rm -rf "${phinx_dir}/phinx-${phinx_version}"
+
+    cd "${root_dir}"
+fi
+
+# Include phinx secrets if present in working dir
+if [ -f  "${work_dir}/phinx.secrets" ] ; then
+    source "${work_dir}/phinx.secrets"
+fi
+
+"${target_phinx}" $@

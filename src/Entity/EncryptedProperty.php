@@ -103,7 +103,7 @@ class EncryptedProperty implements JsonSerializable
     }
 
     /**
-     * @param string $key
+     * @param string $name
      *
      * @return self
      */

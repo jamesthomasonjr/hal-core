@@ -41,8 +41,6 @@
     },
 
     "require-dev": {
-        "robmorgan/phinx": "~0.8",
-
         "predis/predis":                "~1.0",
         "symfony/config":               "~3.3.0",
         "symfony/dependency-injection": "~3.3.0",

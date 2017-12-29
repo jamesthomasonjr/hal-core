@@ -129,7 +129,7 @@ class AWSAuthenticator
     }
 
     /**
-     * @param $region
+     * @param string $region
      * @param AWSStaticCredential|AWSRoleCredential|null $credential
      *
      * @return CodePipelineClient|null
@@ -219,7 +219,7 @@ class AWSAuthenticator
     }
 
     /**
-     * @param $region
+     * @param string $region
      * @param AWSStaticCredential|AWSRoleCredential|null $credential
      *
      * @return CloudWatchLogsClient
