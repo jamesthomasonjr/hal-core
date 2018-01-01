@@ -3,17 +3,6 @@
     repositoryClass: 'Hal\Core\Repository\JobType\ReleaseRepository'
     type: 'entity'
 
-    # id:
-    #     id:
-    #         column: 'id'
-    #         type: 'guid'
-
-    # fields:
-
-    #     created:
-    #         column: 'created'
-    #         type: 'timepoint'
-
     manyToOne:
 
         build:

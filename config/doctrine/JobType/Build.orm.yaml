@@ -3,11 +3,6 @@
     repositoryClass: 'Hal\Core\Repository\JobType\BuildRepository'
     type: 'entity'
 
-    # id:
-    #     id:
-    #         column: 'id'
-    #         type: 'guid'
-
     fields:
 
         reference:
@@ -20,10 +15,6 @@
             column: 'code_commit_sha'
             type: 'string'
             length: 100
-
-        # created:
-        #     column: 'created'
-        #     type: 'timepoint'
 
     manyToOne:
 

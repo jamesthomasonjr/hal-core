@@ -32,7 +32,7 @@
 
         triggerJob:
             cache: { usage : READ_ONLY }
-            targetEntity: 'User'
+            targetEntity: 'Job'
             joinColumn:
                 name: 'trigger_job_id'
                 referencedColumnName: 'id'
@@ -40,7 +40,7 @@
 
         scheduledJob:
             cache: { usage : READ_ONLY }
-            targetEntity: 'User'
+            targetEntity: 'Job'
             joinColumn:
                 name: 'scheduled_job_id'
                 referencedColumnName: 'id'

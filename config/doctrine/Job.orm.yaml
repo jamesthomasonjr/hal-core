@@ -16,9 +16,8 @@
 
     id:
         id:
-            column: id
-            type: 'string'
-            length: 20
+            column: 'id'
+            type: 'guid'
 
     fields:
 
