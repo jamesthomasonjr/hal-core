@@ -29,7 +29,7 @@
 
         user:
             cache: { usage : READ_ONLY }
-            targetEntity: 'User'
+            targetEntity: 'Hal\Core\Entity\User'
             inversedBy: 'tokens'
             joinColumn:
                 name: 'user_id'

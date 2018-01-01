@@ -1,12 +1,12 @@
 'Hal\Core\Entity\JobType\Build':
     table: 'jobs_builds'
-    repositoryClass: 'Hal\Core\Repository\BuildRepository'
+    repositoryClass: 'Hal\Core\Repository\JobType\BuildRepository'
     type: 'entity'
 
-    id:
-        id:
-            column: 'id'
-            type: 'guid'
+    # id:
+    #     id:
+    #         column: 'id'
+    #         type: 'guid'
 
     fields:
 
@@ -21,15 +21,15 @@
             type: 'string'
             length: 100
 
-        created:
-            column: 'created'
-            type: 'timepoint'
+        # created:
+        #     column: 'created'
+        #     type: 'timepoint'
 
     manyToOne:
 
         application:
             cache: { usage : READ_ONLY }
-            targetEntity: 'Application'
+            targetEntity: 'Hal\Core\Entity\Application'
             joinColumn:
                 name: 'application_id'
                 referencedColumnName: 'id'
@@ -37,7 +37,7 @@
 
         environment:
             cache: { usage : READ_ONLY }
-            targetEntity: 'Environment'
+            targetEntity: 'Hal\Core\Entity\Environment'
             joinColumn:
                 name: 'environment_id'
                 referencedColumnName: 'id'

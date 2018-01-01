@@ -24,7 +24,7 @@
         isDisabled:
             column: 'is_disabled'
             type: 'boolean'
-            options: {default: false}
+            options: { default: false }
 
         created:
             column: 'created'
@@ -33,15 +33,15 @@
     oneToMany:
 
         tokens:
-            targetEntity: 'UserToken'
+            targetEntity: 'Hal\Core\Entity\User\UserToken'
             mappedBy: 'user'
 
     manyToOne:
 
         provider:
-            cache: {usage : READ_ONLY}
+            cache: { usage : READ_ONLY }
             fetch: EAGER
-            targetEntity: 'UserIdentityProvider'
+            targetEntity: 'Hal\Core\Entity\System\UserIdentityProvider'
             joinColumn:
                 name: 'provider_id'
                 referencedColumnName: 'id'

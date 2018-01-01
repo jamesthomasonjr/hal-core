@@ -35,11 +35,11 @@
         provider:
             cache: { usage : READ_ONLY }
             fetch: EAGER
-            targetEntity: 'VersionControlProvider'
+            targetEntity: 'Hal\Core\Entity\System\VersionControlProvider'
             joinColumn:
                 name: 'provider_id'
                 referencedColumnName: 'id'
-                nullable: false
+                nullable: true
 
         organization:
             cache: { usage : READ_ONLY }

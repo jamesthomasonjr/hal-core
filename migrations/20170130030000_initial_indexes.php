@@ -11,7 +11,9 @@ class InitialIndexes extends PhinxMigration
         foreach ($this->uniqueColumns() as $table => $columns) {
             $table = $this->table($table);
 
-            $table = $table->addIndex($columns, ['unique' => true]);
+            foreach ($columns as $column) {
+                $table = $table->addIndex($column, ['unique' => true]);
+            }
 
             $table->update();
         }
@@ -43,7 +45,7 @@ class InitialIndexes extends PhinxMigration
     {
         return [
             // 'users' =>            ['name'],
-            'environments' =>     ['name'],
+            // 'environments' =>     ['name'],
         ];
     }
 
@@ -103,6 +105,7 @@ class InitialIndexes extends PhinxMigration
                 'targets',
                 'targets_templates',
                 'jobs_builds',
+                'jobs_releases',
                 'credentials',
             ],
             'credentials/credential_id' => [

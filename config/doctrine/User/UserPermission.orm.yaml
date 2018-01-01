@@ -25,7 +25,7 @@
 
         user:
             cache: { usage : READ_ONLY }
-            targetEntity: 'User'
+            targetEntity: 'Hal\Core\Entity\User'
             joinColumn:
                 name: 'user_id'
                 referencedColumnName: 'id'
@@ -33,7 +33,7 @@
 
         application:
             cache: { usage : READ_ONLY }
-            targetEntity: 'Application'
+            targetEntity: 'Hal\Core\Entity\Application'
             joinColumn:
                 name: 'application_id'
                 referencedColumnName: 'id'
@@ -41,7 +41,7 @@
 
         organization:
             cache: { usage : READ_ONLY }
-            targetEntity: 'Organization'
+            targetEntity: 'Hal\Core\Entity\Organization'
             joinColumn:
                 name: 'organization_id'
                 referencedColumnName: 'id'
@@ -49,7 +49,7 @@
 
         environment:
             cache: { usage : READ_ONLY }
-            targetEntity: 'Environment'
+            targetEntity: 'Hal\Core\Entity\Environment'
             joinColumn:
                 name: 'environment_id'
                 referencedColumnName: 'id'

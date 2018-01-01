@@ -28,7 +28,7 @@
 
         job:
             cache: { usage : READ_ONLY }
-            targetEntity: 'Job'
+            targetEntity: 'Hal\Core\Entity\Job'
             inversedBy: 'meta'
             joinColumn:
                 name: 'job_id'

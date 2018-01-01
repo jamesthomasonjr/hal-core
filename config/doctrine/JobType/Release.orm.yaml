@@ -1,18 +1,18 @@
 'Hal\Core\Entity\JobType\Release':
     table: 'jobs_releases'
-    repositoryClass: 'Hal\Core\Repository\ReleaseRepository'
+    repositoryClass: 'Hal\Core\Repository\JobType\ReleaseRepository'
     type: 'entity'
 
-    id:
-        id:
-            column: 'id'
-            type: 'guid'
+    # id:
+    #     id:
+    #         column: 'id'
+    #         type: 'guid'
 
-    fields:
+    # fields:
 
-        created:
-            column: 'created'
-            type: 'timepoint'
+    #     created:
+    #         column: 'created'
+    #         type: 'timepoint'
 
     manyToOne:
 
@@ -26,15 +26,23 @@
 
         application:
             cache: { usage : READ_ONLY }
-            targetEntity: 'Application'
+            targetEntity: 'Hal\Core\Entity\Application'
             joinColumn:
                 name: 'application_id'
                 referencedColumnName: 'id'
                 nullable: true
 
+        environment:
+            cache: { usage : READ_ONLY }
+            targetEntity: 'Hal\Core\Entity\Environment'
+            joinColumn:
+                name: 'environment_id'
+                referencedColumnName: 'id'
+                nullable: true
+
         target:
             cache: { usage : READ_ONLY }
-            targetEntity: 'Target'
+            targetEntity: 'Hal\Core\Entity\Target'
             joinColumn:
                 name: 'target_id'
                 referencedColumnName: 'id'

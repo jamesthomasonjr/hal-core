@@ -8,9 +8,11 @@
     discriminatorColumn:
         name: 'job_type'
         type: 'string'
+        length: 50
     discriminatorMap:
         build: 'Hal\Core\Entity\JobType\Build'
         release: 'Hal\Core\Entity\JobType\Release'
+        job: 'Hal\Core\Entity\Job'
 
     id:
         id:
@@ -20,11 +22,11 @@
 
     fields:
 
-        type:
-            column: 'job_type'
-            type: 'string'
-            length: 50
-            options: { default: 'build' } # See JobEnum for list of options
+        # type:
+        #     column: 'job_type'
+        #     type: 'string'
+        #     length: 50
+        #     options: { default: 'build' } # See JobEnum for list of options
 
         status:
             column: 'job_status'
@@ -53,11 +55,11 @@
     oneToMany:
 
         events:
-            targetEntity: 'JobEvent'
+            targetEntity: 'Hal\Core\Entity\Job\JobEvent'
             mappedBy: 'job'
 
         meta:
-            targetEntity: 'JobMeta'
+            targetEntity: 'Hal\Core\Entity\Job\JobMeta'
             mappedBy: 'job'
 
     manyToOne:
