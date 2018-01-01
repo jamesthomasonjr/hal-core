@@ -5,12 +5,12 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace Hal\Core\Repository;
+namespace Hal\Core\Repository\JobType;
 
 use Hal\Core\Entity\Application;
 use Hal\Core\Entity\Organization;
-use Hal\Core\Entity\Build;
 use Hal\Core\Entity\Environment;
+use Hal\Core\Entity\JobType\Build;
 use Hal\Core\Testing\DoctrineTest;
 use QL\MCP\Common\Time\TimePoint;
 
@@ -31,7 +31,7 @@ class BuildRepositoryTest extends DoctrineTest
         $repo = $em->getRepository(Build::class);
 
         $org = new Organization;
-        $app = (new Application(null, 'app1', 'my app'))->withOrganization($org);
+        $app = (new Application('app1'))->withOrganization($org);
 
         $this->persist($em, [$app, $org]);
 
@@ -46,7 +46,7 @@ class BuildRepositoryTest extends DoctrineTest
         $repo = $em->getRepository(Build::class);
 
         $org = new Organization;
-        $app = (new Application(null, 'app1', 'my app'))->withOrganization($org);
+        $app = (new Application('app1'))->withOrganization($org);
 
         $builds = $this->getMockBuilds($app);
         $this->persist($em, array_merge([$app, $org], $builds));
@@ -72,7 +72,7 @@ class BuildRepositoryTest extends DoctrineTest
         $repo = $em->getRepository(Build::class);
 
         $org = new Organization;
-        $app = (new Application(null, 'app1', 'my app'))->withOrganization($org);
+        $app = (new Application('app1'))->withOrganization($org);
 
         $builds = $this->getMockBuilds($app);
         $this->persist($em, array_merge([$app, $org], $builds));
@@ -98,7 +98,7 @@ class BuildRepositoryTest extends DoctrineTest
         $repo = $em->getRepository(Build::class);
 
         $org = new Organization;
-        $app = (new Application(null, 'app1', 'my app'))->withOrganization($org);
+        $app = (new Application('app1'))->withOrganization($org);
 
         $builds = $this->getMockBuilds($app);
         $this->persist($em, array_merge([$app, $org], $builds));
@@ -123,9 +123,9 @@ class BuildRepositoryTest extends DoctrineTest
         $repo = $em->getRepository(Build::class);
 
         $org = new Organization;
-        $app = (new Application(null, 'app1', 'my app'))->withOrganization($org);
-        $env = new Environment(null, 'test');
-        $env2 = new Environment(null, 'beta');
+        $app = (new Application('app1'))->withOrganization($org);
+        $env = new Environment('test');
+        $env2 = new Environment('beta');
 
         $builds = $this->getMockBuilds($app, $env);
         $this->persist($em, array_merge([$app, $org, $env], $builds));
@@ -141,8 +141,8 @@ class BuildRepositoryTest extends DoctrineTest
         $repo = $em->getRepository(Build::class);
 
         $org = new Organization;
-        $app = (new Application(null, 'app1', 'my app'))->withOrganization($org);
-        $env = new Environment(null, 'test');
+        $app = (new Application('app1'))->withOrganization($org);
+        $env = new Environment('test');
 
         $builds = $this->getMockBuilds($app, $env);
         $this->persist($em, array_merge([$app, $org, $env], $builds));
@@ -158,8 +158,8 @@ class BuildRepositoryTest extends DoctrineTest
         $repo = $em->getRepository(Build::class);
 
         $org = new Organization;
-        $app = (new Application(null, 'app1', 'my app'))->withOrganization($org);
-        $env = new Environment(null, 'test');
+        $app = (new Application('app1'))->withOrganization($org);
+        $env = new Environment('test');
 
         $builds = $this->getMockBuilds($app, $env);
         $this->persist($em, array_merge([$app, $org, $env], $builds));
@@ -175,8 +175,8 @@ class BuildRepositoryTest extends DoctrineTest
         $repo = $em->getRepository(Build::class);
 
         $org = new Organization;
-        $app = (new Application(null, 'app1', 'my app'))->withOrganization($org);
-        $env = new Environment(null, 'test');
+        $app = (new Application('app1'))->withOrganization($org);
+        $env = new Environment('test');
 
         $builds = $this->getMockBuilds($app, $env);
         $this->persist($em, array_merge([$app, $org, $env], $builds));
@@ -188,15 +188,6 @@ class BuildRepositoryTest extends DoctrineTest
 
         $this->assertCount(2, $raw);
         $this->assertCount(5, $builds);
-    }
-
-    public function persist($em, array $resources)
-    {
-        foreach ($resources as $r) {
-            $em->persist($r);
-        }
-
-        $em->flush();
     }
 
     public function getMockBuilds(Application $app, Environment $environment = null)

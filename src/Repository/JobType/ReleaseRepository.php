@@ -10,10 +10,10 @@ namespace Hal\Core\Repository\JobType;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Hal\Core\Entity\Application;
-use Hal\Core\Entity\Build;
 use Hal\Core\Entity\Environment;
-use Hal\Core\Entity\Release;
 use Hal\Core\Entity\Target;
+use Hal\Core\Entity\JobType\Build;
+use Hal\Core\Entity\JobType\Release;
 use Hal\Core\Type\JobStatusEnum;
 use Hal\Core\Utility\PagedResultsTrait;
 

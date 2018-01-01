@@ -5,14 +5,14 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace Hal\Core\Repository;
+namespace Hal\Core\Repository\JobType;
 
 use Hal\Core\Entity\Application;
-use Hal\Core\Entity\Build;
 use Hal\Core\Entity\Environment;
 use Hal\Core\Entity\Organization;
-use Hal\Core\Entity\Release;
 use Hal\Core\Entity\Target;
+use Hal\Core\Entity\JobType\Build;
+use Hal\Core\Entity\JobType\Release;
 use Hal\Core\Testing\DoctrineTest;
 use QL\MCP\Common\Time\TimePoint;
 
@@ -111,7 +111,7 @@ class ReleaseRepositoryTest extends DoctrineTest
         $target1 = new Target;
         $target2 = new Target;
 
-        $environment = new Environment('1234', 'test');
+        $environment = new Environment('test');
 
         $releases = $this->getMockReleases($em, $target1, $target2, $environment);
 
@@ -134,7 +134,7 @@ class ReleaseRepositoryTest extends DoctrineTest
         $target1 = new Target;
         $target2 = new Target;
 
-        $env = new Environment('1234', 'test');
+        $env = new Environment('test');
 
         $releases = $this->getMockReleases($em, $target1, $target2, $env);
 
@@ -150,26 +150,26 @@ class ReleaseRepositoryTest extends DoctrineTest
     public function getMockReleases($em, Target $target1, Target $target2, Environment $environment = null)
     {
         $org = new Organization;
-        $application1 = (new Application('12', 'app1', 'App Name'))
+        $application1 = (new Application('app1'))
             ->withOrganization($org);
-        $application2 = (new Application('34', 'app2', 'App Name'))
+        $application2 = (new Application('app2'))
             ->withOrganization($org);
 
-        $build1 = (new Build('1abcd'))
+        $build1 = (new Build('1b'))
             ->withStatus('success')
             ->withReference('pull/1234');
-        $build2 = (new Build('2abcd'))
+        $build2 = (new Build('2b'))
             ->withStatus('removed')
             ->withReference('master');
-        $build3 = (new Build('3abcd'))
+        $build3 = (new Build('3b'))
             ->withStatus('success')
             ->withReference('derpbranch')
             ->withCommit('1bcde12345abcde12345abcde12345abcde12345');
 
-        $environment2 = new Environment('5678', 'beta');
+        $environment2 = new Environment('beta');
 
         if (!$environment) {
-            $environment = new Environment('1234', 'test');
+            $environment = new Environment('test');
         }
 
         $build1->withEnvironment($environment);
@@ -177,47 +177,41 @@ class ReleaseRepositoryTest extends DoctrineTest
         $build3->withEnvironment($environment);
 
         // app1
-        $release1 = (new Release('1abcd'))
+        $release1 = (new Release('1abcd', new TimePoint(2015, 8, 9, 12, 0, 0, 'UTC')))
             ->withApplication($application1)
             ->withTarget($target1)
             ->withBuild($build1)
-            ->withCreated(new TimePoint(2015, 8, 9, 12, 0, 0, 'UTC'))
             ->withStatus('failure');
 
-        $release2 = (new Release('2abcd'))
+        $release2 = (new Release('2abcd', new TimePoint(2015, 8, 16, 12, 0, 0, 'UTC')))
             ->withApplication($application1)
             ->withTarget($target1)
             ->withBuild($build3)
-            ->withCreated(new TimePoint(2015, 8, 16, 12, 0, 0, 'UTC'))
             ->withStatus('pending');
 
-        $release3 = (new Release('3abcd'))
+        $release3 = (new Release('3abcd', new TimePoint(2015, 8, 15, 12, 0, 0, 'UTC')))
             ->withApplication($application1)
             ->withTarget($target1)
             ->withBuild($build1)
-            ->withCreated(new TimePoint(2015, 8, 15, 12, 0, 0, 'UTC'))
             ->withStatus('success');
 
-        $release4 = (new Release('4abcd'))
+        $release4 = (new Release('4abcd', new TimePoint(2015, 8, 13, 12, 0, 0, 'UTC')))
             ->withApplication($application1)
             ->withTarget($target1)
             ->withBuild($build2)
-            ->withCreated(new TimePoint(2015, 8, 13, 12, 0, 0, 'UTC'))
             ->withStatus('success');
 
         // app2
-        $release5 = (new Release('p1.efgh'))
+        $release5 = (new Release('5efgh', new TimePoint(2015, 8, 15, 12, 0, 0, 'UTC')))
             ->withApplication($application2)
             ->withTarget($target2)
             ->withBuild($build1)
-            ->withCreated(new TimePoint(2015, 8, 15, 12, 0, 0, 'UTC'))
             ->withStatus('failure');
 
-        $release6 = (new Release('p2.efgh'))
+        $release6 = (new Release('6efgh', new TimePoint(2015, 8, 8, 12, 0, 0, 'UTC')))
             ->withApplication($application2)
             ->withTarget($target2)
             ->withBuild($build2)
-            ->withCreated(new TimePoint(2015, 8, 8, 12, 0, 0, 'UTC'))
             ->withStatus('pending');
 
         $target1->withApplication($application1);
@@ -233,15 +227,6 @@ class ReleaseRepositoryTest extends DoctrineTest
         ));
 
         return $releases;
-    }
-
-    public function persist($em, array $resources)
-    {
-        foreach ($resources as $r) {
-            $em->persist($r);
-        }
-
-        $em->flush();
     }
 
     public function dePaginate($paginator)

@@ -9,7 +9,6 @@ namespace Hal\Core\Repository;
 
 use Hal\Core\Entity\Application;
 use Hal\Core\Entity\Environment;
-use Hal\Core\Entity\Group;
 use Hal\Core\Entity\Organization;
 use Hal\Core\Entity\Target;
 use Hal\Core\Testing\DoctrineTest;
@@ -31,36 +30,21 @@ class EnvironmentRepositoryTest extends DoctrineTest
         $repo = $em->getRepository(Environment::class);
 
         $org = new Organization;
-        $app = (new Application('ab', 'app1', 'app name'))
+        $app = (new Application)
+            ->withName('app name')
             ->withOrganization($org);
 
-        $env1 = new Environment('12', 'test');
-        $env2 = new Environment('34', 'beta');
+        $env1 = (new Environment)->withName('test');
+        $env2 = (new Environment)->withName('beta');
+        $env3 = (new Environment)->withName('prod');
 
-        $group1 = (new Group('7'))
-            ->withType('rsync')
+        $target1 = (new Target)
+            ->withApplication($app)
             ->withEnvironment($env1);
-        $group2 = (new Group('8'))
-            ->withType('eb')
-            ->withEnvironment($env2);
+        $target2 = (new Target)
+            ->withApplication($app);
 
-        $target1 = (new Target('1234'))
-            ->withApplication($app)
-            ->withGroup($group1);
-        $target2 = (new Target('5678'))
-            ->withApplication($app)
-            ->withGroup($group1);
-
-        $em->persist($org);
-        $em->persist($app);
-        $em->persist($env1);
-        $em->persist($env2);
-        $em->persist($group1);
-        $em->persist($group2);
-
-        $em->persist($target1);
-        $em->persist($target2);
-        $em->flush();
+        $this->persist($em, [$org, $app, $env1, $env2, $env3, $target1, $target2]);
 
         $environments = $repo->getBuildableEnvironmentsByApplication($app);
 
@@ -72,17 +56,12 @@ class EnvironmentRepositoryTest extends DoctrineTest
         $em = $this->getEntityManager();
         $repo = $em->getRepository(Environment::class);
 
-        $env1 = new Environment('12', 'alpha');
-        $env2 = new Environment('34', 'prod');
-        $env3 = new Environment('56', 'test');
-        $env4 = new Environment('78', 'beta');
+        $env1 = (new Environment)->withName('alpha');
+        $env2 = (new Environment)->withName('prod');
+        $env3 = (new Environment)->withName('test');
+        $env4 = (new Environment)->withName('beta');
 
-        $em->persist($env1);
-        $em->persist($env2);
-        $em->persist($env3);
-        $em->persist($env4);
-
-        $em->flush();
+        $this->persist($em, [$env1, $env2, $env3, $env4]);
 
         $environments = $repo->getAllEnvironmentsSorted();
 

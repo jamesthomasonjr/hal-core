@@ -8,25 +8,25 @@
 namespace Hal\Core\Repository;
 
 use Hal\Core\Entity\Environment;
-use Hal\Core\Entity\Group;
+use Hal\Core\Entity\TargetTemplate;
 use Hal\Core\Testing\DoctrineTest;
 use QL\MCP\Common\Time\TimePoint;
 
-class GroupRepositoryTest extends DoctrineTest
+class TargetTemplateRepositoryTest extends DoctrineTest
 {
     public function testRepositoryIsCorrect()
     {
         $em = $this->getEntityManager();
-        $repo = $em->getRepository(Group::class);
+        $repo = $em->getRepository(TargetTemplate::class);
 
-        $this->assertSame(GroupRepository::class, get_class($repo));
-        $this->assertSame(Group::class, $repo->getClassName());
+        $this->assertSame(TargetTemplateRepository::class, get_class($repo));
+        $this->assertSame(TargetTemplate::class, $repo->getClassName());
     }
 
     public function testNoServersFound()
     {
         $em = $this->getEntityManager();
-        $repo = $em->getRepository(Group::class);
+        $repo = $em->getRepository(TargetTemplate::class);
 
         $logs = $repo->getPagedResults();
 
@@ -36,47 +36,42 @@ class GroupRepositoryTest extends DoctrineTest
     public function test()
     {
         $em = $this->getEntityManager();
-        $repo = $em->getRepository(Group::class);
+        $repo = $em->getRepository(TargetTemplate::class);
 
-        $group1 = (new Group)
+        $tpl1 = (new TargetTemplate)
             ->withType('rsync')
             ->withName('hostname2');
 
-        $group2 = (new Group)
+        $tpl2 = (new TargetTemplate)
             ->withType('rsync')
             ->withName('hostname3');
 
-        $group3 = (new Group)
+        $tpl3 = (new TargetTemplate)
             ->withType('rsync')
             ->withName('hostname1');
 
-        $group4 = (new Group)
+        $tpl4 = (new TargetTemplate)
             ->withType('cd')
             ->withName('us-west-1');
 
-        $group5 = (new Group)
+        $tpl5 = (new TargetTemplate)
             ->withType('eb')
             ->withName('us-east-1');
 
-        $em->persist($group1);
-        $em->persist($group2);
-        $em->persist($group3);
-        $em->persist($group4);
-        $em->persist($group5);
-        $em->flush();
+        $this->persist($em, [$tpl1, $tpl2, $tpl3, $tpl4, $tpl5]);
 
-        $groups = $repo->getPagedResults(2, 1);
+        $templates = $repo->getPagedResults(2, 1);
 
         $raw = [];
-        foreach ($groups as $group) $raw[] = $group;
+        foreach ($templates as $template) $raw[] = $template;
 
         // total size
-        $this->assertCount(5, $groups);
+        $this->assertCount(5, $templates);
 
         // page size
         $this->assertCount(2, $raw);
 
-        $this->assertSame($group2, $raw[0]);
-        $this->assertSame($group1, $raw[1]);
+        $this->assertSame($tpl2, $raw[0]);
+        $this->assertSame($tpl1, $raw[1]);
     }
 }

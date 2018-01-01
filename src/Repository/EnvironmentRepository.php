@@ -11,7 +11,6 @@ use Doctrine\ORM\EntityRepository;
 use Hal\Core\Entity\Application;
 use Hal\Core\Entity\Environment;
 use Hal\Core\Entity\Target;
-use Hal\Core\Entity\TargetTemplate;
 use Hal\Core\Utility\SortingTrait;
 
 class EnvironmentRepository extends EntityRepository
@@ -24,8 +23,7 @@ class EnvironmentRepository extends EntityRepository
    SELECT env
      FROM %s target
 
-     JOIN %s tpl WITH tpl = target.group
-     JOIN %s env WITH env = tpl.environment
+     JOIN %s env WITH env = target.environment
 
     WHERE target.application = :application
 SQL_QUERY;
@@ -41,7 +39,7 @@ SQL_QUERY;
     {
         $region = sprintf(self::ENV_QUERY_REGION, $application->id());
 
-        $dql = sprintf(self::DQL_BY_APPLICATION, Target::class, TargetTemplate::class, Environment::class);
+        $dql = sprintf(self::DQL_BY_APPLICATION, Target::class, Environment::class);
 
         $query = $this->getEntityManager()
             ->createQuery($dql)

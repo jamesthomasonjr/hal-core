@@ -19,7 +19,7 @@ class UserRepository extends EntityRepository
     const DQL_GET_USERS = <<<SQL_QUERY
    SELECT user
      FROM %s user
- ORDER BY user.username ASC
+ ORDER BY user.name ASC
 SQL_QUERY;
 
     /**
