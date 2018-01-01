@@ -58,7 +58,7 @@ class Environment implements JsonSerializable
      *
      * @return self
      */
-    public function withName($name): self
+    public function withName(string $name): self
     {
         $this->name = $name;
         return $this;
@@ -69,9 +69,9 @@ class Environment implements JsonSerializable
      *
      * @return self
      */
-    public function withIsProduction($isProduction): self
+    public function withIsProduction(bool $isProduction): self
     {
-        $this->isProduction = (bool) $isProduction;
+        $this->isProduction = $isProduction;
         return $this;
     }
 

@@ -67,7 +67,7 @@ class DI
      * @param string $root
      * @param array $options
      *
-     * @return ContainerBuilder
+     * @return ContainerInterface|bool
      */
     public static function getDI(string $root, array $options)
     {
@@ -88,7 +88,7 @@ class DI
      * @param ContainerBuilder $container
      * @param array $options
      *
-     * @return string The cached container file contents.
+     * @return string|bool
      */
     public static function cacheDI(ContainerBuilder $container, array $options)
     {

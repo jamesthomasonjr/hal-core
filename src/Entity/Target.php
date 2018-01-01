@@ -45,7 +45,7 @@ class Target implements JsonSerializable
     protected $application;
 
     /**
-     * @var Environment
+     * @var Environment|null
      */
     protected $environment;
 

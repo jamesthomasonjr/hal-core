@@ -90,7 +90,7 @@ class JobArtifact implements JsonSerializable
      */
     public function withIsRemovable(bool $isRemovable): self
     {
-        $this->isRemovable = (bool) $isRemovable;
+        $this->isRemovable = $isRemovable;
         return $this;
     }
 

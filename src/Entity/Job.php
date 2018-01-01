@@ -10,8 +10,6 @@ namespace Hal\Core\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Hal\Core\Utility\EntityTrait;
 use Hal\Core\Utility\ParameterTrait;
-// use Hal\Core\Entity\JobType\Build;
-// use Hal\Core\Entity\JobType\Release;
 use Hal\Core\Type\JobEnum;
 use Hal\Core\Type\JobStatusEnum;
 use JsonSerializable;
@@ -48,16 +46,6 @@ class Job implements JsonSerializable
     protected $events;
     protected $meta;
 
-    // /**
-    //  * @var Build|null
-    //  */
-    // protected $build;
-
-    // /**
-    //  * @var Release|null
-    //  */
-    // protected $release;
-
     /**
      * @param string $type
      * @param string $id
@@ -78,10 +66,6 @@ class Job implements JsonSerializable
         $this->artifacts = new ArrayCollection;
         $this->events = new ArrayCollection;
         $this->meta = new ArrayCollection;
-
-        // job types
-        // $this->build = null;
-        // $this->release = null;
     }
 
     /**
@@ -149,46 +133,13 @@ class Job implements JsonSerializable
     }
 
     /**
-     * @return Build|Release|null
-     */
-    public function details()
-    {
-        $subtype = $this->type();
-
-        if ($subtype === JobEnum::TYPE_BUILD) {
-            return $this->build;
-
-        } else if ($subtype === JobEnum::TYPE_RELEASE) {
-            return $this->release;
-
-        } else {
-            throw new InvalidArgumentException(self::ERR_INVALID_SUBTYPE);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param Build|Release $subtype
+     * @param string $type
      *
      * @return self
      */
-    public function withType($subtype): self
+    public function withType(string $type): self
     {
-        if ($subtype instanceof Build) {
-            $this->type = JobEnum::TYPE_BUILD;
-            $this->build = $subtype;
-            $this->release = null;
-
-        } elseif ($subtype instanceof Release) {
-            $this->type = JobEnum::TYPE_RELEASE;
-            $this->build = null;
-            $this->release = $subtype;
-
-        } else {
-            throw new InvalidArgumentException(self::ERR_INVALID_SUBTYPE);
-        }
-
+        $this->status = JobEnum::ensureValid($type);
         return $this;
     }
 

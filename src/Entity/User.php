@@ -35,7 +35,7 @@ class User implements JsonSerializable
     protected $settings;
 
     /**
-     * @var UserIdentityProvider
+     * @var UserIdentityProvider|null
      */
     protected $provider;
 
@@ -94,9 +94,9 @@ class User implements JsonSerializable
     }
 
     /**
-     * @return UserIdentityProvider
+     * @return UserIdentityProvider|null
      */
-    public function provider(): UserIdentityProvider
+    public function provider(): ?UserIdentityProvider
     {
         return $this->provider;
     }
@@ -114,7 +114,7 @@ class User implements JsonSerializable
      *
      * @return self
      */
-    public function withName($name): self
+    public function withName(string $name): self
     {
         $this->name = $name;
         return $this;
@@ -125,9 +125,9 @@ class User implements JsonSerializable
      *
      * @return self
      */
-    public function withIsDisabled($isDisabled): self
+    public function withIsDisabled(bool $isDisabled): self
     {
-        $this->isDisabled = (bool) $isDisabled;
+        $this->isDisabled = $isDisabled;
         return $this;
     }
 

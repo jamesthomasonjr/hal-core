@@ -84,7 +84,7 @@ class JobEvent implements JsonSerializable
     }
 
     /**
-     * @return string|null
+     * @return string
      */
     public function message(): string
     {
