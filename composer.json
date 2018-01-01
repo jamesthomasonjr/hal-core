@@ -21,7 +21,6 @@
     },
 
     "bin": [
-        "bin/hal-build-id",
         "bin/hal-random-id"
     ],
 
