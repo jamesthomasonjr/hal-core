@@ -7,19 +7,15 @@
 
 namespace Hal\Core\Type;
 
-class JobStatusEnum
+class ScheduledActionStatusEnum
 {
     use EnumTrait;
 
-    const ERR_INVALID = '"%s" is not a valid status option.';
+    const ERR_INVALID = '"%s" is not a valid process status option.';
 
-    const TYPE_SCHEDULED = 'scheduled'; // not used yet
     const TYPE_PENDING = 'pending';
-    const TYPE_RUNNING = 'running';
-
-    const TYPE_SUCCESS = 'success';
-    const TYPE_FAILURE = 'failure';
-    const TYPE_REMOVED = 'removed';
+    const TYPE_ABORTED = 'aborted';
+    const TYPE_LAUNCHED = 'launched';
 
     /**
      * @return string
@@ -35,14 +31,10 @@ class JobStatusEnum
     public static function options()
     {
         return [
-            self::TYPE_SCHEDULED,
             self::TYPE_PENDING,
 
-            self::TYPE_RUNNING,
-
-            self::TYPE_SUCCESS,
-            self::TYPE_FAILURE,
-            self::TYPE_REMOVED,
+            self::TYPE_ABORTED,
+            self::TYPE_LAUNCHED
         ];
     }
 }

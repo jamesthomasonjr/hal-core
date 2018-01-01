@@ -7,22 +7,23 @@
 
 namespace Hal\Core\Type;
 
-class JobProcessStatusEnum
+class IdentityProviderEnum
 {
     use EnumTrait;
 
-    const ERR_INVALID = '"%s" is not a valid process status option.';
+    const ERR_INVALID = '"%s" is not a valid status option.';
 
-    const TYPE_PENDING = 'pending';
-    const TYPE_ABORTED = 'aborted';
-    const TYPE_LAUNCHED = 'launched';
+    const TYPE_INTERNAL = 'internal';
+    const TYPE_LDAP = 'ldap';
+    const TYPE_GITHUB = 'gh';
+    const TYPE_GITHUB_ENTERPRISE = 'ghe';
 
     /**
      * @return string
      */
     public static function defaultOption()
     {
-        return self::TYPE_PENDING;
+        return self::TYPE_INTERNAL;
     }
 
     /**
@@ -31,10 +32,10 @@ class JobProcessStatusEnum
     public static function options()
     {
         return [
-            self::TYPE_PENDING,
-
-            self::TYPE_ABORTED,
-            self::TYPE_LAUNCHED
+            self::TYPE_INTERNAL,
+            self::TYPE_LDAP,
+            self::TYPE_GITHUB,
+            self::TYPE_GITHUB_ENTERPRISE,
         ];
     }
 }

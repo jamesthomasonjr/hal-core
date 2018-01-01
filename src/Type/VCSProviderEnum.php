@@ -7,24 +7,22 @@
 
 namespace Hal\Core\Type;
 
-class GroupEnum
+class VCSProviderEnum
 {
     use EnumTrait;
 
-    const ERR_INVALID = '"%s" is not a valid group option.';
+    const ERR_INVALID = '"%s" is not a valid status option.';
 
-    const TYPE_RSYNC = 'rsync';
-    const TYPE_EB = 'eb';
-    const TYPE_S3 = 's3';
-    const TYPE_CD = 'cd';
-    const TYPE_SCRIPT = 'script';
+    const TYPE_GIT = 'git';
+    const TYPE_GITHUB = 'gh';
+    const TYPE_GITHUB_ENTERPRISE = 'ghe';
 
     /**
      * @return string
      */
     public static function defaultOption()
     {
-        return self::TYPE_RSYNC;
+        return self::TYPE_GITHUB_ENTERPRISE;
     }
 
     /**
@@ -33,11 +31,9 @@ class GroupEnum
     public static function options()
     {
         return [
-            self::TYPE_RSYNC,
-            self::TYPE_EB,
-            self::TYPE_S3,
-            self::TYPE_CD,
-            self::TYPE_SCRIPT
+            self::TYPE_GIT,
+            self::TYPE_GITHUB,
+            self::TYPE_GITHUB_ENTERPRISE,
         ];
     }
 }
