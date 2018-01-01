@@ -7,7 +7,9 @@
 
 namespace Hal\Core\Entity;
 
+use Hal\Core\Entity\JobType\Release;
 use PHPUnit\Framework\TestCase;
+use QL\MCP\Common\Time\TimePoint;
 
 class TargetTest extends TestCase
 {
@@ -15,27 +17,29 @@ class TargetTest extends TestCase
     {
         $target = new Target;
 
-        $this->assertStringMatchesFormat('%x', $target->id());
+        $this->assertRegExp('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/', $target->id());
+        $this->assertInstanceOf(TimePoint::class, $target->created());
+
         $this->assertSame('', $target->name());
         $this->assertSame('', $target->url());
 
         $this->assertSame([], $target->parameters());
 
-        $this->assertSame(null, $target->application());
-        $this->assertSame(null, $target->group());
+        // $this->assertSame(null, $target->application());
 
+        $this->assertSame(null, $target->template());
         $this->assertSame(null, $target->credential());
-        $this->assertSame(null, $target->release());
+        $this->assertSame(null, $target->lastJob());
     }
 
     public function testProperties()
     {
         $application = new Application;
-        $group = new Group;
+        $template = new TargetTemplate;
         $credential = new Credential;
         $release = new Release;
 
-        $target = (new Target('1234'))
+        $target = (new Target('script', '1234'))
             ->withName('target name')
             ->withURL('http://example.com')
 
@@ -48,8 +52,8 @@ class TargetTest extends TestCase
             ->withParameter('file', 'myfile/myfile.tar.gz')
 
             ->withApplication($application)
-            ->withGroup($group)
-            ->withRelease($release)
+            ->withTemplate($template)
+            ->withLastJob($release)
             ->withCredential($credential);
 
         $this->assertSame('1234', $target->id());
@@ -73,20 +77,20 @@ class TargetTest extends TestCase
         $this->assertSame('myfile/myfile.tar.gz', $target->parameter('file'));
 
         $this->assertSame($application, $target->application());
-        $this->assertSame($group, $target->group());
+        $this->assertSame($template, $target->template());
         $this->assertSame($credential, $target->credential());
-        $this->assertSame($release, $target->release());
+        $this->assertSame($release, $target->lastJob());
     }
 
     public function testSerialization()
     {
         $application = new Application('1');
-        $group = new Group('2');
+        $template = new TargetTemplate('script', '2');
         $credential = new Credential('3');
         $release = new Release('4');
+        $environment = new Environment('5');
 
-        $target = (new Target)
-            ->withID('1234')
+        $target = (new Target('eb', '1234', new TimePoint(2017, 1, 3, 12, 0, 0, 'UTC')))
             ->withName('deployment name')
             ->withURL('http://example.com')
 
@@ -98,13 +102,16 @@ class TargetTest extends TestCase
             ->withParameter('bucket', 'bucket-name')
 
             ->withApplication($application)
-            ->withGroup($group)
+            ->withEnvironment($environment)
+            ->withTemplate($template)
             ->withCredential($credential)
-            ->withRelease($release);
+            ->withLastJob($release);
 
-        $expected = <<<JSON
+        $expected = <<<JSON_TEXT
 {
     "id": "1234",
+    "created": "2017-01-03T12:00:00Z",
+    "type": "eb",
     "name": "deployment name",
     "url": "http://example.com",
     "parameters": {
@@ -114,33 +121,65 @@ class TargetTest extends TestCase
         "bucket": "bucket-name"
     },
     "application_id": "1",
-    "group_id": "2",
+    "environment_id": "5",
     "credential_id": "3",
-    "release_id": "4"
+    "template_id": "2",
+    "job_id": "4"
 }
-JSON;
+JSON_TEXT;
 
         $this->assertSame($expected, json_encode($target, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     }
 
     public function testDefaultSerialization()
     {
-        $target = new Target('1');
+        $target = new Target(null, '1', new TimePoint(2017, 1, 3, 12, 0, 0, 'UTC'));
+        $target->withApplication(new Application('1234'));
 
-        $expected = <<<JSON
+        $expected = <<<JSON_TEXT
 {
     "id": "1",
+    "created": "2017-01-03T12:00:00Z",
+    "type": "rsync",
     "name": "",
     "url": "",
     "parameters": [],
-    "application_id": null,
-    "group_id": null,
+    "application_id": "1234",
+    "environment_id": null,
     "credential_id": null,
-    "release_id": null
+    "template_id": null,
+    "job_id": null
 }
-JSON;
+JSON_TEXT;
 
         $this->assertSame($expected, json_encode($target, JSON_PRETTY_PRINT));
+    }
+
+    public function testFormat()
+    {
+        $template = new TargetTemplate;
+        $this->assertSame('RSync', $template->format());
+        $this->assertSame(false, $template->isAWS());
+
+        $template->withType('rsync');
+        $this->assertSame('RSync', $template->format());
+        $this->assertSame(false, $template->isAWS());
+
+        $template->withType('eb');
+        $this->assertSame('Elastic Beanstalk', $template->format());
+        $this->assertSame(true, $template->isAWS());
+
+        $template->withType('cd');
+        $this->assertSame('CodeDeploy', $template->format());
+        $this->assertSame(true, $template->isAWS());
+
+        $template->withType('s3');
+        $this->assertSame('S3', $template->format());
+        $this->assertSame(true, $template->isAWS());
+
+        $template->withType('script');
+        $this->assertSame('Script', $template->format());
+        $this->assertSame(false, $template->isAWS());
     }
 
     public function testFormatWithName()
@@ -152,101 +191,72 @@ JSON;
         $this->assertSame('target name', $target->format());
     }
 
-    public function testFormatWithoutGroup()
-    {
-        $target = (new Target)
-            ->withParameter('path', '/my/app/root');
-
-        $this->assertSame('Unknown', $target->format());
-        $this->assertSame('Unknown', $target->formatParameters());
-    }
-
     public function testFormatForRsync()
     {
-        $group = (new Group(null, 'rsync'))->withName('hostname');
-        $target = (new Target)
-            ->withParameter('path', '/my/app/root')
-            ->withGroup($group);
+        $target = (new Target('rsync'))
+            ->withParameter('path', '/my/app/root');
 
-        $this->assertSame('RSync (/my/app/root)', $target->format());
-        $this->assertSame('RSync', $target->format(true));
+        $this->assertSame('RSync', $target->format());
         $this->assertSame('/my/app/root', $target->formatParameters());
     }
 
     public function testFormatForEB()
     {
-        $group = (new Group(null, 'eb'))->withName('us-east-1');
-        $target = (new Target)
+        $target = (new Target('eb'))
             ->withParameter('application', 'BeanstalkApp')
-            ->withParameter('environment', 'e-1234abcd')
-            ->withGroup($group);
+            ->withParameter('environment', 'e-1234abcd');
 
-        $this->assertSame('EB (e-1234abcd)', $target->format());
-        $this->assertSame('Elastic Beanstalk', $target->format(true));
+        $this->assertSame('Elastic Beanstalk', $target->format());
         $this->assertSame('e-1234abcd', $target->formatParameters());
     }
 
     public function testFormatForS3()
     {
-        $group = (new Group(null, 's3'))->withName('us-west-1');
-        $target = (new Target)
+        $target = (new Target('s3'))
             ->withParameter('bucket', 'bucket-name')
-            ->withParameter('path', 'file.tar.gz')
-            ->withGroup($group);
+            ->withParameter('path', 'file.tar.gz');
 
-        $this->assertSame('S3 (bucket-name/file.tar.gz)', $target->format());
-        $this->assertSame('S3', $target->format(true));
+        $this->assertSame('S3', $target->format());
         $this->assertSame('bucket-name/file.tar.gz', $target->formatParameters());
     }
 
     public function testFormatS3WithoutPath()
     {
-        $group = (new Group(null, 's3'))->withName('us-west-1');
-        $target = (new Target)
-            ->withParameter('bucket', 'bucket-name')
-            ->withGroup($group);
+        $target = (new Target('s3'))
+            ->withParameter('bucket', 'bucket-name');
 
-        $this->assertSame('S3 (bucket-name)', $target->format());
-        $this->assertSame('S3', $target->format(true));
+        $this->assertSame('S3', $target->format());
         $this->assertSame('bucket-name', $target->formatParameters());
     }
 
     public function testFormatS3WithSource()
     {
-        $group = (new Group(null, 's3'))->withName('us-west-1');
-        $target = (new Target)
+        $target = (new Target('s3'))
             ->withParameter('bucket', 'bucket-name')
             ->withParameter('path', 'file.tar.gz')
-            ->withParameter('source', 'appdist/folder')
-            ->withGroup($group);
+            ->withParameter('source', 'appdist/folder');
 
-        $this->assertSame('S3 (appdist/folder:bucket-name/file.tar.gz)', $target->format());
-        $this->assertSame('S3', $target->format(true));
+        $this->assertSame('S3', $target->format());
         $this->assertSame('appdist/folder:bucket-name/file.tar.gz', $target->formatParameters());
     }
 
     public function testFormatForCD()
     {
-        $group = (new Group(null, 'cd'))->withName('us-west-1');
-        $target = (new Target)
+        $target = (new Target('cd'))
             ->withParameter('application', 'DemoApp')
             ->withParameter('group', 'DemoFleet')
-            ->withParameter('configuration', 'CodeDeploy.HalfAtATime')
-            ->withGroup($group);
+            ->withParameter('configuration', 'CodeDeploy.HalfAtATime');
 
-        $this->assertSame('CD (DemoFleet)', $target->format());
-        $this->assertSame('CodeDeploy', $target->format(true));
+        $this->assertSame('CodeDeploy', $target->format());
         $this->assertSame('DemoFleet', $target->formatParameters());
     }
 
     public function testFormatForScript()
     {
-        $target = (new Target)
-            ->withParameter('context', 'test1')
-            ->withGroup(new Group(null, 'script'));
+        $target = (new Target('script'))
+            ->withParameter('context', 'test1');
 
-        $this->assertSame('Script (test1)', $target->format());
-        $this->assertSame('Script', $target->format(true));
+        $this->assertSame('Script', $target->format());
         $this->assertSame('test1', $target->formatParameters());
     }
 }

@@ -60,7 +60,7 @@ class AuditEvent
     /**
      * @return string
      */
-    public function description()
+    public function description(): string
     {
         return $this->description;
     }

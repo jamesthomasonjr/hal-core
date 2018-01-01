@@ -142,7 +142,7 @@ class ScheduledAction implements JsonSerializable
      */
     public function withTriggerJob(?Job $job): self
     {
-        $this->triggerJob = $triggerJob;
+        $this->triggerJob = $job;
         return $this;
     }
 
@@ -153,7 +153,7 @@ class ScheduledAction implements JsonSerializable
      */
     public function withScheduledJob(?Job $job): self
     {
-        $this->scheduledJob = $scheduledJob;
+        $this->scheduledJob = $job;
         return $this;
     }
 

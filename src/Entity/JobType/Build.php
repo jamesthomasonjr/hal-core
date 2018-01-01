@@ -10,6 +10,7 @@ namespace Hal\Core\Entity\JobType;
 use Hal\Core\Entity\Application;
 use Hal\Core\Entity\Environment;
 use Hal\Core\Entity\Job;
+use Hal\Core\Type\JobEnum;
 use QL\MCP\Common\Time\TimePoint;
 
 class Build extends Job
@@ -36,7 +37,7 @@ class Build extends Job
      */
     public function __construct($id = '', TimePoint $created = null)
     {
-        parent::__construct($id, $created);
+        parent::__construct(JobEnum::TYPE_BUILD, $id, $created);
 
         $this->reference = '';
         $this->commit = '';
@@ -48,7 +49,7 @@ class Build extends Job
     /**
      * @return string
      */
-    public function reference()
+    public function reference(): string
     {
         return $this->reference;
     }
@@ -56,7 +57,7 @@ class Build extends Job
     /**
      * @return string
      */
-    public function commit()
+    public function commit(): string
     {
         return $this->commit;
     }
@@ -64,7 +65,7 @@ class Build extends Job
     /**
      * @return Application|null
      */
-    public function application()
+    public function application(): ?Application
     {
         return $this->application;
     }
@@ -72,7 +73,7 @@ class Build extends Job
     /**
      * @return Environment|null
      */
-    public function environment()
+    public function environment(): ?Environment
     {
         return $this->environment;
     }
@@ -82,7 +83,7 @@ class Build extends Job
      *
      * @return self
      */
-    public function withReference($ref)
+    public function withReference(string $ref): self
     {
         $this->reference = $ref;
         return $this;
@@ -93,7 +94,7 @@ class Build extends Job
      *
      * @return self
      */
-    public function withCommit($commit)
+    public function withCommit(string $commit): self
     {
         $this->commit = $commit;
         return $this;
@@ -104,7 +105,7 @@ class Build extends Job
      *
      * @return self
      */
-    public function withApplication(Application $application = null)
+    public function withApplication(?Application $application): self
     {
         $this->application = $application;
         return $this;
@@ -115,7 +116,7 @@ class Build extends Job
      *
      * @return self
      */
-    public function withEnvironment(Environment $environment = null)
+    public function withEnvironment(?Environment $environment): self
     {
         $this->environment = $environment;
         return $this;
@@ -126,10 +127,7 @@ class Build extends Job
      */
     public function jsonSerialize()
     {
-        $json = [
-            'id' => $this->id(),
-            'created' => $this->created(),
-
+        $json = parent::jsonSerialize() + [
             'reference' => $this->reference(),
             'commit' => $this->commit(),
 

@@ -11,7 +11,7 @@ class ScheduledActionStatusEnum
 {
     use EnumTrait;
 
-    const ERR_INVALID = '"%s" is not a valid process status option.';
+    const ERR_INVALID = '"%s" is not a valid scheduled action status option.';
 
     const TYPE_PENDING = 'pending';
     const TYPE_ABORTED = 'aborted';

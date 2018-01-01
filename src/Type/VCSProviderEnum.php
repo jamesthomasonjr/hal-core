@@ -11,7 +11,7 @@ class VCSProviderEnum
 {
     use EnumTrait;
 
-    const ERR_INVALID = '"%s" is not a valid status option.';
+    const ERR_INVALID = '"%s" is not a valid vcs provider option.';
 
     const TYPE_GIT = 'git';
     const TYPE_GITHUB = 'gh';

@@ -7,6 +7,7 @@
 
 namespace Hal\Core\Entity\Job;
 
+use Hal\Core\Entity\Job;
 use Hal\Core\Utility\EntityTrait;
 use JsonSerializable;
 use QL\MCP\Common\Time\TimePoint;

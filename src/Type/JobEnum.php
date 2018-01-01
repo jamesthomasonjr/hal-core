@@ -11,7 +11,7 @@ class JobEnum
 {
     use EnumTrait;
 
-    const ERR_INVALID = '"%s" is not a valid status option.';
+    const ERR_INVALID = '"%s" is not a valid job option.';
 
     const TYPE_BUILD = 'build';
     const TYPE_RELEASE = 'release';

@@ -12,6 +12,7 @@ use Hal\Core\Entity\System\UserIdentityProvider;
 use Hal\Core\Utility\EntityTrait;
 use Hal\Core\Utility\ParameterTrait;
 use JsonSerializable;
+use QL\MCP\Common\Time\TimePoint;
 
 class User implements JsonSerializable
 {
@@ -45,15 +46,14 @@ class User implements JsonSerializable
 
     /**
      * @param string $id
-     * @param string $name
      * @param TimePoint|null $created
      */
-    public function __construct($id = '', $name = '', TimePoint $created = null)
+    public function __construct($id = '', TimePoint $created = null)
     {
         $this->initializeEntity($id, $created);
         $this->initializeParameters();
 
-        $this->name = $name ?: '';
+        $this->name = '';
         $this->isDisabled = false;
         $this->settings = [];
 

@@ -9,6 +9,7 @@ namespace Hal\Core\Entity;
 
 use Hal\Core\Type\TargetEnum;
 use Hal\Core\Utility\EntityTrait;
+use Hal\Core\Utility\ParameterTrait;
 use Hal\Core\Utility\ScopedEntityTrait;
 use JsonSerializable;
 use QL\MCP\Common\Time\TimePoint;
@@ -33,6 +34,7 @@ use QL\MCP\Common\Time\TimePoint;
 class TargetTemplate implements JsonSerializable
 {
     use EntityTrait;
+    use ParameterTrait;
     use ScopedEntityTrait;
 
     /**
@@ -99,43 +101,9 @@ class TargetTemplate implements JsonSerializable
     }
 
     /**
-     * Format how the Group is displayed in text.
-     *
-     * @param bool $onlyType
-     *
      * @return string
      */
-    public function format($onlyType = true)
-    {
-        if ($onlyType) {
-            return $this->formatWithoutDetails();
-        }
-
-        switch ($this->type()) {
-            case TargetEnum::TYPE_CD:
-                return sprintf('CD (%s)', $this->name());
-
-            case TargetEnum::TYPE_EB:
-                return sprintf('EB (%s)', $this->name());
-
-            case TargetEnum::TYPE_S3:
-                return sprintf('S3 (%s)', $this->name());
-
-            case TargetEnum::TYPE_SCRIPT:
-                return 'Script';
-
-            case TargetEnum::TYPE_RSYNC:
-                return sprintf('RSync (%s)', $this->name());
-
-            default:
-                return 'Unknown';
-        }
-    }
-
-    /**
-     * @return string
-     */
-    private function formatWithoutDetails()
+    public function format()
     {
         switch ($this->type()) {
             case TargetEnum::TYPE_CD:

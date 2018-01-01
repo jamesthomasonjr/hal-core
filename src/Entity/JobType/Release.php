@@ -8,8 +8,10 @@
 namespace Hal\Core\Entity\JobType;
 
 use Hal\Core\Entity\Application;
+use Hal\Core\Entity\Environment;
 use Hal\Core\Entity\Target;
 use Hal\Core\Entity\Job;
+use Hal\Core\Type\JobEnum;
 use QL\MCP\Common\Time\TimePoint;
 
 class Release extends Job
@@ -25,6 +27,11 @@ class Release extends Job
     protected $application;
 
     /**
+     * @var Environment|null
+     */
+    protected $environment;
+
+    /**
      * @var Target|null
      */
     protected $target;
@@ -35,17 +42,18 @@ class Release extends Job
      */
     public function __construct($id = '', TimePoint $created = null)
     {
-        parent::__construct($id, $created);
+        parent::__construct(JobEnum::TYPE_RELEASE, $id, $created);
 
         $this->build = null;
         $this->application = null;
+        $this->environment = null;
         $this->target = null;
     }
 
     /**
      * @return Build
      */
-    public function build()
+    public function build(): Build
     {
         return $this->build;
     }
@@ -53,15 +61,23 @@ class Release extends Job
     /**
      * @return Application|null
      */
-    public function application()
+    public function application(): ?Application
     {
         return $this->application;
     }
 
     /**
+     * @return Environment|null
+     */
+    public function environment(): ?Environment
+    {
+        return $this->environment;
+    }
+
+    /**
      * @return Target|null
      */
-    public function target()
+    public function target(): ?Target
     {
         return $this->target;
     }
@@ -71,7 +87,7 @@ class Release extends Job
      *
      * @return self
      */
-    public function withBuild(Build $build)
+    public function withBuild(Build $build): self
     {
         $this->build = $build;
         return $this;
@@ -82,9 +98,20 @@ class Release extends Job
      *
      * @return self
      */
-    public function withApplication(Application $application = null)
+    public function withApplication(?Application $application): self
     {
         $this->application = $application;
+        return $this;
+    }
+
+    /**
+     * @param Environment|null $environment
+     *
+     * @return self
+     */
+    public function withEnvironment(?Environment $environment): self
+    {
+        $this->environment = $environment;
         return $this;
     }
 
@@ -93,7 +120,7 @@ class Release extends Job
      *
      * @return self
      */
-    public function withTarget(Target $target = null)
+    public function withTarget(?Target $target): self
     {
         $this->target = $target;
         return $this;
@@ -104,14 +131,11 @@ class Release extends Job
      */
     public function jsonSerialize()
     {
-        $json = [
-            'id' => $this->id(),
-            'created' => $this->created(),
-
+        $json = parent::jsonSerialize() + [
             'build_id' => $this->build() ? $this->build()->id() : null,
 
             'application_id' => $this->application() ? $this->application()->id() : null,
-
+            'environment_id' => $this->environment() ? $this->environment()->id() : null,
             'target_id' => $this->target() ? $this->target()->id() : null,
         ];
 

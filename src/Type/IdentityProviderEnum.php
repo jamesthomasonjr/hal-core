@@ -11,7 +11,7 @@ class IdentityProviderEnum
 {
     use EnumTrait;
 
-    const ERR_INVALID = '"%s" is not a valid status option.';
+    const ERR_INVALID = '"%s" is not a valid identity provider option.';
 
     const TYPE_INTERNAL = 'internal';
     const TYPE_LDAP = 'ldap';

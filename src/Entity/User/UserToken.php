@@ -7,6 +7,8 @@
 
 namespace Hal\Core\Entity\User;
 
+use Hal\Core\Entity\Organization;
+use Hal\Core\Entity\User;
 use Hal\Core\Utility\EntityTrait;
 use JsonSerializable;
 use QL\MCP\Common\Time\TimePoint;

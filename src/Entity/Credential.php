@@ -45,6 +45,11 @@ class Credential implements JsonSerializable
     protected $awsStatic;
 
     /**
+     * @var PrivateKeyCredential|null
+     */
+    protected $privateKey;
+
+    /**
      * @param string $id
      * @param TimePoint|null $created
      */

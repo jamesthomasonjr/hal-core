@@ -11,7 +11,7 @@ class TargetEnum
 {
     use EnumTrait;
 
-    const ERR_INVALID = '"%s" is not a valid group option.';
+    const ERR_INVALID = '"%s" is not a valid target option.';
 
     const TYPE_RSYNC = 'rsync';
     const TYPE_EB = 'eb';

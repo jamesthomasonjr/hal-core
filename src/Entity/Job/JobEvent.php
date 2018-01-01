@@ -48,6 +48,7 @@ class JobEvent implements JsonSerializable
     public function __construct($id = '', TimePoint $created = null)
     {
         $this->initializeEntity($id, $created);
+        $this->initializeParameters();
 
         $this->stage = JobEventStageEnum::defaultOption();
         $this->status = JobEventStatusEnum::defaultOption();

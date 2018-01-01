@@ -9,8 +9,9 @@ namespace Hal\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Hal\Core\Utility\EntityTrait;
-use Hal\Core\Entity\JobType\Build;
-use Hal\Core\Entity\JobType\Release;
+use Hal\Core\Utility\ParameterTrait;
+// use Hal\Core\Entity\JobType\Build;
+// use Hal\Core\Entity\JobType\Release;
 use Hal\Core\Type\JobEnum;
 use Hal\Core\Type\JobStatusEnum;
 use JsonSerializable;
@@ -19,6 +20,7 @@ use QL\MCP\Common\Time\TimePoint;
 class Job implements JsonSerializable
 {
     use EntityTrait;
+    use ParameterTrait;
 
     private const ERR_INVALID_SUBTYPE = 'Invalid job type provided.  Must be type Build or Release.';
 
@@ -46,15 +48,15 @@ class Job implements JsonSerializable
     protected $events;
     protected $meta;
 
-    /**
-     * @var Build|null
-     */
-    protected $build;
+    // /**
+    //  * @var Build|null
+    //  */
+    // protected $build;
 
-    /**
-     * @var Release|null
-     */
-    protected $release;
+    // /**
+    //  * @var Release|null
+    //  */
+    // protected $release;
 
     /**
      * @param string $type
@@ -64,6 +66,7 @@ class Job implements JsonSerializable
     public function __construct($type = '', $id = '', TimePoint $created = null)
     {
         $this->initializeEntity($id, $created);
+        $this->initializeParameters();
 
         $this->type = $type ? JobEnum::ensureValid($type) : JobEnum::defaultOption();
         $this->status = JobStatusEnum::defaultOption();
@@ -77,8 +80,8 @@ class Job implements JsonSerializable
         $this->meta = new ArrayCollection;
 
         // job types
-        $this->build = null;
-        $this->release = null;
+        // $this->build = null;
+        // $this->release = null;
     }
 
     /**
@@ -280,6 +283,7 @@ class Job implements JsonSerializable
 
             'type' => $this->type(),
             'status' => $this->status(),
+            'parameters' => $this->parameters(),
 
             'start' => $this->start(),
             'end' => $this->end(),

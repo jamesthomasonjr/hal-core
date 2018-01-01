@@ -35,6 +35,7 @@ class Target implements JsonSerializable
     /**
      * @var string
      */
+    protected $type;
     protected $name;
     protected $url;
 
@@ -42,6 +43,11 @@ class Target implements JsonSerializable
      * @var Application
      */
     protected $application;
+
+    /**
+     * @var Environment
+     */
+    protected $environment;
 
     /**
      * @var TargetTemplate|null
@@ -120,7 +126,7 @@ class Target implements JsonSerializable
      */
     public function environment(): ?Environment
     {
-        return $this->Environment;
+        return $this->environment;
     }
 
     /**
@@ -231,7 +237,7 @@ class Target implements JsonSerializable
      */
     public function withLastJob(?Job $job): self
     {
-        $this->job = $job;
+        $this->lastJob = $job;
         return $this;
     }
 
@@ -268,17 +274,23 @@ class Target implements JsonSerializable
     }
 
     /**
+     * Is this group for AWS?
+     *
+     * @return bool
+     */
+    public function isAWS()
+    {
+        return in_array($this->type(), [TargetEnum::TYPE_CD, TargetEnum::TYPE_EB, TargetEnum::TYPE_S3]);
+    }
+
+    /**
      * Format parameters into something readable.
      *
      * @return string
      */
     public function formatParameters()
     {
-        if (!$this->template()) {
-            return 'Unknown';
-        }
-
-        switch ($this->template()->type()) {
+        switch ($this->type()) {
             case TargetEnum::TYPE_CD:
                 return $this->parameter('group') ?: '???';
 

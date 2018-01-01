@@ -40,6 +40,7 @@ class JobArtifact implements JsonSerializable
     public function __construct($id = '', TimePoint $created = null)
     {
         $this->initializeEntity($id, $created);
+        $this->initializeParameters();
 
         $this->name = '';
         $this->isRemovable = false;
