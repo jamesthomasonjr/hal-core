@@ -1,0 +1,42 @@
+'Hal\Core\Entity\JobType\Release':
+    table: 'jobs_releases'
+    repositoryClass: 'Hal\Core\Repository\ReleaseRepository'
+    type: 'entity'
+
+    id:
+        id:
+            column: 'id'
+            type: 'guid'
+
+    fields:
+
+        created:
+            column: 'created'
+            type: 'timepoint'
+
+    manyToOne:
+
+        build:
+            cache: { usage : READ_ONLY }
+            targetEntity: 'Build'
+            joinColumn:
+                name: 'build_id'
+                referencedColumnName: 'id'
+                nullable: false
+
+        application:
+            cache: { usage : READ_ONLY }
+            targetEntity: 'Application'
+            joinColumn:
+                name: 'application_id'
+                referencedColumnName: 'id'
+                nullable: true
+
+        target:
+            cache: { usage : READ_ONLY }
+            targetEntity: 'Target'
+            joinColumn:
+                name: 'target_id'
+                referencedColumnName: 'id'
+                nullable: true
+

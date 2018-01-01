@@ -1,0 +1,31 @@
+'Hal\Core\Entity\System\UserIdentityProvider':
+    table: 'system_identity_providers'
+    type: 'entity'
+
+    cache: { usage : NONSTRICT_READ_WRITE }
+
+    id:
+        id:
+            column: 'id'
+            type: 'guid'
+
+    fields:
+
+        name:
+            column: 'name'
+            type: 'string'
+            length: 100
+
+        type:
+            column: 'provider_type'
+            type: 'string'
+            length: 50
+            options: { default: 'internal' } # See IdentityProviderEnum for list of options
+
+        parameters:
+            column: 'parameters'
+            type: 'json_array'
+
+        created:
+            column: 'created'
+            type: 'timepoint'

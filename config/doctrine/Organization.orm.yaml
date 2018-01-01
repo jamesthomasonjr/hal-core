@@ -11,12 +11,11 @@
 
     fields:
 
-        identifier:
-            column: 'identifier'
-            type: 'string'
-            length: 30
-            unique: true
         name:
             column: 'name'
             type: 'string'
             length: 100
+
+        created:
+            column: 'created'
+            type: 'timepoint'

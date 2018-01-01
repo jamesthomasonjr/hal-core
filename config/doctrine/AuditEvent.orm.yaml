@@ -3,7 +3,7 @@
     repositoryClass: 'Hal\Core\Repository\AuditEventRepository'
     type: 'entity'
 
-    cache: {usage : READ_ONLY}
+    cache: { usage : READ_ONLY }
 
     id:
         id:
@@ -12,24 +12,26 @@
 
     fields:
 
-        created:
-            column: 'created'
-            type: 'timepoint'
         action:
             column: 'action'
             type: 'string'
-            length: 20
-            options: {default: 'create'} # See AuditActionEnum for list of options
-
-        owner:
-            column: 'owner'
-            type: 'string'
             length: 100
-        entity:
-            column: 'entity'
+            options: { default: 'create' } # See AuditActionEnum for list of options
+
+        actor:
+            column: 'actor'
             type: 'string'
             length: 100
 
-        data:
-            column: 'data'
+        description:
+            column: 'description'
             type: 'string'
+            length: 200
+
+        parameters:
+            column: 'parameters'
+            type: 'json_array'
+
+        created:
+            column: 'created'
+            type: 'timepoint'

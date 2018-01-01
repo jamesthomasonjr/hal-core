@@ -1,8 +1,8 @@
-'Hal\Core\Entity\UserToken':
-    table: 'users_tokens'
+'Hal\Core\Entity\Job\JobMeta':
+    table: 'jobs_meta'
     type: 'entity'
 
-    cache: {usage : NONSTRICT_READ_WRITE}
+    cache: { usage : NONSTRICT_READ_WRITE }
 
     id:
         id:
@@ -15,18 +15,22 @@
             column: 'name'
             type: 'string'
             length: 100
+
         value:
             column: 'value'
             type: 'string'
-            length: 100
+
+        created:
+            column: 'created'
+            type: 'timepoint'
 
     manyToOne:
 
-        user:
-            cache: {usage : READ_ONLY}
-            targetEntity: 'User'
-            inversedBy: 'tokens'
+        job:
+            cache: { usage : READ_ONLY }
+            targetEntity: 'Job'
+            inversedBy: 'meta'
             joinColumn:
-                name: 'user_id'
+                name: 'job_id'
                 referencedColumnName: 'id'
                 nullable: false

@@ -1,5 +1,6 @@
-'Hal\Core\Entity\EncryptedProperty':
-    table: 'encrypted_properties'
+'Hal\Core\Entity\TargetTemplate':
+    table: 'targets_templates'
+    repositoryClass: 'Hal\Core\Repository\TargetTemplateRepository'
     type: 'entity'
 
     cache: { usage : NONSTRICT_READ_WRITE }
@@ -11,14 +12,20 @@
 
     fields:
 
+        type:
+            column: 'target_type'
+            type: 'string'
+            length: 20
+            options: { default: 'script' } # See TargetEnum for list of options
+
         name:
             column: 'name'
             type: 'string'
             length: 100
 
-        secret:
-            column: 'secret'
-            type: 'string'
+        parameters:
+            column: 'parameters'
+            type: 'json_array'
 
         created:
             column: 'created'

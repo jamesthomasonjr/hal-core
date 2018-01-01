@@ -5,27 +5,6 @@ if (!class_exists(PhinxMigration::class)) { require_once __DIR__ . '/../src/Data
 
 class InitialIndexes extends PhinxMigration
 {
-    /**
-     * Change Method.
-     *
-     * Write your reversible migrations using this method.
-     *
-     * More information on writing migrations is available here:
-     * http://docs.phinx.org/en/latest/migrations.html#the-abstractmigration-class
-     *
-     * The following commands can be used in this method and Phinx will
-     * automatically reverse them when rolling back:
-     *
-     *    createTable
-     *    renameTable
-     *    addColumn
-     *    renameColumn
-     *    addIndex
-     *    addForeignKey
-     *
-     * Remember to call "create()" or "update()" and NOT "save()" when working
-     * with the Table class.
-     */
     public function change()
     {
         // Handle unique columns
@@ -63,9 +42,7 @@ class InitialIndexes extends PhinxMigration
     protected function uniqueColumns()
     {
         return [
-            'users' =>            ['username'],
-            'organizations' =>    ['identifier'],
-            'applications' =>     ['identifier'],
+            // 'users' =>            ['name'],
             'environments' =>     ['name'],
         ];
     }
@@ -73,15 +50,18 @@ class InitialIndexes extends PhinxMigration
     protected function searchableColumns()
     {
         return [
-            'users_tokens' =>     ['value'],
-            'system_settings' =>  ['name'],
+            'users_tokens' =>       ['value'],
+            'users_permissions' =>  ['permission_type'],
 
-            'audit_events' =>     ['created'],
-            'jobs_builds' =>      ['created', 'status', 'reference', 'commit_sha'],
-            'jobs_releases' =>    ['created', 'status'],
-            'jobs_events' =>      ['created', 'parent_id'],
-            'jobs_meta' =>        ['parent_id'],
-            'jobs_processes' =>   ['parent_id', 'child_id']
+            'system_settings' =>    ['name'],
+            'audit_events' =>       ['created'],
+
+            'jobs' =>               ['job_type', 'job_status', 'created'],
+            'jobs_builds' =>        ['code_reference', 'code_commit_sha'],
+            'jobs_events' =>        ['created', 'event_order'],
+            'jobs_meta' =>          ['name'],
+
+            'scheduled_actions' =>  ['status', 'created']
         ];
     }
 
@@ -97,43 +77,66 @@ class InitialIndexes extends PhinxMigration
     {
         return [
             'users/user_id' => [
-                'users_settings',
-                'users_tokens',
                 'users_permissions',
-                'jobs_builds',
-                'jobs_releases',
-                'jobs_processes'
+                'users_tokens',
+                'jobs',
+                'scheduled_actions'
             ],
             'applications/application_id' => [
                 'users_permissions',
                 'encrypted_properties',
                 'targets',
+                'targets_templates',
                 'jobs_builds',
                 'jobs_releases',
+                'credentials',
             ],
             'organizations/organization_id' => [
                 'users_permissions',
                 'applications',
+                'encrypted_properties',
+                'credentials',
             ],
             'environments/environment_id' => [
                 'users_permissions',
                 'encrypted_properties',
-                'groups',
+                'targets',
+                'targets_templates',
                 'jobs_builds',
+                'credentials',
             ],
             'credentials/credential_id' => [
-                'targets'
+                'targets',
             ],
             'targets/target_id' => [
-                'jobs_releases',
+                'jobs_releases'
+            ],
+
+            'jobs/job_id' => [
+                'jobs_events',
+                'jobs_meta',
+                'jobs_artifacts'
+            ],
+            'jobs/trigger_job_id' => [
+                'scheduled_actions'
+            ],
+            'jobs/scheduled_job_id' => [
+                'scheduled_actions'
+            ],
+            'jobs/last_job_id' => [
+                'targets'
             ],
 
             'jobs_builds/build_id' => [
-                'jobs_releases'
+                'jobs_releases',
             ],
-            'jobs_releases/release_id' => [
-                'targets'
-            ]
+
+            'system_identity_providers/provider_id' => [
+                'users',
+            ],
+            'system_vcs_providers/provider_id' => [
+                'applications',
+            ],
         ];
     }
 }

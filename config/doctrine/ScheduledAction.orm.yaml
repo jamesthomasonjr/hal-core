@@ -1,8 +1,6 @@
-'Hal\Core\Entity\EncryptedProperty':
-    table: 'encrypted_properties'
+'Hal\Core\Entity\ScheduledAction':
+    table: 'scheduled_actions'
     type: 'entity'
-
-    cache: { usage : NONSTRICT_READ_WRITE }
 
     id:
         id:
@@ -11,14 +9,20 @@
 
     fields:
 
-        name:
-            column: 'name'
+        status:
+            column: 'status'
             type: 'string'
-            length: 100
+            length: 20
+            options: { default: 'pending' } # See ScheduledActionStatusEnum for list of options
 
-        secret:
-            column: 'secret'
+        message:
+            column: 'message'
             type: 'string'
+            length: 200
+
+        parameters:
+            column: 'parameters'
+            type: 'json_array'
 
         created:
             column: 'created'
@@ -26,26 +30,26 @@
 
     manyToOne:
 
-        application:
+        triggerJob:
             cache: { usage : READ_ONLY }
-            targetEntity: 'Application'
+            targetEntity: 'User'
             joinColumn:
-                name: 'application_id'
+                name: 'trigger_job_id'
                 referencedColumnName: 'id'
                 nullable: true
 
-        organization:
+        scheduledJob:
             cache: { usage : READ_ONLY }
-            targetEntity: 'Organization'
+            targetEntity: 'User'
             joinColumn:
-                name: 'organization_id'
+                name: 'scheduled_job_id'
                 referencedColumnName: 'id'
                 nullable: true
 
-        environment:
+        user:
             cache: { usage : READ_ONLY }
-            targetEntity: 'Environment'
+            targetEntity: 'User'
             joinColumn:
-                name: 'environment_id'
+                name: 'user_id'
                 referencedColumnName: 'id'
                 nullable: true

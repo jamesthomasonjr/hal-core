@@ -1,8 +1,8 @@
-'Hal\Core\Entity\SystemSetting':
+'Hal\Core\Entity\System\SystemSetting':
     table: 'system_settings'
     type: 'entity'
 
-    cache: {usage : NONSTRICT_READ_WRITE}
+    cache: { usage : NONSTRICT_READ_WRITE }
 
     id:
         id:
@@ -15,6 +15,11 @@
             column: 'name'
             type: 'string'
             length: 100
+
         value:
             column: 'value'
             type: 'string'
+
+        created:
+            column: 'created'
+            type: 'timepoint'

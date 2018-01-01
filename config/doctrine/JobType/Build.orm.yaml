@@ -1,8 +1,7 @@
-'Hal\Core\Entity\EncryptedProperty':
-    table: 'encrypted_properties'
+'Hal\Core\Entity\JobType\Build':
+    table: 'jobs_builds'
+    repositoryClass: 'Hal\Core\Repository\BuildRepository'
     type: 'entity'
-
-    cache: { usage : NONSTRICT_READ_WRITE }
 
     id:
         id:
@@ -11,14 +10,16 @@
 
     fields:
 
-        name:
-            column: 'name'
+        reference:
+            column: 'code_reference'
+            column: 'status'
             type: 'string'
             length: 100
 
-        secret:
-            column: 'secret'
+        commit:
+            column: 'code_commit_sha'
             type: 'string'
+            length: 100
 
         created:
             column: 'created'
@@ -31,14 +32,6 @@
             targetEntity: 'Application'
             joinColumn:
                 name: 'application_id'
-                referencedColumnName: 'id'
-                nullable: true
-
-        organization:
-            cache: { usage : READ_ONLY }
-            targetEntity: 'Organization'
-            joinColumn:
-                name: 'organization_id'
                 referencedColumnName: 'id'
                 nullable: true
 

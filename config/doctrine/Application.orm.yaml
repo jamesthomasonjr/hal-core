@@ -3,7 +3,7 @@
     repositoryClass: 'Hal\Core\Repository\ApplicationRepository'
     type: 'entity'
 
-    cache: {usage : NONSTRICT_READ_WRITE}
+    cache: { usage : NONSTRICT_READ_WRITE }
 
     id:
         id:
@@ -12,26 +12,37 @@
 
     fields:
 
-        identifier:
-            column: 'identifier'
-            type: 'string'
-            length: 30
-            unique: true
         name:
             column: 'name'
             type: 'string'
             length: 100
 
-    embedded:
+        parameters:
+            column: 'parameters'
+            type: 'json_array'
 
-        gitHub:
-            class: 'Hal\Core\Entity\Application\GitHubApplication'
-            columnPrefix: false
+        isDisabled:
+            column: 'is_disabled'
+            type: 'boolean'
+            options: { default: false }
+
+        created:
+            column: 'created'
+            type: 'timepoint'
 
     manyToOne:
 
+        provider:
+            cache: { usage : READ_ONLY }
+            fetch: EAGER
+            targetEntity: 'VersionControlProvider'
+            joinColumn:
+                name: 'provider_id'
+                referencedColumnName: 'id'
+                nullable: false
+
         organization:
-            cache: {usage : READ_ONLY}
+            cache: { usage : READ_ONLY }
             targetEntity: 'Organization'
             joinColumn:
                 name: 'organization_id'

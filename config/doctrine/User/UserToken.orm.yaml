@@ -1,0 +1,46 @@
+'Hal\Core\Entity\User\UserToken':
+    table: 'users_tokens'
+    type: 'entity'
+
+    cache: { usage : NONSTRICT_READ_WRITE }
+
+    id:
+        id:
+            column: 'id'
+            type: 'guid'
+
+    fields:
+
+        name:
+            column: 'name'
+            type: 'string'
+            length: 100
+
+        value:
+            column: 'value'
+            type: 'string'
+            length: 100
+
+        created:
+            column: 'created'
+            type: 'timepoint'
+
+    manyToOne:
+
+        user:
+            cache: { usage : READ_ONLY }
+            targetEntity: 'User'
+            inversedBy: 'tokens'
+            joinColumn:
+                name: 'user_id'
+                referencedColumnName: 'id'
+                nullable: true
+
+        # organization:
+        #     cache: {usage : READ_ONLY}
+        #     targetEntity: 'Organization'
+        #     inversedBy: 'tokens'
+        #     joinColumn:
+        #         name: 'organization_id'
+        #         referencedColumnName: 'id'
+        #         nullable: true
