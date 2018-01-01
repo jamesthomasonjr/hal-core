@@ -19,8 +19,9 @@ class EntityIDTraitTest extends TestCase
         $value = $dummy->generateEntityID();
 
         $this->assertNotInstanceOf(GUID::class, $value);
-        $this->assertStringMatchesFormat('%x', $value);
-        $this->assertSame(32, strlen($value));
+
+        $this->assertRegExp('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/', $value);
+        $this->assertSame(36, strlen($value));
     }
 }
 
