@@ -9,31 +9,30 @@ namespace Hal\Core\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use Hal\Core\Entity\User;
+use Hal\Core\Entity\Job;
 use Hal\Core\Utility\PagedResultsTrait;
 
-class UserRepository extends EntityRepository
+class JobRepository extends EntityRepository
 {
     use PagedResultsTrait;
 
-    const DQL_GET_USERS = <<<SQL_QUERY
-   SELECT user
-     FROM %s user
- ORDER BY user.username ASC
+    const DQL_ALL = <<<SQL_QUERY
+   SELECT j
+     FROM %s j
+ ORDER BY j.created DESC
 SQL_QUERY;
 
     /**
-     * Get all users, paged.
-     *
      * @param int $limit
      * @param int $page
      *
      * @return Paginator
      */
-    public function getPagedResults($limit = 50, $page = 0)
+    public function getPagedResults($limit = 25, $page = 0)
     {
-        $dql = sprintf(self::DQL_GET_USERS, User::class);
+        $template = self::DQL_ALL;
+        $dql = sprintf($template, Job::class);
 
-        return $this->getPaginator($dql, $limit, $page);
+        return $this->getPaginator($dql, $limit, $page, []);
     }
 }

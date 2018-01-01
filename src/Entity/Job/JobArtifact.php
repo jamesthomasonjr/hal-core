@@ -5,15 +5,18 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace Hal\Core\Entity;
+namespace Hal\Core\Entity\Job;
 
+use Hal\Core\Entity\Job;
 use Hal\Core\Utility\EntityTrait;
+use Hal\Core\Utility\ParameterTrait;
 use JsonSerializable;
 use QL\MCP\Common\Time\TimePoint;
 
-class Environment implements JsonSerializable
+class JobArtifact implements JsonSerializable
 {
     use EntityTrait;
+    use ParameterTrait;
 
     /**
      * @var string
@@ -23,7 +26,12 @@ class Environment implements JsonSerializable
     /**
      * @var bool
      */
-    protected $isProduction;
+    protected $isRemovable;
+
+    /**
+     * @var Job
+     */
+    protected $job;
 
     /**
      * @param string $id
@@ -34,7 +42,9 @@ class Environment implements JsonSerializable
         $this->initializeEntity($id, $created);
 
         $this->name = '';
-        $this->isProduction = false;
+        $this->isRemovable = false;
+
+        $this->job = null;
     }
 
     /**
@@ -48,9 +58,17 @@ class Environment implements JsonSerializable
     /**
      * @return bool
      */
-    public function isProduction(): bool
+    public function isRemovable(): bool
     {
-        return $this->isProduction;
+        return $this->isRemovable;
+    }
+
+    /**
+     * @return Job
+     */
+    public function job(): Job
+    {
+        return $this->job;
     }
 
     /**
@@ -58,20 +76,31 @@ class Environment implements JsonSerializable
      *
      * @return self
      */
-    public function withName($name): self
+    public function withName(string $name): self
     {
         $this->name = $name;
         return $this;
     }
 
     /**
-     * @param bool $isProduction
+     * @param bool $isRemovable
      *
      * @return self
      */
-    public function withIsProduction($isProduction): self
+    public function withIsRemovable(bool $isRemovable): self
     {
-        $this->isProduction = (bool) $isProduction;
+        $this->isRemovable = (bool) $isRemovable;
+        return $this;
+    }
+
+    /**
+     * @param Job $job
+     *
+     * @return self
+     */
+    public function withJob(Job $job): self
+    {
+        $this->job = $job;
         return $this;
     }
 
@@ -85,7 +114,11 @@ class Environment implements JsonSerializable
             'created' => $this->created(),
 
             'name' => $this->name(),
-            'is_production' => $this->isProduction(),
+            'is_removable' => $this->isRemovable(),
+
+            'parameters' => $this->parameters(),
+
+            'job_id' => $this->job() ? $this->job()->id() : null,
         ];
 
         return $json;

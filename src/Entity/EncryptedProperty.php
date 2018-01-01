@@ -7,62 +7,39 @@
 
 namespace Hal\Core\Entity;
 
-use Hal\Core\Utility\EntityIDTrait;
+use Hal\Core\Utility\EntityTrait;
+use Hal\Core\Utility\ScopedEntityTrait;
 use JsonSerializable;
+use QL\MCP\Common\Time\TimePoint;
 
 class EncryptedProperty implements JsonSerializable
 {
-    use EntityIDTrait;
-
-    /**
-     * @var string
-     */
-    protected $id;
+    use EntityTrait;
+    use ScopedEntityTrait;
 
     /**
      * @var string
      */
     protected $name;
-    protected $data;
-
-    /**
-     * @var Application
-     */
-    protected $application;
-
-    /**
-     * Restricted to a specific environment. Optional.
-     *
-     * @var Environment|null
-     */
-    protected $environment;
+    protected $secret;
 
     /**
      * @param string $id
+     * @param TimePoint|null $created
      */
-    public function __construct($id = '')
+    public function __construct($id = '', TimePoint $created = null)
     {
-        $this->id = $id ?: $this->generateEntityID();
+        $this->initializeEntity($id, $created);
+        $this->initializeScopes();
 
         $this->name = '';
-        $this->data = '';
-
-        $this->application = null;
-        $this->environment = null;
+        $this->secret = '';
     }
 
     /**
      * @return string
      */
-    public function id()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function name()
+    public function name(): string
     {
         return $this->name;
     }
@@ -70,36 +47,9 @@ class EncryptedProperty implements JsonSerializable
     /**
      * @return string
      */
-    public function data()
+    public function secret(): string
     {
-        return $this->data;
-    }
-
-    /**
-     * @return Application
-     */
-    public function application()
-    {
-        return $this->application;
-    }
-
-    /**
-     * @return Environment|null
-     */
-    public function environment()
-    {
-        return $this->environment;
-    }
-
-    /**
-     * @param string $id
-     *
-     * @return self
-     */
-    public function withID($id)
-    {
-        $this->id = $id;
-        return $this;
+        return $this->secret;
     }
 
     /**
@@ -107,42 +57,20 @@ class EncryptedProperty implements JsonSerializable
      *
      * @return self
      */
-    public function withName($name)
+    public function withName($name): self
     {
         $this->name = $name;
         return $this;
     }
 
     /**
-     * @param string $data
+     * @param string $secret
      *
      * @return self
      */
-    public function withData($data)
+    public function withSecret($secret): self
     {
-        $this->data = $data;
-        return $this;
-    }
-
-    /**
-     * @param Application $application
-     *
-     * @return self
-     */
-    public function withApplication(Application $application)
-    {
-        $this->application = $application;
-        return $this;
-    }
-
-    /**
-     * @param Environment|null $environment
-     *
-     * @return self
-     */
-    public function withEnvironment(Environment $environment = null)
-    {
-        $this->environment = $environment;
+        $this->secret = $secret;
         return $this;
     }
 
@@ -153,11 +81,13 @@ class EncryptedProperty implements JsonSerializable
     {
         $json = [
             'id' => $this->id(),
+            'created' => $this->created(),
 
             'name' => $this->name(),
-            'data' => '**ENCRYPTED**',
+            'secret' => '**ENCRYPTED**',
 
             'application_id' => $this->application() ? $this->application()->id() : null,
+            'organization_id' => $this->organization() ? $this->organization()->id() : null,
             'environment_id' => $this->environment() ? $this->environment()->id() : null,
         ];
 

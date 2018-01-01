@@ -8,29 +8,35 @@
 namespace Hal\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Hal\Core\Utility\EntityIDTrait;
+use Hal\Core\Entity\System\UserIdentityProvider;
+use Hal\Core\Utility\EntityTrait;
+use Hal\Core\Utility\ParameterTrait;
 use JsonSerializable;
 
 class User implements JsonSerializable
 {
-    use EntityIDTrait;
+    use EntityTrait;
+    use ParameterTrait;
 
     /**
      * @var string
      */
-    protected $id;
-
-    /**
-     * @var string
-     */
-    protected $username;
     protected $name;
-    protected $email;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $isDisabled;
+
+    /**
+     * @var array
+     */
+    protected $settings;
+
+    /**
+     * @var UserIdentityProvider
+     */
+    protected $provider;
 
     /**
      * @var ArrayCollection
@@ -38,32 +44,27 @@ class User implements JsonSerializable
     protected $tokens;
 
     /**
-     * @var UserSettings
-     */
-    protected $settings;
-
-    /**
      * @param string $id
-     * @param string $username
+     * @param string $name
+     * @param TimePoint|null $created
      */
-    public function __construct($id = '', $username = '')
+    public function __construct($id = '', $name = '', TimePoint $created = null)
     {
-        $this->id = $id ?: $this->generateEntityID();
-        $this->username = $username ?: '';
+        $this->initializeEntity($id, $created);
+        $this->initializeParameters();
 
-        $this->name = '';
-        $this->email = '';
-
+        $this->name = $name ?: '';
         $this->isDisabled = false;
+        $this->settings = [];
 
-        $this->settings = (new UserSettings)->withUser($this);
+        $this->provider = null;
         $this->tokens = new ArrayCollection;
     }
 
     /**
      * @return string
      */
-    public function id()
+    public function id(): string
     {
         return $this->id;
     }
@@ -71,71 +72,41 @@ class User implements JsonSerializable
     /**
      * @return string
      */
-    public function username()
-    {
-        return $this->username;
-    }
-
-    /**
-     * @return string
-     */
-    public function name()
+    public function name(): string
     {
         return $this->name;
     }
 
     /**
-     * @return string
+     * @return bool
      */
-    public function email()
-    {
-        return $this->email;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isDisabled()
+    public function isDisabled(): bool
     {
         return $this->isDisabled;
     }
 
     /**
-     * @return ArrayCollection
+     * @return array
      */
-    public function tokens()
-    {
-        return $this->tokens;
-    }
-
-    /**
-     * @return UserSettings
-     */
-    public function settings()
+    public function settings(): array
     {
         return $this->settings;
     }
 
     /**
-     * @param int $id
-     *
-     * @return self
+     * @return UserIdentityProvider
      */
-    public function withID($id)
+    public function provider(): UserIdentityProvider
     {
-        $this->id = $id;
-        return $this;
+        return $this->provider;
     }
 
     /**
-     * @param string $username
-     *
-     * @return self
+     * @return ArrayCollection
      */
-    public function withUsername($username)
+    public function tokens(): ArrayCollection
     {
-        $this->username = $username;
-        return $this;
+        return $this->tokens;
     }
 
     /**
@@ -143,20 +114,9 @@ class User implements JsonSerializable
      *
      * @return self
      */
-    public function withName($name)
+    public function withName($name): self
     {
         $this->name = $name;
-        return $this;
-    }
-
-    /**
-     * @param string $email
-     *
-     * @return self
-     */
-    public function withEmail($email)
-    {
-        $this->email = $email;
         return $this;
     }
 
@@ -165,11 +125,51 @@ class User implements JsonSerializable
      *
      * @return self
      */
-    public function withIsDisabled($isDisabled)
+    public function withIsDisabled($isDisabled): self
     {
         $this->isDisabled = (bool) $isDisabled;
         return $this;
     }
+
+    /**
+     * @param string $name
+     * @param mixed $value
+     *
+     * @return self
+     */
+    public function withSetting(string $name, $value): self
+    {
+        $this->settings[$name] = $value;
+        return $this;
+    }
+
+    /**
+     * @param array $settings
+     *
+     * @return self
+     */
+    public function withSettings(array $settings): self
+    {
+        $this->settings = [];
+        foreach ($settings as $name => $value) {
+            $this->withSetting($name, $value);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param UserIdentityProvider|null $provider
+     *
+     * @return self
+     */
+    public function withProvider(?UserIdentityProvider $provider): self
+    {
+        $this->provider = $provider;
+        return $this;
+    }
+
+    // @todo add token add/remove - arraycollection items should always be removed from the parent
 
     /**
      * @return array
@@ -178,12 +178,16 @@ class User implements JsonSerializable
     {
         $json = [
             'id' => $this->id(),
+            'created' => $this->created(),
 
-            'username' => $this->username(),
             'name' => $this->name(),
-            'email' => $this->email(),
-
             'is_disabled' => $this->isDisabled(),
+
+            'parameters' => $this->parameters(),
+            'settings' => $this->settings(),
+
+            'provider_id' => $this->provider() ? $this->provider()->id() : null,
+            'tokens' => $this->tokens()->toArray()
         ];
 
         return $json;

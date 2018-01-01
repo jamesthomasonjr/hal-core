@@ -5,19 +5,15 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace Hal\Core\Entity;
+namespace Hal\Core\Entity\User;
 
-use Hal\Core\Utility\EntityIDTrait;
+use Hal\Core\Utility\EntityTrait;
 use JsonSerializable;
+use QL\MCP\Common\Time\TimePoint;
 
 class UserToken implements JsonSerializable
 {
-    use EntityIDTrait;
-
-    /**
-     * @var string
-     */
-    protected $id;
+    use EntityTrait;
 
     /**
      * @var string
@@ -41,10 +37,11 @@ class UserToken implements JsonSerializable
 
     /**
      * @param string $id
+     * @param TimePoint|null $created
      */
-    public function __construct($id = '')
+    public function __construct($id = '', TimePoint $created = null)
     {
-        $this->id = $id ?: $this->generateEntityID();
+        $this->initializeEntity($id, $created);
 
         $this->name = '';
         $this->value = '';
@@ -56,15 +53,7 @@ class UserToken implements JsonSerializable
     /**
      * @return string
      */
-    public function id()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function name()
+    public function name(): string
     {
         return $this->name;
     }
@@ -72,7 +61,7 @@ class UserToken implements JsonSerializable
     /**
      * @return string
      */
-    public function value()
+    public function value(): string
     {
         return $this->value;
     }
@@ -80,7 +69,7 @@ class UserToken implements JsonSerializable
     /**
      * @return User|null
      */
-    public function user()
+    public function user(): ?User
     {
         return $this->user;
     }
@@ -88,20 +77,9 @@ class UserToken implements JsonSerializable
     /**
      * @return Organization|null
      */
-    public function organization()
+    public function organization(): ?Organization
     {
         return $this->organization;
-    }
-
-    /**
-     * @param string $id
-     *
-     * @return self
-     */
-    public function withID($id)
-    {
-        $this->id = $id;
-        return $this;
     }
 
     /**
@@ -109,7 +87,7 @@ class UserToken implements JsonSerializable
      *
      * @return self
      */
-    public function withName($name)
+    public function withName(string $name): self
     {
         $this->name = $name;
         return $this;
@@ -120,7 +98,7 @@ class UserToken implements JsonSerializable
      *
      * @return self
      */
-    public function withValue($value)
+    public function withValue(string $value): self
     {
         $this->value = $value;
         return $this;
@@ -131,7 +109,7 @@ class UserToken implements JsonSerializable
      *
      * @return self
      */
-    public function withUser(User $user = null)
+    public function withUser(?User $user): self
     {
         $this->user = $user;
         return $this;
@@ -142,7 +120,7 @@ class UserToken implements JsonSerializable
      *
      * @return self
      */
-    public function withOrganization(Organization $organization = null)
+    public function withOrganization(?Organization $organization): self
     {
         $this->organization = $organization;
         return $this;
@@ -155,6 +133,7 @@ class UserToken implements JsonSerializable
     {
         $json = [
             'id' => $this->id(),
+            'created' => $this->created(),
 
             'name' => $this->name(),
             'value' => $this->value(),

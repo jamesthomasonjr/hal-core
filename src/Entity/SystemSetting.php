@@ -7,17 +7,13 @@
 
 namespace Hal\Core\Entity;
 
-use Hal\Core\Utility\EntityIDTrait;
+use Hal\Core\Utility\EntityTrait;
 use JsonSerializable;
+use QL\MCP\Common\Time\TimePoint;
 
 class SystemSetting implements JsonSerializable
 {
-    use EntityIDTrait;
-
-    /**
-     * @var string
-     */
-    protected $id;
+    use EntityTrait;
 
     /**
      * @var string
@@ -31,10 +27,11 @@ class SystemSetting implements JsonSerializable
 
     /**
      * @param string $id
+     * @param TimePoint|null $created
      */
-    public function __construct($id = '')
+    public function __construct($id = '', TimePoint $created = null)
     {
-        $this->id = $id ?: $this->generateEntityID();
+        $this->initializeEntity($id, $created);
 
         $this->name = '';
         $this->value = '';
@@ -43,15 +40,7 @@ class SystemSetting implements JsonSerializable
     /**
      * @return string
      */
-    public function id()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function name()
+    public function name(): string
     {
         return $this->name;
     }
@@ -59,20 +48,9 @@ class SystemSetting implements JsonSerializable
     /**
      * @return string
      */
-    public function value()
+    public function value(): string
     {
         return $this->value;
-    }
-
-    /**
-     * @param string $id
-     *
-     * @return self
-     */
-    public function withID($id)
-    {
-        $this->id = $id;
-        return $this;
     }
 
     /**
@@ -80,7 +58,7 @@ class SystemSetting implements JsonSerializable
      *
      * @return self
      */
-    public function withName($name)
+    public function withName(string $name): self
     {
         $this->name = $name;
         return $this;
@@ -91,7 +69,7 @@ class SystemSetting implements JsonSerializable
      *
      * @return self
      */
-    public function withValue($value)
+    public function withValue(string $value): self
     {
         $this->value = $value;
         return $this;
@@ -104,6 +82,7 @@ class SystemSetting implements JsonSerializable
     {
         $json = [
             'id' => $this->id(),
+            'created' => $this->created(),
 
             'name' => $this->name(),
             'value' => $this->value(),

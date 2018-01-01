@@ -5,29 +5,20 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace Hal\Core\Entity;
+namespace Hal\Core\Entity\Job;
 
+use Hal\Core\Entity\Job;
 use Hal\Core\Type\JobEventStageEnum;
 use Hal\Core\Type\JobEventStatusEnum;
-use Hal\Core\Utility\EntityIDTrait;
-use Hal\Core\Utility\TimeCreatedTrait;
+use Hal\Core\Utility\EntityTrait;
+use Hal\Core\Utility\ParameterTrait;
 use JsonSerializable;
 use QL\MCP\Common\Time\TimePoint;
 
 class JobEvent implements JsonSerializable
 {
-    use EntityIDTrait;
-    use TimeCreatedTrait;
-
-    /**
-     * @var string
-     */
-    protected $id;
-
-    /**
-     * @var TimePoint
-     */
-    protected $created;
+    use EntityTrait;
+    use ParameterTrait;
 
     /**
      * @var string
@@ -46,14 +37,9 @@ class JobEvent implements JsonSerializable
     protected $message;
 
     /**
-     * @var string
+     * @var Job
      */
-    protected $parent;
-
-    /**
-     * @var array
-     */
-    protected $parameters;
+    protected $job;
 
     /**
      * @param string $id
@@ -61,32 +47,21 @@ class JobEvent implements JsonSerializable
      */
     public function __construct($id = '', TimePoint $created = null)
     {
-        $this->id = $id ?: $this->generateEntityID();
-        $this->created = $created ?: $this->generateCreatedTime();
+        $this->initializeEntity($id, $created);
 
         $this->stage = JobEventStageEnum::defaultOption();
         $this->status = JobEventStatusEnum::defaultOption();
 
         $this->order = 0;
-
         $this->message = '';
-        $this->parent = '';
 
-        $this->parameters = [];
+        $this->job = null;
     }
 
     /**
      * @return string
      */
-    public function id()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function stage()
+    public function stage(): string
     {
         return $this->stage;
     }
@@ -94,7 +69,7 @@ class JobEvent implements JsonSerializable
     /**
      * @return string
      */
-    public function status()
+    public function status(): string
     {
         return $this->status;
     }
@@ -102,52 +77,25 @@ class JobEvent implements JsonSerializable
     /**
      * @return int
      */
-    public function order()
+    public function order(): int
     {
         return $this->order;
     }
 
     /**
-     * @return TimePoint
-     */
-    public function created()
-    {
-        return $this->created;
-    }
-
-    /**
      * @return string|null
      */
-    public function message()
+    public function message(): string
     {
         return $this->message;
     }
 
     /**
-     * @return string|null
+     * @return Job
      */
-    public function parentID()
+    public function job(): Job
     {
-        return $this->parent;
-    }
-
-    /**
-     * @return array
-     */
-    public function parameters()
-    {
-        return $this->parameters;
-    }
-
-    /**
-     * @param int $id
-     *
-     * @return self
-     */
-    public function withID($id)
-    {
-        $this->id = $id;
-        return $this;
+        return $this->job;
     }
 
     /**
@@ -155,7 +103,7 @@ class JobEvent implements JsonSerializable
      *
      * @return self
      */
-    public function withStage($stage)
+    public function withStage(string $stage): self
     {
         $this->stage = JobEventStageEnum::ensureValid($stage);
         return $this;
@@ -166,20 +114,9 @@ class JobEvent implements JsonSerializable
      *
      * @return self
      */
-    public function withStatus($status)
+    public function withStatus(string $status): self
     {
         $this->status = JobEventStatusEnum::ensureValid($status);
-        return $this;
-    }
-
-    /**
-     * @param TimePoint $created
-     *
-     * @return self
-     */
-    public function withCreated(TimePoint $created)
-    {
-        $this->created = $created;
         return $this;
     }
 
@@ -188,9 +125,9 @@ class JobEvent implements JsonSerializable
      *
      * @return self
      */
-    public function withOrder($order)
+    public function withOrder(int $order): self
     {
-        $this->order = (int) $order;
+        $this->order = $order;
         return $this;
     }
 
@@ -199,31 +136,20 @@ class JobEvent implements JsonSerializable
      *
      * @return self
      */
-    public function withMessage($message)
+    public function withMessage(string $message): self
     {
         $this->message = $message;
         return $this;
     }
 
     /**
-     * @param string $parent
+     * @param Job $job
      *
      * @return self
      */
-    public function withParentID($parent)
+    public function withJob(Job $job): self
     {
-        $this->parent = $parent;
-        return $this;
-    }
-
-    /**
-     * @param array $parameters
-     *
-     * @return self
-     */
-    public function withParameters(array $parameters)
-    {
-        $this->parameters = $parameters;
+        $this->job = $job;
         return $this;
     }
 
@@ -234,7 +160,6 @@ class JobEvent implements JsonSerializable
     {
         $json = [
             'id' => $this->id(),
-
             'created' => $this->created(),
 
             'stage' => $this->stage(),
@@ -243,9 +168,8 @@ class JobEvent implements JsonSerializable
             'order' => $this->order(),
             'message' => $this->message(),
 
-            'parent_id' => $this->parentID(),
-
             'parameters' => '**DATA**',
+            'job_id' => $this->job() ? $this->job()->id() : null,
         ];
 
         return $json;

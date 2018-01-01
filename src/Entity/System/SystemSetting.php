@@ -5,13 +5,13 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace Hal\Core\Entity;
+namespace Hal\Core\Entity\System;
 
 use Hal\Core\Utility\EntityTrait;
 use JsonSerializable;
 use QL\MCP\Common\Time\TimePoint;
 
-class Environment implements JsonSerializable
+class SystemSetting implements JsonSerializable
 {
     use EntityTrait;
 
@@ -21,9 +21,9 @@ class Environment implements JsonSerializable
     protected $name;
 
     /**
-     * @var bool
+     * @var string
      */
-    protected $isProduction;
+    protected $value;
 
     /**
      * @param string $id
@@ -34,23 +34,23 @@ class Environment implements JsonSerializable
         $this->initializeEntity($id, $created);
 
         $this->name = '';
-        $this->isProduction = false;
+        $this->value = '';
     }
 
     /**
      * @return string
      */
-    public function name(): string
+    public function name()
     {
         return $this->name;
     }
 
     /**
-     * @return bool
+     * @return string
      */
-    public function isProduction(): bool
+    public function value()
     {
-        return $this->isProduction;
+        return $this->value;
     }
 
     /**
@@ -58,20 +58,20 @@ class Environment implements JsonSerializable
      *
      * @return self
      */
-    public function withName($name): self
+    public function withName($name)
     {
         $this->name = $name;
         return $this;
     }
 
     /**
-     * @param bool $isProduction
+     * @param string $value
      *
      * @return self
      */
-    public function withIsProduction($isProduction): self
+    public function withValue($value)
     {
-        $this->isProduction = (bool) $isProduction;
+        $this->value = $value;
         return $this;
     }
 
@@ -85,7 +85,7 @@ class Environment implements JsonSerializable
             'created' => $this->created(),
 
             'name' => $this->name(),
-            'is_production' => $this->isProduction(),
+            'value' => $this->value(),
         ];
 
         return $json;

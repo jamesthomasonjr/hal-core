@@ -5,7 +5,7 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace Hal\Core\Repository;
+namespace Hal\Core\Repository\JobType;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -21,7 +21,7 @@ class ReleaseRepository extends EntityRepository
 {
     use PagedResultsTrait;
 
-    const DQL_ROLLBACKS = <<<SQL
+    const DQL_ROLLBACKS = <<<SQL_QUERY
    SELECT release
      FROM %s release
      JOIN release.target target
@@ -31,42 +31,42 @@ class ReleaseRepository extends EntityRepository
         release.status = :release_status AND
         build.status = :build_status
  ORDER BY release.created DESC
-SQL;
+SQL_QUERY;
 
-    const DQL_BY_TARGET = <<<SQL
+    const DQL_BY_TARGET = <<<SQL_QUERY
    SELECT release
      FROM %s release
      JOIN release.target target
     WHERE
         release.target = :target
  ORDER BY release.created DESC
-SQL;
+SQL_QUERY;
 
-    const DQL_BY_APPLICATION = <<<SQL
+    const DQL_BY_APPLICATION = <<<SQL_QUERY
    SELECT release
      FROM %s release
      JOIN release.build build
     WHERE release.application = :application
  ORDER BY release.created DESC
-SQL;
-    const DQL_BY_APPLICATION_WITH_REF_FILTER = <<<SQL
+SQL_QUERY;
+    const DQL_BY_APPLICATION_WITH_REF_FILTER = <<<SQL_QUERY
    SELECT release
      FROM %s release
      JOIN release.build build
     WHERE release.application = :application
       AND (build.reference = :ref OR build.commit = :ref)
  ORDER BY release.created DESC
-SQL;
+SQL_QUERY;
 
-    const DQL_BY_APPLICATION_AND_ENV = <<<SQL
+    const DQL_BY_APPLICATION_AND_ENV = <<<SQL_QUERY
    SELECT release
      FROM %s release
      JOIN release.build build
     WHERE release.application = :application
       AND build.environment = :environment
  ORDER BY release.created DESC
-SQL;
-    const DQL_BY_APPLICATION_AND_ENV_WITH_REF_FILTER = <<<SQL
+SQL_QUERY;
+    const DQL_BY_APPLICATION_AND_ENV_WITH_REF_FILTER = <<<SQL_QUERY
    SELECT release
      FROM %s release
      JOIN release.build build
@@ -74,12 +74,12 @@ SQL;
       AND build.environment = :environment
       AND (build.reference = :ref OR build.commit = :ref)
  ORDER BY release.created DESC
-SQL;
-    const DQL_ALL = <<<SQL
+SQL_QUERY;
+    const DQL_ALL = <<<SQL_QUERY
    SELECT release
      FROM %s release
  ORDER BY release.created DESC
-SQL;
+SQL_QUERY;
 
     /**
      * Get all releases that can be used as a rollback, paged.

@@ -11,21 +11,21 @@ use Doctrine\ORM\EntityRepository;
 use Hal\Core\Entity\Application;
 use Hal\Core\Entity\Build;
 use Hal\Core\Entity\Environment;
-use Hal\Core\Entity\Group;
 use Hal\Core\Entity\Target;
+use Hal\Core\Entity\TargetTemplate;
 
 class TargetRepository extends EntityRepository
 {
-    const DQL_BY_APP_AND_ENVIRONMENT = <<<SQL
+    const DQL_BY_APP_AND_ENVIRONMENT = <<<SQL_QUERY
    SELECT target
      FROM %s target
 
-     JOIN %s grp WITH grp = target.group
-     JOIN %s env WITH env = grp.environment
+     JOIN %s tpl WITH tpl = target.group
+     JOIN %s env WITH env = tpl.environment
 
     WHERE target.application = :application
-      AND grp.environment = :env
-SQL;
+      AND tpl.environment = :env
+SQL_QUERY;
 
     /**
      * Get all targets for an application and environment.
@@ -37,7 +37,7 @@ SQL;
      */
     public function getByApplicationAndEnvironment(Application $application, Environment $environment)
     {
-        $dql = sprintf(self::DQL_BY_APP_AND_ENVIRONMENT, Target::class, Group::class, Environment::class);
+        $dql = sprintf(self::DQL_BY_APP_AND_ENVIRONMENT, Target::class, TargetTemplate::class, Environment::class);
         $query = $this->getEntityManager()
             ->createQuery($dql)
             ->setParameter('application', $application)

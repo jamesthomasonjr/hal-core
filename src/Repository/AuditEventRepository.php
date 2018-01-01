@@ -16,11 +16,11 @@ class AuditEventRepository extends EntityRepository
 {
     use PagedResultsTrait;
 
-    const DQL_GET_PAGED = <<<SQL
+    const DQL_GET_PAGED = <<<SQL_QUERY
   SELECT event
     FROM %s event
 ORDER BY event.created DESC
-SQL;
+SQL_QUERY;
 
     /**
      * Get all audit events, paged.

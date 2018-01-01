@@ -5,15 +5,18 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace Hal\Core\Entity;
+namespace Hal\Core\Entity\System;
 
+use Hal\Core\Type\IdentityProviderEnum;
 use Hal\Core\Utility\EntityTrait;
+use Hal\Core\Utility\ParameterTrait;
 use JsonSerializable;
 use QL\MCP\Common\Time\TimePoint;
 
-class Environment implements JsonSerializable
+class UserIdentityProvider implements JsonSerializable
 {
     use EntityTrait;
+    use ParameterTrait;
 
     /**
      * @var string
@@ -21,9 +24,9 @@ class Environment implements JsonSerializable
     protected $name;
 
     /**
-     * @var bool
+     * @var string
      */
-    protected $isProduction;
+    protected $type;
 
     /**
      * @param string $id
@@ -32,9 +35,10 @@ class Environment implements JsonSerializable
     public function __construct($id = '', TimePoint $created = null)
     {
         $this->initializeEntity($id, $created);
+        $this->initializeParameters();
 
         $this->name = '';
-        $this->isProduction = false;
+        $this->type = IdentityProviderEnum::defaultOption();
     }
 
     /**
@@ -46,11 +50,11 @@ class Environment implements JsonSerializable
     }
 
     /**
-     * @return bool
+     * @return string
      */
-    public function isProduction(): bool
+    public function type(): string
     {
-        return $this->isProduction;
+        return $this->type;
     }
 
     /**
@@ -58,20 +62,20 @@ class Environment implements JsonSerializable
      *
      * @return self
      */
-    public function withName($name): self
+    public function withName(string $name): self
     {
         $this->name = $name;
         return $this;
     }
 
     /**
-     * @param bool $isProduction
+     * @param string $type
      *
      * @return self
      */
-    public function withIsProduction($isProduction): self
+    public function withType(string $type): self
     {
-        $this->isProduction = (bool) $isProduction;
+        $this->type = IdentityProviderEnum::ensureValid($type);
         return $this;
     }
 
@@ -85,7 +89,9 @@ class Environment implements JsonSerializable
             'created' => $this->created(),
 
             'name' => $this->name(),
-            'is_production' => $this->isProduction(),
+            'type' => $this->type(),
+
+            'parameters' => $this->parameters(),
         ];
 
         return $json;

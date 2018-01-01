@@ -7,9 +7,11 @@
 
 namespace Hal\Core\Entity;
 
-use Hal\Core\Type\GroupEnum;
-use Hal\Core\Utility\EntityIDTrait;
+use Hal\Core\Type\TargetEnum;
+use Hal\Core\Utility\EntityTrait;
+use Hal\Core\Utility\ScopedEntityTrait;
 use JsonSerializable;
+use QL\MCP\Common\Time\TimePoint;
 
 /**
  * Terrible naming! Must be changed!
@@ -28,14 +30,10 @@ use JsonSerializable;
  *     - Elastic Beanstalk Environment
  *     - Kubernetes Pod
  */
-class Group implements JsonSerializable
+class TargetTemplate implements JsonSerializable
 {
-    use EntityIDTrait;
-
-    /**
-     * @var string
-     */
-    protected $id;
+    use EntityTrait;
+    use ScopedEntityTrait;
 
     /**
      * @var string
@@ -43,48 +41,29 @@ class Group implements JsonSerializable
     protected $type;
 
     /**
-     * - rsync: server hostname
-     * - eb: aws region
-     * - cd: aws region
-     * - s3: aws region
-     *
-     * - script: not used
-     *
      * @var string
      */
     protected $name;
 
     /**
-     * @var Environment
-     */
-    protected $environment;
-
-    /**
-     * @param string $id
      * @param string $type
+     * @param string $id
+     * @param TimePoint|null $created
      */
-    public function __construct($id = '', $type = '')
+    public function __construct($type = '', $id = '', TimePoint $created = null)
     {
-        $this->id = $id ?: $this->generateEntityID();
-        $this->type = $type ? GroupEnum::ensureValid($type) : GroupEnum::defaultOption();
+        $this->initializeEntity($id, $created);
+        $this->initializeParameters();
+        $this->initializeScopes();
 
+        $this->type = $type ? TargetEnum::ensureValid($type) : TargetEnum::defaultOption();
         $this->name = '';
-
-        $this->environment = null;
     }
 
     /**
      * @return string
      */
-    public function id()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function type()
+    public function type(): string
     {
         return $this->type;
     }
@@ -92,28 +71,9 @@ class Group implements JsonSerializable
     /**
      * @return string
      */
-    public function name()
+    public function name(): string
     {
         return $this->name;
-    }
-
-    /**
-     * @return Environment
-     */
-    public function environment()
-    {
-        return $this->environment;
-    }
-
-    /**
-     * @param int $id
-     *
-     * @return self
-     */
-    public function withID($id)
-    {
-        $this->id = $id;
-        return $this;
     }
 
     /**
@@ -121,9 +81,9 @@ class Group implements JsonSerializable
      *
      * @return self
      */
-    public function withType($type)
+    public function withType($type): self
     {
-        $this->type = GroupEnum::ensureValid($type);
+        $this->type = TargetEnum::ensureValid($type);
         return $this;
     }
 
@@ -132,20 +92,9 @@ class Group implements JsonSerializable
      *
      * @return self
      */
-    public function withName($name)
+    public function withName($name): self
     {
         $this->name = $name;
-        return $this;
-    }
-
-    /**
-     * @param Environment $environment
-     *
-     * @return self
-     */
-    public function withEnvironment(Environment $environment)
-    {
-        $this->environment = $environment;
         return $this;
     }
 
@@ -163,19 +112,19 @@ class Group implements JsonSerializable
         }
 
         switch ($this->type()) {
-            case GroupEnum::TYPE_CD:
+            case TargetEnum::TYPE_CD:
                 return sprintf('CD (%s)', $this->name());
 
-            case GroupEnum::TYPE_EB:
+            case TargetEnum::TYPE_EB:
                 return sprintf('EB (%s)', $this->name());
 
-            case GroupEnum::TYPE_S3:
+            case TargetEnum::TYPE_S3:
                 return sprintf('S3 (%s)', $this->name());
 
-            case GroupEnum::TYPE_SCRIPT:
+            case TargetEnum::TYPE_SCRIPT:
                 return 'Script';
 
-            case GroupEnum::TYPE_RSYNC:
+            case TargetEnum::TYPE_RSYNC:
                 return sprintf('RSync (%s)', $this->name());
 
             default:
@@ -189,19 +138,19 @@ class Group implements JsonSerializable
     private function formatWithoutDetails()
     {
         switch ($this->type()) {
-            case GroupEnum::TYPE_CD:
+            case TargetEnum::TYPE_CD:
                 return 'CodeDeploy';
 
-            case GroupEnum::TYPE_EB:
+            case TargetEnum::TYPE_EB:
                 return 'Elastic Beanstalk';
 
-            case GroupEnum::TYPE_S3:
+            case TargetEnum::TYPE_S3:
                 return 'S3';
 
-            case GroupEnum::TYPE_SCRIPT:
+            case TargetEnum::TYPE_SCRIPT:
                 return 'Script';
 
-            case GroupEnum::TYPE_RSYNC:
+            case TargetEnum::TYPE_RSYNC:
                 return 'RSync';
 
             default:
@@ -216,7 +165,7 @@ class Group implements JsonSerializable
      */
     public function isAWS()
     {
-        return in_array($this->type(), [GroupEnum::TYPE_CD, GroupEnum::TYPE_EB, GroupEnum::TYPE_S3]);
+        return in_array($this->type(), [TargetEnum::TYPE_CD, TargetEnum::TYPE_EB, TargetEnum::TYPE_S3]);
     }
 
     /**
@@ -226,10 +175,13 @@ class Group implements JsonSerializable
     {
         $json = [
             'id' => $this->id(),
+            'created' => $this->created(),
 
             'type' => $this->type(),
             'name' => $this->name(),
 
+            'application_id' => $this->application() ? $this->application()->id() : null,
+            'organization_id' => $this->organization() ? $this->organization()->id() : null,
             'environment_id' => $this->environment() ? $this->environment()->id() : null,
         ];
 

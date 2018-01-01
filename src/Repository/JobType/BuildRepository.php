@@ -5,7 +5,7 @@
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace Hal\Core\Repository;
+namespace Hal\Core\Repository\JobType;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -18,40 +18,40 @@ class BuildRepository extends EntityRepository
 {
     use PagedResultsTrait;
 
-    const DQL_BY_APPLICATION = <<<SQL
+    const DQL_BY_APPLICATION = <<<SQL_QUERY
    SELECT build
      FROM %s build
     WHERE build.application = :application
  ORDER BY build.created DESC
-SQL;
-    const DQL_BY_APPLICATION_WITH_REF_FILTER = <<<SQL
+SQL_QUERY;
+    const DQL_BY_APPLICATION_WITH_REF_FILTER = <<<SQL_QUERY
    SELECT build
      FROM %s build
     WHERE build.application = :application
       AND (build.reference = :ref OR build.commit = :ref)
  ORDER BY build.created DESC
-SQL;
+SQL_QUERY;
 
-    const DQL_BY_APPLICATION_AND_ENV = <<<SQL
+    const DQL_BY_APPLICATION_AND_ENV = <<<SQL_QUERY
    SELECT build
      FROM %s build
     WHERE build.application = :application
       AND build.environment = :environment
  ORDER BY build.created DESC
-SQL;
-    const DQL_BY_APPLICATION_AND_ENV_WITH_REF_FILTER = <<<SQL
+SQL_QUERY;
+    const DQL_BY_APPLICATION_AND_ENV_WITH_REF_FILTER = <<<SQL_QUERY
    SELECT build
      FROM %s build
     WHERE build.application = :application
       AND build.environment = :environment
       AND (build.reference = :ref OR build.commit = :ref)
  ORDER BY build.created DESC
-SQL;
-    const DQL_ALL = <<<SQL
+SQL_QUERY;
+    const DQL_ALL = <<<SQL_QUERY
    SELECT build
      FROM %s build
  ORDER BY build.created DESC
-SQL;
+SQL_QUERY;
 
     /**
      * Get all builds for an application, paged.

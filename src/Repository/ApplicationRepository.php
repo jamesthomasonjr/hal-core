@@ -19,11 +19,11 @@ class ApplicationRepository extends EntityRepository
     use PagedResultsTrait;
     use SortingTrait;
 
-    const DQL_ALL = <<<SQL
+    const DQL_ALL = <<<SQL_QUERY
    SELECT application
      FROM %s application
  ORDER BY application.name ASC
-SQL;
+SQL_QUERY;
 
     /**
      * Get all applications sorted into organizations.
