@@ -96,11 +96,12 @@ class InitialSchema extends PhinxMigration
 
         // users
         $this->createUUIDTable('users')
-            ->addColumn('created',       'datetime', [])
-            ->addColumn('name',          'string',   ['limit' => 100])
-            ->addColumn('parameters',    'json',     [])
-            ->addColumn('is_disabled',   'boolean',  ['default' => false])
-            ->addColumn('provider_id',   'uuid',     ['null' => false])
+            ->addColumn('created',            'datetime', [])
+            ->addColumn('name',               'string',   ['limit' => 100])
+            ->addColumn('parameters',         'json',     [])
+            ->addColumn('is_disabled',        'boolean',  ['default' => false])
+            ->addColumn('provider_unique_id', 'string',   ['limit' => 100])
+            ->addColumn('provider_id',        'uuid',     ['null' => false])
             ->update();
 
         // users - tokens

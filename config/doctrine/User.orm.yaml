@@ -3,7 +3,7 @@
     repositoryClass: 'Hal\Core\Repository\UserRepository'
     type: 'entity'
 
-    cache: {usage : NONSTRICT_READ_WRITE}
+    cache: { usage : NONSTRICT_READ_WRITE }
 
     id:
         id:
@@ -14,6 +14,11 @@
 
         name:
             column: 'name'
+            type: 'string'
+            length: 100
+
+        providerUniqueID:
+            column: 'provider_unique_id'
             type: 'string'
             length: 100
 

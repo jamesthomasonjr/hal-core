@@ -59,6 +59,7 @@ class UserTest extends TestCase
             ->withName('Smith, Bob')
             ->withIsDisabled(true)
             ->withParameter('this', 'that')
+            ->withProviderUniqueID('6868')
             ->withProvider($provider);
 
         $expected = <<<JSON_TEXT
@@ -71,6 +72,7 @@ class UserTest extends TestCase
         "this": "that"
     },
     "settings": [],
+    "provider_unique_id": "6868",
     "provider_id": "5678",
     "tokens": []
 }
@@ -94,6 +96,7 @@ JSON_TEXT;
     "is_disabled": false,
     "parameters": [],
     "settings": [],
+    "provider_unique_id": "",
     "provider_id": "5678",
     "tokens": []
 }

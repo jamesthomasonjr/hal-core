@@ -35,6 +35,11 @@ class User implements JsonSerializable
     protected $settings;
 
     /**
+     * @var string
+     */
+    protected $providerUniqueID;
+
+    /**
      * @var UserIdentityProvider|null
      */
     protected $provider;
@@ -56,6 +61,7 @@ class User implements JsonSerializable
         $this->name = '';
         $this->isDisabled = false;
         $this->settings = [];
+        $this->providerUniqueID = '';
 
         $this->provider = null;
         $this->tokens = new ArrayCollection;
@@ -91,6 +97,14 @@ class User implements JsonSerializable
     public function settings(): array
     {
         return $this->settings;
+    }
+
+    /**
+     * @return string
+     */
+    public function providerUniqueID(): string
+    {
+        return $this->providerUniqueID;
     }
 
     /**
@@ -159,6 +173,17 @@ class User implements JsonSerializable
     }
 
     /**
+     * @param string $id
+     *
+     * @return self
+     */
+    public function withProviderUniqueID(string $id): self
+    {
+        $this->providerUniqueID = $id;
+        return $this;
+    }
+
+    /**
      * @param UserIdentityProvider|null $provider
      *
      * @return self
@@ -186,6 +211,7 @@ class User implements JsonSerializable
             'parameters' => $this->parameters(),
             'settings' => $this->settings(),
 
+            'provider_unique_id' => $this->providerUniqueID(),
             'provider_id' => $this->provider() ? $this->provider()->id() : null,
             'tokens' => $this->tokens()->toArray()
         ];

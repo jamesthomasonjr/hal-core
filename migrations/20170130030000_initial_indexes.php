@@ -44,7 +44,7 @@ class InitialIndexes extends PhinxMigration
     protected function uniqueColumns()
     {
         return [
-            // 'users' =>            ['name'],
+            'users' =>            [['provider_unique_id', 'provider_id']],
             // 'environments' =>     ['name'],
         ];
     }
