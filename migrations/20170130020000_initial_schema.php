@@ -191,7 +191,7 @@ class InitialSchema extends PhinxMigration
             ->addColumn('parameters',     'json',       [])
 
             ->addColumn('start',          'datetime',   ['null' => true])
-            ->addColumn('end',            'datetime',   ['null' => true])
+            ->addColumn('job_end',        'datetime',   ['null' => true])
 
             ->addColumn('user_id',        'uuid',       ['null' => false])
             ->update();
