@@ -100,6 +100,20 @@ class User implements JsonSerializable
     }
 
     /**
+     * @param string $name
+     *
+     * @return mixed
+     */
+    public function setting(string $name)
+    {
+        if (isset($this->settings[$name])) {
+            return $this->settings[$name];
+        }
+
+        return null;
+    }
+
+    /**
      * @return string
      */
     public function providerUniqueID(): string

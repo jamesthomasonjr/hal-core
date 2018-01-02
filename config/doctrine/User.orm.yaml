@@ -26,6 +26,10 @@
             column: 'parameters'
             type: 'json_array'
 
+        settings:
+            column: 'settings'
+            type: 'json_array'
+
         isDisabled:
             column: 'is_disabled'
             type: 'boolean'

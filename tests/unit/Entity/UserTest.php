@@ -38,6 +38,8 @@ class UserTest extends TestCase
             ->withName('Bob Smith')
             ->withIsDisabled(true)
             ->withParameter('this', 'that')
+            ->withSetting('this', ['that'])
+            ->withSetting('this2', false)
             ->withProvider($provider);
 
         $user->tokens()->add(new UserToken);
@@ -47,6 +49,8 @@ class UserTest extends TestCase
         $this->assertSame('Bob Smith', $user->name());
         $this->assertSame(true, $user->isDisabled());
         $this->assertSame('that', $user->parameter('this'));
+        $this->assertSame(['that'], $user->setting('this'));
+        $this->assertSame(false, $user->setting('this2'));
 
         $this->assertCount(2, $user->tokens());
     }
