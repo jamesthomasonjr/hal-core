@@ -177,6 +177,7 @@ class InitialSchema extends PhinxMigration
             ->addColumn('application_id', 'uuid',     ['null' => false])
             ->addColumn('environment_id', 'uuid',     ['null' => true])
 
+            ->addColumn('template_id',    'uuid',     ['null' => true])
             ->addColumn('credential_id',  'uuid',     ['null' => true])
             ->addColumn('last_job_id',    'uuid',     ['null' => true])
             ->update();

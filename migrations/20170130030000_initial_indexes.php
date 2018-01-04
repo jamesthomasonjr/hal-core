@@ -115,6 +115,10 @@ class InitialIndexes extends PhinxMigration
                 'jobs_releases'
             ],
 
+            'targets_templates/template_id' => [
+                'targets'
+            ],
+
             'jobs/job_id' => [
                 'jobs_events',
                 'jobs_meta',
