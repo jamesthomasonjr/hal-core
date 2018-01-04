@@ -8,6 +8,7 @@
 namespace Hal\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Hal\Core\Entity\System\UserIdentityProvider;
 use Hal\Core\Utility\EntityTrait;
 use Hal\Core\Utility\ParameterTrait;
@@ -45,7 +46,7 @@ class User implements JsonSerializable
     protected $provider;
 
     /**
-     * @var ArrayCollection
+     * @var Collection
      */
     protected $tokens;
 
@@ -130,9 +131,9 @@ class User implements JsonSerializable
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function tokens(): ArrayCollection
+    public function tokens(): Collection
     {
         return $this->tokens;
     }
@@ -208,7 +209,7 @@ class User implements JsonSerializable
         return $this;
     }
 
-    // @todo add token add/remove - arraycollection items should always be removed from the parent
+    // @todo add token add/remove - Collection items should always be removed from the parent
 
     /**
      * @return array

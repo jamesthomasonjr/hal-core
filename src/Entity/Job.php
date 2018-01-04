@@ -8,6 +8,7 @@
 namespace Hal\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Hal\Core\Utility\EntityTrait;
 use Hal\Core\Utility\ParameterTrait;
 use Hal\Core\Type\JobEnum;
@@ -40,7 +41,7 @@ class Job implements JsonSerializable
     protected $user;
 
     /**
-     * @var ArrayCollection
+     * @var Collection
      */
     protected $artifacts;
     protected $events;
@@ -109,25 +110,25 @@ class Job implements JsonSerializable
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function artifacts(): ArrayCollection
+    public function artifacts(): Collection
     {
         return $this->artifacts;
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function events(): ArrayCollection
+    public function events(): Collection
     {
         return $this->events;
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function meta(): ArrayCollection
+    public function meta(): Collection
     {
         return $this->meta;
     }
@@ -219,9 +220,9 @@ class Job implements JsonSerializable
         return $this->status() === JobStatusEnum::TYPE_FAILURE;
     }
 
-    // @todo add artifact add/remove - arraycollection items should always be removed from the parent
-    // @todo add event add/remove - arraycollection items should always be removed from the parent
-    // @todo add meta add/remove - arraycollection items should always be removed from the parent
+    // @todo add artifact add/remove - Collection items should always be removed from the parent
+    // @todo add event add/remove - Collection items should always be removed from the parent
+    // @todo add meta add/remove - Collection items should always be removed from the parent
 
     /**
      * @return array
