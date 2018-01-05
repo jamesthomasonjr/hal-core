@@ -8,7 +8,7 @@
     discriminatorColumn:
         name: 'job_type'
         type: 'string'
-        length: 50
+        length: 20 # See JobEnum for list of options
     discriminatorMap:
         build: 'Hal\Core\Entity\JobType\Build'
         release: 'Hal\Core\Entity\JobType\Release'
@@ -20,12 +20,6 @@
             type: 'guid'
 
     fields:
-
-        # type:
-        #     column: 'job_type'
-        #     type: 'string'
-        #     length: 50
-        #     options: { default: 'build' } # See JobEnum for list of options
 
         status:
             column: 'job_status'

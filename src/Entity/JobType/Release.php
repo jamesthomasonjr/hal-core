@@ -16,6 +16,8 @@ use QL\MCP\Common\Time\TimePoint;
 
 class Release extends Job
 {
+    const JOB_TYPE = JobEnum::TYPE_RELEASE;
+
     /**
      * @var Build
      */
@@ -42,7 +44,7 @@ class Release extends Job
      */
     public function __construct($id = '', TimePoint $created = null)
     {
-        parent::__construct(JobEnum::TYPE_RELEASE, $id, $created);
+        parent::__construct($id, $created);
 
         $this->build = null;
         $this->application = null;

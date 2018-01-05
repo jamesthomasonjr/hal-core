@@ -15,6 +15,8 @@ use QL\MCP\Common\Time\TimePoint;
 
 class Build extends Job
 {
+    const JOB_TYPE = JobEnum::TYPE_BUILD;
+
     /**
      * @var string
      */
@@ -37,7 +39,7 @@ class Build extends Job
      */
     public function __construct($id = '', TimePoint $created = null)
     {
-        parent::__construct(JobEnum::TYPE_BUILD, $id, $created);
+        parent::__construct($id, $created);
 
         $this->reference = '';
         $this->commit = '';

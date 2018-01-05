@@ -13,6 +13,7 @@ class JobEnum
 
     const ERR_INVALID = '"%s" is not a valid job option.';
 
+    const TYPE_JOB = 'job';
     const TYPE_BUILD = 'build';
     const TYPE_RELEASE = 'release';
 

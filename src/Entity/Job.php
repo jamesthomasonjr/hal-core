@@ -21,7 +21,7 @@ class Job implements JsonSerializable
     use EntityTrait;
     use ParameterTrait;
 
-    private const ERR_INVALID_SUBTYPE = 'Invalid job type provided.  Must be type Build or Release.';
+    const JOB_TYPE = JobEnum::TYPE_JOB;
 
     /**
      * @var TimePoint|null
@@ -32,7 +32,6 @@ class Job implements JsonSerializable
     /**
      * @var string
      */
-    protected $type;
     protected $status;
 
     /**
@@ -48,16 +47,14 @@ class Job implements JsonSerializable
     protected $meta;
 
     /**
-     * @param string $type
      * @param string $id
      * @param TimePoint|null $created
      */
-    public function __construct($type = '', $id = '', TimePoint $created = null)
+    public function __construct($id = '', TimePoint $created = null)
     {
         $this->initializeEntity($id, $created);
         $this->initializeParameters();
 
-        $this->type = $type ? JobEnum::ensureValid($type) : JobEnum::defaultOption();
         $this->status = JobStatusEnum::defaultOption();
 
         $this->start = null;
@@ -74,7 +71,7 @@ class Job implements JsonSerializable
      */
     public function type(): string
     {
-        return $this->type;
+        return static::JOB_TYPE;
     }
 
     /**
@@ -131,17 +128,6 @@ class Job implements JsonSerializable
     public function meta(): Collection
     {
         return $this->meta;
-    }
-
-    /**
-     * @param string $type
-     *
-     * @return self
-     */
-    public function withType(string $type): self
-    {
-        $this->status = JobEnum::ensureValid($type);
-        return $this;
     }
 
     /**
