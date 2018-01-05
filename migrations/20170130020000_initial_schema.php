@@ -200,7 +200,6 @@ class InitialSchema extends PhinxMigration
 
         // jobs - builds
         $this->createUUIDTable('jobs_builds')
-            ->addColumn('created',          'datetime',   [])
             ->addColumn('code_reference',   'string',     ['limit' => 100])
             ->addColumn('code_commit_sha',  'string',     ['limit' => 100])
 
@@ -210,7 +209,6 @@ class InitialSchema extends PhinxMigration
 
         // jobs - releases
         $this->createUUIDTable('jobs_releases')
-            ->addColumn('created',        'datetime',   [])
             ->addColumn('build_id',       'uuid',       ['null' => false])
 
             ->addColumn('application_id', 'uuid',       ['null' => true])
