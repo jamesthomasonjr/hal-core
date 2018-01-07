@@ -49,7 +49,7 @@ class JobMetaTest extends TestCase
         $meta = (new JobMeta('1234', $time))
             ->withName('test-prop')
             ->withValue('derp')
-            ->withJob(new Job('build', '5678'));
+            ->withJob(new Job('5678'));
 
         $expected = <<<JSON_TEXT
 {
@@ -69,7 +69,7 @@ JSON_TEXT;
         $time = new TimePoint(2017, 8, 15, 12, 0, 0, 'UTC');
 
         $meta = (new JobMeta('1', $time))
-            ->withJob(new Job('release', '1234'));
+            ->withJob(new Job('1234'));
 
         $expected = <<<JSON_TEXT
 {

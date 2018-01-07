@@ -246,12 +246,8 @@ class Target implements JsonSerializable
      *
      * @return string
      */
-    public function format(): string
+    public function formatType(): string
     {
-        if ($this->name()) {
-            return $this->name();
-        }
-
         switch ($this->type()) {
             case TargetEnum::TYPE_CD:
                 return 'CodeDeploy';

@@ -37,10 +37,18 @@ trait SortingTrait
     public function targetSorter()
     {
         return function (Target $a, Target $b) {
-            $formattedA = $a->format();
-            $formattedB = $b->format();
+            $typeA = $a->formatType();
+            $typeB = $b->formatType();
 
-            return strcasecmp($formattedA, $formattedB);
+            $nameA = $a->name();
+            $nameB = $b->name();
+
+            if ($typeA === $typeB) {
+                $typeA = $nameA;
+                $typeB = $nameB;
+            }
+
+            return strcasecmp($typeA, $typeB);
         };
     }
 

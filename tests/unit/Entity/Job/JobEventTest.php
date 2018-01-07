@@ -63,7 +63,7 @@ class JobEventTest extends TestCase
             ->withOrder(5)
             ->withMessage('Something happened')
             ->withStatus('failure')
-            ->withJob(new Job('build', '5678'))
+            ->withJob(new Job('5678'))
             ->withParameters(['test' => 'value']);
 
         $expected = <<<JSON_TEXT
@@ -86,7 +86,7 @@ JSON_TEXT;
     {
         $time = new TimePoint(2015, 8, 15, 12, 0, 0, 'UTC');
         $event = new JobEvent('1', $time);
-        $event->withJob(new Job('release', '1234'));
+        $event->withJob(new Job('1234'));
 
 
         $expected = <<<JSON_TEXT

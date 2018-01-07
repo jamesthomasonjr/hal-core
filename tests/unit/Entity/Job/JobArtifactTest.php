@@ -79,7 +79,7 @@ JSON_TEXT;
     {
         $time = new TimePoint(2015, 8, 15, 12, 0, 0, 'UTC');
         $artifact = new JobArtifact('1', $time);
-        $artifact->withJob(new Job('release', '1234'));
+        $artifact->withJob(new Job('1234'));
 
 
         $expected = <<<JSON_TEXT

@@ -80,6 +80,31 @@ class UserIdentityProvider implements JsonSerializable
     }
 
     /**
+     * Format a pretty name for the IDP.
+     *
+     * @return string
+     */
+    public function formatType(): string
+    {
+        switch ($this->type()) {
+            case IdentityProviderEnum::TYPE_INTERNAL:
+                return 'Internal';
+
+            case IdentityProviderEnum::TYPE_LDAP:
+                return 'LDAP';
+
+            case IdentityProviderEnum::TYPE_GITHUB:
+                return 'GitHub.com';
+
+            case IdentityProviderEnum::TYPE_GITHUB_ENTERPRISE:
+                return 'GitHub Ent.';
+
+            default:
+                return 'Unknown';
+        }
+    }
+
+    /**
      * @return array
      */
     public function jsonSerialize()

@@ -155,48 +155,12 @@ JSON_TEXT;
         $this->assertSame($expected, json_encode($target, JSON_PRETTY_PRINT));
     }
 
-    public function testFormat()
-    {
-        $template = new TargetTemplate;
-        $this->assertSame('RSync', $template->format());
-        $this->assertSame(false, $template->isAWS());
-
-        $template->withType('rsync');
-        $this->assertSame('RSync', $template->format());
-        $this->assertSame(false, $template->isAWS());
-
-        $template->withType('eb');
-        $this->assertSame('Elastic Beanstalk', $template->format());
-        $this->assertSame(true, $template->isAWS());
-
-        $template->withType('cd');
-        $this->assertSame('CodeDeploy', $template->format());
-        $this->assertSame(true, $template->isAWS());
-
-        $template->withType('s3');
-        $this->assertSame('S3', $template->format());
-        $this->assertSame(true, $template->isAWS());
-
-        $template->withType('script');
-        $this->assertSame('Script', $template->format());
-        $this->assertSame(false, $template->isAWS());
-    }
-
-    public function testFormatWithName()
-    {
-        $target = (new Target)
-            ->withName('target name')
-            ->withParameter('path', '/my/app/root');
-
-        $this->assertSame('target name', $target->format());
-    }
-
     public function testFormatForRsync()
     {
         $target = (new Target('rsync'))
             ->withParameter('path', '/my/app/root');
 
-        $this->assertSame('RSync', $target->format());
+        $this->assertSame('RSync', $target->formatType());
         $this->assertSame('/my/app/root', $target->formatParameters());
     }
 
@@ -206,7 +170,7 @@ JSON_TEXT;
             ->withParameter('application', 'BeanstalkApp')
             ->withParameter('environment', 'e-1234abcd');
 
-        $this->assertSame('Elastic Beanstalk', $target->format());
+        $this->assertSame('Elastic Beanstalk', $target->formatType());
         $this->assertSame('e-1234abcd', $target->formatParameters());
     }
 
@@ -216,7 +180,7 @@ JSON_TEXT;
             ->withParameter('bucket', 'bucket-name')
             ->withParameter('path', 'file.tar.gz');
 
-        $this->assertSame('S3', $target->format());
+        $this->assertSame('S3', $target->formatType());
         $this->assertSame('bucket-name/file.tar.gz', $target->formatParameters());
     }
 
@@ -225,7 +189,7 @@ JSON_TEXT;
         $target = (new Target('s3'))
             ->withParameter('bucket', 'bucket-name');
 
-        $this->assertSame('S3', $target->format());
+        $this->assertSame('S3', $target->formatType());
         $this->assertSame('bucket-name', $target->formatParameters());
     }
 
@@ -236,7 +200,7 @@ JSON_TEXT;
             ->withParameter('path', 'file.tar.gz')
             ->withParameter('source', 'appdist/folder');
 
-        $this->assertSame('S3', $target->format());
+        $this->assertSame('S3', $target->formatType());
         $this->assertSame('appdist/folder:bucket-name/file.tar.gz', $target->formatParameters());
     }
 
@@ -247,7 +211,7 @@ JSON_TEXT;
             ->withParameter('group', 'DemoFleet')
             ->withParameter('configuration', 'CodeDeploy.HalfAtATime');
 
-        $this->assertSame('CodeDeploy', $target->format());
+        $this->assertSame('CodeDeploy', $target->formatType());
         $this->assertSame('DemoFleet', $target->formatParameters());
     }
 
@@ -256,7 +220,7 @@ JSON_TEXT;
         $target = (new Target('script'))
             ->withParameter('context', 'test1');
 
-        $this->assertSame('Script', $target->format());
+        $this->assertSame('Script', $target->formatType());
         $this->assertSame('test1', $target->formatParameters());
     }
 }

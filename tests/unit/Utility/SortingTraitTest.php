@@ -79,9 +79,10 @@ class SortingTraitTest extends TestCase
     {
         $a = new Target('s3');
         $b = new Target('cd');
-        $c = (new Target('eb'))->withName('aaa');
-        $d = (new Target('script'))->withName('abc');
-        $e = new Target('rsync');
+        $c = (new Target('eb'));
+        $d = (new Target('script'))->withName('ddd');
+        $e = (new Target('script'))->withName('abc');
+        $f = new Target('rsync');
 
         return [
             [
@@ -90,13 +91,15 @@ class SortingTraitTest extends TestCase
                 $c,
                 $d,
                 $e,
+                $f,
             ],
             [
-                $c,
-                $d,
                 $b,
-                $e,
+                $c,
+                $f,
                 $a,
+                $e,
+                $d,
             ]
         ];
     }

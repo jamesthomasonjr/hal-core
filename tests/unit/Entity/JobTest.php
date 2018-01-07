@@ -24,7 +24,7 @@ class JobTest extends TestCase
         $this->assertSame(null, $job->start());
         $this->assertSame(null, $job->end());
 
-        $this->assertSame('build', $job->type());
+        $this->assertSame('job', $job->type());
         $this->assertSame('pending', $job->status());
 
         $this->assertSame([], $job->artifacts()->toArray());
@@ -44,7 +44,7 @@ class JobTest extends TestCase
         $time2 = new TimePoint(2014, 8, 15, 12, 0, 0, 'UTC');
         $time3 = new TimePoint(2013, 8, 15, 12, 0, 0, 'UTC');
 
-        $job = (new Job('build', '1234', $time1))
+        $job = (new Job('1234', $time1))
             ->withStart($time2)
             ->withEnd($time3)
 
@@ -58,7 +58,7 @@ class JobTest extends TestCase
         $this->assertSame($time2, $job->start());
         $this->assertSame($time3, $job->end());
 
-        $this->assertSame('build', $job->type());
+        $this->assertSame('job', $job->type());
         $this->assertSame('running', $job->status());
         $this->assertSame('that', $job->parameter('this'));
 
@@ -75,7 +75,7 @@ class JobTest extends TestCase
         $time2 = new TimePoint(2014, 8, 15, 12, 0, 0, 'UTC');
         $time3 = new TimePoint(2013, 8, 15, 12, 0, 0, 'UTC');
 
-        $job = (new Job('release', '1234', $time1))
+        $job = (new Job('1234', $time1))
             ->withStart($time2)
             ->withEnd($time3)
 
@@ -89,7 +89,7 @@ class JobTest extends TestCase
 {
     "id": "1234",
     "created": "2015-08-15T12:00:00Z",
-    "type": "release",
+    "type": "job",
     "status": "running",
     "parameters": {
         "test": "value1",
@@ -110,13 +110,13 @@ JSON_TEXT;
     public function testDefaultSerialization()
     {
         $time = new TimePoint(2015, 8, 15, 12, 0, 0, 'UTC');
-        $job = new Job('release', '1234', $time);
+        $job = new Job('1234', $time);
 
         $expected = <<<JSON_TEXT
 {
     "id": "1234",
     "created": "2015-08-15T12:00:00Z",
-    "type": "release",
+    "type": "job",
     "status": "pending",
     "parameters": [],
     "start": null,
@@ -164,14 +164,6 @@ JSON_TEXT;
         $this->assertSame(true, $job->isFinished());
         $this->assertSame(false, $job->isSuccess());
         $this->assertSame(true, $job->isFailure());
-    }
-
-    public function testInvalidTypeEnumThrowsException()
-    {
-        $this->expectException(EnumException::class);
-        $this->expectExceptionMessage('"derp" is not a valid JobEnum option.');
-
-        $job = new Job('derp');
     }
 
     public function testInvalidStatusEnumThrowsException()
