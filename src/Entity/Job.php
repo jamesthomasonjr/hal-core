@@ -133,7 +133,7 @@ class Job implements JsonSerializable
     /**
      * @param string $status
      *
-     * @return self
+     * @return static
      */
     public function withStatus(string $status): self
     {
@@ -144,7 +144,7 @@ class Job implements JsonSerializable
     /**
      * @param TimePoint|null $start
      *
-     * @return self
+     * @return static
      */
     public function withStart(?TimePoint $start): self
     {
@@ -155,7 +155,7 @@ class Job implements JsonSerializable
     /**
      * @param TimePoint|null $end
      *
-     * @return self
+     * @return static
      */
     public function withEnd(?TimePoint $end): self
     {
@@ -166,7 +166,7 @@ class Job implements JsonSerializable
     /**
      * @param User|null $user
      *
-     * @return self
+     * @return static
      */
     public function withUser(?User $user): self
     {
