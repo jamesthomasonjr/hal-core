@@ -1,5 +1,6 @@
 'Hal\Core\Entity\Target':
     table: 'targets'
+    repositoryClass: 'Hal\Core\Repository\TargetRepository'
     type: 'entity'
 
     cache: { usage : NONSTRICT_READ_WRITE }

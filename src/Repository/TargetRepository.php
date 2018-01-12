@@ -11,11 +11,11 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Hal\Core\Entity\Application;
 use Hal\Core\Entity\Environment;
-use Hal\Core\Entity\TargetTemplate;
+use Hal\Core\Entity\Target;
 use Hal\Core\Utility\PagedResultsTrait;
 use Hal\Core\Utility\SortingTrait;
 
-class TargetTemplateRepository extends EntityRepository
+class TargetRepository extends EntityRepository
 {
     use PagedResultsTrait;
     use SortingTrait;
@@ -27,7 +27,7 @@ class TargetTemplateRepository extends EntityRepository
 SQL_QUERY;
 
     /**
-     * Get all templates, paged.
+     * Get all targets, paged.
      *
      * @param int $limit
      * @param int $page
@@ -36,18 +36,18 @@ SQL_QUERY;
      */
     public function getPagedResults($limit = 50, $page = 0): Paginator
     {
-        $dql = sprintf(self::DQL_GET_PAGED, TargetTemplate::class);
+        $dql = sprintf(self::DQL_GET_PAGED, Target::class);
         return $this->getPaginator($dql, $limit, $page);
     }
 
     /**
-     * Get all templates sorted into environments.
+     * Get all targets sorted into environments.
      *
      * @param Application|null $application
      *
      * @return array
      */
-    public function getGroupedTemplates(Application $application = null): array
+    public function getGroupedTargets(Application $application = null): array
     {
         $environments = $this->getEntityManager()
             ->getRepository(Environment::class)
@@ -59,26 +59,26 @@ SQL_QUERY;
             $findBy = [];
         }
 
-        $templates = $this->findBy($findBy);
+        $targets = $this->findBy($findBy);
 
         usort($environments, $this->environmentSorter());
-        usort($templates, $this->templateSorter());
+        usort($targets, $this->targetSorter());
 
         $sorted = [];
         foreach ($environments as $environment) {
             $sorted[$environment->id()] = [
                 'environment' => $environment,
-                'templates' => []
+                'targets' => []
             ];
         }
 
-        foreach ($templates as $template) {
-            $id = $template->environment()->id();
-            $sorted[$id]['templates'][] = $template;
+        foreach ($targets as $target) {
+            $id = $target->environment()->id();
+            $sorted[$id]['targets'][] = $target;
         }
 
         return array_filter($sorted, function ($e) {
-            return count($e['templates']) !== 0;
+            return count($e['targets']) !== 0;
         });
     }
 }
