@@ -11,6 +11,7 @@ use Hal\Core\Entity\Application;
 use Hal\Core\Entity\Environment;
 use Hal\Core\Entity\Organization;
 use Hal\Core\Entity\Target;
+use Hal\Core\Entity\TargetTemplate;
 use Hal\Core\Entity\User\UserPermission;
 
 /**
@@ -110,6 +111,17 @@ trait SortingTrait
             }
 
             return strcasecmp($aName, $bName);
+        };
+    }
+
+
+    /**
+     * @return Closure
+     */
+    public function templateSorter()
+    {
+        return function (TargetTemplate $a, TargetTemplate $b) {
+            return strcasecmp($a->name(), $b->name());
         };
     }
 }

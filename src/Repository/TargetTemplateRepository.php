@@ -9,12 +9,15 @@ namespace Hal\Core\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Hal\Core\Entity\Environment;
 use Hal\Core\Entity\TargetTemplate;
 use Hal\Core\Utility\PagedResultsTrait;
+use Hal\Core\Utility\SortingTrait;
 
 class TargetTemplateRepository extends EntityRepository
 {
     use PagedResultsTrait;
+    use SortingTrait;
 
     const DQL_GET_PAGED = <<<SQL_QUERY
    SELECT t
@@ -34,5 +37,34 @@ SQL_QUERY;
     {
         $dql = sprintf(self::DQL_GET_PAGED, TargetTemplate::class);
         return $this->getPaginator($dql, $limit, $page);
+    }
+
+    /**
+     * Get all templates sorted into environments.
+     *
+     * @return array
+     */
+    public function getGroupedTemplates()
+    {
+        $environments = $this->getEntityManager()
+            ->getRepository(Environment::class)
+            ->findAll();
+
+        $templates = $this->findAll();
+
+        usort($environments, $this->environmentSorter());
+        usort($templates, $this->templateSorter());
+
+        $grouped = [];
+        foreach ($environments as $env) {
+            $grouped[$env->id()] = [];
+        }
+
+        foreach ($templates as $template) {
+            $envID = $template->environment() ? $template->environment()->id() : 'none';
+            $grouped[$envID][] = $template;
+        }
+
+        return $grouped;
     }
 }
