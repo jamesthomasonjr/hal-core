@@ -11,6 +11,7 @@ use Hal\Core\Entity\Application;
 use Hal\Core\Entity\Environment;
 use Hal\Core\Entity\Organization;
 use Hal\Core\Entity\Target;
+use Hal\Core\Entity\User\UserPermission;
 
 /**
  * Provides sorting methods for entities. Designed to be used with usort
@@ -92,6 +93,23 @@ trait SortingTrait
     {
         return function (Organization $a, Organization $b) {
             return strcasecmp($a->name(), $b->name());
+        };
+    }
+
+    /**
+     * @return callable
+     */
+    private function permissionSorter()
+    {
+        return function (UserPermission $a, UserPermission $b) {
+            $aName = $a->user()->name();
+            $bName = $b->user()->name();
+
+            if ($aName === $bName) {
+                strcasecmp($a->type(), $b->type());
+            }
+
+            return strcasecmp($aName, $bName);
         };
     }
 }

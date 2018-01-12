@@ -1,5 +1,6 @@
 'Hal\Core\Entity\User\UserPermission':
     table: 'users_permissions'
+    repositoryClass: 'Hal\Core\Repository\User\UserPermissionRepository'
     type: 'entity'
 
     cache: { usage : NONSTRICT_READ_WRITE }
