@@ -184,19 +184,7 @@ class Credential implements JsonSerializable
      */
     public function formatType(): string
     {
-        switch ($this->type()) {
-            case CredentialEnum::TYPE_AWS_ROLE:
-                return 'AWS STS Role';
-
-            case CredentialEnum::TYPE_AWS_STATIC:
-                return 'AWS Static Token';
-
-            case CredentialEnum::TYPE_PRIVATEKEY:
-                return 'Private Key';
-
-            default:
-                return 'Unknown';
-        }
+        return CredentialEnum::format($this->type());
     }
 
     /**

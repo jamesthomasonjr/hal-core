@@ -248,25 +248,7 @@ class Target implements JsonSerializable
      */
     public function formatType(): string
     {
-        switch ($this->type()) {
-            case TargetEnum::TYPE_CD:
-                return 'CodeDeploy';
-
-            case TargetEnum::TYPE_EB:
-                return 'Elastic Beanstalk';
-
-            case TargetEnum::TYPE_S3:
-                return 'S3';
-
-            case TargetEnum::TYPE_SCRIPT:
-                return 'Script';
-
-            case TargetEnum::TYPE_RSYNC:
-                return 'RSync';
-
-            default:
-                return 'Unknown';
-        }
+        return TargetEnum::format($this->type());
     }
 
     /**

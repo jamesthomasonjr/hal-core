@@ -36,4 +36,26 @@ class CredentialEnum
             self::TYPE_PRIVATEKEY,
         ];
     }
+
+    /**
+     * @param string $type
+     *
+     * @return string
+     */
+    public static function format($type)
+    {
+        switch ($type) {
+            case self::TYPE_AWS_ROLE:
+                return 'AWS STS Role';
+
+            case self::TYPE_AWS_STATIC:
+                return 'AWS Static Token';
+
+            case self::TYPE_PRIVATEKEY:
+                return 'Private Key';
+
+            default:
+                return 'Unknown';
+        }
+    }
 }

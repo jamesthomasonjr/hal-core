@@ -36,4 +36,26 @@ class VCSProviderEnum
             self::TYPE_GITHUB_ENTERPRISE,
         ];
     }
+
+    /**
+     * @param string $type
+     *
+     * @return string
+     */
+    public static function format($type)
+    {
+        switch ($type) {
+            case self::TYPE_GIT:
+                return 'Git';
+
+            case self::TYPE_GITHUB:
+                return 'GitHub.com';
+
+            case self::TYPE_GITHUB_ENTERPRISE:
+                return 'GitHub Ent.';
+
+            default:
+                return 'Unknown';
+        }
+    }
 }

@@ -86,22 +86,7 @@ class UserIdentityProvider implements JsonSerializable
      */
     public function formatType(): string
     {
-        switch ($this->type()) {
-            case IdentityProviderEnum::TYPE_INTERNAL:
-                return 'Internal';
-
-            case IdentityProviderEnum::TYPE_LDAP:
-                return 'LDAP';
-
-            case IdentityProviderEnum::TYPE_GITHUB:
-                return 'GitHub.com';
-
-            case IdentityProviderEnum::TYPE_GITHUB_ENTERPRISE:
-                return 'GitHub Ent.';
-
-            default:
-                return 'Unknown';
-        }
+        return IdentityProviderEnum::format($this->type());
     }
 
     /**

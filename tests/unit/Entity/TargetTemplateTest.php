@@ -111,27 +111,27 @@ JSON_TEXT;
     public function testFormat()
     {
         $template = new TargetTemplate;
-        $this->assertSame('RSync', $template->format());
+        $this->assertSame('RSync', $template->formatType());
         $this->assertSame(false, $template->isAWS());
 
         $template->withType('rsync');
-        $this->assertSame('RSync', $template->format());
+        $this->assertSame('RSync', $template->formatType());
         $this->assertSame(false, $template->isAWS());
 
         $template->withType('eb');
-        $this->assertSame('Elastic Beanstalk', $template->format());
+        $this->assertSame('Elastic Beanstalk', $template->formatType());
         $this->assertSame(true, $template->isAWS());
 
         $template->withType('cd');
-        $this->assertSame('CodeDeploy', $template->format());
+        $this->assertSame('CodeDeploy', $template->formatType());
         $this->assertSame(true, $template->isAWS());
 
         $template->withType('s3');
-        $this->assertSame('S3', $template->format());
+        $this->assertSame('S3', $template->formatType());
         $this->assertSame(true, $template->isAWS());
 
         $template->withType('script');
-        $this->assertSame('Script', $template->format());
+        $this->assertSame('Script', $template->formatType());
         $this->assertSame(false, $template->isAWS());
     }
 }

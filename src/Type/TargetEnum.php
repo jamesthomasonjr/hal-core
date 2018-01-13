@@ -40,4 +40,32 @@ class TargetEnum
             self::TYPE_SCRIPT
         ];
     }
+
+    /**
+     * @param string $type
+     *
+     * @return string
+     */
+    public static function format($type)
+    {
+        switch ($type) {
+            case self::TYPE_CD:
+                return 'CodeDeploy';
+
+            case self::TYPE_EB:
+                return 'Elastic Beanstalk';
+
+            case self::TYPE_S3:
+                return 'S3';
+
+            case self::TYPE_SCRIPT:
+                return 'Script';
+
+            case self::TYPE_RSYNC:
+                return 'RSync';
+
+            default:
+                return 'Unknown';
+        }
+    }
 }

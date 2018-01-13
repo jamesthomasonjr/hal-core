@@ -86,19 +86,7 @@ class VersionControlProvider implements JsonSerializable
      */
     public function formatType(): string
     {
-        switch ($this->type()) {
-            case VCSProviderEnum::TYPE_GIT:
-                return 'Git';
-
-            case VCSProviderEnum::TYPE_GITHUB:
-                return 'GitHub.com';
-
-            case VCSProviderEnum::TYPE_GITHUB_ENTERPRISE:
-                return 'GitHub Ent.';
-
-            default:
-                return 'Unknown';
-        }
+        return VCSProviderEnum::format($this->type());
     }
 
     /**
