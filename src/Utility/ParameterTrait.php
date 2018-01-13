@@ -46,13 +46,19 @@ trait ParameterTrait
 
     /**
      * @param string $name
-     * @param string $value
+     * @param string|null $value
      *
      * @return self
      */
-    public function withParameter(string $name, string $value): self
+    public function withParameter(string $name, ?string $value): self
     {
-        $this->parameters[$name] = $value;
+        if ($value !== null) {
+            $this->parameters[$name] = $value;
+
+        } else {
+            unset($this->parameters[$name]);
+        }
+
         return $this;
     }
 
