@@ -1,5 +1,6 @@
 'Hal\Core\Entity\System\UserIdentityProvider':
     table: 'system_identity_providers'
+    repositoryClass: 'Hal\Core\Repository\System\UserIdentityProviderRepository'
     type: 'entity'
 
     cache: { usage : NONSTRICT_READ_WRITE }

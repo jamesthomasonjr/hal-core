@@ -1,5 +1,6 @@
 'Hal\Core\Entity\System\VersionControlProvider':
     table: 'system_vcs_providers'
+    repositoryClass: 'Hal\Core\Repository\System\VersionControlProviderRepository'
     type: 'entity'
 
     cache: { usage : NONSTRICT_READ_WRITE }
