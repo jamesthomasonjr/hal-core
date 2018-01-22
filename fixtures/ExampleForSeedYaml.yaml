@@ -1,0 +1,17 @@
+Hal\Core\Entity\User:
+    testAccount:
+        username: '<{user.handle}>'
+        name: '<{user.name}>'
+        email: '<{user.email}>'
+        isDisabled: 0
+
+Hal\Core\Entity\Application\GitHubApplication:
+    testAppRepo:
+        owner: '<{testapp.owner}>'
+        repository: '<{testapp.repo}>'
+
+Hal\Core\Entity\Application:
+    halTestApp:
+        identifier: 'test-app'
+        name: 'TestApp'
+        gitHub: '@testAppRepo'
