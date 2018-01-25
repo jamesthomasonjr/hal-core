@@ -20,11 +20,10 @@ parameters:
         user.handle: '%env(USER_HANDLE)%'
         user.name: '%env(USER_NAME)%'
         user.email: '%env(USER_EMAIL)%'
+        testapp.owner: '%env(TEST_APP_OWNER)%'
+        testapp.repo: '%env(TEST_APP_REPO)%'
 
     doctrine.flush: true
-
-    testapp.owner: '%env(TEST_APP_OWNER)%'
-    testapp.repo: '%env(TEST_APP_REPO)%'
 
 services:
     application:

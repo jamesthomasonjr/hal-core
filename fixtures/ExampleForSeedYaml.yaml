@@ -11,7 +11,31 @@ Hal\Core\Entity\Application\GitHubApplication:
         repository: '<{testapp.repo}>'
 
 Hal\Core\Entity\Application:
-    halTestApp:
+    testApp:
         identifier: 'test-app'
         name: 'TestApp'
         gitHub: '@testAppRepo'
+
+Hal\Core\Entity\UserPermission:
+    testAppOwnerPermission:
+        type: 'owner'
+        user: '@testAccount'
+        application: '@testApp'
+
+Hal\Core\Entity\Environment:
+    testEnvironment:
+        name: 'Test'
+        isProduction: false
+
+Hal\Core\Entity\Group:
+    testGroup:
+        type: 'script'
+        name: 'Test Group'
+        environment: '@testEnvironment'
+
+Hal\Core\Entity\Target:
+    testTarget:
+        name: 'Test Target'
+        application: '@testApp'
+        group: '@testGroup'
+

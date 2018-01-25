@@ -1,9 +1,0 @@
-include:
-    - TestAccount.yaml
-    - TestGithubRepository.yaml
-
-Hal\Core\Entity\Application:
-    testApp:
-        identifier: 'test-app'
-        name: 'Test App'
-        gitHub: '@testAppRepo'
