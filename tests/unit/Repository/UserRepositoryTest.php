@@ -8,6 +8,7 @@
 namespace Hal\Core\Repository;
 
 use Hal\Core\Entity\User;
+use Hal\Core\Entity\System\UserIdentityProvider;
 use Hal\Core\Testing\DoctrineTest;
 use QL\MCP\Common\Time\TimePoint;
 
@@ -27,16 +28,13 @@ class UserRepositoryTest extends DoctrineTest
         $em = $this->getEntityManager();
         $repo = $em->getRepository(User::class);
 
-        $user1 = new User(null, 'user1');
-        $user2 = new User(null, 'user2');
-        $user3 = new User(null, 'user3');
-        $user4 = new User(null, 'user4');
+        $provider = new UserIdentityProvider;
+        $user1 = (new User('user1'))->withProvider($provider);
+        $user2 = (new User('user2'))->withProvider($provider);
+        $user3 = (new User('user3'))->withProvider($provider);
+        $user4 = (new User('user4'))->withProvider($provider);
 
-        $em->persist($user1);
-        $em->persist($user2);
-        $em->persist($user3);
-        $em->persist($user4);
-        $em->flush();
+        $this->persist($em, [$provider, $user1, $user2, $user3, $user4]);
 
         $users = $repo->getPagedResults(2, 1);
 

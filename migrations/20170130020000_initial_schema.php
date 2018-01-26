@@ -5,188 +5,214 @@ if (!class_exists(PhinxMigration::class)) { require_once __DIR__ . '/../src/Data
 
 class InitialSchema extends PhinxMigration
 {
-    /**
-     * Change Method.
-     *
-     * Write your reversible migrations using this method.
-     *
-     * More information on writing migrations is available here:
-     * http://docs.phinx.org/en/latest/migrations.html#the-abstractmigration-class
-     *
-     * The following commands can be used in this method and Phinx will
-     * automatically reverse them when rolling back:
-     *
-     *    createTable
-     *    renameTable
-     *    addColumn
-     *    renameColumn
-     *    addIndex
-     *    addForeignKey
-     *
-     * Remember to call "create()" or "update()" and NOT "save()" when working
-     * with the Table class.
-     */
     public function change()
     {
         $this->createUserTables();
+        $this->createApplicationTables();
         $this->createTargetTables();
         $this->createJobTables();
 
         // environment
         $this->createUUIDTable('environments')
-            ->addColumn('name',          'string',   ['limit' => 20])
-            ->addColumn('is_production', 'boolean',  ['default' => false])
-            ->update();
-
-        // organization
-        $this->createUUIDTable('organizations')
-            ->addColumn('identifier', 'string',   ['limit' => 30])
-            ->addColumn('name',       'string',   ['limit' => 100])
+            ->addColumn('created',       'datetime',   [])
+            ->addColumn('name',          'string',     ['limit' => 20])
+            ->addColumn('is_production', 'boolean',    ['default' => false])
             ->update();
 
         // system settings
         $this->createUUIDTable('system_settings')
-            ->addColumn('name',   'string',   ['limit' => 100])
-            ->addColumn('value',  'text',     $this->textOptions('64kb'))
+            ->addColumn('created',   'datetime', [])
+            ->addColumn('name',      'string',   ['limit' => 100])
+            ->addColumn('value',     'text',     $this->textOptions('64kb'))
             ->update();
 
         // audit events
         $this->createUUIDTable('audit_events')
-            ->addColumn('created', 'datetime',  [])
-            ->addColumn('action',  'string',    $this->enumOptions('create'))
-            ->addColumn('owner',   'string',    ['limit' => 100])
-            ->addColumn('entity',  'string',    ['limit' => 100])
-            ->addColumn('data',    'text',      $this->textOptions('64kb'))
-            ->update();
-
-        // applications
-        $this->createUUIDTable('applications')
-            ->addColumn('identifier',        'string',  ['limit' => 30])
-            ->addColumn('name',              'string',  ['limit' => 100])
-            ->addColumn('github_owner',      'string',  ['limit' => 100])
-            ->addColumn('github_repository', 'string',  ['limit' => 100])
-            ->addColumn('organization_id',   'uuid',    ['null' => true])
+            ->addColumn('created',      'datetime',  [])
+            ->addColumn('action',       'string',    $this->enumOptions('create'))
+            ->addColumn('actor',        'string',    ['limit' => 100])
+            ->addColumn('description',  'string',    ['limit' => 200])
+            ->addColumn('parameters',   'json',      [])
             ->update();
 
         // credentials
         $this->createUUIDTable('credentials')
-            ->addColumn('type',                'string',    $this->enumOptions('aws_static'))
+            ->addColumn('created',             'datetime',  [])
+            ->addColumn('credential_type',     'string',    $this->enumOptions('aws_static'))
             ->addColumn('name',                'string',    ['limit' => 100])
             ->addColumn('is_internal',         'boolean',   ['default' => false])
+
             ->addColumn('awsstatic_key',       'string',    ['limit' => 100])
             ->addColumn('awsstatic_secret',    'text',      $this->textOptions('64kb'))
             ->addColumn('awsrole_account',     'string',    ['limit' => 25])
             ->addColumn('awsrole_role',        'string',    ['limit' => 100])
+
             ->addColumn('privatekey_username', 'string',    ['limit' => 100])
             ->addColumn('privatekey_path',     'string',    ['limit' => 200])
             ->addColumn('privatekey_file',     'text',      $this->textOptions('64kb'))
+
+            ->addColumn('application_id',      'uuid',      ['null' => true])
+            ->addColumn('organization_id',     'uuid',      ['null' => true])
+            ->addColumn('environment_id',      'uuid',      ['null' => true])
+
             ->update();
 
         // encrypted properties
         $this->createUUIDTable('encrypted_properties')
-            ->addColumn('name',            'string',  ['limit' => 100])
-            ->addColumn('data',            'text',    $this->textOptions('64kb'))
-            ->addColumn('application_id',  'uuid',    ['null' => true])
-            ->addColumn('environment_id',  'uuid',    ['null' => true])
+            ->addColumn('created',             'datetime',  [])
+            ->addColumn('name',                'string',    ['limit' => 100])
+            ->addColumn('secret',              'text',      $this->textOptions('64kb'))
+
+            ->addColumn('application_id',      'uuid',      ['null' => true])
+            ->addColumn('organization_id',     'uuid',      ['null' => true])
+            ->addColumn('environment_id',      'uuid',      ['null' => true])
+
+            ->update();
+
+        // scheduled actions / jobs
+        $this->createUUIDTable('scheduled_actions')
+            ->addColumn('created',             'datetime',  [])
+            ->addColumn('status',              'string',    $this->enumOptions('pending'))
+
+            ->addColumn('message',             'string',    ['limit' => 200])
+            ->addColumn('parameters',          'json',      [])
+
+            ->addColumn('trigger_job_id',      'uuid',      ['null' => true])
+            ->addColumn('scheduled_job_id',    'uuid',      ['null' => true])
+            ->addColumn('user_id',             'uuid',      ['null' => true])
+
             ->update();
     }
 
     public function createUserTables()
     {
-        // users
-        $this->createUUIDTable('users')
-            ->addColumn('username',    'string',   ['limit' => 32])
-            ->addColumn('name',        'string',   ['limit' => 100])
-            ->addColumn('email',       'string',   ['limit' => 200])
-            ->addColumn('is_disabled', 'boolean',  ['default' => false])
+        // user providers
+        $this->createUUIDTable('system_identity_providers')
+            ->addColumn('created',       'datetime', [])
+            ->addColumn('name',          'string',   ['limit' => 100])
+            ->addColumn('provider_type', 'string',   $this->enumOptions('internal'))
+            ->addColumn('parameters',    'json',     [])
             ->update();
 
-        // users - settings
-        $this->createUUIDTable('users_settings')
-            ->addColumn('favorite_applications', 'json',   [])
-            ->addColumn('user_id',               'uuid',   [])
+        // users
+        $this->createUUIDTable('users')
+            ->addColumn('created',            'datetime', [])
+            ->addColumn('name',               'string',   ['limit' => 100])
+            ->addColumn('parameters',         'json',     [])
+            ->addColumn('settings',           'json',     [])
+            ->addColumn('is_disabled',        'boolean',  ['default' => false])
+            ->addColumn('provider_unique_id', 'string',   ['limit' => 100])
+            ->addColumn('provider_id',        'uuid',     ['null' => false])
             ->update();
 
         // users - tokens
         $this->createUUIDTable('users_tokens')
-            ->addColumn('name',    'string',    ['limit' => 100])
-            ->addColumn('value',   'string',    ['limit' => 100])
-            ->addColumn('user_id', 'uuid',      [])
+            ->addColumn('created',   'datetime',  [])
+            ->addColumn('name',      'string',    ['limit' => 100])
+            ->addColumn('value',     'string',    ['limit' => 100])
+            ->addColumn('user_id',   'uuid',      [])
             ->update();
 
         // users - permissions
         $this->createUUIDTable('users_permissions')
-            ->addColumn('type',            'string',  $this->enumOptions('member'))
-            ->addColumn('user_id',         'uuid',    [])
-            ->addColumn('application_id',  'uuid',    ['null' => true])
-            ->addColumn('organization_id', 'uuid',    ['null' => true])
-            ->addColumn('environment_id',  'uuid',    ['null' => true])
+            ->addColumn('created',         'datetime',  [])
+            ->addColumn('permission_type', 'string',    $this->enumOptions('member'))
+            ->addColumn('user_id',         'uuid',      [])
+
+            ->addColumn('application_id',  'uuid',      ['null' => true])
+            ->addColumn('organization_id', 'uuid',      ['null' => true])
+            ->addColumn('environment_id',  'uuid',      ['null' => true])
+            ->update();
+    }
+
+    public function createApplicationTables()
+    {
+        // organization
+        $this->createUUIDTable('organizations')
+            ->addColumn('created',    'datetime', [])
+            ->addColumn('name',       'string',   ['limit' => 100])
+            ->update();
+
+        // vcs settings
+        $this->createUUIDTable('system_vcs_providers')
+            ->addColumn('created',    'datetime', [])
+            ->addColumn('name',       'string',   ['limit' => 100])
+            ->addColumn('vcs_type',   'string',   $this->enumOptions('ghe'))
+            ->addColumn('parameters', 'json',     [])
+            ->update();
+
+        // applications
+        $this->createUUIDTable('applications')
+            ->addColumn('created',           'datetime', [])
+            ->addColumn('name',              'string',   ['limit' => 100])
+            ->addColumn('parameters',        'json',     [])
+            ->addColumn('is_disabled',       'boolean',  ['default' => false])
+            ->addColumn('provider_id',       'uuid',     ['null' => true])
+            ->addColumn('organization_id',   'uuid',     ['null' => true])
             ->update();
     }
 
     public function createTargetTables()
     {
         // groups
-        $this->createUUIDTable('groups')
-            ->addColumn('type',           'string',    $this->enumOptions('rsync'))
-            ->addColumn('name',           'string',    ['limit' => 100])
-            ->addColumn('environment_id', 'uuid',      ['null' => true])
+        $this->createUUIDTable('targets_templates')
+            ->addColumn('created',         'datetime',  [])
+            ->addColumn('target_type',     'string',    $this->enumOptions('script'))
+            ->addColumn('name',            'string',    ['limit' => 100])
+            ->addColumn('parameters',      'json',      [])
+
+            ->addColumn('application_id',  'uuid',      ['null' => true])
+            ->addColumn('organization_id', 'uuid',      ['null' => true])
+            ->addColumn('environment_id',  'uuid',      ['null' => true])
             ->update();
 
         // targets
         $this->createUUIDTable('targets')
+            ->addColumn('created',        'datetime', [])
+            ->addColumn('target_type',    'string',   $this->enumOptions('script'))
             ->addColumn('name',           'string',   ['limit' => 100])
             ->addColumn('url',            'string',   ['limit' => 200])
             ->addColumn('parameters',     'json',     [])
-            ->addColumn('application_id', 'uuid',     ['null' => true])
-            ->addColumn('group_id',       'uuid',     ['null' => true])
+
+            ->addColumn('application_id', 'uuid',     ['null' => false])
+            ->addColumn('environment_id', 'uuid',     ['null' => true])
+
+            ->addColumn('template_id',    'uuid',     ['null' => true])
             ->addColumn('credential_id',  'uuid',     ['null' => true])
-            ->addColumn('release_id',     'string',   ['limit' => 20, 'null' => true])
+            ->addColumn('last_job_id',    'uuid',     ['null' => true])
             ->update();
     }
 
     public function createJobTables()
     {
-        // jobs - builds
-        $builds = $this->table('jobs_builds', [
-            'id' => false,
-            'primary_key' => 'id'
-        ]);
-
-        $builds
-            ->addColumn('id', 'string', ['limit' => 20])
-            ->create();
-
-        $builds
+        // jobs
+        $this->createUUIDTable('jobs')
             ->addColumn('created',        'datetime',   [])
+            ->addColumn('job_type',       'string',     $this->enumOptions('build'))
+            ->addColumn('job_status',     'string',     $this->enumOptions('pending'))
+            ->addColumn('parameters',     'json',       [])
+
             ->addColumn('start',          'datetime',   ['null' => true])
-            ->addColumn('end',            'datetime',   ['null' => true])
-            ->addColumn('status',         'string',     $this->enumOptions('pending'))
-            ->addColumn('reference',      'string',     ['limit' => 100])
-            ->addColumn('commit_sha',     'string',     ['limit' => 40])
-            ->addColumn('user_id',        'uuid',       ['null' => true])
-            ->addColumn('application_id', 'uuid',       ['null' => true])
-            ->addColumn('environment_id', 'uuid',       ['null' => true])
+            ->addColumn('job_end',        'datetime',   ['null' => true])
+
+            ->addColumn('user_id',        'uuid',       ['null' => false])
+            ->update();
+
+        // jobs - builds
+        $this->createUUIDTable('jobs_builds')
+            ->addColumn('code_reference',   'string',     ['limit' => 100])
+            ->addColumn('code_commit_sha',  'string',     ['limit' => 100])
+
+            ->addColumn('application_id',   'uuid',       ['null' => true])
+            ->addColumn('environment_id',   'uuid',       ['null' => true])
             ->update();
 
         // jobs - releases
-        $releases = $this->table('jobs_releases', [
-            'id' => false,
-            'primary_key' => 'id'
-        ]);
+        $this->createUUIDTable('jobs_releases')
+            ->addColumn('build_id',       'uuid',       ['null' => false])
 
-        $releases
-            ->addColumn('id', 'string', ['limit' => 20])
-            ->create();
-
-        $releases
-            ->addColumn('created',        'datetime',   [])
-            ->addColumn('start',          'datetime',   ['null' => true])
-            ->addColumn('end',            'datetime',   ['null' => true])
-            ->addColumn('status',         'string',     $this->enumOptions('pending'))
-            ->addColumn('build_id',       'string',     ['limit' => 20])
-            ->addColumn('user_id',        'uuid',       ['null' => true])
             ->addColumn('application_id', 'uuid',       ['null' => true])
+            ->addColumn('environment_id', 'uuid',       ['null' => true])
             ->addColumn('target_id',      'uuid',       ['null' => true])
             ->update();
 
@@ -198,7 +224,8 @@ class InitialSchema extends PhinxMigration
             ->addColumn('event_order',    'integer',    [])
             ->addColumn('message',        'string',     ['limit' => 200])
             ->addColumn('parameters',     'binary',     $this->blobOptions('16mb'))
-            ->addColumn('parent_id',      'string',     ['limit' => 20])
+
+            ->addColumn('job_id',         'uuid',       ['null' => false])
             ->update();
 
         // jobs - meta
@@ -206,20 +233,19 @@ class InitialSchema extends PhinxMigration
             ->addColumn('created',     'datetime',     [])
             ->addColumn('name',        'string',       ['limit' => 100])
             ->addColumn('value',       'text',         $this->textOptions('64kb'))
-            ->addColumn('parent_id',   'string',       ['limit' => 20])
+
+            ->addColumn('job_id',         'uuid',       ['null' => false])
             ->update();
 
-        // job - processes
-        $this->createUUIDTable('jobs_processes')
-            ->addColumn('created',      'datetime',   [])
-            ->addColumn('status',       'string',     $this->enumOptions('pending'))
-            ->addColumn('message',      'string',     ['limit' => 200])
-            ->addColumn('parameters',   'json',       [])
+        // jobs - artifacts
+        $this->createUUIDTable('jobs_artifacts')
+            ->addColumn('created',        'datetime',   [])
+            ->addColumn('name',           'string',     ['limit' => 100])
+            ->addColumn('is_removable',   'boolean',    ['default' => true])
 
-            ->addColumn('parent_id',    'string',     ['limit' => 20])
-            ->addColumn('child_id',     'string',     ['limit' => 20])
-            ->addColumn('child_type',   'string',     ['limit' => 40])
-            ->addColumn('user_id',      'uuid',       ['null' => true])
+            ->addColumn('parameters',     'json',       [])
+
+            ->addColumn('job_id',         'uuid',       ['null' => false])
             ->update();
     }
 }

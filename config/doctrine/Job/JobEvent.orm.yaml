@@ -1,0 +1,52 @@
+'Hal\Core\Entity\Job\JobEvent':
+    table: 'jobs_events'
+    type: 'entity'
+
+    cache: { usage : NONSTRICT_READ_WRITE }
+
+    id:
+        id:
+            column: 'id'
+            type: 'guid'
+
+    fields:
+
+        stage:
+            column: 'stage'
+            type: 'string'
+            length: 20
+            options: { default: 'unknown' } # See JobEventStageEnum for list of options
+
+        status:
+            column: 'status'
+            type: 'string'
+            length: 20
+            options: { default: 'info' } # See JobEventStatusEnum for list of options
+
+        order:
+            column: 'event_order'
+            type: 'integer'
+
+        message:
+            column: 'message'
+            type: 'string'
+            length: 200
+
+        parameters:
+            column: 'parameters'
+            type: 'compressed_json_array'
+
+        created:
+            column: 'created'
+            type: 'timepoint'
+
+    manyToOne:
+
+        job:
+            cache: { usage : READ_ONLY }
+            targetEntity: 'Hal\Core\Entity\Job'
+            inversedBy: 'events'
+            joinColumn:
+                name: 'job_id'
+                referencedColumnName: 'id'
+                nullable: false

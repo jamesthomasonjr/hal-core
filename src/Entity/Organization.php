@@ -7,86 +7,44 @@
 
 namespace Hal\Core\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Hal\Core\Utility\EntityIDTrait;
+use Hal\Core\Utility\EntityTrait;
 use JsonSerializable;
+use QL\MCP\Common\Time\TimePoint;
 
 class Organization implements JsonSerializable
 {
-    use EntityIDTrait;
+    use EntityTrait;
 
     /**
      * @var string
      */
-    protected $id;
-    protected $identifier;
     protected $name;
 
     /**
      * @param string $id
-     * @param string $identifier
-     * @param string $name
+     * @param TimePoint|null $created
      */
-    public function __construct($id = '', $identifier = '', $name = '')
+    public function __construct($id = '', TimePoint $created = null)
     {
-        $this->id = $id ?: $this->generateEntityID();
+        $this->initializeEntity($id, $created);
 
-        $this->identifier = $identifier ?: '';
-        $this->name = $name ?: '';
+        $this->name = '';
     }
 
     /**
      * @return string
      */
-    public function id()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function identifier()
-    {
-        return $this->identifier;
-    }
-
-    /**
-     * @return string
-     */
-    public function name()
+    public function name(): string
     {
         return $this->name;
     }
 
     /**
-     * @param string $id
-     *
-     * @return self
-     */
-    public function withID($id)
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    /**
-     * @param string $identifier
-     *
-     * @return self
-     */
-    public function withIdentifier($identifier)
-    {
-        $this->identifier = $identifier;
-        return $this;
-    }
-
-    /**
      * @param string $name
      *
      * @return self
      */
-    public function withName($name)
+    public function withName(string $name): self
     {
         $this->name = $name;
         return $this;
@@ -99,8 +57,8 @@ class Organization implements JsonSerializable
     {
         $json = [
             'id' => $this->id(),
+            'created' => $this->created(),
 
-            'identifier' => $this->identifier(),
             'name' => $this->name()
         ];
 

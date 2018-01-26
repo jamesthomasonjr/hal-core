@@ -1,0 +1,55 @@
+'Hal\Core\Entity\ScheduledAction':
+    table: 'scheduled_actions'
+    type: 'entity'
+
+    id:
+        id:
+            column: 'id'
+            type: 'guid'
+
+    fields:
+
+        status:
+            column: 'status'
+            type: 'string'
+            length: 20
+            options: { default: 'pending' } # See ScheduledActionStatusEnum for list of options
+
+        message:
+            column: 'message'
+            type: 'string'
+            length: 200
+
+        parameters:
+            column: 'parameters'
+            type: 'json_array'
+
+        created:
+            column: 'created'
+            type: 'timepoint'
+
+    manyToOne:
+
+        triggerJob:
+            cache: { usage : READ_ONLY }
+            targetEntity: 'Job'
+            joinColumn:
+                name: 'trigger_job_id'
+                referencedColumnName: 'id'
+                nullable: true
+
+        scheduledJob:
+            cache: { usage : READ_ONLY }
+            targetEntity: 'Job'
+            joinColumn:
+                name: 'scheduled_job_id'
+                referencedColumnName: 'id'
+                nullable: true
+
+        user:
+            cache: { usage : READ_ONLY }
+            targetEntity: 'User'
+            joinColumn:
+                name: 'user_id'
+                referencedColumnName: 'id'
+                nullable: true

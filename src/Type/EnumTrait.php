@@ -38,7 +38,11 @@ trait EnumTrait
 
         if (!self::isValid($option)) {
             $option = is_scalar($option) ? $option : gettype($option);
-            throw new EnumException(sprintf(static::ERR_INVALID, $option));
+
+            $parts = explode('\\', __CLASS__);
+            $class = array_pop($parts);
+
+            throw new EnumException(sprintf('"%s" is not a valid %s option.', $option, $class));
         }
 
         return $option;

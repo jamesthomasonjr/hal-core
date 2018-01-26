@@ -13,9 +13,9 @@ class JobStatusEnum
 
     const ERR_INVALID = '"%s" is not a valid status option.';
 
+    const TYPE_SCHEDULED = 'scheduled'; // not used yet
     const TYPE_PENDING = 'pending';
     const TYPE_RUNNING = 'running';
-    const TYPE_DEPLOYING = 'deploying';
 
     const TYPE_SUCCESS = 'success';
     const TYPE_FAILURE = 'failure';
@@ -35,10 +35,10 @@ class JobStatusEnum
     public static function options()
     {
         return [
+            self::TYPE_SCHEDULED,
             self::TYPE_PENDING,
 
             self::TYPE_RUNNING,
-            self::TYPE_DEPLOYING,
 
             self::TYPE_SUCCESS,
             self::TYPE_FAILURE,

@@ -8,6 +8,7 @@
 namespace Hal\Core\Entity;
 
 use PHPUnit\Framework\TestCase;
+use QL\MCP\Common\Time\TimePoint;
 
 class EnvironmentTest extends TestCase
 {
@@ -15,15 +16,16 @@ class EnvironmentTest extends TestCase
     {
         $environment = new Environment;
 
-        $this->assertStringMatchesFormat('%x', $environment->id());
+        $this->assertRegExp('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/', $environment->id());
+        $this->assertInstanceOf(TimePoint::class, $environment->created());
+
         $this->assertSame('', $environment->name());
         $this->assertSame(false, $environment->isProduction());
     }
 
     public function testProperties()
     {
-        $environment = (new Environment)
-            ->withID('1234')
+        $environment = (new Environment('1234'))
             ->withName('env')
             ->withIsProduction(true);
 
@@ -34,32 +36,34 @@ class EnvironmentTest extends TestCase
 
     public function testSerialization()
     {
-        $environment = (new Environment('5678'))
+        $environment = (new Environment('5678', new TimePoint(2018, 1, 1, 12, 0, 0, 'UTC')))
             ->withName('env-test')
             ->withIsProduction(true);
 
-        $expected = <<<JSON
+        $expected = <<<JSON_TEXT
 {
     "id": "5678",
+    "created": "2018-01-01T12:00:00Z",
     "name": "env-test",
     "is_production": true
 }
-JSON;
+JSON_TEXT;
 
         $this->assertSame($expected, json_encode($environment, JSON_PRETTY_PRINT));
     }
 
     public function testDefaultSerialization()
     {
-        $environment = new Environment('1');
+        $environment = new Environment('1', new TimePoint(2018, 1, 1, 12, 0, 0, 'UTC'));
 
-        $expected = <<<JSON
+        $expected = <<<JSON_TEXT
 {
     "id": "1",
+    "created": "2018-01-01T12:00:00Z",
     "name": "",
     "is_production": false
 }
-JSON;
+JSON_TEXT;
 
         $this->assertSame($expected, json_encode($environment, JSON_PRETTY_PRINT));
     }

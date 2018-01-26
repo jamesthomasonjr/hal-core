@@ -1,0 +1,58 @@
+'Hal\Core\Entity\TargetTemplate':
+    table: 'targets_templates'
+    repositoryClass: 'Hal\Core\Repository\TargetTemplateRepository'
+    type: 'entity'
+
+    cache: { usage : NONSTRICT_READ_WRITE }
+
+    id:
+        id:
+            column: 'id'
+            type: 'guid'
+
+    fields:
+
+        type:
+            column: 'target_type'
+            type: 'string'
+            length: 20
+            options: { default: 'script' } # See TargetEnum for list of options
+
+        name:
+            column: 'name'
+            type: 'string'
+            length: 100
+
+        parameters:
+            column: 'parameters'
+            type: 'json_array'
+
+        created:
+            column: 'created'
+            type: 'timepoint'
+
+    manyToOne:
+
+        application:
+            cache: { usage : READ_ONLY }
+            targetEntity: 'Application'
+            joinColumn:
+                name: 'application_id'
+                referencedColumnName: 'id'
+                nullable: true
+
+        organization:
+            cache: { usage : READ_ONLY }
+            targetEntity: 'Organization'
+            joinColumn:
+                name: 'organization_id'
+                referencedColumnName: 'id'
+                nullable: true
+
+        environment:
+            cache: { usage : READ_ONLY }
+            targetEntity: 'Environment'
+            joinColumn:
+                name: 'environment_id'
+                referencedColumnName: 'id'
+                nullable: true

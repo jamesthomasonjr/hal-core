@@ -222,7 +222,7 @@ class AWSAuthenticator
      * @param string $region
      * @param AWSStaticCredential|AWSRoleCredential|null $credential
      *
-     * @return CloudWatchLogsClient
+     * @return CloudWatchLogsClient|null
      */
     public function getCloudWatchLogs($region, $credential)
     {

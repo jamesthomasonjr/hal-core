@@ -19,9 +19,9 @@ class JobStatusEnumTest extends TestCase
     public function testTypes()
     {
         $expected = [
+            'scheduled',
             'pending',
             'running',
-            'deploying',
             'success',
             'failure',
             'removed'
@@ -39,7 +39,6 @@ class JobStatusEnumTest extends TestCase
 
         $this->assertSame(true, JobStatusEnum::isValid('pending'));
         $this->assertSame(true, JobStatusEnum::isValid('running'));
-        $this->assertSame(true, JobStatusEnum::isValid('deploying'));
         $this->assertSame(true, JobStatusEnum::isValid('success'));
         $this->assertSame(true, JobStatusEnum::isValid('failure'));
         $this->assertSame(true, JobStatusEnum::isValid('removed'));
@@ -49,13 +48,11 @@ class JobStatusEnumTest extends TestCase
     {
         $this->assertSame('pending', JobStatusEnum::ensureValid('pending'));
         $this->assertSame('running', JobStatusEnum::ensureValid('running'));
-        $this->assertSame('deploying', JobStatusEnum::ensureValid('deploying'));
         $this->assertSame('success', JobStatusEnum::ensureValid('success'));
         $this->assertSame('failure', JobStatusEnum::ensureValid('failure'));
         $this->assertSame('removed', JobStatusEnum::ensureValid('removed'));
 
-        $this->assertSame('pending', JobStatusEnum::ensureValid('Pending'));
-        $this->assertSame('deploying', JobStatusEnum::ensureValid('DEPLOYING'));
+        $this->assertSame('pending', JobStatusEnum::ensureValid('PENDING'));
         $this->assertSame('removed', JobStatusEnum::ensureValid('Removed'));
     }
 

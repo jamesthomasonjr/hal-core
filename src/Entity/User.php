@@ -8,62 +8,70 @@
 namespace Hal\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Hal\Core\Utility\EntityIDTrait;
+use Doctrine\Common\Collections\Collection;
+use Hal\Core\Entity\System\UserIdentityProvider;
+use Hal\Core\Utility\EntityTrait;
+use Hal\Core\Utility\ParameterTrait;
 use JsonSerializable;
+use QL\MCP\Common\Time\TimePoint;
 
 class User implements JsonSerializable
 {
-    use EntityIDTrait;
+    use EntityTrait;
+    use ParameterTrait;
 
     /**
      * @var string
      */
-    protected $id;
-
-    /**
-     * @var string
-     */
-    protected $username;
     protected $name;
-    protected $email;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $isDisabled;
 
     /**
-     * @var ArrayCollection
-     */
-    protected $tokens;
-
-    /**
-     * @var UserSettings
+     * @var array
      */
     protected $settings;
 
     /**
-     * @param string $id
-     * @param string $username
+     * @var string
      */
-    public function __construct($id = '', $username = '')
+    protected $providerUniqueID;
+
+    /**
+     * @var UserIdentityProvider|null
+     */
+    protected $provider;
+
+    /**
+     * @var Collection
+     */
+    protected $tokens;
+
+    /**
+     * @param string $id
+     * @param TimePoint|null $created
+     */
+    public function __construct($id = '', TimePoint $created = null)
     {
-        $this->id = $id ?: $this->generateEntityID();
-        $this->username = $username ?: '';
+        $this->initializeEntity($id, $created);
+        $this->initializeParameters();
 
         $this->name = '';
-        $this->email = '';
-
         $this->isDisabled = false;
+        $this->settings = [];
+        $this->providerUniqueID = '';
 
-        $this->settings = (new UserSettings)->withUser($this);
+        $this->provider = null;
         $this->tokens = new ArrayCollection;
     }
 
     /**
      * @return string
      */
-    public function id()
+    public function id(): string
     {
         return $this->id;
     }
@@ -71,71 +79,63 @@ class User implements JsonSerializable
     /**
      * @return string
      */
-    public function username()
-    {
-        return $this->username;
-    }
-
-    /**
-     * @return string
-     */
-    public function name()
+    public function name(): string
     {
         return $this->name;
     }
 
     /**
-     * @return string
+     * @return bool
      */
-    public function email()
-    {
-        return $this->email;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isDisabled()
+    public function isDisabled(): bool
     {
         return $this->isDisabled;
     }
 
     /**
-     * @return ArrayCollection
+     * @return array
      */
-    public function tokens()
-    {
-        return $this->tokens;
-    }
-
-    /**
-     * @return UserSettings
-     */
-    public function settings()
+    public function settings(): array
     {
         return $this->settings;
     }
 
     /**
-     * @param int $id
+     * @param string $name
      *
-     * @return self
+     * @return mixed
      */
-    public function withID($id)
+    public function setting(string $name)
     {
-        $this->id = $id;
-        return $this;
+        if (isset($this->settings[$name])) {
+            return $this->settings[$name];
+        }
+
+        return null;
     }
 
     /**
-     * @param string $username
-     *
-     * @return self
+     * @return string
      */
-    public function withUsername($username)
+    public function providerUniqueID(): string
     {
-        $this->username = $username;
-        return $this;
+        return $this->providerUniqueID;
+    }
+
+    /**
+     * @return UserIdentityProvider|null
+     */
+    public function provider(): ?UserIdentityProvider
+    {
+        return $this->provider;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function tokens(): Collection
+    {
+        return $this->tokens;
     }
 
     /**
@@ -143,20 +143,9 @@ class User implements JsonSerializable
      *
      * @return self
      */
-    public function withName($name)
+    public function withName(string $name): self
     {
         $this->name = $name;
-        return $this;
-    }
-
-    /**
-     * @param string $email
-     *
-     * @return self
-     */
-    public function withEmail($email)
-    {
-        $this->email = $email;
         return $this;
     }
 
@@ -165,11 +154,62 @@ class User implements JsonSerializable
      *
      * @return self
      */
-    public function withIsDisabled($isDisabled)
+    public function withIsDisabled(bool $isDisabled): self
     {
-        $this->isDisabled = (bool) $isDisabled;
+        $this->isDisabled = $isDisabled;
         return $this;
     }
+
+    /**
+     * @param string $name
+     * @param mixed $value
+     *
+     * @return self
+     */
+    public function withSetting(string $name, $value): self
+    {
+        $this->settings[$name] = $value;
+        return $this;
+    }
+
+    /**
+     * @param array $settings
+     *
+     * @return self
+     */
+    public function withSettings(array $settings): self
+    {
+        $this->settings = [];
+        foreach ($settings as $name => $value) {
+            $this->withSetting($name, $value);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param string $id
+     *
+     * @return self
+     */
+    public function withProviderUniqueID(string $id): self
+    {
+        $this->providerUniqueID = $id;
+        return $this;
+    }
+
+    /**
+     * @param UserIdentityProvider|null $provider
+     *
+     * @return self
+     */
+    public function withProvider(?UserIdentityProvider $provider): self
+    {
+        $this->provider = $provider;
+        return $this;
+    }
+
+    // @todo add token add/remove - Collection items should always be removed from the parent
 
     /**
      * @return array
@@ -178,12 +218,17 @@ class User implements JsonSerializable
     {
         $json = [
             'id' => $this->id(),
+            'created' => $this->created(),
 
-            'username' => $this->username(),
             'name' => $this->name(),
-            'email' => $this->email(),
-
             'is_disabled' => $this->isDisabled(),
+
+            'parameters' => $this->parameters(),
+            'settings' => $this->settings(),
+
+            'provider_unique_id' => $this->providerUniqueID(),
+            'provider_id' => $this->provider() ? $this->provider()->id() : null,
+            'tokens' => $this->tokens()->toArray()
         ];
 
         return $json;

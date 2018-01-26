@@ -46,4 +46,13 @@ class DoctrineTest extends TestCase
         $tool = new SchemaTool($em);
         $tool->createSchema($metadatas);
     }
+
+    public function persist($em, array $resources)
+    {
+        foreach ($resources as $r) {
+            $em->persist($r);
+        }
+
+        $em->flush();
+    }
 }

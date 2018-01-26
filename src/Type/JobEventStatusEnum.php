@@ -11,7 +11,7 @@ class JobEventStatusEnum
 {
     use EnumTrait;
 
-    const ERR_INVALID = '"%s" is not a valid status option.';
+    const ERR_INVALID = '"%s" is not a valid event status option.';
 
     const TYPE_INFO = 'info';
     const TYPE_SUCCESS = 'success';

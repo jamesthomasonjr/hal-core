@@ -16,8 +16,12 @@
             column: 'name'
             type: 'string'
             length: 20
-            unique: true
+
         isProduction:
             column: 'is_production'
             type: 'boolean'
-            options: {default: false}
+            options: { default: false }
+
+        created:
+            column: 'created'
+            type: 'timepoint'

@@ -17,38 +17,37 @@ class AuditEventTest extends TestCase
     {
         $event = new AuditEvent;
 
-        $this->assertStringMatchesFormat('%x', $event->id());
+        $this->assertRegExp('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/', $event->id());
         $this->assertInstanceOf(TimePoint::class, $event->created());
-        $this->assertSame('', $event->entity());
+
         $this->assertSame('create', $event->action());
-        $this->assertSame('', $event->data());
-        $this->assertSame('', $event->owner());
+        $this->assertSame('', $event->actor());
+        $this->assertSame('', $event->description());
     }
 
     public function testProperties()
     {
         $time = new TimePoint(2015, 8, 15, 12, 0, 0, 'UTC');
 
-        $event = (new AuditEvent)
-            ->withID('1234')
-            ->withCreated($time)
-            ->withEntity('Entity:Id')
+        $event = (new AuditEvent('1234', $time))
             ->withAction('delete')
-            ->withData('context-data-here')
-            ->withOwner('testuser');
+            ->withActor('testuser')
+            ->withDescription('User testuser deleted entity Application AppName')
+            ->withParameters(['test' => 'context-data-here']);
 
         $this->assertSame('1234', $event->id());
         $this->assertSame($time, $event->created());
-        $this->assertSame('Entity:Id', $event->entity());
+
         $this->assertSame('delete', $event->action());
-        $this->assertSame('context-data-here', $event->data());
-        $this->assertSame('testuser', $event->owner());
+        $this->assertSame('testuser', $event->actor());
+        $this->assertSame('User testuser deleted entity Application AppName', $event->description());
+        $this->assertSame('context-data-here', $event->parameter('test'));
     }
 
     public function testInvalidEnumThrowsException()
     {
         $this->expectException(EnumException::class);
-        $this->expectExceptionMessage('"derp" is not a valid audit option.');
+        $this->expectExceptionMessage('"derp" is not a valid AuditActionEnum option.');
 
         $event = new AuditEvent('id');
         $event->withAction('derp');

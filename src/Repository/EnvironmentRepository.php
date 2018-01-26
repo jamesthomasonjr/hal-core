@@ -10,7 +10,6 @@ namespace Hal\Core\Repository;
 use Doctrine\ORM\EntityRepository;
 use Hal\Core\Entity\Application;
 use Hal\Core\Entity\Environment;
-use Hal\Core\Entity\Group;
 use Hal\Core\Entity\Target;
 use Hal\Core\Utility\SortingTrait;
 
@@ -20,15 +19,14 @@ class EnvironmentRepository extends EntityRepository
 
     const ENV_QUERY_REGION = 'environment_region_app_%s';
 
-    const DQL_BY_APPLICATION = <<<SQL
+    const DQL_BY_APPLICATION = <<<SQL_QUERY
    SELECT env
      FROM %s target
 
-     JOIN %s grp WITH grp = target.group
-     JOIN %s env WITH env = grp.environment
+     JOIN %s env WITH env = target.environment
 
     WHERE target.application = :application
-SQL;
+SQL_QUERY;
 
     /**
      * Get all buildable environments for an application.
@@ -41,7 +39,7 @@ SQL;
     {
         $region = sprintf(self::ENV_QUERY_REGION, $application->id());
 
-        $dql = sprintf(self::DQL_BY_APPLICATION, Target::class, Group::class, Environment::class);
+        $dql = sprintf(self::DQL_BY_APPLICATION, Target::class, Environment::class);
 
         $query = $this->getEntityManager()
             ->createQuery($dql)

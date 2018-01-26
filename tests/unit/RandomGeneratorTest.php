@@ -15,6 +15,8 @@ class RandomGeneratorTest extends TestCase
     {
         $generator = new RandomGenerator;
 
-        $this->assertStringMatchesFormat('%x', $generator());
+        $actual = $generator();
+
+        $this->assertStringMatchesFormat('%x', $actual);
     }
 }

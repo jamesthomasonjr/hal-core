@@ -7,13 +7,16 @@
 
 namespace Hal\Core\Entity;
 
-use Hal\Core\Type\GroupEnum;
-use Hal\Core\Utility\EntityIDTrait;
+use Hal\Core\Type\TargetEnum;
+use Hal\Core\Utility\EntityTrait;
+use Hal\Core\Utility\ParameterTrait;
 use JsonSerializable;
+use QL\MCP\Common\Time\TimePoint;
 
 class Target implements JsonSerializable
 {
-    use EntityIDTrait;
+    use EntityTrait;
+    use ParameterTrait;
 
     const PARAM_GROUP = 'group';            // cd
     const PARAM_CONFIG = 'configuration';   // cd
@@ -27,16 +30,12 @@ class Target implements JsonSerializable
     const PARAM_LOCAL_PATH = 'source';      // s3, cd, eb
     const PARAM_CONTEXT = 'context';        // script
 
-    const S3_METHODS = ['sync','artifact'];
+    const S3_METHODS = ['sync', 'artifact'];
 
     /**
      * @var string
      */
-    protected $id;
-
-    /**
-     * @var string
-     */
+    protected $type;
     protected $name;
     protected $url;
 
@@ -46,9 +45,14 @@ class Target implements JsonSerializable
     protected $application;
 
     /**
-     * @var Group|null
+     * @var Environment|null
      */
-    protected $group;
+    protected $environment;
+
+    /**
+     * @var TargetTemplate|null
+     */
+    protected $template;
 
     /**
      * @var Credential|null
@@ -56,52 +60,47 @@ class Target implements JsonSerializable
     protected $credential;
 
     /**
-     * Current release deployed to this target.
+     * Last job run on this this target.
      *
-     * @var Release|null
+     * @var Job|null
      */
-    protected $release;
+    protected $lastJob;
 
     /**
-     * Specific parameters for this target.
-     *
-     * Such as server path for rsync-based groups.
-     *
-     * @var array
-     */
-    protected $parameters;
-
-    /**
+     * @param string $type
      * @param string $id
+     * @param TimePoint|null $created
      */
-    public function __construct($id = '')
+    public function __construct($type = '', $id = '', TimePoint $created = null)
     {
-        $this->id = $id ?: $this->generateEntityID();
+        $this->initializeEntity($id, $created);
+        $this->initializeParameters();
 
+        $this->type = $type ? TargetEnum::ensureValid($type) : TargetEnum::defaultOption();
         $this->name = '';
         $this->url = '';
 
         $this->application = null;
-        $this->group = null;
+        $this->environment = null;
 
+        $this->template = null;
         $this->credential = null;
-        $this->release = null;
 
-        $this->parameters = [];
+        $this->lastJob = null;
     }
 
     /**
      * @return string
      */
-    public function id()
+    public function type(): string
     {
-        return $this->id;
+        return $this->type;
     }
 
     /**
      * @return string
      */
-    public function name()
+    public function name(): string
     {
         return $this->name;
     }
@@ -109,75 +108,59 @@ class Target implements JsonSerializable
     /**
      * @return string
      */
-    public function url()
+    public function url(): string
     {
         return $this->url;
     }
 
     /**
-     * @return array
-     */
-    public function parameters()
-    {
-        return $this->parameters;
-    }
-
-    /**
-     * Get a parameter from the target details.
-     *
-     * @param string $name
-     *
-     * @return string
-     */
-    public function parameter($name)
-    {
-        if (isset($this->parameters[$name])) {
-            return $this->parameters[$name];
-        }
-
-        return null;
-    }
-
-    /**
      * @return Application
      */
-    public function application()
+    public function application(): Application
     {
         return $this->application;
     }
 
     /**
-     * @return Group|null
+     * @return Environment|null
      */
-    public function group()
+    public function environment(): ?Environment
     {
-        return $this->group;
+        return $this->environment;
+    }
+
+    /**
+     * @return TargetTemplate|null
+     */
+    public function template(): ?TargetTemplate
+    {
+        return $this->template;
     }
 
     /**
      * @return Credential|null
      */
-    public function credential()
+    public function credential(): ?Credential
     {
         return $this->credential;
     }
 
     /**
-     * @return Release|null
+     * @return Job|null
      */
-    public function release()
+    public function lastJob(): ?Job
     {
-        return $this->release;
+        return $this->lastJob;
     }
 
     /**
-     * @param int $id
+     * @param string $type
      *
      * @return self
      */
-    public function withID($id)
+    public function withType($type): self
     {
-        $this->id = $id;
+        $this->type = TargetEnum::ensureValid($type);
         return $this;
     }
 
@@ -186,7 +169,7 @@ class Target implements JsonSerializable
      *
      * @return self
      */
-    public function withName($name)
+    public function withName(string $name): self
     {
         $this->name = $name;
         return $this;
@@ -197,32 +180,9 @@ class Target implements JsonSerializable
      *
      * @return self
      */
-    public function withURL($url)
+    public function withURL(string $url): self
     {
         $this->url = $url;
-        return $this;
-    }
-
-    /**
-     * @param string $name
-     * @param string $value
-     *
-     * @return self
-     */
-    public function withParameter($name, $value)
-    {
-        $this->parameters[$name] = $value;
-        return $this;
-    }
-
-    /**
-     * @param array $parameters
-     *
-     * @return self
-     */
-    public function withParameters(array $parameters)
-    {
-        $this->parameters = $parameters;
         return $this;
     }
 
@@ -231,20 +191,31 @@ class Target implements JsonSerializable
      *
      * @return self
      */
-    public function withApplication(Application $application)
+    public function withApplication(Application $application): self
     {
         $this->application = $application;
         return $this;
     }
 
     /**
-     * @param Group|null $group
+     * @param Environment $environment
      *
      * @return self
      */
-    public function withGroup(Group $group = null)
+    public function withEnvironment(?Environment $environment): self
     {
-        $this->group = $group;
+        $this->environment = $environment;
+        return $this;
+    }
+
+    /**
+     * @param TargetTemplate|null $template
+     *
+     * @return self
+     */
+    public function withTemplate(?TargetTemplate $template): self
+    {
+        $this->template = $template;
         return $this;
     }
 
@@ -253,63 +224,41 @@ class Target implements JsonSerializable
      *
      * @return self
      */
-    public function withCredential(Credential $credential = null)
+    public function withCredential(?Credential $credential): self
     {
         $this->credential = $credential;
         return $this;
     }
 
     /**
-     * @param Release|null $release
+     * @param Job|null $job
      *
      * @return self
      */
-    public function withRelease(Release $release = null)
+    public function withLastJob(?Job $job): self
     {
-        $this->release = $release;
+        $this->lastJob = $job;
         return $this;
     }
 
     /**
-     * Format a pretty name for the deployment
-     *
-     * @param bool $onlyGroup Show only group details, no parameters for this target.
+     * Format a pretty name for the target.
      *
      * @return string
      */
-    public function format($onlyGroup = false)
+    public function formatType(): string
     {
-        if ($this->name()) {
-            return $this->name();
-        }
+        return TargetEnum::format($this->type());
+    }
 
-        if (!$this->group()) {
-            return 'Unknown';
-        }
-
-        if ($onlyGroup) {
-            return $this->group()->format();
-        }
-
-        switch ($this->group()->type()) {
-            case GroupEnum::TYPE_CD:
-                return sprintf('CD (%s)', $this->formatParameters());
-
-            case GroupEnum::TYPE_EB:
-                return sprintf('EB (%s)', $this->formatParameters());
-
-            case GroupEnum::TYPE_S3:
-                return sprintf('S3 (%s)', $this->formatParameters());
-
-            case GroupEnum::TYPE_SCRIPT:
-                return sprintf('Script (%s)', $this->formatParameters());
-
-            case GroupEnum::TYPE_RSYNC:
-                return sprintf('RSync (%s)', $this->formatParameters());
-
-            default:
-                return 'Unknown';
-        }
+    /**
+     * Is this group for AWS?
+     *
+     * @return bool
+     */
+    public function isAWS()
+    {
+        return in_array($this->type(), [TargetEnum::TYPE_CD, TargetEnum::TYPE_EB, TargetEnum::TYPE_S3]);
     }
 
     /**
@@ -319,18 +268,14 @@ class Target implements JsonSerializable
      */
     public function formatParameters()
     {
-        if (!$this->group()) {
-            return 'Unknown';
-        }
-
-        switch ($this->group()->type()) {
-            case GroupEnum::TYPE_CD:
+        switch ($this->type()) {
+            case TargetEnum::TYPE_CD:
                 return $this->parameter('group') ?: '???';
 
-            case GroupEnum::TYPE_EB:
+            case TargetEnum::TYPE_EB:
                 return $this->parameter('environment') ?: '???';
 
-            case GroupEnum::TYPE_S3:
+            case TargetEnum::TYPE_S3:
                 $bucket = $this->parameter('bucket') ?: '???';
                 if ($path = $this->parameter('path')) {
                     $bucket = sprintf('%s/%s', $bucket, $path);
@@ -342,10 +287,10 @@ class Target implements JsonSerializable
 
                 return $bucket;
 
-            case GroupEnum::TYPE_SCRIPT:
+            case TargetEnum::TYPE_SCRIPT:
                 return $this->parameter('context') ?: '???';
 
-            case GroupEnum::TYPE_RSYNC:
+            case TargetEnum::TYPE_RSYNC:
                 return $this->parameter('path') ?: '???';
 
             default:
@@ -360,17 +305,21 @@ class Target implements JsonSerializable
     {
         $json = [
             'id' => $this->id(),
+            'created' => $this->created(),
 
+            'type' => $this->type(),
             'name' => $this->name(),
             'url' => $this->url(),
 
             'parameters' => $this->parameters(),
 
             'application_id' => $this->application() ? $this->application()->id() : null,
-            'group_id' => $this->group() ? $this->group()->id() : null,
-            'credential_id' => $this->credential() ? $this->credential()->id() : null,
+            'environment_id' => $this->environment() ? $this->environment()->id() : null,
 
-            'release_id' => $this->release() ? $this->release()->id() : null,
+            'credential_id' => $this->credential() ? $this->credential()->id() : null,
+            'template_id' => $this->template() ? $this->template()->id() : null,
+
+            'job_id' => $this->lastJob() ? $this->lastJob()->id() : null,
         ];
 
         return $json;

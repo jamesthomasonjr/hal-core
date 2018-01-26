@@ -16,11 +16,11 @@ class UserRepository extends EntityRepository
 {
     use PagedResultsTrait;
 
-    const DQL_GET_USERS = <<<SQL
+    const DQL_GET_USERS = <<<SQL_QUERY
    SELECT user
      FROM %s user
- ORDER BY user.username ASC
-SQL;
+ ORDER BY user.name ASC
+SQL_QUERY;
 
     /**
      * Get all users, paged.

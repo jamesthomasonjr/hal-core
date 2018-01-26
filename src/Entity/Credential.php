@@ -11,17 +11,15 @@ use Hal\Core\Entity\Credential\AWSRoleCredential;
 use Hal\Core\Entity\Credential\AWSStaticCredential;
 use Hal\Core\Entity\Credential\PrivateKeyCredential;
 use Hal\Core\Type\CredentialEnum;
-use Hal\Core\Utility\EntityIDTrait;
+use Hal\Core\Utility\EntityTrait;
+use Hal\Core\Utility\ScopedEntityTrait;
 use JsonSerializable;
+use QL\MCP\Common\Time\TimePoint;
 
 class Credential implements JsonSerializable
 {
-    use EntityIDTrait;
-
-    /**
-     * @var string
-     */
-    protected $id;
+    use EntityTrait;
+    use ScopedEntityTrait;
 
     /**
      * @var string
@@ -53,10 +51,12 @@ class Credential implements JsonSerializable
 
     /**
      * @param string $id
+     * @param TimePoint|null $created
      */
-    public function __construct($id = '')
+    public function __construct($id = '', TimePoint $created = null)
     {
-        $this->id = $id ?: $this->generateEntityID();
+        $this->initializeEntity($id, $created);
+        $this->initializeScopes();
 
         $this->name = '';
         $this->type = CredentialEnum::defaultOption();
@@ -70,15 +70,7 @@ class Credential implements JsonSerializable
     /**
      * @return string
      */
-    public function id()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function name()
+    public function name(): string
     {
         return $this->name;
     }
@@ -86,7 +78,7 @@ class Credential implements JsonSerializable
     /**
      * @return bool
      */
-    public function isInternal()
+    public function isInternal(): bool
     {
         return $this->isInternal;
     }
@@ -94,7 +86,7 @@ class Credential implements JsonSerializable
     /**
      * @return string
      */
-    public function type()
+    public function type(): string
     {
         return $this->type;
     }
@@ -118,22 +110,11 @@ class Credential implements JsonSerializable
     }
 
     /**
-     * @param string $id
-     *
-     * @return self
-     */
-    public function withID($id)
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    /**
      * @param string $type
      *
      * @return self
      */
-    public function withType($type)
+    public function withType(string $type): self
     {
         $this->type = CredentialEnum::ensureValid($type);
         return $this;
@@ -144,7 +125,7 @@ class Credential implements JsonSerializable
      *
      * @return self
      */
-    public function withName($name)
+    public function withName(string $name): self
     {
         $this->name = $name;
         return $this;
@@ -155,9 +136,9 @@ class Credential implements JsonSerializable
      *
      * @return self
      */
-    public function withIsInternal($isInternal)
+    public function withIsInternal(bool $isInternal): self
     {
-        $this->isInternal = (bool) $isInternal;
+        $this->isInternal = $isInternal;
         return $this;
     }
 
@@ -166,7 +147,7 @@ class Credential implements JsonSerializable
      *
      * @return self
      */
-    public function withDetails($info)
+    public function withDetails($info): self
     {
         if ($info instanceof AWSRoleCredential) {
             $this->withType(CredentialEnum::TYPE_AWS_ROLE);
@@ -197,18 +178,33 @@ class Credential implements JsonSerializable
     }
 
     /**
+     * Format a pretty name for the credential.
+     *
+     * @return string
+     */
+    public function formatType(): string
+    {
+        return CredentialEnum::format($this->type());
+    }
+
+    /**
      * @return array
      */
     public function jsonSerialize()
     {
         $json = [
             'id' => $this->id(),
+            'created' => $this->created(),
 
             'name' => $this->name(),
             'type' => $this->type(),
             'isInternal' => $this->isInternal(),
 
-            'details' => $this->details()
+            'details' => $this->details(),
+
+            'application_id' => $this->application() ? $this->application()->id() : null,
+            'organization_id' => $this->organization() ? $this->organization()->id() : null,
+            'environment_id' => $this->environment() ? $this->environment()->id() : null,
         ];
 
         return $json;

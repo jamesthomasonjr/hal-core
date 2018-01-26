@@ -37,24 +37,17 @@ class ApplicationRepositoryTest extends DoctrineTest
         $em = $this->getEntityManager();
         $repo = $em->getRepository(Application::class);
 
-        $org1 = new Organization('1abcd', 'org1', 'Gamma zeta');
-        $org2 = new Organization('2efgh', 'org2', 'Gamma two');
-
-        $app1 = $this->buildApplication('app1', 'Beta 1 from org 2', $org2);
-        $app2 = $this->buildApplication('app2', 'Charlie 2 from org 1', $org1);
-        $app3 = $this->buildApplication('app3', 'Alpha 1 from org 2', $org2);
-
-        $em->persist($org1);
-        $em->persist($org2);
-        $em->persist($app1);
-        $em->persist($app2);
-        $em->persist($app3);
-        $em->flush();
+        $org1 = (new Organization('org1'))->withName('b_org1');
+        $org2 = (new Organization('org2'))->withName('a_org2');
+        $app1 = $this->buildApplication('app1', 'Beta1 from org2', $org2);
+        $app2 = $this->buildApplication('app2', 'Charlie2 from org1', $org1);
+        $app3 = $this->buildApplication('app3', 'Alpha1 from org2', $org2);
+        $this->persist($em, [$org1, $org2, $app1, $app2, $app3]);
 
         $apps = $repo->getGroupedApplications();
 
-        $this->assertSame([$app2], $apps['1abcd']);
-        $this->assertSame([$app3, $app1], $apps['2efgh']);
+        $this->assertSame([$app2], $apps['org1']);
+        $this->assertSame([$app3, $app1], $apps['org2']);
 
         // Org 2 is first, which has 2 apps
         $apps = array_shift($apps);
@@ -66,9 +59,9 @@ class ApplicationRepositoryTest extends DoctrineTest
         $em = $this->getEntityManager();
         $repo = $em->getRepository(Application::class);
 
-        $app1 = new Application(null, 'app1', 'abc name');
-        $app2 = new Application(null, 'app2', 'def name');
-        $app3 = new Application(null, 'app3', 'ghi name');
+        $app1 = new Application('app1');
+        $app2 = new Application('app2');
+        $app3 = new Application('app3');
         $this->persist($em, [$app1, $app2, $app3]);
 
         $apps = $repo->getPagedResults(2);
@@ -80,19 +73,10 @@ class ApplicationRepositoryTest extends DoctrineTest
         $this->assertCount(3, $apps);
     }
 
-    public function buildApplication($identifier, $name, Organization $org)
+    public function buildApplication($id, $name, Organization $org)
     {
-        return (new Application(null, $identifier, $name))
+        return (new Application($id))
+            ->withName($name)
             ->withOrganization($org);
     }
-
-    public function persist($em, array $resources)
-    {
-        foreach ($resources as $r) {
-            $em->persist($r);
-        }
-
-        $em->flush();
-    }
-
 }

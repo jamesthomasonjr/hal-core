@@ -1,0 +1,36 @@
+'Hal\Core\Entity\Job\JobMeta':
+    table: 'jobs_meta'
+    type: 'entity'
+
+    cache: { usage : NONSTRICT_READ_WRITE }
+
+    id:
+        id:
+            column: 'id'
+            type: 'guid'
+
+    fields:
+
+        name:
+            column: 'name'
+            type: 'string'
+            length: 100
+
+        value:
+            column: 'value'
+            type: 'string'
+
+        created:
+            column: 'created'
+            type: 'timepoint'
+
+    manyToOne:
+
+        job:
+            cache: { usage : READ_ONLY }
+            targetEntity: 'Hal\Core\Entity\Job'
+            inversedBy: 'meta'
+            joinColumn:
+                name: 'job_id'
+                referencedColumnName: 'id'
+                nullable: false

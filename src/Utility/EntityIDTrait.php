@@ -16,6 +16,6 @@ trait EntityIDTrait
      */
     public function generateEntityID()
     {
-        return GUID::create()->format(GUID::STANDARD);
+        return GUID::create()->format(GUID::STANDARD | GUID::HYPENATED);
     }
 }

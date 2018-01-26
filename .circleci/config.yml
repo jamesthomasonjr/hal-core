@@ -46,7 +46,7 @@ jobs:
             - *attach_workspace
 
             - restore_cache:
-                keys: [ 'v1-php-deps-{{ checksum "composer.lock" }}', 'v1-php-deps' ]
+                keys: [ 'v1-php-deps-{{ checksum "composer.json" }}', 'v1-php-deps' ]
 
             - run:
                 name: 'Install PHP dependencies'
@@ -55,7 +55,7 @@ jobs:
                     composer show
 
             - save_cache:
-                key: 'v1-php-deps-{{ checksum "composer.lock" }}'
+                key: 'v1-php-deps-{{ checksum "composer.json" }}'
                 paths: [ 'vendor' ]
 
             - *persist_workspace
@@ -67,6 +67,7 @@ jobs:
             - run:
                 name: 'Run unit tests'
                 command: |
+                    phpdbg -qrr \
                     vendor/bin/phpunit
             - store_test_results:
                 path: '.phpunit/report'

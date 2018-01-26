@@ -9,6 +9,7 @@ namespace Hal\Core\Entity;
 
 use Hal\Core\Entity\Application\GitHubApplication;
 use PHPUnit\Framework\TestCase;
+use QL\MCP\Common\Time\TimePoint;
 
 class ApplicationTest extends TestCase
 {
@@ -16,12 +17,14 @@ class ApplicationTest extends TestCase
     {
         $application = new Application;
 
-        $this->assertStringMatchesFormat('%x', $application->id());
-        $this->assertSame('', $application->identifier());
+        $this->assertRegExp('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/', $application->id());
+        $this->assertInstanceOf(TimePoint::class, $application->created());
+
         $this->assertSame('', $application->name());
-        $this->assertSame('', $application->gitHub()->owner());
-        $this->assertSame('', $application->gitHub()->repository());
+        $this->assertSame(false, $application->isDisabled());
+
         $this->assertSame(null, $application->organization());
+        $this->assertSame(null, $application->provider());
     }
 
     public function testProperties()
@@ -29,16 +32,15 @@ class ApplicationTest extends TestCase
         $org = new Organization;
 
         $application = (new Application('1234'))
-            ->withIdentifier('app-ident')
             ->withName('My Test App')
-            ->withGitHub(new GitHubApplication('hal-platform', 'hal-core'))
+            ->withParameter('vcs.git.owner', 'hal-platform')
+            ->withParameter('vcs.git.repo', 'hal-core')
             ->withOrganization($org);
 
         $this->assertSame('1234', $application->id());
-        $this->assertSame('app-ident', $application->identifier());
         $this->assertSame('My Test App', $application->name());
-        $this->assertSame('hal-platform', $application->gitHub()->owner());
-        $this->assertSame('hal-core', $application->gitHub()->repository());
+        $this->assertSame('hal-platform', $application->parameter('vcs.git.owner'));
+        $this->assertSame('hal-core', $application->parameter('vcs.git.repo'));
         $this->assertSame($org, $application->organization());
     }
 
@@ -46,45 +48,45 @@ class ApplicationTest extends TestCase
     {
         $org = new Organization('5678');
 
-        $application = (new Application)
-            ->withID('1234')
-            ->withIdentifier('app-ident')
+        $application = (new Application('1234', new TimePoint(2018, 1, 1, 12, 0, 0, 'UTC')))
             ->withName('My Test App')
-            ->withGitHub(new GitHubApplication('hal-platform', 'hal-core'))
+            ->withParameter('vcs.git.owner', 'hal-platform')
+            ->withParameter('vcs.git.repo', 'hal-core')
             ->withOrganization($org);
 
-        $expected = <<<JSON
+        $expected = <<<JSON_TEXT
 {
     "id": "1234",
-    "identifier": "app-ident",
+    "created": "2018-01-01T12:00:00Z",
     "name": "My Test App",
-    "github": {
-        "owner": "hal-platform",
-        "repository": "hal-core"
+    "is_disabled": false,
+    "parameters": {
+        "vcs.git.owner": "hal-platform",
+        "vcs.git.repo": "hal-core"
     },
+    "provider_id": null,
     "organization_id": "5678"
 }
-JSON;
+JSON_TEXT;
 
         $this->assertSame($expected, json_encode($application, JSON_PRETTY_PRINT));
     }
 
     public function testDefaultSerialization()
     {
-        $application = new Application("1");
+        $application = new Application('1', new TimePoint(2018, 1, 1, 12, 0, 0, 'UTC'));
 
-        $expected = <<<JSON
+        $expected = <<<JSON_TEXT
 {
     "id": "1",
-    "identifier": "",
+    "created": "2018-01-01T12:00:00Z",
     "name": "",
-    "github": {
-        "owner": "",
-        "repository": ""
-    },
+    "is_disabled": false,
+    "parameters": [],
+    "provider_id": null,
     "organization_id": null
 }
-JSON;
+JSON_TEXT;
 
         $this->assertSame($expected, json_encode($application, JSON_PRETTY_PRINT));
     }

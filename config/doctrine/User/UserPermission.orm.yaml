@@ -1,0 +1,57 @@
+'Hal\Core\Entity\User\UserPermission':
+    table: 'users_permissions'
+    repositoryClass: 'Hal\Core\Repository\User\UserPermissionRepository'
+    type: 'entity'
+
+    cache: { usage : NONSTRICT_READ_WRITE }
+
+    id:
+        id:
+            column: 'id'
+            type: 'guid'
+
+    fields:
+
+        type:
+            column: 'permission_type'
+            type: 'string'
+            length: 20
+            options: { default: 'member' } # See UserPermissionEnum for list of options
+
+        created:
+            column: 'created'
+            type: 'timepoint'
+
+    manyToOne:
+
+        user:
+            cache: { usage : READ_ONLY }
+            targetEntity: 'Hal\Core\Entity\User'
+            joinColumn:
+                name: 'user_id'
+                referencedColumnName: 'id'
+                nullable: false
+
+        application:
+            cache: { usage : READ_ONLY }
+            targetEntity: 'Hal\Core\Entity\Application'
+            joinColumn:
+                name: 'application_id'
+                referencedColumnName: 'id'
+                nullable: true
+
+        organization:
+            cache: { usage : READ_ONLY }
+            targetEntity: 'Hal\Core\Entity\Organization'
+            joinColumn:
+                name: 'organization_id'
+                referencedColumnName: 'id'
+                nullable: true
+
+        environment:
+            cache: { usage : READ_ONLY }
+            targetEntity: 'Hal\Core\Entity\Environment'
+            joinColumn:
+                name: 'environment_id'
+                referencedColumnName: 'id'
+                nullable: true

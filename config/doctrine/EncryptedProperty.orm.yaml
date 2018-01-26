@@ -2,7 +2,7 @@
     table: 'encrypted_properties'
     type: 'entity'
 
-    cache: {usage : NONSTRICT_READ_WRITE}
+    cache: { usage : NONSTRICT_READ_WRITE }
 
     id:
         id:
@@ -15,22 +15,35 @@
             column: 'name'
             type: 'string'
             length: 100
-        data:
-            column: 'data'
+
+        secret:
+            column: 'secret'
             type: 'string'
+
+        created:
+            column: 'created'
+            type: 'timepoint'
 
     manyToOne:
 
         application:
-            cache: {usage : READ_ONLY}
+            cache: { usage : READ_ONLY }
             targetEntity: 'Application'
             joinColumn:
                 name: 'application_id'
                 referencedColumnName: 'id'
                 nullable: true
 
+        organization:
+            cache: { usage : READ_ONLY }
+            targetEntity: 'Organization'
+            joinColumn:
+                name: 'organization_id'
+                referencedColumnName: 'id'
+                nullable: true
+
         environment:
-            cache: {usage : READ_ONLY}
+            cache: { usage : READ_ONLY }
             targetEntity: 'Environment'
             joinColumn:
                 name: 'environment_id'

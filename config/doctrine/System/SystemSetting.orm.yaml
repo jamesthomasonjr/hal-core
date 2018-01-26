@@ -1,0 +1,25 @@
+'Hal\Core\Entity\System\SystemSetting':
+    table: 'system_settings'
+    type: 'entity'
+
+    cache: { usage : NONSTRICT_READ_WRITE }
+
+    id:
+        id:
+            column: 'id'
+            type: 'guid'
+
+    fields:
+
+        name:
+            column: 'name'
+            type: 'string'
+            length: 100
+
+        value:
+            column: 'value'
+            type: 'string'
+
+        created:
+            column: 'created'
+            type: 'timepoint'

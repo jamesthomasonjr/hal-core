@@ -3,7 +3,7 @@
     repositoryClass: 'Hal\Core\Repository\UserRepository'
     type: 'entity'
 
-    cache: {usage : NONSTRICT_READ_WRITE}
+    cache: { usage : NONSTRICT_READ_WRITE }
 
     id:
         id:
@@ -12,34 +12,46 @@
 
     fields:
 
-        username:
-            column: 'username'
-            type: 'string'
-            length: 32
-            unique: true
         name:
             column: 'name'
             type: 'string'
             length: 100
-        email:
-            column: 'email'
+
+        providerUniqueID:
+            column: 'provider_unique_id'
             type: 'string'
-            length: 200
+            length: 100
+
+        parameters:
+            column: 'parameters'
+            type: 'json_array'
+
+        settings:
+            column: 'settings'
+            type: 'json_array'
+
         isDisabled:
             column: 'is_disabled'
-            type: boolean
-            options: {default: false}
+            type: 'boolean'
+            options: { default: false }
+
+        created:
+            column: 'created'
+            type: 'timepoint'
 
     oneToMany:
 
         tokens:
-            targetEntity: 'UserToken'
+            targetEntity: 'Hal\Core\Entity\User\UserToken'
             mappedBy: 'user'
 
-    oneToOne:
+    manyToOne:
 
-        settings:
-            cache: {usage : NONSTRICT_READ_WRITE}
-            targetEntity: 'UserSettings'
-            mappedBy: 'user'
-            cascade: ['all']
+        provider:
+            cache: { usage : READ_ONLY }
+            fetch: EAGER
+            targetEntity: 'Hal\Core\Entity\System\UserIdentityProvider'
+            joinColumn:
+                name: 'provider_id'
+                referencedColumnName: 'id'
+                nullable: false

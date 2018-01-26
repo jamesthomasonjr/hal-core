@@ -7,17 +7,17 @@
 
 namespace Hal\Core\Entity;
 
-use Hal\Core\Utility\EntityIDTrait;
+use Hal\Core\Utility\EntityTrait;
 use JsonSerializable;
+use QL\MCP\Common\Time\TimePoint;
 
 class Environment implements JsonSerializable
 {
-    use EntityIDTrait;
+    use EntityTrait;
 
     /**
      * @var string
      */
-    protected $id;
     protected $name;
 
     /**
@@ -27,28 +27,20 @@ class Environment implements JsonSerializable
 
     /**
      * @param string $id
-     * @param string $name
+     * @param TimePoint|null $created
      */
-    public function __construct($id = '', $name = '')
+    public function __construct($id = '', TimePoint $created = null)
     {
-        $this->id = $id ?: $this->generateEntityID();
-        $this->name = $name ?: '';
+        $this->initializeEntity($id, $created);
 
+        $this->name = '';
         $this->isProduction = false;
     }
 
     /**
      * @return string
      */
-    public function id()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function name()
+    public function name(): string
     {
         return $this->name;
     }
@@ -56,20 +48,9 @@ class Environment implements JsonSerializable
     /**
      * @return bool
      */
-    public function isProduction()
+    public function isProduction(): bool
     {
         return $this->isProduction;
-    }
-
-    /**
-     * @param string $id
-     *
-     * @return self
-     */
-    public function withID($id)
-    {
-        $this->id = $id;
-        return $this;
     }
 
     /**
@@ -77,7 +58,7 @@ class Environment implements JsonSerializable
      *
      * @return self
      */
-    public function withName($name)
+    public function withName(string $name): self
     {
         $this->name = $name;
         return $this;
@@ -88,9 +69,9 @@ class Environment implements JsonSerializable
      *
      * @return self
      */
-    public function withIsProduction($isProduction)
+    public function withIsProduction(bool $isProduction): self
     {
-        $this->isProduction = (bool) $isProduction;
+        $this->isProduction = $isProduction;
         return $this;
     }
 
@@ -101,6 +82,7 @@ class Environment implements JsonSerializable
     {
         $json = [
             'id' => $this->id(),
+            'created' => $this->created(),
 
             'name' => $this->name(),
             'is_production' => $this->isProduction(),

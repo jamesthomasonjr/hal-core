@@ -8,8 +8,8 @@
 namespace Hal\Core\Entity;
 
 use Hal\Core\Type\AuditActionEnum;
-use Hal\Core\Utility\EntityIDTrait;
-use Hal\Core\Utility\TimeCreatedTrait;
+use Hal\Core\Utility\EntityTrait;
+use Hal\Core\Utility\ParameterTrait;
 use QL\MCP\Common\Time\TimePoint;
 
 /**
@@ -17,30 +17,15 @@ use QL\MCP\Common\Time\TimePoint;
  */
 class AuditEvent
 {
-    use EntityIDTrait;
-    use TimeCreatedTrait;
-
-    /**
-     * @var string
-     */
-    protected $id;
-
-    /**
-     * @var TimePoint
-     */
-    protected $created;
+    use EntityTrait;
+    use ParameterTrait;
 
     /**
      * @var string
      */
     protected $action;
-    protected $owner;
-
-    /**
-     * @var string
-     */
-    protected $entity;
-    protected $data;
+    protected $actor;
+    protected $description;
 
     /**
      * @param string $id
@@ -48,52 +33,18 @@ class AuditEvent
      */
     public function __construct($id = '', TimePoint $created = null)
     {
-        $this->id = $id ?: $this->generateEntityID();
-        $this->created = $created ?: $this->generateCreatedTime();
+        $this->initializeEntity($id, $created);
+        $this->initializeParameters();
 
         $this->action = AuditActionEnum::defaultOption();
-        $this->owner = '';
-
-        $this->entity = '';
-        $this->data = '';
+        $this->actor = '';
+        $this->description = '';
     }
 
     /**
      * @return string
      */
-    public function id()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return TimePoint
-     */
-    public function created()
-    {
-        return $this->created;
-    }
-
-    /**
-     * @return string
-     */
-    public function owner()
-    {
-        return $this->owner;
-    }
-
-    /**
-     * @return string
-     */
-    public function entity()
-    {
-        return $this->entity;
-    }
-
-    /**
-     * @return string
-     */
-    public function action()
+    public function action(): string
     {
         return $this->action;
     }
@@ -101,31 +52,17 @@ class AuditEvent
     /**
      * @return string
      */
-    public function data()
+    public function actor(): string
     {
-        return $this->data;
+        return $this->actor;
     }
 
     /**
-     * @param int $id
-     *
-     * @return self
+     * @return string
      */
-    public function withID($id)
+    public function description(): string
     {
-        $this->id = $id;
-        return $this;
-    }
-
-    /**
-     * @param TimePoint $created
-     *
-     * @return self
-     */
-    public function withCreated(Timepoint $created)
-    {
-        $this->created = $created;
-        return $this;
+        return $this->description;
     }
 
     /**
@@ -133,42 +70,31 @@ class AuditEvent
      *
      * @return self
      */
-    public function withAction($action)
+    public function withAction(string $action): self
     {
         $this->action = AuditActionEnum::ensureValid($action);
         return $this;
     }
 
     /**
-     * @param string $owner
+     * @param string $actor
      *
      * @return self
      */
-    public function withOwner($owner)
+    public function withActor(string $actor): self
     {
-        $this->owner = $owner;
+        $this->actor = $actor;
         return $this;
     }
 
     /**
-     * @param string $entity
+     * @param string $description
      *
      * @return self
      */
-    public function withEntity($entity)
+    public function withDescription(string $description): self
     {
-        $this->entity = $entity;
-        return $this;
-    }
-
-    /**
-     * @param string $data
-     *
-     * @return self
-     */
-    public function withData($data)
-    {
-        $this->data = $data;
+        $this->description = $description;
         return $this;
     }
 }

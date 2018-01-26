@@ -7,29 +7,31 @@
 
 namespace Hal\Core\Entity;
 
-use Hal\Core\Entity\Application\GitHubApplication;
-use Hal\Core\Utility\EntityIDTrait;
+use Hal\Core\Entity\System\VersionControlProvider;
+use Hal\Core\Utility\EntityTrait;
+use Hal\Core\Utility\ParameterTrait;
 use JsonSerializable;
+use QL\MCP\Common\Time\TimePoint;
 
 class Application implements JsonSerializable
 {
-    use EntityIDTrait;
+    use EntityTrait;
+    use ParameterTrait;
 
     /**
      * @var string
      */
-    protected $id;
-
-    /**
-     * @var string
-     */
-    protected $identifier;
     protected $name;
 
     /**
-     * @var GitHubApplication
+     * @var bool
      */
-    protected $gitHub;
+    protected $isDisabled;
+
+    /**
+     * @var VersionControlProvider|null
+     */
+    protected $provider;
 
     /**
      * @var Organization|null
@@ -38,81 +40,50 @@ class Application implements JsonSerializable
 
     /**
      * @param string $id
-     * @param string $identifier
-     * @param string $name
+     * @param TimePoint|null $created
      */
-    public function __construct($id = '', $identifier = '', $name = '')
+    public function __construct($id = '', TimePoint $created = null)
     {
-        $this->id = $id ?: $this->generateEntityID();
+        $this->initializeEntity($id, $created);
+        $this->initializeParameters();
 
-        $this->identifier = $identifier ?: '';
-        $this->name = $name ?: '';
+        $this->name = '';
+        $this->isDisabled = false;
 
-        $this->gitHub = new GitHubApplication;
-
+        $this->provider = null;
         $this->organization = null;
     }
 
     /**
      * @return string
      */
-    public function id()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function identifier()
-    {
-        return $this->identifier;
-    }
-
-    /**
-     * @return string
-     */
-    public function name()
+    public function name(): string
     {
         return $this->name;
     }
 
     /**
+     * @return bool
+     */
+    public function isDisabled(): bool
+    {
+        return $this->isDisabled;
+    }
+
+    /**
+     * @return VersionControlProvider
+     */
+    public function provider(): ?VersionControlProvider
+    {
+        return $this->provider;
+    }
+
+    /**
      * @return Organization|null
      */
-    public function organization()
+    public function organization(): ?Organization
     {
         return $this->organization;
-    }
-
-    /**
-     * @return GitHubApplication
-     */
-    public function gitHub()
-    {
-        return $this->gitHub;
-    }
-
-    /**
-     * @param int $id
-     *
-     * @return self
-     */
-    public function withID($id)
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    /**
-     * @param string $identifier
-     *
-     * @return self
-     */
-    public function withIdentifier($identifier)
-    {
-        $this->identifier = $identifier;
-        return $this;
     }
 
     /**
@@ -120,20 +91,31 @@ class Application implements JsonSerializable
      *
      * @return self
      */
-    public function withName($name)
+    public function withName(string $name): self
     {
         $this->name = $name;
         return $this;
     }
 
     /**
-     * @param GitHubApplication $gitHub
+     * @param bool $isDisabled
      *
      * @return self
      */
-    public function withGitHub(GitHubApplication $gitHub)
+    public function withIsDisabled(bool $isDisabled): self
     {
-        $this->gitHub = $gitHub;
+        $this->isDisabled = $isDisabled;
+        return $this;
+    }
+
+    /**
+     * @param VersionControlProvider|null $provider
+     *
+     * @return self
+     */
+    public function withProvider(?VersionControlProvider $provider): self
+    {
+        $this->provider = $provider;
         return $this;
     }
 
@@ -142,7 +124,7 @@ class Application implements JsonSerializable
      *
      * @return self
      */
-    public function withOrganization(Organization $organization = null)
+    public function withOrganization(?Organization $organization): self
     {
         $this->organization = $organization;
         return $this;
@@ -155,12 +137,14 @@ class Application implements JsonSerializable
     {
         $json = [
             'id' => $this->id(),
+            'created' => $this->created(),
 
-            'identifier' => $this->identifier(),
             'name' => $this->name(),
+            'is_disabled' => $this->isDisabled(),
 
-            'github' => $this->gitHub(),
+            'parameters' => $this->parameters(),
 
+            'provider_id' => $this->provider() ? $this->provider()->id() : null,
             'organization_id' => $this->organization() ? $this->organization()->id() : null,
         ];
 

@@ -1,0 +1,41 @@
+'Hal\Core\Entity\Job\JobArtifact':
+    type: entity
+    table: 'jobs_artifacts'
+
+    cache: { usage : NONSTRICT_READ_WRITE }
+
+    id:
+        id:
+            column: 'id'
+            type: 'guid'
+
+    fields:
+
+        name:
+            column: 'name'
+            type: 'string'
+            length: 100
+
+        parameters:
+            column: 'parameters'
+            type: 'json_array'
+
+        isRemovable:
+            column: 'is_removable'
+            type: 'boolean'
+            options: { default: true }
+
+        created:
+            column: 'created'
+            type: 'timepoint'
+
+    manyToOne:
+
+        job:
+            cache: { usage : READ_ONLY }
+            targetEntity: 'Hal\Core\Entity\Job'
+            inversedBy: 'meta'
+            joinColumn:
+                name: 'job_id'
+                referencedColumnName: 'id'
+                nullable: false
