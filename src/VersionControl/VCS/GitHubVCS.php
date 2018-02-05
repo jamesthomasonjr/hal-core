@@ -10,6 +10,7 @@ namespace Hal\Core\VersionControl\VCS;
 use Github\Client;
 use Github\HttpClient\Builder;
 use Github\ResultPager;
+use GuzzleHttp\Client as GuzzleClient;
 use Hal\Core\Entity\System\VersionControlProvider;
 use Hal\Core\Type\VCSProviderEnum;
 use Hal\Core\Validation\ValidatorErrorTrait;
@@ -49,6 +50,11 @@ class GitHubVCS
     private $isCachedAdded;
 
     /**
+     * @var array
+     */
+    private $defaultGuzzleOptions;
+
+    /**
      * @param MCPCachePlugin $cachePlugin
      * @param Builder $httpClientBuilder
      * @param string $githubBaseURL
@@ -61,6 +67,15 @@ class GitHubVCS
         $this->baseURL = rtrim($githubBaseURL, '/');
 
         $this->isCachedAdded = false;
+        $this->defaultGuzzleOptions = [];
+    }
+
+    /**
+     * @var array
+     */
+    public function setDefaultDownloaderOptions(array $options)
+    {
+        $this->defaultGuzzleOptions = $options;
     }
 
     /**
@@ -102,5 +117,41 @@ class GitHubVCS
         $this->setToCache($key, $client, 60 * 60);
 
         return $client;
+    }
+
+    /**
+     * @param VersionControlProvider $vcs
+     *
+     * @return GitHubDownloader|null
+     */
+    public function buildDownloader(VersionControlProvider $vcs): ?GitHubDownloader
+    {
+        if ($vcs->type() !== VCSProviderEnum::TYPE_GITHUB_ENTERPRISE) {
+            $this->addError(self::ERR_VCS_MISCONFIGURED);
+            return null;
+        }
+
+        $baseURL = 'https://api.github.com';
+        $token = $vcs->parameter(self::PARAM_TOKEN);
+        if (!$baseURL || !$token) {
+            $this->addError(self::ERR_VCS_MISCONFIGURED);
+            return null;
+        }
+
+        $options = $this->defaultGuzzleOptions + [
+            'base_uri' => $baseURL,
+            'headers' => [
+                'Authorization' => sprintf('token %s', $token)
+            ],
+
+            'allow_redirects' => true,
+            'connect_timeout' => 5,
+            'timeout' => 300, # 5 minutes seems like a reasonable amount of time?
+            'http_errors' => false,
+        ];
+
+        $guzzle = new GuzzleClient($options);
+
+        return new GitHubDownloader($guzzle);
     }
 }

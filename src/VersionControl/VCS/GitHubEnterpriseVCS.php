@@ -10,10 +10,12 @@ namespace Hal\Core\VersionControl\VCS;
 use Github\Client;
 use Github\HttpClient\Builder;
 use Github\ResultPager;
+use GuzzleHttp\Client as GuzzleClient;
 use Hal\Core\Entity\System\VersionControlProvider;
 use Hal\Core\Type\VCSProviderEnum;
 use Hal\Core\Validation\ValidatorErrorTrait;
 use Hal\Core\VersionControl\GitHub\MCPCachePlugin;
+use Hal\Core\VersionControl\Downloader\GitHubDownloader;
 use QL\MCP\Cache\CachingTrait;
 
 class GitHubEnterpriseVCS
@@ -43,6 +45,11 @@ class GitHubEnterpriseVCS
     private $isCachedAdded;
 
     /**
+     * @var array
+     */
+    private $defaultGuzzleOptions;
+
+    /**
      * @param MCPCachePlugin $cachePlugin
      * @param Builder $httpClientBuilder
      */
@@ -52,6 +59,15 @@ class GitHubEnterpriseVCS
         $this->httpClientBuilder = $httpClientBuilder;
 
         $this->isCachedAdded = false;
+        $this->defaultGuzzleOptions = [];
+    }
+
+    /**
+     * @var array
+     */
+    public function setDefaultDownloaderOptions(array $options)
+    {
+        $this->defaultGuzzleOptions = $options;
     }
 
     /**
@@ -94,5 +110,43 @@ class GitHubEnterpriseVCS
         $this->setToCache($key, $client, 60 * 60);
 
         return $client;
+    }
+
+    /**
+     * @param VersionControlProvider $vcs
+     *
+     * @return GitHubDownloader|null
+     */
+    public function buildDownloader(VersionControlProvider $vcs): ?GitHubDownloader
+    {
+        if ($vcs->type() !== VCSProviderEnum::TYPE_GITHUB_ENTERPRISE) {
+            $this->addError(self::ERR_VCS_MISCONFIGURED);
+            return null;
+        }
+
+        $baseURL = $vcs->parameter(self::PARAM_URL);
+        $token = $vcs->parameter(self::PARAM_TOKEN);
+        if (!$baseURL || !$token) {
+            $this->addError(self::ERR_VCS_MISCONFIGURED);
+            return null;
+        }
+
+        $baseURL = $baseURL . '/api/v3/';
+
+        $options = $this->defaultGuzzleOptions + [
+            'base_uri' => $baseURL,
+            'headers' => [
+                'Authorization' => sprintf('token %s', $token)
+            ],
+
+            'allow_redirects' => true,
+            'connect_timeout' => 5,
+            'timeout' => 300, # 5 minutes seems like a reasonable amount of time?
+            'http_errors' => false,
+        ];
+
+        $guzzle = new GuzzleClient($options);
+
+        return new GitHubDownloader($guzzle);
     }
 }
