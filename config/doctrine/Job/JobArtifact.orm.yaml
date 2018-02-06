@@ -34,7 +34,7 @@
         job:
             cache: { usage : READ_ONLY }
             targetEntity: 'Hal\Core\Entity\Job'
-            inversedBy: 'meta'
+            inversedBy: 'artifacts'
             joinColumn:
                 name: 'job_id'
                 referencedColumnName: 'id'
