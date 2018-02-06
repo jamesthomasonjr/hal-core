@@ -20,19 +20,13 @@ class JobEventStageEnumTest extends TestCase
     {
         $expected = [
             'unknown',
-            'build.created',
-            'build.start',
-            'build.running',
-            'build.end',
-            'build.success',
-            'build.failure',
-
-            'release.created',
-            'release.start',
-            'release.deploying',
-            'release.end',
-            'release.success',
-            'release.failure',
+            'created',
+            'starting',
+            'running',
+            'ending',
+            'finished',
+            'success',
+            'failure'
         ];
 
         $this->assertSame($expected, JobEventStageEnum::options());
@@ -46,42 +40,32 @@ class JobEventStageEnumTest extends TestCase
         $this->assertSame(false, JobEventStageEnum::isValid(['derp', 'herp']));
 
         $this->assertSame(true, JobEventStageEnum::isValid('unknown'));
-        $this->assertSame(true, JobEventStageEnum::isValid('build.created'));
-        $this->assertSame(true, JobEventStageEnum::isValid('build.start'));
-        $this->assertSame(true, JobEventStageEnum::isValid('build.running'));
-        $this->assertSame(true, JobEventStageEnum::isValid('build.end'));
-        $this->assertSame(true, JobEventStageEnum::isValid('build.success'));
-        $this->assertSame(true, JobEventStageEnum::isValid('build.failure'));
 
-        $this->assertSame(true, JobEventStageEnum::isValid('release.created'));
-        $this->assertSame(true, JobEventStageEnum::isValid('release.start'));
-        $this->assertSame(true, JobEventStageEnum::isValid('release.deploying'));
-        $this->assertSame(true, JobEventStageEnum::isValid('release.end'));
-        $this->assertSame(true, JobEventStageEnum::isValid('release.success'));
-        $this->assertSame(true, JobEventStageEnum::isValid('release.failure'));
+        $this->assertSame(true, JobEventStageEnum::isValid('created'));
+        $this->assertSame(true, JobEventStageEnum::isValid('starting'));
+        $this->assertSame(true, JobEventStageEnum::isValid('running'));
+        $this->assertSame(true, JobEventStageEnum::isValid('ending'));
+
+        $this->assertSame(true, JobEventStageEnum::isValid('finished'));
+        $this->assertSame(true, JobEventStageEnum::isValid('success'));
+        $this->assertSame(true, JobEventStageEnum::isValid('failure'));
     }
 
     public function testEnsureValidWhenValidReturnsNormalizedValue()
     {
         $this->assertSame('unknown', JobEventStageEnum::ensureValid('unknown'));
-        $this->assertSame('build.created', JobEventStageEnum::ensureValid('build.created'));
-        $this->assertSame('build.start', JobEventStageEnum::ensureValid('build.start'));
-        $this->assertSame('build.running', JobEventStageEnum::ensureValid('build.running'));
-        $this->assertSame('build.end', JobEventStageEnum::ensureValid('build.end'));
-        $this->assertSame('build.success', JobEventStageEnum::ensureValid('build.success'));
-        $this->assertSame('build.failure', JobEventStageEnum::ensureValid('build.failure'));
 
-        $this->assertSame('release.created', JobEventStageEnum::ensureValid('release.created'));
-        $this->assertSame('release.start', JobEventStageEnum::ensureValid('release.start'));
-        $this->assertSame('release.deploying', JobEventStageEnum::ensureValid('release.deploying'));
-        $this->assertSame('release.end', JobEventStageEnum::ensureValid('release.end'));
-        $this->assertSame('release.success', JobEventStageEnum::ensureValid('release.success'));
-        $this->assertSame('release.failure', JobEventStageEnum::ensureValid('release.failure'));
+        $this->assertSame('created', JobEventStageEnum::ensureValid('created'));
+        $this->assertSame('starting', JobEventStageEnum::ensureValid('starting'));
+        $this->assertSame('running', JobEventStageEnum::ensureValid('running'));
+        $this->assertSame('ending', JobEventStageEnum::ensureValid('ending'));
 
-        $this->assertSame('build.start', JobEventStageEnum::ensureValid('BUILD.Start'));
-        $this->assertSame('build.running', JobEventStageEnum::ensureValid('Build.running'));
-        $this->assertSame('release.success', JobEventStageEnum::ensureValid('Release.Success'));
-        $this->assertSame('release.failure', JobEventStageEnum::ensureValid('release.FAILURE'));
+        $this->assertSame('finished', JobEventStageEnum::ensureValid('finished'));
+        $this->assertSame('success', JobEventStageEnum::ensureValid('success'));
+        $this->assertSame('failure', JobEventStageEnum::ensureValid('failure'));
+
+        $this->assertSame('starting', JobEventStageEnum::ensureValid('Starting'));
+        $this->assertSame('running', JobEventStageEnum::ensureValid('RUNNING'));
     }
 
     /**

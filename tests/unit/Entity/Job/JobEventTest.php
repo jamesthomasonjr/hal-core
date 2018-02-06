@@ -35,7 +35,7 @@ class JobEventTest extends TestCase
         $time1 = new TimePoint(2015, 8, 15, 12, 0, 0, 'UTC');
 
         $event = (new JobEvent('abcd', $time1))
-            ->withStage('build.created')
+            ->withStage('created')
             ->withOrder(5)
             ->withMessage('Something happened')
             ->withStatus('Success')
@@ -43,7 +43,7 @@ class JobEventTest extends TestCase
             ->withParameters(['test' => 'value']);
 
         $this->assertSame('abcd', $event->id());
-        $this->assertSame('build.created', $event->stage());
+        $this->assertSame('created', $event->stage());
         $this->assertSame(5, $event->order());
 
         $this->assertSame($time1, $event->created());
@@ -59,7 +59,7 @@ class JobEventTest extends TestCase
         $time1 = new TimePoint(2015, 8, 15, 12, 0, 0, 'UTC');
 
         $event = (new JobEvent('abcd', $time1))
-            ->withStage('release.end')
+            ->withStage('finished')
             ->withOrder(5)
             ->withMessage('Something happened')
             ->withStatus('failure')
@@ -70,7 +70,7 @@ class JobEventTest extends TestCase
 {
     "id": "abcd",
     "created": "2015-08-15T12:00:00Z",
-    "stage": "release.end",
+    "stage": "finished",
     "status": "failure",
     "order": 5,
     "message": "Something happened",

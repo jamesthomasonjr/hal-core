@@ -15,21 +15,14 @@ class JobEventStageEnum
 
     const TYPE_UNKNOWN = 'unknown';
 
-    const TYPE_BUILD_CREATE = 'build.created';
-    const TYPE_BUILD_START = 'build.start';
-    const TYPE_BUILD_RUN = 'build.running';
+    const TYPE_CREATED = 'created';
+    const TYPE_STARTING = 'starting';
+    const TYPE_RUNNING = 'running';
+    const TYPE_ENDING = 'ending';
 
-    const TYPE_BUILD_END = 'build.end';
-    const TYPE_BUILD_SUCCESS = 'build.success';
-    const TYPE_BUILD_FAILURE = 'build.failure';
-
-    const TYPE_RELEASE_CREATE = 'release.created';
-    const TYPE_RELEASE_START = 'release.start';
-    const TYPE_RELEASE_DEPLOY = 'release.deploying';
-
-    const TYPE_RELEASE_END = 'release.end';
-    const TYPE_RELEASE_SUCCESS = 'release.success';
-    const TYPE_RELEASE_FAILURE = 'release.failure';
+    const TYPE_FINISHED = 'finished';
+    const TYPE_SUCCESS = 'success';
+    const TYPE_FAILURE = 'failure';
 
     /**
      * @return string
@@ -47,19 +40,14 @@ class JobEventStageEnum
         return [
             self::TYPE_UNKNOWN,
 
-            self::TYPE_BUILD_CREATE,
-            self::TYPE_BUILD_START,
-            self::TYPE_BUILD_RUN,
-            self::TYPE_BUILD_END,
-            self::TYPE_BUILD_SUCCESS,
-            self::TYPE_BUILD_FAILURE,
+            self::TYPE_CREATED,
+            self::TYPE_STARTING,
+            self::TYPE_RUNNING,
+            self::TYPE_ENDING,
 
-            self::TYPE_RELEASE_CREATE,
-            self::TYPE_RELEASE_START,
-            self::TYPE_RELEASE_DEPLOY,
-            self::TYPE_RELEASE_END,
-            self::TYPE_RELEASE_SUCCESS,
-            self::TYPE_RELEASE_FAILURE,
+            self::TYPE_FINISHED,
+            self::TYPE_SUCCESS,
+            self::TYPE_FAILURE
         ];
     }
 }
