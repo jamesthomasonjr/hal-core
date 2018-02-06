@@ -49,6 +49,14 @@ class VCSProviderEnumTest extends TestCase
         $this->assertSame('git', VCSProviderEnum::ensureValid('GIT'));
     }
 
+    public function testFormattedValues()
+    {
+        $this->assertSame('Unknown', VCSProviderEnum::format('xxx'));
+        $this->assertSame('GitHub.com', VCSProviderEnum::format('gh'));
+        $this->assertSame('GitHub Ent.', VCSProviderEnum::format('ghe'));
+        $this->assertSame('Git', VCSProviderEnum::format('git'));
+    }
+
     /**
      * @dataProvider providerInvalidOptions
      */

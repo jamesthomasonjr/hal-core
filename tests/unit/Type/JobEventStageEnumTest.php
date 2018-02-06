@@ -68,6 +68,20 @@ class JobEventStageEnumTest extends TestCase
         $this->assertSame('running', JobEventStageEnum::ensureValid('RUNNING'));
     }
 
+    public function testFormattedValues()
+    {
+        $this->assertSame('Unknown', JobEventStageEnum::format('xxx'));
+        $this->assertSame('Created', JobEventStageEnum::format('created'));
+
+        $this->assertSame('Starting', JobEventStageEnum::format('starting'));
+        $this->assertSame('Running', JobEventStageEnum::format('running'));
+        $this->assertSame('Ending', JobEventStageEnum::format('ending'));
+
+        $this->assertSame('Finished', JobEventStageEnum::format('finished'));
+        $this->assertSame('Success', JobEventStageEnum::format('success'));
+        $this->assertSame('Failure', JobEventStageEnum::format('failure'));
+    }
+
     /**
      * @dataProvider providerInvalidOptions
      */

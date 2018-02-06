@@ -48,6 +48,14 @@ class CredentialEnumTest extends TestCase
         $this->assertSame('privatekey', CredentialEnum::ensureValid('PrivateKey'));
     }
 
+    public function testFormattedValues()
+    {
+        $this->assertSame('Unknown', CredentialEnum::format('xxx'));
+        $this->assertSame('AWS STS Role', CredentialEnum::format('aws_role'));
+        $this->assertSame('AWS Static Token', CredentialEnum::format('aws_static'));
+        $this->assertSame('Private Key', CredentialEnum::format('privatekey'));
+    }
+
     /**
      * @dataProvider providerInvalidOptions
      */

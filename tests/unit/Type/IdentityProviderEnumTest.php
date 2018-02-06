@@ -52,6 +52,16 @@ class IdentityProviderEnumTest extends TestCase
         $this->assertSame('ldap', IdentityProviderEnum::ensureValid('Ldap'));
     }
 
+    public function testFormattedValues()
+    {
+        $this->assertSame('Unknown', IdentityProviderEnum::format('xxx'));
+
+        $this->assertSame('Internal', IdentityProviderEnum::format('internal'));
+        $this->assertSame('LDAP', IdentityProviderEnum::format('ldap'));
+        $this->assertSame('GitHub.com', IdentityProviderEnum::format('gh'));
+        $this->assertSame('GitHub Ent.', IdentityProviderEnum::format('ghe'));
+    }
+
     /**
      * @dataProvider providerInvalidOptions
      */

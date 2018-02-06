@@ -9,11 +9,11 @@ namespace Hal\Core\Type;
 
 use PHPUnit\Framework\TestCase;
 
-class targetEnumTest extends TestCase
+class TargetEnumTest extends TestCase
 {
     public function testDefaultOption()
     {
-        $this->assertSame('rsync', targetEnum::defaultOption());
+        $this->assertSame('rsync', TargetEnum::defaultOption());
     }
 
     public function testTypes()
@@ -26,36 +26,46 @@ class targetEnumTest extends TestCase
             'script'
         ];
 
-        $this->assertSame($expected, targetEnum::options());
+        $this->assertSame($expected, TargetEnum::options());
     }
 
     public function testIsValidValues()
     {
-        $this->assertSame(false, targetEnum::isValid('derp'));
-        $this->assertSame(false, targetEnum::isValid('herp'));
-        $this->assertSame(false, targetEnum::isValid(1234));
-        $this->assertSame(false, targetEnum::isValid(['derp', 'herp']));
+        $this->assertSame(false, TargetEnum::isValid('derp'));
+        $this->assertSame(false, TargetEnum::isValid('herp'));
+        $this->assertSame(false, TargetEnum::isValid(1234));
+        $this->assertSame(false, TargetEnum::isValid(['derp', 'herp']));
 
-        $this->assertSame(true, targetEnum::isValid('rsync'));
-        $this->assertSame(true, targetEnum::isValid('eb'));
-        $this->assertSame(true, targetEnum::isValid('s3'));
-        $this->assertSame(true, targetEnum::isValid('cd'));
-        $this->assertSame(true, targetEnum::isValid('script'));
+        $this->assertSame(true, TargetEnum::isValid('rsync'));
+        $this->assertSame(true, TargetEnum::isValid('eb'));
+        $this->assertSame(true, TargetEnum::isValid('s3'));
+        $this->assertSame(true, TargetEnum::isValid('cd'));
+        $this->assertSame(true, TargetEnum::isValid('script'));
     }
 
     public function testEnsureValidWhenValidReturnsNormalizedValue()
     {
-        $this->assertSame('rsync', targetEnum::ensureValid('rsync'));
-        $this->assertSame('eb', targetEnum::ensureValid('eb'));
-        $this->assertSame('s3', targetEnum::ensureValid('s3'));
-        $this->assertSame('cd', targetEnum::ensureValid('cd'));
-        $this->assertSame('script', targetEnum::ensureValid('script'));
+        $this->assertSame('rsync', TargetEnum::ensureValid('rsync'));
+        $this->assertSame('eb', TargetEnum::ensureValid('eb'));
+        $this->assertSame('s3', TargetEnum::ensureValid('s3'));
+        $this->assertSame('cd', TargetEnum::ensureValid('cd'));
+        $this->assertSame('script', TargetEnum::ensureValid('script'));
 
-        $this->assertSame('rsync', targetEnum::ensureValid('RSYNC'));
-        $this->assertSame('eb', targetEnum::ensureValid('EB'));
-        $this->assertSame('s3', targetEnum::ensureValid('S3'));
-        $this->assertSame('cd', targetEnum::ensureValid('Cd'));
-        $this->assertSame('script', targetEnum::ensureValid('Script'));
+        $this->assertSame('rsync', TargetEnum::ensureValid('RSYNC'));
+        $this->assertSame('eb', TargetEnum::ensureValid('EB'));
+        $this->assertSame('s3', TargetEnum::ensureValid('S3'));
+        $this->assertSame('cd', TargetEnum::ensureValid('Cd'));
+        $this->assertSame('script', TargetEnum::ensureValid('Script'));
+    }
+
+    public function testFormattedValues()
+    {
+        $this->assertSame('Unknown', TargetEnum::format('xxx'));
+        $this->assertSame('RSync', TargetEnum::format('rsync'));
+        $this->assertSame('Elastic Beanstalk', TargetEnum::format('eb'));
+        $this->assertSame('S3', TargetEnum::format('s3'));
+        $this->assertSame('CodeDeploy', TargetEnum::format('cd'));
+        $this->assertSame('Script', TargetEnum::format('script'));
     }
 
     /**
@@ -64,7 +74,7 @@ class targetEnumTest extends TestCase
     public function testEnsureValidWhenInvalidThrowsException($option)
     {
         $this->expectException(EnumException::class);
-        targetEnum::ensureValid($option);
+        TargetEnum::ensureValid($option);
     }
 
     public function providerInvalidOptions()
