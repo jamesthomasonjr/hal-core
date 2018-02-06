@@ -24,8 +24,6 @@ class UserTest extends TestCase
         $this->assertSame('', $user->name());
 
         $this->assertSame(false, $user->isDisabled());
-        $this->assertSame([], $user->parameters());
-        // $this->assertSame(null, $user->provider());
 
         $this->assertCount(0, $user->tokens());
     }
@@ -37,10 +35,8 @@ class UserTest extends TestCase
         $user = (new User('1234'))
             ->withName('Bob Smith')
             ->withIsDisabled(true)
-            ->withParameter('this', 'that')
             ->withSetting('this', ['that'])
-            ->withSetting('this2', false)
-            ->withProvider($provider);
+            ->withSetting('this2', false);
 
         $user->tokens()->add(new UserToken);
         $user->tokens()->add(new UserToken);
@@ -48,7 +44,6 @@ class UserTest extends TestCase
         $this->assertSame('1234', $user->id());
         $this->assertSame('Bob Smith', $user->name());
         $this->assertSame(true, $user->isDisabled());
-        $this->assertSame('that', $user->parameter('this'));
         $this->assertSame(['that'], $user->setting('this'));
         $this->assertSame(false, $user->setting('this2'));
 
@@ -61,10 +56,7 @@ class UserTest extends TestCase
 
         $user = (new User('1234', new TimePoint(2017, 12, 31, 12, 0, 0, 'UTC')))
             ->withName('Smith, Bob')
-            ->withIsDisabled(true)
-            ->withParameter('this', 'that')
-            ->withProviderUniqueID('6868')
-            ->withProvider($provider);
+            ->withIsDisabled(true);
 
         $expected = <<<JSON_TEXT
 {
@@ -72,12 +64,7 @@ class UserTest extends TestCase
     "created": "2017-12-31T12:00:00Z",
     "name": "Smith, Bob",
     "is_disabled": true,
-    "parameters": {
-        "this": "that"
-    },
     "settings": [],
-    "provider_unique_id": "6868",
-    "provider_id": "5678",
     "tokens": []
 }
 JSON_TEXT;
@@ -87,10 +74,7 @@ JSON_TEXT;
 
     public function testDefaultSerialization()
     {
-        $provider = new UserIdentityProvider('5678');
-
         $user = new User('1', new TimePoint(2017, 12, 31, 12, 0, 0, 'UTC'));
-        $user->withProvider($provider);
 
         $expected = <<<JSON_TEXT
 {
@@ -98,10 +82,7 @@ JSON_TEXT;
     "created": "2017-12-31T12:00:00Z",
     "name": "",
     "is_disabled": false,
-    "parameters": [],
     "settings": [],
-    "provider_unique_id": "",
-    "provider_id": "5678",
     "tokens": []
 }
 JSON_TEXT;

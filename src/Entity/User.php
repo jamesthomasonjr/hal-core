@@ -170,11 +170,8 @@ class User implements JsonSerializable
             'name' => $this->name(),
             'is_disabled' => $this->isDisabled(),
 
-            'parameters' => $this->parameters(),
             'settings' => $this->settings(),
 
-            'provider_unique_id' => $this->providerUniqueID(),
-            'provider_id' => $this->provider() ? $this->provider()->id() : null,
             'tokens' => $this->tokens()->toArray()
         ];
 
