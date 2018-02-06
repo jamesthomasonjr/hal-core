@@ -30,6 +30,7 @@ class JobEvent implements JsonSerializable
      * @var int
      */
     protected $order;
+    protected $duration;
 
     /**
      * @var string
@@ -54,6 +55,7 @@ class JobEvent implements JsonSerializable
         $this->status = JobEventStatusEnum::defaultOption();
 
         $this->order = 0;
+        $this->duration = 0;
         $this->message = '';
 
         $this->job = null;
@@ -81,6 +83,14 @@ class JobEvent implements JsonSerializable
     public function order(): int
     {
         return $this->order;
+    }
+
+    /**
+     * @return int
+     */
+    public function duration(): int
+    {
+        return $this->duration;
     }
 
     /**
@@ -167,6 +177,7 @@ class JobEvent implements JsonSerializable
             'status' => $this->status(),
 
             'order' => $this->order(),
+            'duration' => $this->duration(),
             'message' => $this->message(),
 
             'parameters' => '**DATA**',

@@ -221,6 +221,7 @@ class InitialSchema extends PhinxMigration
             ->addColumn('created',        'datetime',   [])
             ->addColumn('stage',          'string',     $this->enumOptions('unknown'))
             ->addColumn('status',         'string',     $this->enumOptions('info'))
+            ->addColumn('event_duration', 'integer',    [])
             ->addColumn('event_order',    'integer',    [])
             ->addColumn('message',        'string',     ['limit' => 200])
             ->addColumn('parameters',     'binary',     $this->blobOptions('16mb'))
