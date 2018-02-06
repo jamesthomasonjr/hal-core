@@ -44,7 +44,7 @@ class GitHubDownloader implements VCSDownloaderInterface
      *
      * @return bool
      */
-    public function download(Application $application, string $commit, string $targetFile)
+    public function download(Application $application, string $commit, string $targetFile): bool
     {
         $username = $application->parameter('gh.owner');
         $repository = $application->parameter('gh.repo');

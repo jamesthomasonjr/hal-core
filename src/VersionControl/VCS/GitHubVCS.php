@@ -14,6 +14,7 @@ use GuzzleHttp\Client as GuzzleClient;
 use Hal\Core\Entity\System\VersionControlProvider;
 use Hal\Core\Type\VCSProviderEnum;
 use Hal\Core\Validation\ValidatorErrorTrait;
+use Hal\Core\VersionControl\Downloader\GitHubDownloader;
 use Hal\Core\VersionControl\GitHub\MCPCachePlugin;
 use QL\MCP\Cache\CachingTrait;
 

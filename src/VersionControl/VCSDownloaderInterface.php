@@ -24,5 +24,5 @@ interface VCSDownloaderInterface
      *
      * @return bool
      */
-    public function download(Application $application, string $commit, string $targetFile);
+    public function download(Application $application, string $commit, string $targetFile): bool;
 }
