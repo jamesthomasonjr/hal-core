@@ -11,14 +11,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Hal\Core\Entity\System\UserIdentityProvider;
 use Hal\Core\Utility\EntityTrait;
-use Hal\Core\Utility\ParameterTrait;
 use JsonSerializable;
 use QL\MCP\Common\Time\TimePoint;
 
 class User implements JsonSerializable
 {
     use EntityTrait;
-    use ParameterTrait;
 
     /**
      * @var string
@@ -36,16 +34,6 @@ class User implements JsonSerializable
     protected $settings;
 
     /**
-     * @var string
-     */
-    protected $providerUniqueID;
-
-    /**
-     * @var UserIdentityProvider|null
-     */
-    protected $provider;
-
-    /**
      * @var Collection
      */
     protected $tokens;
@@ -57,14 +45,11 @@ class User implements JsonSerializable
     public function __construct($id = '', TimePoint $created = null)
     {
         $this->initializeEntity($id, $created);
-        $this->initializeParameters();
 
         $this->name = '';
         $this->isDisabled = false;
         $this->settings = [];
-        $this->providerUniqueID = '';
 
-        $this->provider = null;
         $this->tokens = new ArrayCollection;
     }
 
@@ -112,22 +97,6 @@ class User implements JsonSerializable
         }
 
         return null;
-    }
-
-    /**
-     * @return string
-     */
-    public function providerUniqueID(): string
-    {
-        return $this->providerUniqueID;
-    }
-
-    /**
-     * @return UserIdentityProvider|null
-     */
-    public function provider(): ?UserIdentityProvider
-    {
-        return $this->provider;
     }
 
     /**
@@ -184,28 +153,6 @@ class User implements JsonSerializable
             $this->withSetting($name, $value);
         }
 
-        return $this;
-    }
-
-    /**
-     * @param string $id
-     *
-     * @return self
-     */
-    public function withProviderUniqueID(string $id): self
-    {
-        $this->providerUniqueID = $id;
-        return $this;
-    }
-
-    /**
-     * @param UserIdentityProvider|null $provider
-     *
-     * @return self
-     */
-    public function withProvider(?UserIdentityProvider $provider): self
-    {
-        $this->provider = $provider;
         return $this;
     }
 
