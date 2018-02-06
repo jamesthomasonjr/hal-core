@@ -55,6 +55,10 @@
             targetEntity: 'Hal\Core\Entity\Job\JobMeta'
             mappedBy: 'job'
 
+        artifacts:
+            targetEntity: 'Hal\Core\Entity\Job\JobArtifact'
+            mappedBy: 'job'
+
     manyToOne:
 
         user:

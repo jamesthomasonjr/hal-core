@@ -1,6 +1,6 @@
 'Hal\Core\Entity\Job\JobArtifact':
-    type: entity
     table: 'jobs_artifacts'
+    type: entity
 
     cache: { usage : NONSTRICT_READ_WRITE }
 
