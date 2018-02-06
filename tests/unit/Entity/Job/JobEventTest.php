@@ -24,6 +24,7 @@ class JobEventTest extends TestCase
 
         $this->assertSame('unknown', $event->stage());
         $this->assertSame(0, $event->order());
+        $this->assertSame(0, $event->duration());
         $this->assertSame('', $event->message());
         $this->assertSame('info', $event->status());
 
@@ -37,6 +38,7 @@ class JobEventTest extends TestCase
         $event = (new JobEvent('abcd', $time1))
             ->withStage('created')
             ->withOrder(5)
+            ->withDuration(60)
             ->withMessage('Something happened')
             ->withStatus('Success')
             ->withJob(new Build('1234'))
@@ -45,6 +47,7 @@ class JobEventTest extends TestCase
         $this->assertSame('abcd', $event->id());
         $this->assertSame('created', $event->stage());
         $this->assertSame(5, $event->order());
+        $this->assertSame(60, $event->duration());
 
         $this->assertSame($time1, $event->created());
         $this->assertSame('Something happened', $event->message());
@@ -61,6 +64,7 @@ class JobEventTest extends TestCase
         $event = (new JobEvent('abcd', $time1))
             ->withStage('finished')
             ->withOrder(5)
+            ->withDuration(60)
             ->withMessage('Something happened')
             ->withStatus('failure')
             ->withJob(new Job('5678'))
@@ -73,6 +77,7 @@ class JobEventTest extends TestCase
     "stage": "finished",
     "status": "failure",
     "order": 5,
+    "duration": 60,
     "message": "Something happened",
     "parameters": "**DATA**",
     "job_id": "5678"
@@ -96,6 +101,7 @@ JSON_TEXT;
     "stage": "unknown",
     "status": "info",
     "order": 0,
+    "duration": 0,
     "message": "",
     "parameters": "**DATA**",
     "job_id": "1234"

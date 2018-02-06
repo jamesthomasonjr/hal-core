@@ -143,6 +143,17 @@ class JobEvent implements JsonSerializable
     }
 
     /**
+     * @param int $duration
+     *
+     * @return self
+     */
+    public function withDuration(int $duration): self
+    {
+        $this->duration = $duration;
+        return $this;
+    }
+
+    /**
      * @param string $message
      *
      * @return self
