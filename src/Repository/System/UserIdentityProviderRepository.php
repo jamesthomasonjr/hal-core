@@ -8,15 +8,15 @@
 namespace Hal\Core\Repository\System;
 
 use Doctrine\ORM\EntityRepository;
-use Hal\Core\Entity\User;
+use Hal\Core\Entity\User\UserIdentity;
 use Hal\Core\Entity\System\UserIdentityProvider;
 
 class UserIdentityProviderRepository extends EntityRepository
 {
     const DQL_USER_COUNT_FOR_IDP = <<<SQL_QUERY
-   SELECT p.id, COUNT(p.id) as users
-     FROM %s u
-     JOIN %s p WITH p = u.provider
+   SELECT p.id, COUNT(p.id) as idents
+     FROM %s i
+     JOIN %s p WITH p = i.provider
  GROUP BY p.id
 SQL_QUERY;
 
@@ -25,14 +25,14 @@ SQL_QUERY;
      */
     public function getUserCounts(): array
     {
-        $dql = sprintf(self::DQL_USER_COUNT_FOR_IDP, User::class, UserIdentityProvider::class);
+        $dql = sprintf(self::DQL_USER_COUNT_FOR_IDP, UserIdentity::class, UserIdentityProvider::class);
 
         $result = $this->getEntityManager()
             ->createQuery($dql)
             ->getResult();
 
         $counts = [];
-        foreach ($result as ['id' => $id, 'users' => $users]) {
+        foreach ($result as ['id' => $id, 'idents' => $users]) {
             $counts[$id] = $users;
         }
 
