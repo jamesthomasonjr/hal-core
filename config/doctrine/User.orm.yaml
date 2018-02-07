@@ -36,3 +36,7 @@
             targetEntity: 'Hal\Core\Entity\User\UserToken'
             mappedBy: 'user'
 
+        identities:
+            targetEntity: 'Hal\Core\Entity\User\UserIdentity'
+            mappedBy: 'user'
+

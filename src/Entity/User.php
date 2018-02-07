@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright (c) 2017 Quicken Loans Inc.
+ * @copyright (c) 2018 Quicken Loans Inc.
  *
  * For full license information, please view the LICENSE distributed with this source code.
  */
@@ -39,6 +39,11 @@ class User implements JsonSerializable
     protected $tokens;
 
     /**
+     * @var Collection
+     */
+    protected $identities;
+
+    /**
      * @param string $id
      * @param TimePoint|null $created
      */
@@ -51,6 +56,7 @@ class User implements JsonSerializable
         $this->settings = [];
 
         $this->tokens = new ArrayCollection;
+        $this->identities = new ArrayCollection;
     }
 
     /**
@@ -108,6 +114,14 @@ class User implements JsonSerializable
     }
 
     /**
+     * @return Collection
+     */
+    public function identities(): Collection
+    {
+        return $this->identities;
+    }
+
+    /**
      * @param string $name
      *
      * @return self
@@ -157,6 +171,7 @@ class User implements JsonSerializable
     }
 
     // @todo add token add/remove - Collection items should always be removed from the parent
+    // @todo add identity add/remove - Collection items should always be removed from the parent
 
     /**
      * @return array
@@ -172,7 +187,8 @@ class User implements JsonSerializable
 
             'settings' => $this->settings(),
 
-            'tokens' => $this->tokens()->toArray()
+            'tokens' => $this->tokens()->toArray(),
+            'identities' => $this->identities()->toArray()
         ];
 
         return $json;

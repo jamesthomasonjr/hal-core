@@ -65,7 +65,8 @@ class UserTest extends TestCase
     "name": "Smith, Bob",
     "is_disabled": true,
     "settings": [],
-    "tokens": []
+    "tokens": [],
+    "identities": []
 }
 JSON_TEXT;
 
@@ -83,7 +84,8 @@ JSON_TEXT;
     "name": "",
     "is_disabled": false,
     "settings": [],
-    "tokens": []
+    "tokens": [],
+    "identities": []
 }
 JSON_TEXT;
 

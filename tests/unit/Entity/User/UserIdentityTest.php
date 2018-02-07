@@ -1,36 +1,34 @@
 <?php
 /**
- * @copyright (c) 2017 Quicken Loans Inc.
+ * @copyright (c) 2018 Quicken Loans Inc.
  *
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace Hal\Core\Entity;
+namespace Hal\Core\Entity\User;
 
 use Hal\Core\Entity\System\UserIdentityProvider;
 use PHPUnit\Framework\TestCase;
 use QL\MCP\Common\Time\TimePoint;
 
-class IdentityTest extends TestCase
+class UserIdentityTest extends TestCase
 {
     public function testDefaultValues()
     {
-        $identity = new Identity;
+        $identity = new UserIdentity;
 
         $this->assertRegExp('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/', $identity->id());
         $this->assertInstanceOf(TimePoint::class, $identity->created());
 
         $this->assertSame([], $identity->parameters());
         // $this->assertSame(null, $identity->provider());
-
-        $this->assertCount(0, $identity->tokens());
     }
 
     public function testProperties()
     {
         $provider = new UserIdentityProvider;
 
-        $identity = (new Identity('1234'))
+        $identity = (new UserIdentity('1234'))
             ->withParameter('this', 'that')
             ->withProvider($provider);
 
@@ -42,7 +40,7 @@ class IdentityTest extends TestCase
     {
         $provider = new UserIdentityProvider('5678');
 
-        $identity = (new Identity('1234', new TimePoint(2017, 12, 31, 12, 0, 0, 'UTC')))
+        $identity = (new UserIdentity('1234', new TimePoint(2017, 12, 31, 12, 0, 0, 'UTC')))
             ->withParameter('this', 'that')
             ->withProviderUniqueID('6868')
             ->withProvider($provider);
@@ -66,7 +64,7 @@ JSON_TEXT;
     {
         $provider = new UserIdentityProvider('5678');
 
-        $identity = new Identity('1', new TimePoint(2017, 12, 31, 12, 0, 0, 'UTC'));
+        $identity = new UserIdentity('1', new TimePoint(2017, 12, 31, 12, 0, 0, 'UTC'));
         $identity->withProvider($provider);
 
         $expected = <<<JSON_TEXT

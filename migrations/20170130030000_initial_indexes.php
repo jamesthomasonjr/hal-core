@@ -44,7 +44,7 @@ class InitialIndexes extends PhinxMigration
     protected function uniqueColumns()
     {
         return [
-            'users' =>            [['provider_unique_id', 'provider_id']],
+            'users_identities' =>    [['provider_unique_id', 'provider_id']],
             // 'environments' =>     ['name'],
         ];
     }
@@ -79,6 +79,7 @@ class InitialIndexes extends PhinxMigration
     {
         return [
             'users/user_id' => [
+                'users_identities',
                 'users_permissions',
                 'users_tokens',
                 'jobs',
@@ -139,7 +140,7 @@ class InitialIndexes extends PhinxMigration
             ],
 
             'system_identity_providers/provider_id' => [
-                'users',
+                'users_identities',
             ],
             'system_vcs_providers/provider_id' => [
                 'applications',

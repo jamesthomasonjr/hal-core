@@ -1,34 +1,30 @@
 <?php
 /**
- * @copyright (c) 2017 Quicken Loans Inc.
+ * @copyright (c) 2018 Quicken Loans Inc.
  *
  * For full license information, please view the LICENSE distributed with this source code.
  */
 
-namespace Hal\Core\Entity;
+namespace Hal\Core\Entity\User;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Hal\Core\Entity\System\UserIdentityProvider;
+use Hal\Core\Entity\User;
 use Hal\Core\Utility\EntityTrait;
 use Hal\Core\Utility\ParameterTrait;
 use JsonSerializable;
 use QL\MCP\Common\Time\TimePoint;
 
-class Identity implements JsonSerializable
+class UserIdentity implements JsonSerializable
 {
     use EntityTrait;
     use ParameterTrait;
 
     /**
-     * @var User
+     * @var User|null
      */
     protected $user;
-
-    /**
-     * @var array
-     */
-    protected $tokens;
 
     /**
      * @var string
@@ -48,7 +44,6 @@ class Identity implements JsonSerializable
     {
         $this->initializeEntity($id, $created);
         $this->initializeParameters();
-        $this->tokens = [];
 
         $this->user = null;
 
@@ -74,28 +69,6 @@ class Identity implements JsonSerializable
     }
 
     /**
-     * @return array
-     */
-    public function tokens(): array
-    {
-        return $this->tokens;
-    }
-
-    /**
-     * @param string $name
-     *
-     * @return string|null
-     */
-    public function token(string $name): ?string
-    {
-        if (isset($this->tokens[$name])) {
-            return $this->tokens[$name];
-        }
-
-        return null;
-    }
-
-    /**
      * @return string
      */
     public function providerUniqueID(): string
@@ -104,9 +77,9 @@ class Identity implements JsonSerializable
     }
 
     /**
-     * @return UserIdentityProvider|null
+     * @return UserIdentityProvider
      */
-    public function provider(): ?UserIdentityProvider
+    public function provider(): UserIdentityProvider
     {
         return $this->provider;
     }
@@ -119,38 +92,6 @@ class Identity implements JsonSerializable
     public function withUser(User $user): self
     {
         $this->user = $user;
-        return $this;
-    }
-
-    /**
-     * @param string $name
-     * @param string|null $value
-     *
-     * @return self
-     */
-    public function withToken(string $name, ?string $value): self
-    {
-        if ($value !== null) {
-            $this->parameters[$name] = $value;
-        } else {
-            unset($this->parameters[$name]);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param array $tokens
-     *
-     * @return self
-     */
-    public function withTokens(array $tokens): self
-    {
-        $this->tokens = [];
-        foreach ($tokens as $name => $value) {
-            $this->withToken($name, $value);
-        }
-
         return $this;
     }
 
@@ -186,7 +127,6 @@ class Identity implements JsonSerializable
             'created' => $this->created(),
 
             'parameters' => $this->parameters(),
-            // 'tokens' => $this->tokens(),
 
             'provider_unique_id' => $this->providerUniqueID(),
             'provider_id' => $this->provider() ? $this->provider()->id() : null
