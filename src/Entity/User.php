@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright (c) 2017 Quicken Loans Inc.
+ * @copyright (c) 2018 Quicken Loans Inc.
  *
  * For full license information, please view the LICENSE distributed with this source code.
  */
@@ -11,14 +11,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Hal\Core\Entity\System\UserIdentityProvider;
 use Hal\Core\Utility\EntityTrait;
-use Hal\Core\Utility\ParameterTrait;
 use JsonSerializable;
 use QL\MCP\Common\Time\TimePoint;
 
 class User implements JsonSerializable
 {
     use EntityTrait;
-    use ParameterTrait;
 
     /**
      * @var string
@@ -36,19 +34,14 @@ class User implements JsonSerializable
     protected $settings;
 
     /**
-     * @var string
+     * @var Collection
      */
-    protected $providerUniqueID;
-
-    /**
-     * @var UserIdentityProvider|null
-     */
-    protected $provider;
+    protected $tokens;
 
     /**
      * @var Collection
      */
-    protected $tokens;
+    protected $identities;
 
     /**
      * @param string $id
@@ -57,15 +50,13 @@ class User implements JsonSerializable
     public function __construct($id = '', TimePoint $created = null)
     {
         $this->initializeEntity($id, $created);
-        $this->initializeParameters();
 
         $this->name = '';
         $this->isDisabled = false;
         $this->settings = [];
-        $this->providerUniqueID = '';
 
-        $this->provider = null;
         $this->tokens = new ArrayCollection;
+        $this->identities = new ArrayCollection;
     }
 
     /**
@@ -115,27 +106,19 @@ class User implements JsonSerializable
     }
 
     /**
-     * @return string
-     */
-    public function providerUniqueID(): string
-    {
-        return $this->providerUniqueID;
-    }
-
-    /**
-     * @return UserIdentityProvider|null
-     */
-    public function provider(): ?UserIdentityProvider
-    {
-        return $this->provider;
-    }
-
-    /**
      * @return Collection
      */
     public function tokens(): Collection
     {
         return $this->tokens;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function identities(): Collection
+    {
+        return $this->identities;
     }
 
     /**
@@ -187,29 +170,8 @@ class User implements JsonSerializable
         return $this;
     }
 
-    /**
-     * @param string $id
-     *
-     * @return self
-     */
-    public function withProviderUniqueID(string $id): self
-    {
-        $this->providerUniqueID = $id;
-        return $this;
-    }
-
-    /**
-     * @param UserIdentityProvider|null $provider
-     *
-     * @return self
-     */
-    public function withProvider(?UserIdentityProvider $provider): self
-    {
-        $this->provider = $provider;
-        return $this;
-    }
-
     // @todo add token add/remove - Collection items should always be removed from the parent
+    // @todo add identity add/remove - Collection items should always be removed from the parent
 
     /**
      * @return array
@@ -223,12 +185,10 @@ class User implements JsonSerializable
             'name' => $this->name(),
             'is_disabled' => $this->isDisabled(),
 
-            'parameters' => $this->parameters(),
             'settings' => $this->settings(),
 
-            'provider_unique_id' => $this->providerUniqueID(),
-            'provider_id' => $this->provider() ? $this->provider()->id() : null,
-            'tokens' => $this->tokens()->toArray()
+            'tokens' => $this->tokens()->toArray(),
+            'identities' => $this->identities()->toArray()
         ];
 
         return $json;

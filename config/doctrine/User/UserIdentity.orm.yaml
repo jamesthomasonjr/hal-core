@@ -1,0 +1,45 @@
+'Hal\Core\Entity\User\UserIdentity':
+    table: 'users_identities'
+    type: 'entity'
+
+    cache: { usage : NONSTRICT_READ_WRITE }
+
+    id:
+        id:
+            column: 'id'
+            type: 'guid'
+
+    fields:
+
+        providerUniqueID:
+            column: 'provider_unique_id'
+            type: 'string'
+            length: 100
+
+        parameters:
+            column: 'parameters'
+            type: 'json_array'
+
+        created:
+            column: 'created'
+            type: 'timepoint'
+
+    manyToOne:
+        user:
+            cache: { usage: READ_ONLY }
+            fetch: EAGER
+            targetEntity: 'Hal\Core\Entity\User'
+            inversedBy: 'identities'
+            joinColumn:
+                name: 'user_id'
+                referenceColumnName: 'id'
+                nullable: false
+
+        provider:
+            cache: { usage : READ_ONLY }
+            fetch: EAGER
+            targetEntity: 'Hal\Core\Entity\System\UserIdentityProvider'
+            joinColumn:
+                name: 'provider_id'
+                referencedColumnName: 'id'
+                nullable: false
