@@ -18,21 +18,6 @@ class Target implements JsonSerializable
     use EntityTrait;
     use ParameterTrait;
 
-    const PARAM_GROUP = 'group';            // cd
-    const PARAM_CONFIG = 'configuration';   // cd
-
-    const PARAM_APP = 'application';        // eb, cd
-    const PARAM_ENV = 'environment';        // eb
-
-    const PARAM_REGION = 'region';          // s3, cd, eb
-    const PARAM_S3_METHOD = 's3_method';    // s3
-    const PARAM_BUCKET = 'bucket';          // s3, cd, eb
-    const PARAM_REMOTE_PATH = 'path';       // s3, cd, eb, rsync
-    const PARAM_LOCAL_PATH = 'source';      // s3, cd, eb
-    const PARAM_CONTEXT = 'context';        // script
-
-    const S3_METHODS = ['sync', 'artifact'];
-
     /**
      * @var string
      */

@@ -12,6 +12,7 @@ use Github\HttpClient\Builder;
 use Github\ResultPager;
 use GuzzleHttp\Client as GuzzleClient;
 use Hal\Core\Entity\System\VersionControlProvider;
+use Hal\Core\Parameters;
 use Hal\Core\Type\VCSProviderEnum;
 use Hal\Core\Validation\ValidatorErrorTrait;
 use Hal\Core\VersionControl\Downloader\GitHubDownloader;
@@ -22,10 +23,6 @@ class GitHubEnterpriseVCS
 {
     use CachingTrait;
     use ValidatorErrorTrait;
-
-    // todo move to VCSProviderEnum?
-    const PARAM_URL = 'ghe.url';
-    const PARAM_TOKEN = 'ghe.token';
 
     const ERR_VCS_MISCONFIGURED = 'GitHub Enterprise Version Control Provider is misconfigured.';
 
@@ -89,8 +86,8 @@ class GitHubEnterpriseVCS
             return $client;
         }
 
-        $enterpriseURL = $vcs->parameter(self::PARAM_URL);
-        $token = $vcs->parameter(self::PARAM_TOKEN);
+        $enterpriseURL = $vcs->parameter(Parameters::VCS_GHE_URL);
+        $token = $vcs->parameter(Parameters::VCS_GHE_TOKEN);
         if (!$enterpriseURL || !$token) {
             $this->addError(self::ERR_VCS_MISCONFIGURED);
             return null;
@@ -124,8 +121,8 @@ class GitHubEnterpriseVCS
             return null;
         }
 
-        $baseURL = $vcs->parameter(self::PARAM_URL);
-        $token = $vcs->parameter(self::PARAM_TOKEN);
+        $baseURL = $vcs->parameter(Parameters::VCS_GHE_URL);
+        $token = $vcs->parameter(Parameters::VCS_GHE_TOKEN);
         if (!$baseURL || !$token) {
             $this->addError(self::ERR_VCS_MISCONFIGURED);
             return null;

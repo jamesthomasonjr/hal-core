@@ -12,6 +12,7 @@ use Github\HttpClient\Builder;
 use Github\ResultPager;
 use GuzzleHttp\Client as GuzzleClient;
 use Hal\Core\Entity\System\VersionControlProvider;
+use Hal\Core\Parameters;
 use Hal\Core\Type\VCSProviderEnum;
 use Hal\Core\Validation\ValidatorErrorTrait;
 use Hal\Core\VersionControl\Downloader\GitHubDownloader;
@@ -24,9 +25,6 @@ class GitHubVCS
     use ValidatorErrorTrait;
 
     const DEFAULT_GITHUB_URL = 'https://github.com';
-
-    // todo move to VCSProviderEnum?
-    const PARAM_TOKEN = 'gh.token';
 
     const ERR_VCS_MISCONFIGURED = 'GitHub.com Version Control Provider is misconfigured.';
 
@@ -98,7 +96,7 @@ class GitHubVCS
             return $client;
         }
 
-        $token = $vcs->parameter(self::PARAM_TOKEN);
+        $token = $vcs->parameter(Parameters::VCS_GH_TOKEN);
         if (!$token) {
             $this->addError(self::ERR_VCS_MISCONFIGURED);
             return null;
@@ -133,7 +131,7 @@ class GitHubVCS
         }
 
         $baseURL = 'https://api.github.com';
-        $token = $vcs->parameter(self::PARAM_TOKEN);
+        $token = $vcs->parameter(Parameters::VCS_GH_TOKEN);
         if (!$baseURL || !$token) {
             $this->addError(self::ERR_VCS_MISCONFIGURED);
             return null;
