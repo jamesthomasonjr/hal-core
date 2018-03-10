@@ -32,6 +32,8 @@ workflows:
                 requires: [ install_php_dependencies ]
             - linting:
                 requires: [ install_php_dependencies ]
+            - security_tests:
+                requires: [ install_php_dependencies ]
 
 jobs:
     fetch_code:
@@ -95,3 +97,20 @@ jobs:
             - run:
                 name: 'Run code formatting check'
                 command: 'vendor/bin/phpcs -n --colors src'
+
+    security_tests:
+        working_directory: '~/project'
+        docker:
+          - image: 'circleci/node:9-stretch'
+        steps:
+            - *attach_workspace
+
+            - run:
+                name: 'Install Snyk CLI'
+                command: 'yarn global add snyk'
+
+            - run:
+                name: 'Run snyk'
+                command: |
+                    $(yarn global bin)/snyk test
+                    $(yarn global bin)/snyk monitor
