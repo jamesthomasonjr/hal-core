@@ -1,6 +1,9 @@
-[![CircleCI](https://circleci.com/gh/hal-platform/hal-core.svg?style=svg)](https://circleci.com/gh/hal-platform/hal-core)
-[![Latest Stable Version](https://poser.pugx.org/hal/hal-core/version)](https://packagist.org/packages/hal/hal-core)
-[![License](https://poser.pugx.org/hal/hal-core/license)](https://packagist.org/packages/hal/hal-core)
+[![CircleCI](https://img.shields.io/circleci/project/github/hal-platform/hal-core.svg?label=circleci)](https://circleci.com/gh/hal-platform/hal-core)
+[![Latest Version](https://img.shields.io/packagist/vpre/hal/hal-core.svg?label=latest)](https://packagist.org/packages/hal/hal-core)
+[![Latest Stable Version](https://img.shields.io/packagist/v/hal/hal-core.svg?label=stable)](https://packagist.org/packages/hal/hal-core)
+[![GitHub License](https://img.shields.io/github/license/hal-platform/hal-core.svg)](https://packagist.org/packages/hal/hal-core)
+![GitHub Language](https://img.shields.io/github/languages/top/hal-platform/hal-core.svg)
+![GitHub Activity](https://img.shields.io/github/last-commit/hal-platform/hal-core.svg)
 
 # Hal Core Components
 
