@@ -6,13 +6,6 @@
         { "name": "Steve Kluck", "email": "steve@kluck.engineering" }
     ],
 
-    "archive": {
-        "exclude": [
-            ".gitignore",
-            "/phpunit.xml.dist",
-            "/tests"
-        ]
-    },
     "autoload": {
         "psr-4": { "Hal\\Core\\": "src" }
     },
@@ -22,7 +15,7 @@
 
     "bin": [
         "bin/hal-random-id",
-        "bin/hal-phinx",
+        "bin/hal-phinx"
     ],
 
     "require": {
