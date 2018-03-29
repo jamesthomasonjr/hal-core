@@ -21,7 +21,8 @@
     },
 
     "bin": [
-        "bin/hal-random-id"
+        "bin/hal-random-id",
+        "bin/hal-phinx",
     ],
 
     "require": {
