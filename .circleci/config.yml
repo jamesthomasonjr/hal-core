@@ -137,16 +137,28 @@ jobs:
         working_directory: '~/project'
         docker:
             - image: 'halplatform/php:latest'
-            - image: postgres:9.6.3
+            - image: 'postgres:9.6'
               environment:
-                  POSTGRES_USER: hal
                   POSTGRES_DB: hal
+                  POSTGRES_USER: hal
+            - image: 'mysql:5.7'
+              environment:
+                  MYSQL_DATABASE: hal
+                  MYSQL_ALLOW_EMPTY_PASSWORD: yes
         steps:
             - *attach_workspace
             - run:
-                name: 'Run migrations in postgres'
+                name: 'Prepare DB config'
                 command: |
                     cp ./phinx.yml.dist ./phinx.yml
-                    sleep 5
+                    sleep 10
+            - run:
+                name: 'Run migrations in Postgres 9.6'
+                command: |
                     bin/hal-phinx migrate -e dev_postgres
                     bin/hal-phinx status -e dev_postgres
+            - run:
+                name: 'Run migrations in MySQL 5.7'
+                command: |
+                    bin/hal-phinx migrate -e dev_mysql
+                    bin/hal-phinx status -e dev_mysql
