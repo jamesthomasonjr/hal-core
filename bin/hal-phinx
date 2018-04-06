@@ -21,8 +21,13 @@ target_phinx="${phinx_dir}/phinx-${phinx_version}.phar"
 if [ ! -f "${target_phinx}" ] ; then
 
     # download and install box
-    echo ; echo "> Installing box ${box_version} (https://github.com/box-project/box2)"
-    echo
+    cat <<EOF
+-------------------------------------------------------------------------------
+Installing box ${box_version} (https://github.com/box-project/box2)
+-------------------------------------------------------------------------------
+
+
+EOF
 
     curl -LSs \
         -o "${phinx_dir}/box.phar" \
@@ -31,8 +36,13 @@ if [ ! -f "${target_phinx}" ] ; then
     chmod +x "${phinx_dir}/box.phar"
 
     # download and install phinx
-    echo ; echo "> Installing phinx ${phinx_version} (https://github.com/cakephp/phinx)"
-    echo
+    cat <<EOF
+-------------------------------------------------------------------------------
+Installing phinx ${phinx_version} (https://github.com/cakephp/phinx)
+-------------------------------------------------------------------------------
+
+
+EOF
 
     # due to bugged 0.9.2 - remove in next version
     if [ "${phinx_version}" == "0.9.2" ] ; then
@@ -58,8 +68,12 @@ if [ ! -f "${target_phinx}" ] ; then
         --no-progress \
         install
 
-    echo ; echo "> Building phinx box"
-    echo
+cat <<EOF
+-------------------------------------------------------------------------------
+Compiling phinx phar
+-------------------------------------------------------------------------------
+
+EOF
 
     php \
         -d phar.readonly=0 \

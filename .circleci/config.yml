@@ -37,6 +37,8 @@ workflows:
 
             - build_phinx:
                 requires: [ unit_tests, static_analysis, linting, security_tests ]
+            - test_migrations:
+                requires: [ build_phinx ]
 
 jobs:
     fetch_code:
@@ -127,3 +129,24 @@ jobs:
             - run:
                 name: 'Build phinx phar'
                 command: 'bin/hal-phinx'
+            - persist_to_workspace:
+                root: '.'
+                paths: [ '.phinx' ]
+
+    test_migrations:
+        working_directory: '~/project'
+        docker:
+            - image: 'halplatform/php:latest'
+            - image: postgres:9.6.3
+              environment:
+                  POSTGRES_USER: hal
+                  POSTGRES_DB: hal
+        steps:
+            - *attach_workspace
+            - run:
+                name: 'Run migrations in postgres'
+                command: |
+                    cp ./phinx.yml.dist ./phinx.yml
+                    sleep 5
+                    bin/hal-phinx migrate -e dev_postgres
+                    bin/hal-phinx status -e dev_postgres
