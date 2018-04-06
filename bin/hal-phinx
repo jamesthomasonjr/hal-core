@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 set -eo pipefail
 
@@ -52,12 +52,18 @@ if [ ! -f "${target_phinx}" ] ; then
     fi
 
     cd "${phinx_dir}/phinx-${phinx_version}"
-    composer --no-interaction --no-progress install
+    composer \
+        --no-dev \
+        --no-interaction \
+        --no-progress \
+        install
 
     echo ; echo "> Building phinx box"
     echo
 
-    "${phinx_dir}/box.phar" build
+    php \
+        -d phar.readonly=0 \
+        "${phinx_dir}/box.phar" build
 
     mv "${phinx_dir}/phinx-${phinx_version}/phinx-v${phinx_version}.phar" \
        "${target_phinx}"

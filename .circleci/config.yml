@@ -35,6 +35,9 @@ workflows:
             - security_tests:
                 requires: [ install_php_dependencies ]
 
+            - build_phinx:
+                requires: [ unit_tests, static_analysis, linting, security_tests ]
+
 jobs:
     fetch_code:
         <<: *defaults
@@ -114,3 +117,13 @@ jobs:
                 command: |
                     $(yarn global bin)/snyk test
                     $(yarn global bin)/snyk monitor
+
+    build_phinx:
+        <<: *defaults
+        steps:
+            - *attach_workspace
+
+            - run: 'composer self-update'
+            - run:
+                name: 'Build phinx phar'
+                command: 'bin/hal-phinx'
