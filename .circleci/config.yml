@@ -117,8 +117,12 @@ jobs:
             - run:
                 name: 'Run snyk'
                 command: |
-                    $(yarn global bin)/snyk test
-                    $(yarn global bin)/snyk monitor
+                    if [ "${OPEN_SOURCE}" == "1" ] ; then
+                        $(yarn global bin)/snyk test
+                        $(yarn global bin)/snyk monitor
+                    else
+                        echo "Detected private repo. Skipping step."
+                    fi
 
     build_phinx:
         <<: *defaults
