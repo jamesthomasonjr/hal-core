@@ -87,7 +87,8 @@ jobs:
                 name: 'Run static analysis'
                 command: |
                     vendor/bin/phpstan analyse \
-                    -c phpstan.neon -l 2 \
+                    --configuration=phpstan.neon \
+                    -l 5 \
                     src
 
     linting:
@@ -155,7 +156,7 @@ jobs:
                 name: 'Prepare DB config'
                 command: |
                     cp ./phinx.yml.dist ./phinx.yml
-                    sleep 10
+                    sleep 15
             - run:
                 name: 'Run migrations in Postgres 9.6'
                 command: |

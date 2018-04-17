@@ -117,9 +117,9 @@ class CredentialProvider
      *
      * @return void
      */
-    public function setSTSLifetime($seconds)
+    public function setSTSLifetime(int $seconds)
     {
-        $seconds = (int) $seconds;
+        $seconds = $seconds;
 
         if ($seconds >= 900 && $seconds <= 3600) {
             $this->stsLifetime = $seconds;
@@ -131,9 +131,9 @@ class CredentialProvider
      *
      * @return void
      */
-    public function setInternalCredentialName($credentialName)
+    public function setInternalCredentialName(string $credentialName)
     {
-        $this->credentialName = (string) $credentialName;
+        $this->credentialName = $credentialName;
     }
 
     /**

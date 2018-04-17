@@ -19,7 +19,7 @@ class Release extends Job
     const JOB_TYPE = JobEnum::TYPE_RELEASE;
 
     /**
-     * @var Build
+     * @var Build|null
      */
     protected $build;
 
@@ -55,7 +55,7 @@ class Release extends Job
     /**
      * @return Build
      */
-    public function build(): Build
+    public function build(): ?Build
     {
         return $this->build;
     }

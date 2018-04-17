@@ -37,10 +37,10 @@ class DoctrinePredisCache extends CacheProvider
      * @param int $defaultTTL
      * @param string $keyDelimiter
      */
-    public function __construct(Predis $redis, $defaultTTL, $keyDelimiter = self::DEFAULT_DELIMITER)
+    public function __construct(Predis $redis, int $defaultTTL, $keyDelimiter = self::DEFAULT_DELIMITER)
     {
         $this->redis = $redis;
-        $this->defaultTTL = (int) $defaultTTL;
+        $this->defaultTTL = $defaultTTL;
 
         $this->keyPattern = self::NAMESPACE . $keyDelimiter . '%s';
     }
@@ -66,7 +66,7 @@ class DoctrinePredisCache extends CacheProvider
     {
         $key = sprintf($this->keyPattern, $id);
 
-        return $this->redis->exists($id);
+        return (bool) $this->redis->exists($id);
     }
 
     /**

@@ -29,7 +29,7 @@ class JobArtifact implements JsonSerializable
     protected $isRemovable;
 
     /**
-     * @var Job
+     * @var Job|null
      */
     protected $job;
 
@@ -65,9 +65,9 @@ class JobArtifact implements JsonSerializable
     }
 
     /**
-     * @return Job
+     * @return Job|null
      */
-    public function job(): Job
+    public function job(): ?Job
     {
         return $this->job;
     }

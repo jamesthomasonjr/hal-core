@@ -32,7 +32,7 @@ class UserPermission implements JsonSerializable
     protected $type;
 
     /**
-     * @var User
+     * @var User|null
      */
     protected $user;
 
@@ -62,7 +62,7 @@ class UserPermission implements JsonSerializable
     /**
      * @return User
      */
-    public function user(): User
+    public function user(): ?User
     {
         return $this->user;
     }

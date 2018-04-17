@@ -22,11 +22,19 @@ class Target implements JsonSerializable
      * @var string
      */
     protected $type;
+
+    /**
+     * @var string
+     */
     protected $name;
+
+    /**
+     * @var string
+     */
     protected $url;
 
     /**
-     * @var Application
+     * @var Application|null
      */
     protected $application;
 
@@ -102,7 +110,7 @@ class Target implements JsonSerializable
     /**
      * @return Application
      */
-    public function application(): Application
+    public function application(): ?Application
     {
         return $this->application;
     }

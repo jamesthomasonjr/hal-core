@@ -24,12 +24,20 @@ class JobEvent implements JsonSerializable
      * @var string
      */
     protected $stage;
+
+    /**
+     * @var string
+     */
     protected $status;
 
     /**
      * @var int
      */
     protected $order;
+
+    /**
+     * @var int
+     */
     protected $duration;
 
     /**
@@ -38,7 +46,7 @@ class JobEvent implements JsonSerializable
     protected $message;
 
     /**
-     * @var Job
+     * @var Job|null
      */
     protected $job;
 
@@ -102,9 +110,9 @@ class JobEvent implements JsonSerializable
     }
 
     /**
-     * @return Job
+     * @return Job|null
      */
-    public function job(): Job
+    public function job(): ?Job
     {
         return $this->job;
     }

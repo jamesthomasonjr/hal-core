@@ -85,7 +85,7 @@ class AWSAuthenticator
 
     /**
      * @param string $region
-     * @param AWSStaticCredential|AWSRoleCredential|null $credential
+     * @param mixed $credential
      *
      * @return AutoScalingClient|null
      */
@@ -100,7 +100,7 @@ class AWSAuthenticator
 
     /**
      * @param string $region
-     * @param AWSStaticCredential|AWSRoleCredential|null $credential
+     * @param mixed $credential
      *
      * @return CodeDeployClient|null
      */
@@ -115,7 +115,7 @@ class AWSAuthenticator
 
     /**
      * @param string $region
-     * @param AWSStaticCredential|AWSRoleCredential|null $credential
+     * @param mixed $credential
      *
      * @return CloudFormationClient|null
      */
@@ -130,7 +130,7 @@ class AWSAuthenticator
 
     /**
      * @param string $region
-     * @param AWSStaticCredential|AWSRoleCredential|null $credential
+     * @param mixed $credential
      *
      * @return CodePipelineClient|null
      */
@@ -145,7 +145,7 @@ class AWSAuthenticator
 
     /**
      * @param string $region
-     * @param AWSStaticCredential|AWSRoleCredential|null $credential
+     * @param mixed $credential
      *
      * @return ElasticBeanstalkClient|null
      */
@@ -160,7 +160,7 @@ class AWSAuthenticator
 
     /**
      * @param string $region
-     * @param AWSStaticCredential|AWSRoleCredential|null $credential
+     * @param mixed $credential
      *
      * @return Ec2Client|null
      */
@@ -175,7 +175,7 @@ class AWSAuthenticator
 
     /**
      * @param string $region
-     * @param AWSStaticCredential|AWSRoleCredential|null $credential
+     * @param mixed $credential
      *
      * @return ElasticLoadBalancingClient|null
      */
@@ -190,7 +190,7 @@ class AWSAuthenticator
 
     /**
      * @param string $region
-     * @param AWSStaticCredential|AWSRoleCredential|null $credential
+     * @param mixed $credential
      *
      * @return S3Client|null
      */
@@ -205,7 +205,7 @@ class AWSAuthenticator
 
     /**
      * @param string $region
-     * @param AWSStaticCredential|AWSRoleCredential|null $credential
+     * @param mixed $credential
      *
      * @return SsmClient|null
      */
@@ -220,7 +220,7 @@ class AWSAuthenticator
 
     /**
      * @param string $region
-     * @param AWSStaticCredential|AWSRoleCredential|null $credential
+     * @param mixed $credential
      *
      * @return CloudWatchLogsClient|null
      */
@@ -235,7 +235,7 @@ class AWSAuthenticator
 
     /**
      * @param string $region
-     * @param AWSStaticCredential|AWSRoleCredential|null $credential
+     * @param mixed $credential
      *
      * @return array|null
      */

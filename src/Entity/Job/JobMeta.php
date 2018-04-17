@@ -27,7 +27,7 @@ class JobMeta implements JsonSerializable
     protected $value;
 
     /**
-     * @var Job
+     * @var Job|null
      */
     protected $job;
 
@@ -62,9 +62,9 @@ class JobMeta implements JsonSerializable
     }
 
     /**
-     * @return Job
+     * @return Job|null
      */
-    public function job(): Job
+    public function job(): ?Job
     {
         return $this->job;
     }
