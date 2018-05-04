@@ -24,6 +24,10 @@ class Parameters
     public const TARGET_EB_APP = 'application';
     public const TARGET_EB_ENV = 'environment';
 
+    public const TARGET_ELB_ACTIVE = 'elb.active_lb';
+    public const TARGET_ELB_PASSIVE = 'elb.passive_lb';
+    public const TARGET_ELB_TAG = 'elb.ec2_tag';
+
     public const TARGET_CD_APP = 'application';
     public const TARGET_CD_GROUP = 'group';
     public const TARGET_CD_CONFIG = 'configuration';

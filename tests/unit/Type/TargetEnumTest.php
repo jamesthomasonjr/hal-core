@@ -21,6 +21,7 @@ class TargetEnumTest extends TestCase
         $expected = [
             'rsync',
             'eb',
+            'elb',
             's3',
             'cd',
             'script'

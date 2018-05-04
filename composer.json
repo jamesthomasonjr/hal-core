@@ -21,7 +21,7 @@
     "require": {
         "php-64bit": "~7.1",
 
-        "ext-sodium":      "~2.0",
+        "ext-sodium":      "~2.0 || ~7.2",
         "ext-pdo":         "*",
         "ext-pdo_mysql":   "*",
         "ext-pdo_pgsql":   "*",

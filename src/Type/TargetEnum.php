@@ -15,6 +15,7 @@ class TargetEnum
 
     const TYPE_RSYNC = 'rsync';
     const TYPE_EB = 'eb';
+    const TYPE_ELB = 'elb';
     const TYPE_S3 = 's3';
     const TYPE_CD = 'cd';
     const TYPE_SCRIPT = 'script';
@@ -35,6 +36,7 @@ class TargetEnum
         return [
             self::TYPE_RSYNC,
             self::TYPE_EB,
+            self::TYPE_ELB,
             self::TYPE_S3,
             self::TYPE_CD,
             self::TYPE_SCRIPT
@@ -54,6 +56,9 @@ class TargetEnum
 
             case self::TYPE_EB:
                 return 'Elastic Beanstalk';
+
+            case self::TYPE_ELB:
+                return 'Elastic Load Balancer';
 
             case self::TYPE_S3:
                 return 'S3';
