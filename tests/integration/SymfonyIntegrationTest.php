@@ -27,7 +27,7 @@ class SymfonyIntegrationTest extends TestCase
         putenv('HAL_DB_NAME=NA');
         putenv('HAL_DB_DRIVER=pdo_sqlite');
 
-        $container = DI::buildDI($root, true);
+        $container = DI::buildDI([$root . '/config'], true);
 
         $this->assertInstanceOf(EntityManagerInterface::class, $container->get('doctrine.em.proxy'));
         $this->assertInstanceOf(EntityManagerInterface::class, $container->get('doctrine.em'));
@@ -36,6 +36,5 @@ class SymfonyIntegrationTest extends TestCase
         $this->assertInstanceOf(Cache::class, $container->get('doctrine.cache.memory'));
 
         $this->assertTrue(is_callable($container->get('doctrine.random')));
-
     }
 }

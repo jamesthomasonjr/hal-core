@@ -28,7 +28,7 @@ class DoctrineTest extends TestCase
         putenv('HAL_DB_NAME=NA');
         putenv('HAL_DB_DRIVER=NA');
 
-        $container = DI::buildDI($root, true);
+        $container = DI::buildDI([$root . '/config'], true);
         $em = $container->get('doctrine.em.proxy');
 
         if (!self::$testEM) {

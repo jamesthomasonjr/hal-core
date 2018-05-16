@@ -10,14 +10,18 @@ namespace Hal\Core;
 use RuntimeException;
 use Symfony\Bridge\ProxyManager\LazyProxy\PhpDumper\ProxyDumper;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Config\Loader\DelegatingLoader;
+use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 class DI
 {
-    const PRIMARY_CONFIGURATION_FILE = 'config/config.yaml';
+    const PRIMARY_CONFIGURATION_FILE = 'config.yaml';
     const ENV_CACHE_DISABLED = 'HAL_DI_DISABLE_CACHE_ON';
 
     // When the container is built (dev-mode), this dumps and loads the cached
@@ -27,17 +31,16 @@ class DI
     const DI_EXTENSIONS = [];
 
     /**
-     * @param string $root
+     * @param array $paths
      * @param bool $resolveEnvironment
      *
      * @return ContainerBuilder
      */
-    public static function buildDI(string $root, bool $resolveEnvironment = false)
+    public static function buildDI(array $paths, bool $resolveEnvironment = false): ContainerBuilder
     {
-        $root = rtrim($root, '/');
-
         $container = new ContainerBuilder;
-        $loader = new YamlFileLoader($container, new FileLocator($root));
+
+        $loader = static::buildConfigLoader($container, $paths);
 
         $extensions = [];
         foreach (static::DI_EXTENSIONS as $extClass) {
@@ -64,21 +67,21 @@ class DI
     }
 
     /**
-     * @param string $root
+     * @param array $paths
      * @param array $options
      *
-     * @return ContainerInterface|bool
+     * @return ContainerInterface|null
      */
-    public static function getDI(string $root, array $options)
+    public static function getDI(array $paths, array $options): ?ContainerInterface
     {
         $class = $options['class'] ?? '';
         if (!$class) {
-            return false;
+            return null;
         }
 
         $cacheDisabled = getenv(static::ENV_CACHE_DISABLED);
         if ($cacheDisabled) {
-            return self::buildContainer($root, $class, $options);
+            return self::buildContainer($paths, $class, $options);
         }
 
         return self::getCachedContainer($class);
@@ -88,13 +91,13 @@ class DI
      * @param ContainerBuilder $container
      * @param array $options
      *
-     * @return string|bool
+     * @return string|null
      */
-    public static function cacheDI(ContainerBuilder $container, array $options)
+    public static function cacheDI(ContainerBuilder $container, array $options): ?string
     {
         $class = $options['class'] ?? '';
         if (!$class) {
-            return false;
+            return null;
         }
 
         $exploded = explode('\\', $class);
@@ -137,15 +140,15 @@ class DI
     }
 
     /**
-     * @param string $root
+     * @param array $paths
      * @param string $class
      * @param array $options
      *
      * @return ContainerInterface
      */
-    private static function buildContainer($root, $class, $options)
+    private static function buildContainer(array $paths, $class, array $options)
     {
-        $container = static::buildDI($root, !static::BUILD_AND_CACHE);
+        $container = static::buildDI($paths, !static::BUILD_AND_CACHE);
 
         if (static::BUILD_AND_CACHE) {
             $cached = static::cacheDI($container, $options);
@@ -156,5 +159,25 @@ class DI
         }
 
         return $container;
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     * @param array $paths
+     *
+     * @return LoaderInterface
+     */
+    private static function buildConfigLoader(ContainerBuilder $container, array $paths): LoaderInterface
+    {
+        $locator = new FileLocator($paths);
+
+        $loaders = [
+            new YamlFileLoader($container, $locator),
+            new PhpFileLoader($container, $locator)
+        ];
+
+        $resolver = new LoaderResolver($loaders);
+
+        return new DelegatingLoader($resolver);
     }
 }
