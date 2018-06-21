@@ -17,9 +17,10 @@ use Hal\Core\Type\VCSProviderEnum;
 use Hal\Core\Validation\ValidatorErrorTrait;
 use Hal\Core\VersionControl\Downloader\GitHubDownloader;
 use Hal\Core\VersionControl\GitHub\MCPCachePlugin;
+use Hal\Core\VersionControl\VCSAdapterInterface;
 use QL\MCP\Cache\CachingTrait;
 
-class GitHubEnterpriseVCS
+class GitHubEnterpriseVCS extends VCSAdapterInterface
 {
     use CachingTrait;
     use ValidatorErrorTrait;
@@ -60,6 +61,14 @@ class GitHubEnterpriseVCS
     }
 
     /**
+     * @{inheritdoc}
+     */
+    public function getProvidedTypes(): array
+    {
+        return [VCSProviderEnum::TYPE_GITHUB_ENTERPRISE];
+    }
+
+    /**
      * @var array
      */
     public function setDefaultDownloaderOptions(array $options)
@@ -72,7 +81,7 @@ class GitHubEnterpriseVCS
      *
      * @return Client|null
      */
-    public function buildClient(VersionControlProvider $vcs): ?Client
+    public function getService(VersionControlProvider $vcs): ?Client
     {
         if ($vcs->type() !== VCSProviderEnum::TYPE_GITHUB_ENTERPRISE) {
             $this->addError(self::ERR_VCS_MISCONFIGURED);
@@ -114,7 +123,7 @@ class GitHubEnterpriseVCS
      *
      * @return GitHubDownloader|null
      */
-    public function buildDownloader(VersionControlProvider $vcs): ?GitHubDownloader
+    public function getDownloader(VersionControlProvider $vcs): ?GitHubDownloader
     {
         if ($vcs->type() !== VCSProviderEnum::TYPE_GITHUB_ENTERPRISE) {
             $this->addError(self::ERR_VCS_MISCONFIGURED);

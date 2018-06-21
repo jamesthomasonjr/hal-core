@@ -18,66 +18,46 @@ class VCS
     const ERR_VCS_MISCONFIGURED = 'No valid Version Control Provider was found. Hal may be misconfigured.';
 
     /**
-     * @var array
+     * @var VCSAdapterInterface[]
      */
     private $adapters;
 
     /**
-     * @param array $adapters
+     * @param VCSAdapterInterface ...$adapters
      */
-    public function __construct(array $adapters = [])
+    public function __construct(VCSAdapterInterface ...$adapters)
     {
-        $this->adapters = [];
-
-        foreach ($adapters as $type => $adapter) {
-            $this->addAdapter($type, $adapter);
-        }
+        $this->addAdapters(...$adapters);
     }
 
     /**
-     * @param string $type
-     * @param mixed $adapter
+     * @param VCSAdapterInterface ...$adapters
      *
-     * @return void
+     * @return self
      */
-    public function addAdapter(string $type, $adapter): void
+    public function addAdapters(VCSAdapterInterface ...$adapters): self
     {
-        $this->adapters[$type] = $adapter;
+        foreach ($adapters as $adapter) {
+            $this->addAdapter($adapter);
+        }
+
+        return $this;
     }
 
     /**
-     * The typehint of this needs to change to be less github specific.
+     * @param VCSAdapterInterface $adapter
      *
-     * @param VersionControlProvider $vcs
-     *
-     * @return mixed|null
+     * @return self
      */
-    public function authenticate(VersionControlProvider $vcs)
+    public function addAdapter(VCSAdapterInterface $adapter): self
     {
-        $adapter = $this->adapters[$vcs->type()] ?? null;
-        if (!$adapter) {
-            $this->addError(self::ERR_VCS_MISCONFIGURED);
-            return null;
+        $types = $adapter->getProvidedTypes();
+
+        foreach ($types as $type) {
+            $this->adapters[$type] = $adapter;
         }
 
-        if ($vcs->type() === VCSProviderEnum::TYPE_GITHUB) {
-            $vcsService = $adapter->buildClient($vcs);
-
-        } elseif ($vcs->type() === VCSProviderEnum::TYPE_GITHUB_ENTERPRISE) {
-            $vcsService = $adapter->buildClient($vcs);
-
-        } else {
-            $this->addError(self::ERR_VCS_MISCONFIGURED);
-            return null;
-        }
-
-        // if ($vcsService instanceof GitHubService) {
-        if ($vcsService) {
-            return $vcsService;
-        }
-
-        $this->importErrors($adapter->errors());
-        return null;
+        return $this;
     }
 
     /**
@@ -85,9 +65,9 @@ class VCS
      *
      * @param VersionControlProvider $vcs
      *
-     * @return mixed|null
+     * @return VCSClientInterface|null
      */
-    public function downloader(VersionControlProvider $vcs)
+    public function service(VersionControlProvider $vcs)
     {
         $adapter = $this->adapters[$vcs->type()] ?? null;
         if (!$adapter) {
@@ -95,23 +75,36 @@ class VCS
             return null;
         }
 
-        if ($vcs->type() === VCSProviderEnum::TYPE_GITHUB) {
-            $vcsDownloader = $adapter->buildDownloader($vcs);
-
-        } elseif ($vcs->type() === VCSProviderEnum::TYPE_GITHUB_ENTERPRISE) {
-            $vcsDownloader = $adapter->buildDownloader($vcs);
-
-        } else {
+        $service = $adapter->getService($vcs);
+        if (!$service) {
             $this->addError(self::ERR_VCS_MISCONFIGURED);
             return null;
         }
 
-        // if ($vcsDownloader instanceof GitHubService) {
-        if ($vcsDownloader) {
-            return $vcsDownloader;
+        return $service;
+    }
+
+    /**
+     * The typehint of this needs to change to be less github specific.
+     *
+     * @param VersionControlProvider $vcs
+     *
+     * @return VCSDownloaderInterface|null
+     */
+    public function downloader(VersionControlProvider $vcs): ?VCSDownloaderInterface
+    {
+        $adapter = $this->adapters[$vcs->type()] ?? null;
+        if (!$adapter) {
+            $this->addError(self::ERR_VCS_MISCONFIGURED);
+            return null;
         }
 
-        $this->importErrors($adapter->errors());
-        return null;
+        $downloader = $adapter->getDownloader($vcs);
+        if (!$downloader) {
+            $this->addError(self::ERR_VCS_MISCONFIGURED);
+            return null;
+        }
+
+        return $downloader;
     }
 }

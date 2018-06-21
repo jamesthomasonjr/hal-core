@@ -17,9 +17,10 @@ use Hal\Core\Type\VCSProviderEnum;
 use Hal\Core\Validation\ValidatorErrorTrait;
 use Hal\Core\VersionControl\Downloader\GitHubDownloader;
 use Hal\Core\VersionControl\GitHub\MCPCachePlugin;
+use Hal\Core\VersionControl\VCSAdapterInterface;
 use QL\MCP\Cache\CachingTrait;
 
-class GitHubVCS
+class GitHubVCS extends VCSAdapterInterface
 {
     use CachingTrait;
     use ValidatorErrorTrait;
@@ -67,6 +68,14 @@ class GitHubVCS
 
         $this->isCachedAdded = false;
         $this->defaultGuzzleOptions = [];
+    }
+
+    /**
+     * @{inheritdoc}
+     */
+    public function getProvidedTypes(): array
+    {
+        return [VCSProviderEnum::TYPE_GITHUB];
     }
 
     /**
