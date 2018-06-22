@@ -55,6 +55,10 @@ class Parameters
     public const IDP_GHE_CLIENT_SECRET = 'ghe.client_secret';
     public const IDP_GHE_URL = 'gh.url';
 
+    public const IDP_PING_CLIENT_ID = 'ping.client_id';
+    public const IDP_PING_CLIENT_SECRET = 'ping.client_secret';
+    public const IDP_PING_URL = 'ping.url';
+
     // identities
     public const ID_LDAP_ID = 'ldap.id';
     public const ID_LDAP_USERNAME = 'ldap.username';

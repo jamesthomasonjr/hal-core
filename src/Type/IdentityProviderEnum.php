@@ -17,6 +17,7 @@ class IdentityProviderEnum
     const TYPE_LDAP = 'ldap';
     const TYPE_GITHUB = 'gh';
     const TYPE_GITHUB_ENTERPRISE = 'ghe';
+    const TYPE_PING_FEDERATE = 'ping';
 
     /**
      * @return string
@@ -36,6 +37,7 @@ class IdentityProviderEnum
             self::TYPE_LDAP,
             self::TYPE_GITHUB,
             self::TYPE_GITHUB_ENTERPRISE,
+            self::TYPE_PING_FEDERATE,
         ];
     }
 
@@ -58,6 +60,9 @@ class IdentityProviderEnum
 
             case self::TYPE_GITHUB_ENTERPRISE:
                 return 'GitHub Ent.';
+
+            case self::TYPE_PING_FEDERATE:
+                return 'Ping Federate';
 
             default:
                 return 'Unknown';
