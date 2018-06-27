@@ -9,11 +9,12 @@ namespace Hal\Core\Entity\System;
 
 use Hal\Core\Type\VCSProviderEnum;
 use Hal\Core\Utility\EntityTrait;
+use Hal\Core\Utility\ParameterBagInterface;
 use Hal\Core\Utility\ParameterTrait;
 use JsonSerializable;
 use QL\MCP\Common\Time\TimePoint;
 
-class VersionControlProvider implements JsonSerializable
+class VersionControlProvider implements JsonSerializable, ParameterBagInterface
 {
     use EntityTrait;
     use ParameterTrait;

@@ -12,11 +12,12 @@ use Doctrine\Common\Collections\Collection;
 use Hal\Core\Entity\System\UserIdentityProvider;
 use Hal\Core\Entity\User;
 use Hal\Core\Utility\EntityTrait;
+use Hal\Core\Utility\ParameterBagInterface;
 use Hal\Core\Utility\ParameterTrait;
 use JsonSerializable;
 use QL\MCP\Common\Time\TimePoint;
 
-class UserIdentity implements JsonSerializable
+class UserIdentity implements JsonSerializable, ParameterBagInterface
 {
     use EntityTrait;
     use ParameterTrait;

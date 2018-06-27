@@ -10,13 +10,14 @@ namespace Hal\Core\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Hal\Core\Utility\EntityTrait;
+use Hal\Core\Utility\ParameterBagInterface;
 use Hal\Core\Utility\ParameterTrait;
 use Hal\Core\Type\JobEnum;
 use Hal\Core\Type\JobStatusEnum;
 use JsonSerializable;
 use QL\MCP\Common\Time\TimePoint;
 
-class Job implements JsonSerializable
+class Job implements JsonSerializable, ParameterBagInterface
 {
     use EntityTrait;
     use ParameterTrait;

@@ -9,13 +9,14 @@ namespace Hal\Core\Entity;
 
 use Hal\Core\Type\AuditActionEnum;
 use Hal\Core\Utility\EntityTrait;
+use Hal\Core\Utility\ParameterBagInterface;
 use Hal\Core\Utility\ParameterTrait;
 use QL\MCP\Common\Time\TimePoint;
 
 /**
  * Audit Events must be complete denormalized from DB entities.
  */
-class AuditEvent
+class AuditEvent implements ParameterBagInterface
 {
     use EntityTrait;
     use ParameterTrait;

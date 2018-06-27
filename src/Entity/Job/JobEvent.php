@@ -11,11 +11,12 @@ use Hal\Core\Entity\Job;
 use Hal\Core\Type\JobEventStageEnum;
 use Hal\Core\Type\JobEventStatusEnum;
 use Hal\Core\Utility\EntityTrait;
+use Hal\Core\Utility\ParameterBagInterface;
 use Hal\Core\Utility\ParameterTrait;
 use JsonSerializable;
 use QL\MCP\Common\Time\TimePoint;
 
-class JobEvent implements JsonSerializable
+class JobEvent implements JsonSerializable, ParameterBagInterface
 {
     use EntityTrait;
     use ParameterTrait;

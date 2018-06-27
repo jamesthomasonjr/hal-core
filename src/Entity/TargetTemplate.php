@@ -9,6 +9,7 @@ namespace Hal\Core\Entity;
 
 use Hal\Core\Type\TargetEnum;
 use Hal\Core\Utility\EntityTrait;
+use Hal\Core\Utility\ParameterBagInterface;
 use Hal\Core\Utility\ParameterTrait;
 use Hal\Core\Utility\ScopedEntityTrait;
 use JsonSerializable;
@@ -31,7 +32,7 @@ use QL\MCP\Common\Time\TimePoint;
  *     - Elastic Beanstalk Environment
  *     - Kubernetes Pod
  */
-class TargetTemplate implements JsonSerializable
+class TargetTemplate implements JsonSerializable, ParameterBagInterface
 {
     use EntityTrait;
     use ParameterTrait;

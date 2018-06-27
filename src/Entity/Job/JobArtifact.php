@@ -9,11 +9,12 @@ namespace Hal\Core\Entity\Job;
 
 use Hal\Core\Entity\Job;
 use Hal\Core\Utility\EntityTrait;
+use Hal\Core\Utility\ParameterBagInterface;
 use Hal\Core\Utility\ParameterTrait;
 use JsonSerializable;
 use QL\MCP\Common\Time\TimePoint;
 
-class JobArtifact implements JsonSerializable
+class JobArtifact implements JsonSerializable, ParameterBagInterface
 {
     use EntityTrait;
     use ParameterTrait;

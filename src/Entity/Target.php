@@ -9,11 +9,12 @@ namespace Hal\Core\Entity;
 
 use Hal\Core\Type\TargetEnum;
 use Hal\Core\Utility\EntityTrait;
+use Hal\Core\Utility\ParameterBagInterface;
 use Hal\Core\Utility\ParameterTrait;
 use JsonSerializable;
 use QL\MCP\Common\Time\TimePoint;
 
-class Target implements JsonSerializable
+class Target implements JsonSerializable, ParameterBagInterface
 {
     use EntityTrait;
     use ParameterTrait;

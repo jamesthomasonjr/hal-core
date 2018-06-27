@@ -9,6 +9,7 @@ namespace Hal\Core\Entity;
 
 use Hal\Core\Type\ScheduledActionStatusEnum;
 use Hal\Core\Utility\EntityTrait;
+use Hal\Core\Utility\ParameterBagInterface;
 use Hal\Core\Utility\ParameterTrait;
 use JsonSerializable;
 use QL\MCP\Common\Time\TimePoint;
@@ -18,7 +19,7 @@ use QL\MCP\Common\Time\TimePoint;
  *
  * Must be revisited though.
  */
-class ScheduledAction implements JsonSerializable
+class ScheduledAction implements JsonSerializable, ParameterBagInterface
 {
     use EntityTrait;
     use ParameterTrait;
