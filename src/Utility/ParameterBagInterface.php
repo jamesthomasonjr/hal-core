@@ -24,15 +24,11 @@ interface ParameterBagInterface
     /**
      * @param string $name
      * @param string|null $value
-     *
-     * @return self
      */
-    public function withParameter(string $name, ?string $value): self;
+    public function withParameter(string $name, ?string $value);
 
     /**
      * @param array $parameters
-     *
-     * @return self
      */
-    public function withParameters(array $parameters): self;
+    public function withParameters(array $parameters);
 }
